@@ -8,7 +8,7 @@
                     <h5 class="card-title">Recent Notifications</h5>
                     <ul class="list-unstyled">
                         <?php
-                        $sql = "SELECT * FROM dv_alerts WHERE status='0' ORDER BY s DESC LIMIT 5";
+                        $sql = "SELECT * FROM ".$siteprefix."alerts WHERE status='0' ORDER BY s DESC LIMIT 5";
                         $sql2 = mysqli_query($con,$sql);
                         $count = mysqli_num_rows($sql2);
                         if ($count <= 0) {

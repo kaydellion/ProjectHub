@@ -11,6 +11,8 @@ date_default_timezone_set('Africa/Lagos');
 $currentdate=date("Y-m-d");
 $currentdatetime=date("Y-m-d H:i:s");
 $imagePath='uploads/';
+$adminlink='admin/';
+$adminimagePath='../../uploads/';
 $sitecurrency="₦";
 $documentPath='documents/';
 

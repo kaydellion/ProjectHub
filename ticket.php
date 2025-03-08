@@ -3,14 +3,11 @@ include "header.php";
 
 // Get ticket number from URL
 $ticket_id = $_GET['ticket_number'];
-$sql = "SELECT id,user_id, ticket_number, category, order_reference, status, issue 
+$sql = "SELECT id, user_id, ticket_number, category, order_reference, status, issue 
     FROM ".$siteprefix."disputes 
-    WHERE ticket_number = ?";
+    WHERE ticket_number = '$ticket_id'";
 
-$stmt = mysqli_prepare($con, $sql);
-mysqli_stmt_bind_param($stmt, "i", $ticket_id);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
+$result = mysqli_query($con, $sql);
 
 if ($row = mysqli_fetch_assoc($result)) {
     $user_id = $row['user_id'];
@@ -35,14 +32,15 @@ if ($row = mysqli_fetch_assoc($result)) {
 <div class="row">
 <div class="col-md-12">
 <div class="d-flex justify-content-between align-items-center mb-4">
-<h4>Dispute Resolution - <?php echo $issue; ?>
+<h6>Dispute Resolution - <?php echo $issue; ?>
+<br> (Order: <?php echo $order_reference; ?>/Ticket: <?php echo $ticket_number; ?>)
 <?php
 //select evidence
 $evidence_sql = "SELECT * FROM ".$siteprefix."evidence WHERE dispute_id = '$dispute_id'";
 $evidence_result = mysqli_query($con, $evidence_sql);
 while ($evidence = mysqli_fetch_assoc($evidence_result)) {
-    if (!empty($evidence['file'])) {
-        $evidenceFiles = explode(',', $evidence['file']);
+    if (!empty($evidence['file_path'])) {
+        $evidenceFiles = explode(',', $evidence['file_path']);
         echo '<div class="mt-2">';
         foreach ($evidenceFiles as $file) {
             $filename = basename(trim($file));
@@ -53,8 +51,8 @@ while ($evidence = mysqli_fetch_assoc($evidence_result)) {
         }
         echo '</div>';
     }
-}?></h4>
-<span class="badge bg-<?php getBadgeColor($status); ?>"><?php echo $status; ?></span>
+}?></h6>
+<span class="badge bg-<?php echo getBadgeColor($status); ?>"><?php echo $status; ?></span>
 </div>
 
 
@@ -70,7 +68,11 @@ while ($evidence = mysqli_fetch_assoc($evidence_result)) {
     // Debug: Check if query successful
     if (!$msg_result) {
         echo "Debug - Query Error: " . mysqli_error($con) . "<br>";
-    }while ($message = mysqli_fetch_assoc($msg_result)) {
+    }
+    if (mysqli_num_rows($msg_result) == 0) {
+        echo '<p>No messages found</p>';
+    }  
+       while ($message = mysqli_fetch_assoc($msg_result)) {
         $image=  $imagePath.$message['profile_image'];
         $files = $message['file'] ? explode(',', $message['file']) : [];
         ?>

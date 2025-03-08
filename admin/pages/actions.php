@@ -112,6 +112,144 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     showToast($message);
     header("refresh:1; url=$page");
 }
+
+
+//update dispute status
+if (isset($_POST['update-dispute'])){
+    $dispute_id = $_POST['ticket_id'];
+    $status = $_POST['status'];
+    updateDisputeStatus($con, $siteprefix, $dispute_id, $status);
+
+    //get dispute details
+    $sql = "SELECT * FROM ".$siteprefix."disputes WHERE ticket_number='$dispute_id'";
+    $sql2 = mysqli_query($con,$sql);
+    $row = mysqli_fetch_array($sql2);
+    $ticket_number = $row['ticket_number'];
+    $recipient_id = $row['recipient_id'];
+    $sender_id = $row['user_id'];
+
+    $emailSubject="Dispute Updated($ticket_number)";
+    $emailMessage="<p>This dispute status has been updated to $status</p>";
+    $message = "Dispute status updated to $status: " . $ticket_number;
+    $status=0;
+    $date = date("Y-m-d H:i:s");
+
+    //notify sender and if recipient exists
+    $sDetails = getUserDetails($con, $siteprefix, $sender_id);
+    $s_email = $sDetails['email'];
+    $s_name = $sDetails['display_name'];
+    //sendEmail($s_email, $s_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+    insertAlert($con, $sender_id, $message, $date, $status);
+
+    if($recipient_id){
+        $rDetails = getUserDetails($con, $siteprefix, $recipient_id);
+        $r_email = $rDetails['email'];
+        $r_name = $rDetails['display_name'];
+       //sendEmail($r_email, $r_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+       insertAlert($con, $recipient_id, $message, $date, $status);
+    }
+    $message="Dispute status updated successfully.";
+    showToast($message);
+}
+
+//send-message
+ if (isset($_POST['send_dispute_message'])) {
+    $dispute_id = $_POST['dispute_id'];
+    $sender_id = $user_id; // Assume logged-in user
+    $message = mysqli_real_escape_string($con, $_POST['message']);
+    $page = "ticket.php?ticket_number=$dispute_id";
+    $new_status = "awaiting-response";
+
+    $fileKey = 'attachment';
+    $uploadDir = '../../uploads/';
+    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+    $uploadedFiles =  implode(', ', $reportImages);
+    if (empty($_FILES[$fileKey]['name'][0])) {
+        $uploadedFiles = '';
+    }
+
+      //get dispute details
+      $sql = "SELECT * FROM ".$siteprefix."disputes WHERE ticket_number='$dispute_id'";
+      $sql2 = mysqli_query($con,$sql);
+      $row = mysqli_fetch_array($sql2);
+      $ticket_number = $row['ticket_number'];
+      $recipient_id = $row['recipient_id'];
+      $sender_id = $row['user_id'];
+
+    
+    $sql = "INSERT INTO ".$siteprefix."dispute_messages (dispute_id, sender_id, message, file) 
+        VALUES ('$dispute_id', '$user_id', '$message', '$uploadedFiles')";
+    if (mysqli_query($con, $sql)) {
+    // Then call the function where needed:
+    $emailSubject="Dispute Updated($ticket_number)";
+    $emailMessage="<p>This dispute status has been updated to $status</p>";
+    $message = "Dispute status updated to $status: " . $ticket_number;
+    $status=0;
+    $date = date("Y-m-d H:i:s");
+
+    //notify sender and if recipient exists
+    $sDetails = getUserDetails($con, $siteprefix, $sender_id);
+    $s_email = $sDetails['email'];
+    $s_name = $sDetails['display_name'];
+    //sendEmail($s_email, $s_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+    insertAlert($con, $sender_id, $message, $date, $status);
+
+    if($recipient_id){
+        $rDetails = getUserDetails($con, $siteprefix, $recipient_id);
+        $r_email = $rDetails['email'];
+        $r_name = $rDetails['display_name'];
+       //sendEmail($r_email, $r_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+       insertAlert($con, $recipient_id, $message, $date, $status);
+    }
+    updateDisputeStatus($con, $siteprefix, $dispute_id, $new_status);
+    showToast("Message sent successfully!");
+
+    } else {
+    $message = "Error: " . mysqli_error($con);
+    showErrorModal('Oops', $message);
+    }
+}
+
+//manage wallet
+if (isset($_POST['update-wallet-dispute'])) {
+$user= $_POST['user'];
+$amount= $_POST['amount'];
+$dispute_id= $_POST['dispute_id'];
+$walletaction= $_POST['wallet-action'];
+
+
+    $rDetails = getUserDetails($con, $siteprefix, $user);
+    $r_email = $rDetails['email'];
+    $r_name = $rDetails['display_name'];
+  
+
+
+if($walletaction=='add'){
+    $type="credit";
+    $emailMessage="Your wallet has been credited with $sitecurrency$amount";
+    $sql = "UPDATE ".$siteprefix."users SET wallet=wallet+$amount WHERE s='$user'";
+    $sql2 = mysqli_query($con,$sql);
+    $message="Wallet credited successfully.";
+}
+if($walletaction=='deduct'){
+    $type="debit";
+    $emailMessage="Your wallet has been debited with $sitecurrency$amount";
+    $sql = "UPDATE ".$siteprefix."users SET wallet=wallet-$amount WHERE s='$user'";
+    $sql2 = mysqli_query($con,$sql);
+    $message="Wallet debited successfully.";
+}
+
+$note="Dispute Resolution: $dispute_id";
+$date = date("Y-m-d H:i:s");
+$emailSubject="Wallet Update";
+$alertmessage = "You wallet amount has been modified. kindly check your wallet for details.";
+$status=0;
+
+//sendEmail($r_email, $r_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+insertAlert($con, $user, $alertmessage, $date, $status);
+insertWallet($con, $user, $amount, $type, $note, $date);
+showSuccessModal('Processed',$message);
+}
 ?>
 
 

@@ -402,3 +402,43 @@ document.querySelectorAll('.delete-image').forEach(button => {
       }
   });
 });
+
+
+function updateStatus() {
+  const status = document.getElementById('statusAction').value;
+  if (!status) return;
+  
+  if (confirm('Are you sure you want to update the status?')) {
+      const form = document.createElement('form');
+      form.method = 'POST';
+      
+      const ticketInput = document.createElement('input');
+      ticketInput.type = 'hidden';
+      ticketInput.name = 'ticket_id';
+      ticketInput.value = document.getElementById('ticket_id').value;
+
+      const actionInput = document.createElement('input');
+      actionInput.type = 'hidden';
+      actionInput.name = 'update-dispute';
+      actionInput.value = 'dispute_update';
+      
+      const statusInput = document.createElement('input');
+      statusInput.type = 'hidden';
+      statusInput.name = 'status';
+      statusInput.value = status;
+      
+      form.appendChild(ticketInput);
+      form.appendChild(actionInput);
+      form.appendChild(statusInput);
+      document.body.appendChild(form);
+      form.submit();
+  }
+}
+
+function updateWallet() {
+  const walletForm = document.getElementById('walletForm');
+  if (confirm('Are you sure you want to modify the wallet?')) {
+      walletForm.method = 'POST';
+      walletForm.submit();
+  }
+}

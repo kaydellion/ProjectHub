@@ -34,8 +34,8 @@ function updateDisputeStatus($con, $siteprefix, $dispute_id, $status) {
     
     $sql = "UPDATE " . $siteprefix . "disputes 
             SET status = '$status', 
-                updated_at = NOW() 
-            WHERE dispute_id = '$dispute_id'";
+                created_at = NOW() 
+            WHERE ticket_number = '$dispute_id'";
             
     $result = mysqli_query($con, $sql);
     
@@ -141,20 +141,18 @@ function insertAlert($con, $user_id, $message, $date, $status) {
     
     
 
-
-function isEnrolled($user_id, $course_id, $con, $siteprefix) {
-    $query = "SELECT * FROM " . $siteprefix . "enrolled_courses WHERE user_id = '$user_id' AND course_id = '$course_id'";
-    $result = mysqli_query($con, $query);
-    return mysqli_num_rows($result) > 0;
-  }
-
 function isFavorite($userid, $course_id, $con, $siteprefix) {
     $query = "SELECT * FROM " . $siteprefix . "favorites WHERE user_id = '$userid' AND course_id = '$course_id'";
     $result = mysqli_query($con, $query);
     return mysqli_num_rows($result) > 0;
 }
 
+function insertWallet($con, $user_id, $amount, $type, $note, $date) {
 
+    $query = "INSERT INTO pr_wallet_history (user, amount, reason, status, date) VALUES ('$user_id', '$amount', '$note', '$type' , '$date')";
+    $submit = mysqli_query($con, $query);
+    if ($submit) { echo "";} 
+    else { die('Could not connect: ' . mysqli_error($con)); }}
 
 function getRandomMotivationalQuote() {
     $motivational_quotes = [
@@ -231,6 +229,43 @@ function showToast($message) {
     </script>';
 }
 
+function notifyDisputeRecipient($con, $siteprefix, $dispute_id) {
+    // Get recipient ID
+    $query = "SELECT recipient_id FROM ".$siteprefix."disputes WHERE ticket_number = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("s", $dispute_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $recipient_id = $row['recipient_id'];
+    
+    if (!$recipient_id) {
+        return false;
+    }
+
+    $message = "There has been a new update on dispute ($dispute_id). Please check the ticket for more details.";
+    $rDetails = getUserDetails($con, $siteprefix, $recipient_id);
+    $r_email = $rDetails['email'];
+    $r_name = $rDetails['display_name'];
+    $r_emailSubject = "Dispute Update ($dispute_id)";
+    $r_emailMessage = "<p>There has been a new update on dispute ($dispute_id). Login to your dashboard to check</p>";
+    
+    //sendEmail($r_email, $r_name, $siteName, $siteMail, $r_emailMessage, $r_emailSubject);
+    
+    $date = date('Y-m-d H:i:s');
+    $status = 0;
+    $link = "ticket.php?ticket_number=$dispute_id";
+    $msgtype = "Dispute Update";
+    
+    return insertAlert($con, $recipient_id, $message, $date, $status);
+}
+
+//function to get username and email
+function getUserDetails($con, $siteprefix, $user_id) {
+    $query = "SELECT * FROM " . $siteprefix . "users WHERE s = '$user_id'";
+    $result = mysqli_query($con, $query);
+    return mysqli_fetch_assoc($result);
+}
 
 function insertadminAlert($con, $message, $link, $date, $msgtype, $status) {
     $escapedMessage = mysqli_real_escape_string($con, $message);

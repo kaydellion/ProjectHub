@@ -25,5 +25,5 @@ if (isset($active_log) && $active_log == 1) {
             setcookie('order', $order_id, time() + (86400 * 30), "/");
         }
     }
-} 
+} else { $order_id = ''; } 
 ?>

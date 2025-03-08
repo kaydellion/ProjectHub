@@ -366,12 +366,13 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
 
 //add dispute
 if (isset($_POST['create_dispute'])){
-    $user_id = 1; // Assume logged-in user
     $category = $_POST['category'];
+    $recipient_id = $_POST['seller'];
     $contract_reference = $_POST['order_id'];
     $issue = mysqli_real_escape_string($con, $_POST['issue']);
     $ticket_number = "TKT" . time(); // Unique Ticket ID
     $page="ticket.php?ticket_number=$ticket_number";
+    $date = date('Y-m-d H:i:s');
 
     //
 
@@ -383,18 +384,48 @@ if (isset($_POST['create_dispute'])){
     $uploadDir = 'uploads/';
     $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
     $uploadedFiles = [];
+
+     
+    $sql = "INSERT INTO ".$siteprefix."dispute_messages (dispute_id, sender_id, message, file) 
+    VALUES ('$ticket_number', '$user_id', '$issue', '')";
+    mysqli_query($con, $sql);
     
-    $dispute_id = mysqli_insert_id($con); // Get the ID of the just inserted dispute
-    foreach ($reportImages as $image) {
-        $sql = "INSERT INTO ".$siteprefix."evidence (dispute_id, file_path, uploaded_at) VALUES ('$dispute_id', '$image', NOW())";
-        if (mysqli_query($con, $sql)) {
-            $uploadedFiles[] = $image;
-        } else {
-            $message .= "Error: " . mysqli_error($con);
-        }
-    }
     
     if (mysqli_query($con, $sql)) {
+        $dispute_id = mysqli_insert_id($con); // Get the ID of the just inserted dispute
+        foreach ($reportImages as $image) {
+            $sql = "INSERT INTO ".$siteprefix."evidence (dispute_id, file_path, uploaded_at) VALUES ('$dispute_id', '$image', NOW())";
+            if (mysqli_query($con, $sql)) {
+                $uploadedFiles[] = $image;
+            } else {
+                $message .= "Error: " . mysqli_error($con);
+            }
+        }
+
+        $emailSubject="New Dispute ($ticket_number)";
+        $emailMessage="<p>Thank you for submitting a dispute. Your ticket number is: $ticket_number</p>";
+        $adminmessage = "A new dispute has been submitted ($ticket_number)";
+        $link="ticket.php?ticket_number=$ticket_number";
+        $msgtype='New Dispute';
+        $message_status=1;
+        $emailMessage_admin="<p>Hello Dear Admin,a new dispute has been submitted!</p>";
+        $emailSubject_admin="New Dispute";
+        insertadminAlert($con, $adminmessage, $link, $date, $msgtype, $message_status);
+        //sendEmail($email, $display_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+        //sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject_admin);
+    
+            if($recipient_id){
+            $rDetails = getUserDetails($con, $siteprefix, $recipient_id);
+            $r_email = $rDetails['email'];
+            $r_name = $rDetails['display_name'];
+            $r_emailSubject="New Dispute ($ticket_number)";
+            $r_emailMessage="<p>A new dispute has been submitted with you as the recipient. Login to your dashboard to check</p>";
+           //sendEmail($r_email, $r_name, $siteName, $siteMail, $r_emailMessage, $r_emailSubject);
+           $message = "A new dispute has been submitted with you as the recipient: " . $ticket_number;
+           $status=0;
+           insertAlert($con, $recipient_id, $message, $date, $status);
+        }
+
        $message= "Dispute submitted successfully. Ticket ID: " . $ticket_number;
        showSuccessModal('Success', $message);
        header("refresh:2; url=$page");
@@ -423,18 +454,24 @@ if (isset($_POST['create_dispute'])){
         $sql = "INSERT INTO ".$siteprefix."dispute_messages (dispute_id, sender_id, message, file) 
             VALUES ('$dispute_id', '$sender_id', '$message', '$uploadedFiles')";
             
-        if (!mysqli_query($con, $sql)) {
-            showErrorModal('Error', 'Failed to send message: ' . mysqli_error($con));
-            exit();
-        }
-        $message = "There has been a new update on dispute ($dispute_id). Please check the ticket for more details.";
+       
+        if (mysqli_query($con, $sql)) {
+
+        // Then call the function where needed:
+        notifyDisputeRecipient($con, $siteprefix, $dispute_id);
         $date = date('Y-m-d H:i:s');
         $status = 0;
+        $message = "A new message has been sent on dispute $dispute_id";
         $link = "ticket.php?ticket_number=$dispute_id";
         $msgtype = "Dispute Update";
         insertadminAlert($con, $message, $link, $date, $msgtype, $status);
-        $updated = updateDisputeStatus($con, $siteprefix, $dispute_id, $new_status);
+        updateDisputeStatus($con, $siteprefix, $dispute_id, $new_status);
         showToast("Message sent successfully!");
+
+        } else {
+        $message = "Error: " . mysqli_error($con);
+        showErrorModal('Oops', $message);
+        }
     }
 
 ?>

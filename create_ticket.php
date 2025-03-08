@@ -19,6 +19,7 @@
     
     <div class="mb-3"> <label>Order Reference:</label>
     <select name="order_id" id="order_id" class="form-control" required onchange="getOrderDetails(this.value)">
+        <option value="">Select Order</option>
         <?php 
         $sql = "SELECT * FROM ".$siteprefix."orders WHERE user = '$user_id' ORDER BY date DESC";
         $result = mysqli_query($con, $sql);
@@ -27,26 +28,11 @@
         <?php endwhile; ?>
     </select></div>
 
-    <div id="orderDetails" class="mb-3">
+   <p>Recipient Involved</p>
+   <div id="orderDetails">
         <!-- Order details will be loaded here -->
     </div>
 
-    <script>
-    function getOrderDetails(orderId) {
-        $.ajax({
-            url: 'get_order_details.php',
-            type: 'POST',
-            data: { order_id: orderId },
-            success: function(response) {
-                $('#orderDetails').html(response);
-            }
-        });
-    }
-    </script>
-
-    <div class="mb-3"><label>Recipient Involved:</label>
-    <input type="text" name="recipient" class="form-control" required>
-    </div>
     
     <div class="mb-3"><label>Issue Title:</label>
     <textarea name="issue" class="form-control" maxlength="100" rows="3"></textarea>

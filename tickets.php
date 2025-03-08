@@ -1,5 +1,5 @@
 <?php include "header.php"; 
-$user_id = 1; // Assume logged-in user
+checkActiveLog($active_log);
 $sql = "SELECT * FROM ".$siteprefix."disputes WHERE user_id = '$user_id' ORDER BY created_at DESC";
 $result = mysqli_query($con, $sql);
 ?>
@@ -23,8 +23,8 @@ $result = mysqli_query($con, $sql);
         <tr>
             <td><?= $row['ticket_number']; ?></td>
             <td><?= $row['category']; ?></td>
-            <td><?= $row['status']; ?></td>
-            <td><a href="dispute_details.php?id=<?= $row['id']; ?>">View</a></td>
+            <td><span class="badge bg-<?php echo getBadgeColor($row['status']); ?>"><?= $row['status']; ?></span></td>
+            <td><a href="ticket.php?ticket_number=<?= $row['ticket_number']; ?>">View Ticket</a></td>
         </tr>
     <?php endwhile; ?>
 </table>

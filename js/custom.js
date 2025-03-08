@@ -369,6 +369,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const products = document.querySelectorAll('.product');
   const reportCount = document.getElementById('report-count');
 
+  if (!select || !products || !reportCount) {
+      return;
+  }
   select.addEventListener('change', function() {
       const subcategory = this.value;
       let visibleCount = 0;
@@ -528,7 +531,8 @@ const imageInput = document.getElementById('imageInput');
 const preview = document.getElementById('preview');
 let files = new DataTransfer();
 
-imageInput.addEventListener('change', function() {
+if (imageInput) {
+  imageInput.addEventListener('change', function() {
   const newFiles = Array.from(this.files);
   
   newFiles.forEach(file => {
@@ -569,9 +573,13 @@ imageInput.addEventListener('change', function() {
   
   this.files = files.files;
 });
+}
 
 
-document.getElementById('documentSelect').addEventListener('change', function() {
+
+const documentSelect = document.getElementById('documentSelect');
+if (documentSelect) {
+    documentSelect.addEventListener('change', function() {
   console.log('Document select changed');
   const selectedOptions = Array.from(this.selectedOptions).map(option => option.value);
   console.log('Selected options:', selectedOptions);
@@ -625,6 +633,7 @@ document.getElementById('documentSelect').addEventListener('change', function() 
     }
   });
 });
+}
 
 function handleDocumentSelect(selectElement) {
   console.log('Document select changed');
@@ -693,3 +702,23 @@ function getAcceptedFormats(docType) {
     };
     return formats[docType] || "*";
 }
+
+
+function getOrderDetails(orderId) {
+  $j.ajax({
+    url: 'get_order_details.php',
+    type: 'POST', 
+    data: { order_id: orderId },
+    success: function(response) {
+      $j('#orderDetails').html(response);
+    }
+  });
+}
+
+// Run on page load if order_id exists
+$j(document).ready(function() {
+  const orderId = $j('#order_id').val();
+    getOrderDetails(orderId);
+});
+
+
