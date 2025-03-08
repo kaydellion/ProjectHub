@@ -26,12 +26,12 @@
 
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname">Title</label>
-                          <input type="text" class="form-control" name="title" id="basic-default-fullname" placeholder="Learning loops" required//>
+                          <input type="text" class="form-control" name="title" id="basic-default-fullname" placeholder="Learning loops" required>
                         </div>
 
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-message">Description</label>
-                          <textarea id="basic-default-message" name="description" class="form-control" placeholder="This course is a course for ..." required/></textarea>
+                          <textarea id="basic-default-message" name="description" class="form-control editor" placeholder="This course is a course for ..."></textarea>
                         </div>
  
 
@@ -99,6 +99,14 @@
                           </div>
                         </div>
                         <?php endif; ?>
+
+                        <div class="mb-3">
+                          <label class="form-label" for="status-type">Approval Status</label>
+                          <select id="status-type" name="status" class="form-control" required>
+                            <option value="pending" selected>Pending</option>
+                            <option value="approved">Approved</option>
+                          </select>
+                        </div>
                       
                         <button type="submit" name="addcourse" value="course" class="btn btn-primary w-100">Add Report</button>
                       </form>

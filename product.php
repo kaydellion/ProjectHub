@@ -35,6 +35,9 @@ if(isset($_GET['id'])){
     header("Location: $previousPage");
 }
 
+$rating_data = calculateRating($report_id, $con, $siteprefix);
+$average_rating = $rating_data['average_rating'];
+$review_count = $rating_data['review_count'];
 ?>
 
 
@@ -70,20 +73,26 @@ if(isset($_GET['id'])){
                 <span class="badge text-light bg-danger ms-2">Loyalty Material</span>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-1">
                 <div class="d-flex align-items-center">
                     <div class="text-warning me-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
+                        <?php
+                        for($i = 1; $i <= 5; $i++) {
+                            if($i <= $average_rating) {
+                                echo '<i class="fas fa-star"></i>';
+                            } elseif($i - $average_rating > 0 && $i - $average_rating < 1) {
+                                echo '<i class="fas fa-star-half-alt"></i>';
+                            } else {
+                                echo '<i class="far fa-star"></i>';
+                            }
+                        }
+                        ?>
                     </div>
-                    <span class="text-muted"> (128 reviews)</span>
+                    <span class="text-muted"> (<?php echo $review_count;?> reviews)</span>
                 </div>
             </div>
 
-            <p class="mb-4"><?php echo $description; ?></p>
+            <div><?php echo $description; ?></div>
 
             <!-- Color Selection -->
             <form method="post">
@@ -101,14 +110,15 @@ while ($row = mysqli_fetch_array($sql2)) {
     $file_updated_at = $row['updated_at'];
     $file_extension = getFileExtension($file_title);
 ?>
-                    <input type="radio" class="btn-check" value="<?php echo $file_id; ?>" name="btnradio" id="btnradio1" autocomplete="off">
-                    <label class="btn btn-outline-primary" for="btnradio1"><?php echo $file_extension;?></label>
+                    <input type="radio" class="btn-check" value="<?php echo $file_id; ?>" name="btnradio" id="btnradio<?php echo $file_id; ?>" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnradio<?php echo $file_id; ?>"><?php echo $file_extension;?> (p.<?php echo $file_pages;?>)</label>
 <?php } ?>
             </div>
 
             <!-- Actions -->
             <div class="d-grid gap-2">
-                <button class="btn btn-primary" type="button" name="add" id="addCart">Add to Cart</button>
+                <input type="hidden" name="report_id"  id="current_report_id" value="<?php echo $report_id;?>">
+                <button class="btn btn-primary" type="button" data-report="<?php echo $report_id;?>" name="add" id="addCart">Add to Cart</button>
                 </form>
                 <button class="btn btn-outline-secondary" type="button"> <i class="far fa-heart me-2"></i>Add to Wishlist </button>
             </div>
@@ -124,15 +134,62 @@ while ($row = mysqli_fetch_array($sql2)) {
     </div>
 </div>
 
+<!-- Reviews -->
+<div class="container py-5">
+    <h2 class="h4 mb-4">Reviews</h2>
+    <div class="row">
+    <div class="mt-3 mb-3">
+                  <?php
+                      $review_query = "SELECT r.*, u.display_name FROM ".$siteprefix."reviews r 
+                              LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
+                              WHERE r.report_id = '$report_id' 
+                              ORDER BY r.date DESC LIMIT 10";
+                      $review_result = mysqli_query($con, $review_query);
+
+                      while ($review = mysqli_fetch_assoc($review_result)) {
+                        echo '<div class="mb-3">';
+                        echo '<div class="d-flex align-items-center">';
+                        echo '<strong>' . htmlspecialchars($review['name']) . '</strong>';
+                        echo '<div class="ms-3">';
+                        for ($i = 1; $i <= $review['rating']; $i++) {
+                          echo '<i class="bi bi-star-fill text-warning"></i>';
+                        }
+                        echo '</div></div>';
+                        echo '<p class="mt-2">' . htmlspecialchars($review['review']) . '</p>';
+                        echo '<small class="text-muted">' . date('M d, Y', strtotime($review['date'])) . '</small>';
+                        echo '</div>';
+                      }
+                      ?>
+                  </div>
+    </div>
+</div>
 
 
+<!-- Related Products -->
+<div class="container py-5">
+    <h2 class="h4 mb-4">Related Products</h2>
+    <div class="row">
+<?php
+$sql = "SELECT r.*, ri.picture FROM ".$siteprefix."reports r
+LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
+WHERE r.category = '$category' AND r.subcategory = '$subcategory' AND r.id != '$report_id' AND r.status = 'approved' GROUP BY r.id LIMIT 4";
+$sql2 = mysqli_query($con, $sql);
+if (!$sql2) {die("Query failed: " . mysqli_error($con)); }
+if (mysqli_num_rows($sql2) > 0) {
+while ($row = mysqli_fetch_array($sql2)) {
+    $related_report_id = $row['id'];
+    $related_title = $row['title'];
+    $related_price = $row['price'];
+    $related_image_path = $imagePath.$row['picture'];
 
+    include "product-card.php";
+}} else {
+echo '<div class="alert alert-warning" role="alert">
+    No related products found. <a href="marketplace.php" class="alert-link">View more reports in marketplace</a>
+      </div>';
+}
+?>
+</div></div>  <!-- / .row -->
 
-
-
-
-
-
-
-
+</div>  <!-- / .container -->
 <?php include "footer.php"; ?>

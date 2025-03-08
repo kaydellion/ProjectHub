@@ -3,7 +3,8 @@
 
 //previous page
 $_SESSION['previous_page'] = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-$previousPage = $_SESSION['previous_page'] ?? 'index.php';
+$previousPage=$_SESSION['previous_page'];
+$current_page = urlencode(basename($_SERVER['PHP_SELF']) . '?' . $_SERVER['QUERY_STRING']);
 
 $code = "";
 if (isset($_COOKIE['userID'])) {$code = $_COOKIE['userID'];}
@@ -61,8 +62,8 @@ if (mysqli_affected_rows($con) == 0) {
 
 //if($active_log==0){header("location: signup.php");}
 //$adminlink=$siteurl.'/admin';
-include "backend/actions.php"; 
 include "backend/start_order.php";
+include "backend/actions.php"; 
 ?>
 
 <!doctype html>
@@ -91,6 +92,8 @@ include "backend/start_order.php";
     <link rel="stylesheet" href="css/slick.css">
     <!-- style CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <?php include 'backend/tinymce.php'; ?>
 </head>
 
 <body>
@@ -101,16 +104,16 @@ include "backend/start_order.php";
             <div class="row justify-content-between">
                 <div class="col-md-6 col-8 d-flex align-items-center">
                 <ul class="top-bar-info d-flex flex-column flex-md-row text-white">
-                    <li class="mr-3"><i class="fa fa-phone"></i> <?php echo $sitenumber;?></li>
-                    <li><i class="fa fa-envelope"></i><?php echo $sitemail; ?></li>
+                    <li class="m-1"><i class="fa fa-phone"></i> <?php echo $sitenumber;?></li>
+                    <li class="m-1"><i class="fa fa-envelope"></i><?php echo $sitemail; ?></li>
                 </ul>
                 </div>
                 <div class="col-md-6 col-4 d-flex justify-content-end align-items-center">
                 <ul class="top-bar-links d-flex">
                     <?php if($active_log==0){ ?>
-                    <li class="bg-black p-1 p-lg-3"><a class="text-white" href="become_a_seller.php">Become a Seller</a></li>
+                    <li class="bg-black p-1"><a class="text-white" href="become_a_seller.php">Become a Seller</a></li>
                     <?php } else {?>
-                    <li class="bg-black p-1 p-lg-3"><a class="text-white" href="logout.php">Logout</a></li>
+                    <li class="bg-black p-1"><a class="text-white" href="logout.php">Logout</a></li>
                     <?php } ?>
                 </ul>
                 </div>
@@ -131,7 +134,7 @@ include "backend/start_order.php";
                         <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
                             <ul class="navbar-nav">
                                 <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
+                                <li class="nav-item"><a class="nav-link" href="about-us.php">About</a></li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="blog.php" id="navbarDropdown_1"
                                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -174,7 +177,7 @@ include "backend/start_order.php";
                                    Seller Portal
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="">Manage Models</a>
+                                        <a class="dropdown-item" href="models.php">Manage Models</a>
                                         <a class="dropdown-item" href="">Sales Analytics</a>
                                         <a class="dropdown-item" href="#">Revenue Management</a>
                                         <a class="dropdown-item" href="#">Customer Feedback</a>
@@ -192,7 +195,7 @@ include "backend/start_order.php";
                                        Support
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                         <a class="dropdown-item" href="#">Support Tickets</a>
+                                         <a class="dropdown-item" href="tickets.php">Support Tickets</a>
                                         <a class="dropdown-item" href="blog.php">Contact Us</a>
                                         <a class="dropdown-item" href="single-blog.php">FAQ</a>
                                         <a class="dropdown-item" href="single-blog.php">Loyalty System</a>
@@ -207,7 +210,18 @@ include "backend/start_order.php";
                         <div class="hearer_icon d-flex align-items-center">
                             <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
                             <a href="cart.php">
-                                <i class="flaticon-shopping-cart-black-shape"></i>
+                                <?php
+                                $cart_count = getCartCount($con, $siteprefix, $order_id);
+                                ?>
+                                <div class="position-relative d-inline-block">
+                                    <i class="flaticon-shopping-cart-black-shape"></i>
+                                    <?php if($cart_count >= 0): ?>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        <span class="cart-count"><?php echo $cart_count; ?></span>
+                                        <span class="visually-hidden">items in cart</span>
+                                    </span>
+                                    <?php endif; ?>
+                                </div>
                             </a>
                             <div class="dropdown">
                                 <a href="#" class="dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -241,3 +255,6 @@ include "backend/start_order.php";
         </div>
     </header>
     <!-- Header part end-->
+
+    <input type="hidden" id="order_id" value="<?php echo $order_id; ?>">
+    <input type="hidden" id="user_id" value="<?php echo $user_id; ?>">

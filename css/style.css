@@ -6,6 +6,41 @@
 Grey (Neutral Base) –#6E6E6E (Medium Grey)
 Orange (Accent) – #F57C00 (Vibrant Orange)
 Black (Bold & Contrast) – #212121 (Deep Black)*/
+.preview-container1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+.preview-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+td{
+  padding: 20px;
+}
+.image-preview {
+  position: relative;
+  width: 150px;
+}
+.delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.preview-image {
+  max-width: 150px;
+  height: auto;
+}
+
 
 .form-contact .form-group .btn_1 i {
   background-image: linear-gradient(16deg, #ff005a 0%, #ff5d2d 64%, #ffba00 100%);
@@ -16,6 +51,10 @@ Black (Bold & Contrast) – #212121 (Deep Black)*/
   background-image: linear-gradient(to left, #fff 0%, #fff 51%, #fff 100%);
 }
 
+.img-small{
+  width: 50px;
+  height: 50px;
+}
 
 .logo-circle{
   width: 200px; 
@@ -5062,7 +5101,7 @@ input:focus {
 .cart_inner .table tbody tr td .media .d-flex img {
   border: 1px solid #eeeeee;
   border-radius: 3px;
-  max-width: 150px;
+  max-width: 10%;
 }
 
 /* line 1136, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */

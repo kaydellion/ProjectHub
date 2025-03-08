@@ -80,7 +80,7 @@ if ($row) {
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="basic-default-message">Description</label>
-                        <textarea id="basic-default-message" name="description" class="form-control" required><?php echo $description; ?></textarea>
+                        <textarea id="basic-default-message" name="description" class="form-control editor"><?php echo $description; ?></textarea>
                     </div>
                     <h6>Field Of Study: Select the industry or field where this template/model is most applicable</h6>
                     <div class="mb-3">
@@ -137,6 +137,13 @@ if ($row) {
                         </div>
                     </div>
                     <?php endif; ?>
+                    <div class="mb-3">
+                          <label class="form-label" for="status-type">Approval Status</label>
+                          <select id="status-type" name="status" class="form-control" required>
+                            <option value="pending" <?php echo ($status == 'pending') ? 'selected' : ''; ?>>Pending</option>
+                            <option value="approved" <?php echo ($status == 'approved') ? 'selected' : ''; ?>>Approved</option>
+                          </select>
+                        </div>
                     <button type="submit" name="addcourse" value="course" class="btn btn-primary w-100">Update Report</button>
                 </form>
             </div>

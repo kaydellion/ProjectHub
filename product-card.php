@@ -10,7 +10,7 @@
                             <span><?php echo $user; ?></span>
                             </div>
                             <div class="d-flex justify-content-between mt-3">
-                            <h6>$<?php echo $price; ?></h6>
+                            <h6><?php echo $sitecurrency; echo $price; ?></h6>
                             <div class="rating">
                             <i class="fa fa-star text-primary"></i>
                             <span class="text-bold">5.0</span>

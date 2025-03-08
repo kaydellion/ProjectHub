@@ -1,5 +1,108 @@
 <?php
 
+//get total order amount
+if($active_log==1){
+    $sql = "SELECT SUM(price) as total FROM pr_order_items WHERE order_id = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("s", $order_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $order_total = empty($row['total']) ? 0 : $row['total'];
+
+    //update total orders in orders table
+    $sql = "UPDATE pr_orders SET total_amount = ? WHERE order_id = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("ds", $order_total, $order_id);
+    $stmt->execute();
+    $stmt->close();
+} else ($order_total = 0);
+
+
+
+//upload-report
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
+    $reportId = $_POST['id'];
+    $title = $_POST['title'];
+    $description = mysqli_real_escape_string($con, $_POST['description']);
+    $category = $_POST['category'];
+    $subcategory = isset($_POST['subcategory']) ? $_POST['subcategory'] : null;
+    $pricing = $_POST['pricing'];
+    $price = !empty($_POST['price']) ? $_POST['price'] : '0';
+    $tags = $_POST['tags'];
+    $loyalty = isset($_POST['loyalty']) ? 1 : 0;
+    $documentTypes = isset($_POST['documentSelect']) ? $_POST['documentSelect'] : [];
+  
+    // Upload images
+    $uploadDir = 'uploads/';
+    $fileuploadDir = 'documents/';
+    $fileKey='images';
+    global $fileName;
+    $message="";
+    $status="pending";
+
+    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+    if (empty($_FILES[$fileKey]['name'][0])) {
+        // Array of default images
+        $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
+        // Pick a random default image
+        $randomImage = $defaultImages[array_rand($defaultImages)];
+        $reportImages = [$randomImage];
+    }
+    
+    $uploadedFiles = [];
+    foreach ($reportImages as $image) {
+        $stmt = $con->prepare("INSERT INTO  ".$siteprefix."reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
+        $stmt->bind_param("ss", $reportId, $image);
+        if ($stmt->execute()) {
+            $uploadedFiles[] = $image;
+        } else {
+            $message.="Error: " . $stmt->error;
+        }
+        $stmt->close();
+    }
+
+ 
+    // Handle file uploads
+    $fileFields = [
+        'file_word' => 'word',
+        'file_excel' => 'excel',
+        'file_pdf' => 'pdf',
+        'file_powerpoint' => 'powerpoint',
+        'file_text' => 'text'
+    ];
+
+    foreach ($fileFields as $fileField => $docType) {
+        if (isset($_FILES[$fileField]) && $_FILES[$fileField]['error'] == UPLOAD_ERR_OK) {
+            $filePath = handleFileUpload($fileField, $fileuploadDir);
+            $pagesField = 'pages_' . $docType;
+            $pages = isset($_POST[$pagesField]) ? $_POST[$pagesField] : 0;
+
+            $stmt = $con->prepare("INSERT INTO  ".$siteprefix."reports_files (report_id, title, pages, updated_at) VALUES (?, ?, ?, current_timestamp())");
+            $stmt->bind_param("ssi", $reportId, $filePath, $pages);
+
+            if ($stmt->execute()) {
+                $message.="File uploaded and record added successfully!";
+            } else {
+                $message.="Error: " . $stmt->error;
+            }
+
+            $stmt->close();
+        }
+    }
+    // Insert data into the database
+    $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) VALUES (NULL, '$reportId', '$title', '$description', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
+    if (mysqli_query($con, $sql)) {
+        $message .= "Report added successfully!";
+    } else {
+        $message .= "Error: " . mysqli_error($con);
+    }
+
+    showSuccessModal('Processed',$message);
+    header("refresh:2; url=models.php");
+  }
+
+
 //new-registertion
 if(isset($_POST['register-user'])){
 
@@ -244,5 +347,94 @@ if (isset( $_POST['signin'])){
     }}
 
 
+
+//delete-record
+if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+    $table = $_GET['table'];
+    $item = $_GET['item'];
+    $page = $_GET['page'];
+    
+    if (deleteRecord($table, $item)) {
+        $message="Record deleted successfully.";
+    } else {
+         $message="Failed to delete the record.";
+    }
+
+    showToast($message);
+    header("refresh:2; url=$page");
+}
+
+//add dispute
+if (isset($_POST['create_dispute'])){
+    $user_id = 1; // Assume logged-in user
+    $category = $_POST['category'];
+    $contract_reference = $_POST['order_id'];
+    $issue = mysqli_real_escape_string($con, $_POST['issue']);
+    $ticket_number = "TKT" . time(); // Unique Ticket ID
+    $page="ticket.php?ticket_number=$ticket_number";
+
+    //
+
+    // Insert dispute into DB
+    $sql = "INSERT INTO ".$siteprefix."disputes (user_id, recipient_id, ticket_number, category, order_reference, issue) 
+            VALUES ('$user_id', '$recipient_id','$ticket_number', '$category', '$contract_reference', '$issue')";
+    
+    $fileKey = 'evidence';
+    $uploadDir = 'uploads/';
+    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+    $uploadedFiles = [];
+    
+    $dispute_id = mysqli_insert_id($con); // Get the ID of the just inserted dispute
+    foreach ($reportImages as $image) {
+        $sql = "INSERT INTO ".$siteprefix."evidence (dispute_id, file_path, uploaded_at) VALUES ('$dispute_id', '$image', NOW())";
+        if (mysqli_query($con, $sql)) {
+            $uploadedFiles[] = $image;
+        } else {
+            $message .= "Error: " . mysqli_error($con);
+        }
+    }
+    
+    if (mysqli_query($con, $sql)) {
+       $message= "Dispute submitted successfully. Ticket ID: " . $ticket_number;
+       showSuccessModal('Success', $message);
+       header("refresh:2; url=$page");
+    } else {
+       $message="Error: " . mysqli_error($con);
+       showErrorModal('Oops', $message);
+    }}
+
+  //add dispute message
+  if (isset($_POST['send_dispute_message'])) {
+        $dispute_id = $_POST['dispute_id'];
+        $sender_id = $user_id; // Assume logged-in user
+        $message = mysqli_real_escape_string($con, $_POST['message']);
+        $page = "ticket.php?ticket_number=$dispute_id";
+        $new_status = "awaiting-response";
+
+        $fileKey = 'attachment';
+        $uploadDir = 'uploads/';
+        $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+        $uploadedFiles =  implode(', ', $reportImages);
+        if (empty($_FILES[$fileKey]['name'][0])) {
+            $uploadedFiles = '';
+        }
+
+        
+        $sql = "INSERT INTO ".$siteprefix."dispute_messages (dispute_id, sender_id, message, file) 
+            VALUES ('$dispute_id', '$sender_id', '$message', '$uploadedFiles')";
+            
+        if (!mysqli_query($con, $sql)) {
+            showErrorModal('Error', 'Failed to send message: ' . mysqli_error($con));
+            exit();
+        }
+        $message = "There has been a new update on dispute ($dispute_id). Please check the ticket for more details.";
+        $date = date('Y-m-d H:i:s');
+        $status = 0;
+        $link = "ticket.php?ticket_number=$dispute_id";
+        $msgtype = "Dispute Update";
+        insertadminAlert($con, $message, $link, $date, $msgtype, $status);
+        $updated = updateDisputeStatus($con, $siteprefix, $dispute_id, $new_status);
+        showToast("Message sent successfully!");
+    }
 
 ?>

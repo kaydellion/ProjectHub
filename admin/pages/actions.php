@@ -18,7 +18,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'read-message') {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $reportId = $_POST['id'];
     $title = $_POST['title'];
-    $description = $_POST['description'];
+    $description = mysqli_real_escape_string($con, $_POST['description']);
     $category = $_POST['category'];
     $subcategory = isset($_POST['subcategory']) ? $_POST['subcategory'] : null;
     $pricing = $_POST['pricing'];
@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $tags = $_POST['tags'];
     $loyalty = isset($_POST['loyalty']) ? 1 : 0;
     $documentTypes = isset($_POST['documentSelect']) ? $_POST['documentSelect'] : [];
+    $status = $_POST['status'];
   
     // Upload images
     $uploadDir = '../../uploads/';
@@ -33,10 +34,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $fileKey='images';
     global $fileName;
     $message="";
-    $status="pending";
 
     $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
-    if (!is_array($reportImages)) { $reportImages = [];}
+    if (empty($_FILES[$fileKey]['name'][0])) {
+        // Array of default images
+        $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
+        // Pick a random default image
+        $randomImage = $defaultImages[array_rand($defaultImages)];
+        $reportImages = [$randomImage];
+    }
+    
     $uploadedFiles = [];
     foreach ($reportImages as $image) {
         $stmt = $con->prepare("INSERT INTO  ".$siteprefix."reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
@@ -48,8 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
         }
         $stmt->close();
     }
-
- 
     // Handle file uploads
     $fileFields = [
         'file_word' => 'word',

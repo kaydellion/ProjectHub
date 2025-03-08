@@ -1,11 +1,22 @@
 <?php
 
+function getCartCount($con, $siteprefix, $order_id) {
+    $sql = "SELECT COUNT(*) as count FROM ".$siteprefix."order_items oi 
+    LEFT JOIN ".$siteprefix."orders o ON oi.order_id = o.order_id 
+    WHERE o.order_id='$order_id'";
+    $sql2 = mysqli_query($con, $sql);
+    $row = mysqli_fetch_array($sql2);
+    return $row['count'];
+}
 
 function checkActiveLog($active_log) {
     if ($active_log == "0") {
         header("location: signin.php");
         exit(); // Make sure to exit after the redirect
     }
+}
+function displayMessage($message) {
+    echo "<div class='alert alert-warning'>$message</div>";
 }
 
 function removeAllWhitespace($string) {
@@ -15,6 +26,40 @@ function removeAllWhitespace($string) {
 function getFileExtension($filename) {
     // Get the extension and convert to uppercase
     return strtoupper(pathinfo($filename, PATHINFO_EXTENSION));
+}
+
+function updateDisputeStatus($con, $siteprefix, $dispute_id, $status) {
+    $status = mysqli_real_escape_string($con, $status);
+    $dispute_id = mysqli_real_escape_string($con, $dispute_id);
+    
+    $sql = "UPDATE " . $siteprefix . "disputes 
+            SET status = '$status', 
+                updated_at = NOW() 
+            WHERE dispute_id = '$dispute_id'";
+            
+    $result = mysqli_query($con, $sql);
+    
+    if ($result) {
+        return true;
+    }
+    return false;
+}
+function calculateRating($report_id, $con, $siteprefix) {
+    $review_query = "SELECT SUM(rating) as total_rating, COUNT(*) as review_count FROM " . $siteprefix . "reviews WHERE report_id = '$report_id'";
+    $review_result = mysqli_query($con, $review_query);
+    $review_data = mysqli_fetch_assoc($review_result);
+
+    $total_rating = $review_data['total_rating'];
+    $review_count = $review_data['review_count'];
+
+    if ($review_count > 0) {
+        $average_rating = $total_rating / $review_count;
+        $average_rating = min(max($average_rating, 1.0), 5.0); // Ensure rating is between 1.0 and 5.0
+    } else {
+        $average_rating = 0;
+    }
+
+    return array('average_rating' => $average_rating, 'review_count' => $review_count);
 }
 
 function ifLoggedin($active_log){
@@ -246,11 +291,17 @@ function getBadgeColor($status) {
             return 'danger'; // Gray for pending contract
         case 'draft':
             return 'info'; // Info for pending payment
+        case 'awaiting-response':
+            return 'info'; // Info for pending payment
         case 'pending':
                 return 'warning'; // Info for pending payment
         case 'inprogress':
         case 'approved':
-            return 'success'; // Warning for inprogress or pending review
+            return 'success';
+        case 'resolved':
+            return 'success';
+        case 'under-review':
+            return 'danger'; // Gray for pending contract
         default:
             return 'success'; // Success for all other statuses
     }

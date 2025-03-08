@@ -12,7 +12,6 @@
                   <tr>
                   <th>S/N</th>
                   <th>Report Title</th>
-                  <th>Description</th>
                   <th>Category</th>
                   <th>Subcategory</th>
                   <th>Pricing</th>
@@ -58,7 +57,6 @@
                   <tr>
                   <td><strong><?php echo $i; ?></strong></td>
                   <td><?php echo $title; ?></td>
-                  <td><?php echo $description; ?></td>
                   <td><?php echo $category; ?></td>
                   <td><?php echo $subcategory; ?></td>
                   <td><?php echo $pricing; ?></td>
