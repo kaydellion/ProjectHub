@@ -112,7 +112,138 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     showToast($message);
     header("refresh:1; url=$page");
 }
+// add plan
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addPlan'])) {
+    $planName = $_POST['planName'];
+    $planPrice = $_POST['planPrice'];
+    $description = mysqli_real_escape_string($con, $_POST['description']);
+    $discount = $_POST['discount'];
+    $downloads = $_POST['downloads'];
+    $planDuration = $_POST['planDuration'];
+    $planStatus = $_POST['planStatus'];
+    $benefits = isset($_POST['benefits']) ? implode(", ", $_POST['benefits']) : '';
 
+    // Upload Image
+    $uploadDir = '../../uploads/';
+    $allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg', 'image/webp'];
+    $fileKey = 'planImage';
+    global $fileName;
+    $message = "";
+
+    if (!empty($_FILES[$fileKey]['name'])) {
+        $fileType = mime_content_type($_FILES[$fileKey]['tmp_name']);
+        if (in_array($fileType, $allowedImageTypes)) {
+            $fileName = uniqid() . '_' . $_FILES[$fileKey]['name'];
+            $filePath = $uploadDir . $fileName;
+            if (move_uploaded_file($_FILES[$fileKey]['tmp_name'], $filePath)) {
+                $uploadedImage = $fileName;
+            } else {
+                $message .= "Error uploading image.<br>";
+            }
+        } else {
+            $message .= "Invalid file type (Only JPG, PNG, GIF, WEBP allowed).<br>";
+        }
+    }
+
+    // Assign a default image if none is uploaded
+    if (empty($uploadedImage)) {
+        $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg'];
+        $uploadedImage = array_rand(array_flip($defaultImages));
+    }
+
+    // Insert subscription plan into the database
+    $sql = "INSERT INTO " . $siteprefix . "subscription_plans (name, price, description, discount, downloads, duration, status, benefits, image, created_at) 
+            VALUES ('$planName', '$planPrice', '$description', '$discount', '$downloads', '$planDuration', '$planStatus', '$benefits', '$uploadedImage', current_timestamp())";
+
+    if (mysqli_query($con, $sql)) {
+        $message .= "Subscription plan added successfully!";
+    } else {
+        $message .= "Error: " . mysqli_error($con);
+    }
+
+    // Show success message and redirect
+    showSuccessModal('Processed', $message);
+    header("refresh:2; url=add-plan.php");
+}
+
+//update plans
+if (isset($_POST['updatePlan'])) {
+    $plan_id = $_POST['id'];
+    $name = mysqli_real_escape_string($con, $_POST['name']);
+    $price = $_POST['price'];
+    $description = mysqli_real_escape_string($con, $_POST['description']);
+    $discount = $_POST['discount'];
+    $downloads = $_POST['downloads'];
+    $duration = $_POST['planDuration'];
+    $status = $_POST['status'];
+    
+    // Handle benefits checkboxes
+    $benefits = isset($_POST['benefits']) ? implode(", ", $_POST['benefits']) : "";
+
+    // Image Upload Settings
+    $uploadDir = '../../uploads/';
+    $allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg', 'image.webp'];
+    $fileKey = 'planImage';
+    $message = "";
+    $uploadedImage = "";
+
+    // Check if an image is uploaded
+    if (!empty($_FILES[$fileKey]['name'])) {
+        $fileType = mime_content_type($_FILES[$fileKey]['tmp_name']);
+        if (in_array($fileType, $allowedImageTypes)) {
+            $fileName = uniqid() . '_' . $_FILES[$fileKey]['name'];
+            $filePath = $uploadDir . $fileName;
+            if (move_uploaded_file($_FILES[$fileKey]['tmp_name'], $filePath)) {
+                $uploadedImage = $fileName;
+            } else {
+                $message .= "Error uploading image.<br>";
+            }
+        } else {
+            $message .= "Invalid file type (Only JPG, PNG, GIF, WEBP allowed).<br>";
+        }
+    }
+
+    // Prepare the update query
+    $query = "UPDATE " . $siteprefix . "subscription_plans 
+              SET name='$name', price='$price', description='$description', discount='$discount', 
+                  downloads='$downloads', duration='$duration', status='$status', benefits='$benefits'";
+
+    // Only update the image if a new one was uploaded
+    if (!empty($uploadedImage)) {
+        $query .= ", image='$uploadedImage'";
+    }
+
+    $query .= " WHERE s='$plan_id'";
+
+    // Execute the query
+    if (mysqli_query($con, $query)) {
+        $message = "Plan updated successfully!";
+        showSuccessModal('Processed', $message);
+        header("refresh:1; url=edit-plan.php");
+      
+    } else {
+        $message = "Update failed: " . mysqli_error($con);
+        showToast($message);
+        header("refresh:2; url=edit-plan.php");
+        exit;
+    }
+}
+
+//delete-plans
+if (isset($_GET['action']) && $_GET['action'] == 'deleteplans') {
+    $table = $_GET['table'];
+    $item = $_GET['item'];
+    $page = $_GET['page'];
+    
+    if (deleteRecord($table, $item)) {
+        $message="Record deleted successfully.";
+    } else {
+         $message="Failed to delete the record.";
+    }
+
+    showToast($message);
+    header("refresh:1; url=$page");
+}
 
 //update dispute status
 if (isset($_POST['update-dispute'])){

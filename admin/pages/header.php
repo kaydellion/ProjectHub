@@ -186,6 +186,28 @@ include "actions.php"; ?>
               </ul>
             </li>
 
+                <!-- Plans -->
+                <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-folder-open"></i>
+                <div data-i18n="Layouts">Subscription Plans</div>
+              </a>
+
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="add-plan.php" class="menu-link">
+                    <div data-i18n="Without menu">Add New</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="plans.php" class="menu-link">
+                    <div data-i18n="Without navbar">Manage Plans</div>
+                  </a>
+                </li>
+              
+              </ul>
+            </li>
+
              <!-- Components -->           
              <li class="menu-header small text-uppercase"><span class="menu-header-text">Users</span></li>
             <li class="menu-item"><a href="adduser.php" class="menu-link"><i class="menu-icon tf-icons bx bx-user-plus"></i><div data-i18n="Spinners">Add New User</div></a></li>
