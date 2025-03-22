@@ -21,6 +21,7 @@ if ($row) {
     $discount = $row['discount'];
     $downloads = $row['downloads'];
     $duration = $row['duration'];
+    $no_of_duration = $row['no_of_duration'];
     $status = $row['status'];
     $benefits = $row['benefits'];
     $image = $row['image'];
@@ -66,17 +67,30 @@ if ($row) {
                     </div>
             
                       
-    <!-- Plan Duration -->
-    <div class="mb-3">
-        <label for="planDuration">Plan Duration</label>
-        <select class="form-select" id="planDuration" name="planDuration" required>
-            <option value="">- Select Duration -</option>
-            <option value="Monthly" <?php echo ($duration == "Monthly") ? "selected" : ""; ?>>Monthly</option>
-            <option value="Quarterly" <?php echo ($duration == "Quarterly") ? "selected" : ""; ?>>Quarterly</option>
-            <option value="Yearly" <?php echo ($duration == "Yearly") ? "selected" : ""; ?>>Yearly</option>
-        </select>
-    </div>
+   
+<!-- Plan Duration -->
+<div class="mb-3">
+    <label for="planDuration">Plan Duration</label>
+    <select class="form-select" id="planDuration" name="planDuration" required onchange="handleDurationChange()">
+        <option value="">- Select Duration -</option>
+        <option value="Monthly" <?php echo ($duration == "Monthly") ? "selected" : ""; ?>>Monthly</option>
+        <option value="Yearly" <?php echo ($duration == "Yearly") ? "selected" : ""; ?>>Yearly</option>
+    </select>
+</div>
 
+<!-- Number of Duration -->
+<div class="mb-3" id="durationField" style="display: <?php echo (!empty($duration)) ? 'block' : 'none'; ?>;">
+    <label for="durationCount" id="durationLabel">
+        <?php
+        if ($duration == "Monthly") {
+            echo "Number of Months";
+        } elseif ($duration == "Yearly") {
+            echo "Number of Years";
+        }
+        ?>
+    </label>
+    <input type="number" class="form-control" id="durationCount" name="durationCount" min="1" value="<?php echo $row['no_of_duration']; ?>" placeholder="Enter number">
+</div>
     <!-- Additional Benefits -->
     <div class="mb-3">
         <label>Additional Benefits:</label>
@@ -133,5 +147,22 @@ if ($row) {
         </div>
     </div>
 </div>
+<script>
+    function handleDurationChange() {
+        const durationSelect = document.getElementById('planDuration');
+        const durationField = document.getElementById('durationField');
+        const durationLabel = document.getElementById('durationLabel');
+        const selectedValue = durationSelect.value;
 
+        if (selectedValue === 'Monthly') {
+            durationField.style.display = 'block';
+            durationLabel.textContent = 'Number of Months';
+        } else if (selectedValue === 'Yearly') {
+            durationField.style.display = 'block';
+            durationLabel.textContent = 'Number of Years';
+        } else {
+            durationField.style.display = 'none';
+        }
+    }
+</script>
 <?php include "footer.php"; ?>

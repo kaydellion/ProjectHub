@@ -364,6 +364,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     header("refresh:2; url=$page");
 }
 
+
 //add dispute
 if (isset($_POST['create_dispute'])){
     $category = $_POST['category'];

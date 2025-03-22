@@ -119,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addPlan'])) {
     $description = mysqli_real_escape_string($con, $_POST['description']);
     $discount = $_POST['discount'];
     $downloads = $_POST['downloads'];
+    $durationCount= $_POST['durationCount'];
     $planDuration = $_POST['planDuration'];
     $planStatus = $_POST['planStatus'];
     $benefits = isset($_POST['benefits']) ? implode(", ", $_POST['benefits']) : '';
@@ -152,8 +153,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addPlan'])) {
     }
 
     // Insert subscription plan into the database
-    $sql = "INSERT INTO " . $siteprefix . "subscription_plans (name, price, description, discount, downloads, duration, status, benefits, image, created_at) 
-            VALUES ('$planName', '$planPrice', '$description', '$discount', '$downloads', '$planDuration', '$planStatus', '$benefits', '$uploadedImage', current_timestamp())";
+    $sql = "INSERT INTO " . $siteprefix . "subscription_plans (name, price, description, discount, downloads, duration,no_of_duration, status, benefits, image, created_at) 
+            VALUES ('$planName', '$planPrice', '$description', '$discount', '$downloads', '$planDuration', '$durationCount','$planStatus', '$benefits', '$uploadedImage', current_timestamp())";
 
     if (mysqli_query($con, $sql)) {
         $message .= "Subscription plan added successfully!";
@@ -175,6 +176,7 @@ if (isset($_POST['updatePlan'])) {
     $discount = $_POST['discount'];
     $downloads = $_POST['downloads'];
     $duration = $_POST['planDuration'];
+    $durationCount = $_POST['durationCount'];
     $status = $_POST['status'];
     
     // Handle benefits checkboxes
@@ -206,7 +208,7 @@ if (isset($_POST['updatePlan'])) {
     // Prepare the update query
     $query = "UPDATE " . $siteprefix . "subscription_plans 
               SET name='$name', price='$price', description='$description', discount='$discount', 
-                  downloads='$downloads', duration='$duration', status='$status', benefits='$benefits'";
+                  downloads='$downloads', duration='$duration',no_of_duration='$durationCount' ,status='$status', benefits='$benefits'";
 
     // Only update the image if a new one was uploaded
     if (!empty($uploadedImage)) {

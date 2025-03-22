@@ -40,16 +40,21 @@
                 </div>
 
                 <div class="form-row row">
-                    <div class="form-group col-md-6 mb-3">
-                        <label for="planDuration">Plan Duration</label>
-                        <select class="form-select" id="planDuration" name="planDuration" required>
-                            <option selected>- Select Duration -</option>
-                            <option value="Monthly">Monthly</option>
-                            <option value="Quarterly">Quarterly</option>
-                            <option value="Yearly">Yearly</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6 mb-3">
+    <div class="form-group col-md-6 mb-3">
+        <label for="planDuration">Plan Duration</label>
+        <select class="form-select" id="planDuration" name="planDuration" required onchange="handleDurationChange()">
+            <option selected>- Select Duration -</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Yearly">Yearly</option>
+        </select>
+    </div>
+    <div class="form-group col-md-6 mb-3" id="durationField" style="display: none;">
+        <label for="durationCount" id="durationLabel">Number of Months</label>
+        <input type="number" class="form-control" id="durationCount" name="durationCount" min="1" placeholder="Enter number">
+    </div>
+</div>
+
+                    <div class="mb-3">
                         <label for="planStatus">Plan Status</label>
                         <select class="form-select" id="planStatus" name="planStatus" required>
                             <option selected>- Select Status -</option>
@@ -57,7 +62,7 @@
                             <option value="Inactive">Inactive</option>
                         </select>
                     </div>
-                </div>
+              
 
                 <div class="mb-3">
                     <label>Additional Benefits:</label>
@@ -81,4 +86,22 @@
     </div>
 </div>
 
+<script>
+    function handleDurationChange() {
+        const durationSelect = document.getElementById('planDuration');
+        const durationField = document.getElementById('durationField');
+        const durationLabel = document.getElementById('durationLabel');
+        const selectedValue = durationSelect.value;
+
+        if (selectedValue === 'Monthly') {
+            durationField.style.display = 'block';
+            durationLabel.textContent = 'Number of Months';
+        } else if (selectedValue === 'Yearly') {
+            durationField.style.display = 'block';
+            durationLabel.textContent = 'Number of Years';
+        } else {
+            durationField.style.display = 'none';
+        }
+    }
+</script>
 <?php include "footer.php"; ?>

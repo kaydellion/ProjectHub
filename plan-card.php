@@ -5,7 +5,17 @@
             <h5 class="plan-card-title"><?= $name ?></h5>
             <p class="plan-card-text"><?= $description ?></p>
             <h4 class="plan-card-price">₦<?= number_format($price) ?></h4>
-            <small class="text-muted">Duration: <?= $duration ?></small>
+              <!-- Display formatted duration -->
+              <small class="text-muted">
+                Duration: 
+                <?php
+                if ($duration === 'Monthly') {
+                    echo $no_of_duration . ' ' . ($no_of_duration > 1 ? 'Months' : 'Month');
+                } elseif ($duration === 'Yearly') {
+                    echo $no_of_duration . ' ' . ($no_of_duration > 1 ? 'Years' : 'Year');
+                }
+                ?>
+            </small>
             <ul class="list-group list-group-flush mt-3">
                 <li class="list-group-item"><strong>Discount:</strong> <?= $discount ?>% Off</li>
                 <li class="list-group-item"><strong>Downloads:</strong> <?= $downloads ?> reports</li>
@@ -18,7 +28,28 @@
                     </ul>
                 </li>
             </ul>
-            <a href="subscribe.php?plan=<?= $plan_id ?>" class="plan-card-btn">Subscribe Now</a>
+            <?php
+
+$current_date = date("Y-m-d H:i:s");
+
+// Check if the user has an active subscription
+$subscription_query = "SELECT * FROM " . $siteprefix . "loyalty_purchases
+    WHERE user_id = $user_id AND loyalty_id = $plan_id AND end_date > '$current_date' LIMIT 1";
+$subscription_result = mysqli_query($con, $subscription_query);
+$user_has_active_plan = mysqli_num_rows($subscription_result) > 0;
+?>
+          
+                <?php if ($active_log == 1): ?>
+                <?php if ($user_has_active_plan): ?>
+                    <a href="loyalty-status.php" class="btn btn-secondary">Manage Subscription</a>
+                <?php else: ?>
+                    <button class="btn btn-primary" onclick="payWithPaystack(<?= $plan_id ?>, <?= $price ?>, '<?= $name ?>', <?= $user_id ?>)">Subscribe</button>
+                <?php endif; ?>
+            <?php else: ?>
+                <!-- If user is not logged in, show the modal trigger -->
+                <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Subscribe</button>
+            <?php endif; ?>
         </div>
     </div>
 </div>
+
