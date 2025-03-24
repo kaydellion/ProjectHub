@@ -324,6 +324,8 @@ function getBadgeColor($status) {
     switch ($status) {
         case 'cancelled':
             return 'danger'; // Gray for pending contract
+        case 'Inactive':
+                return 'danger'; // Gray for pending contract
         case 'draft':
             return 'info'; // Info for pending payment
         case 'awaiting-response':

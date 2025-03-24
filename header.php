@@ -198,7 +198,7 @@ include "backend/actions.php";
                                          <a class="dropdown-item" href="tickets.php">Support Tickets</a>
                                         <a class="dropdown-item" href="blog.php">Contact Us</a>
                                         <a class="dropdown-item" href="single-blog.php">FAQ</a>
-                                        <a class="dropdown-item" href="single-blog.php">Loyalty System</a>
+                                        <a class="dropdown-item" href="loyalty-program.php">Loyalty System</a>
                                     </div>
                                 </li>
                                 
@@ -257,4 +257,4 @@ include "backend/actions.php";
     <!-- Header part end-->
 
     <input type="hidden" id="order_id" value="<?php echo $order_id; ?>">
-    <input type="hidden" id="user_id" value="<?php echo $user_id; ?>">
+    <input type="hidden" id="user_id" value="<?php // echo $user_id; ?>">
