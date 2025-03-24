@@ -3,12 +3,8 @@ include "header.php";
 
 // Get ticket number from URL
 $ticket_id = $_GET['ticket_number'];
-$sql = "SELECT id, user_id, ticket_number, category, order_reference, status, issue 
-    FROM ".$siteprefix."disputes 
-    WHERE ticket_number = '$ticket_id'";
-
+$sql = "SELECT * FROM ".$siteprefix."disputes WHERE ticket_number = '$ticket_id'";
 $result = mysqli_query($con, $sql);
-
 if ($row = mysqli_fetch_assoc($result)) {
     $user_id = $row['user_id'];
     $ticket_number = $row['ticket_number'];

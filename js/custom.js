@@ -275,8 +275,6 @@ inputNumber($('.input-number'));
  }); 
 
 
-}(jQuery));
-
 
 
 function togglePasswordVisibility(fieldId) {
@@ -721,4 +719,8 @@ $j(document).ready(function() {
     getOrderDetails(orderId);
 });
 
+
+
+
+}(jQuery));
 

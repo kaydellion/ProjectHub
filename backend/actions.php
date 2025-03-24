@@ -386,9 +386,9 @@ if (isset($_POST['create_dispute'])){
     $uploadedFiles = [];
 
      
-    $sql = "INSERT INTO ".$siteprefix."dispute_messages (dispute_id, sender_id, message, file) 
+    $sql2 = "INSERT INTO ".$siteprefix."dispute_messages (dispute_id, sender_id, message, file) 
     VALUES ('$ticket_number', '$user_id', '$issue', '')";
-    mysqli_query($con, $sql);
+    mysqli_query($con, $sql2);
     
     
     if (mysqli_query($con, $sql)) {
