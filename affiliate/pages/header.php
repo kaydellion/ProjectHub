@@ -10,7 +10,7 @@ if (isset($_COOKIE['userID'])) {$code = $_COOKIE['userID'];}
 $check = "SELECT * FROM ".$siteprefix."users WHERE s = '" . $code . "'";
 $query = mysqli_query($con, $check);
 if (mysqli_affected_rows($con) == 0) {
-    $active_log = 0;
+    $active_log = 0; 
 } else {
     $sql = "SELECT * FROM ".$siteprefix."users  WHERE s  = '".$code."'";
     $sql2 = mysqli_query($con, $sql);
@@ -76,7 +76,7 @@ include "actions.php"; ?>
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Administration | <?php echo $sitename; ?></title>
+    <title>Affiliate | <?php echo $sitename; ?></title>
 
     <meta name="description" content="" />
 

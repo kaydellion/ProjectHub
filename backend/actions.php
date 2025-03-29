@@ -281,13 +281,13 @@ if (isset($_POST['register-affiliate'])) {
             $statusAction = "Invalid File!";
             $statusMessage = "Only JPG, PNG, and PDF files are allowed.";
             showErrorModal($statusAction, $statusMessage);
-            exit();
+           
         }
         if ($_FILES['id_upload']['size'] > 2000000) { // Limit to 2MB
             $statusAction = "File Too Large!";
             $statusMessage = "File size exceeds the limit of 2MB.";
             showErrorModal($statusAction, $statusMessage);
-            exit();
+         
         }
 
         // Move uploaded file to the uploads directory
@@ -295,7 +295,7 @@ if (isset($_POST['register-affiliate'])) {
             $statusAction = "Upload Failed!";
             $statusMessage = "Failed to upload the file. Please try again.";
             showErrorModal($statusAction, $statusMessage);
-            exit();
+           
         }
     }
 
@@ -326,7 +326,7 @@ $statusAction = "Success!";
 $message = "Affiliate registration successful! A confirmation email has been sent to $email.";
 showSuccessModal($statusAction, $message); // Correctly pass the variable
 header("refresh:1; url=affiliate/");
-exit();
+
     } else {
         $statusAction = "Error!";
         $statusMessage = "There was an error registering the affiliate: " . mysqli_error($con);

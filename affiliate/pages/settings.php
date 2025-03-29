@@ -6,65 +6,71 @@
             <div class="col-lg-12 col-md-12">
                 <div class="signup_part_text">
                     <div class="signup_part_text_iner">
-                        <h2>Update Affiliate Details</h2>
-                        <p>Update your affiliate profile information below.</p>
+                        <h2>Edit Profile</h2>
+                        <p>Update your profile information below.</p>
                     </div>
                 </div>
                 <div class="signup_part_form">
                     <div class="signup_part_form_iner">
-                        <h3>Affiliate Profile</h3>
-                        <form class="row contact_form" method="post" enctype="multipart/form-data" novalidate="novalidate">
-                            <h4 class="col-md-12">Affiliate Details</h4>
-                            <div class="col-md-4 form-group p_star">
-                                <input type="text" class="form-control" name="first_name" placeholder="First Name" value="<?php echo htmlspecialchars($affiliate_data['first_name'] ?? ''); ?>" required>
+                        <h3>Profile Details</h3>
+                        <form class="row contact_form" method="POST" enctype="multipart/form-data">
+                            <div class="col-md-4 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="first_name" placeholder="First Name" value="<?php echo htmlspecialchars($first_name); ?>" required>
                             </div>
-                            <div class="col-md-4 form-group p_star">
-                                <input type="text" class="form-control" name="middle_name" placeholder="Middle Name" value="<?php echo htmlspecialchars($affiliate_data['middle_name'] ?? ''); ?>">
+                            <div class="col-md-4 form-group p_star mb-3">
+                                <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                                <input type="text" class="form-control" name="middle_name" placeholder="Middle Name" value="<?php echo htmlspecialchars($middle_name); ?>">
                             </div>
-                            <div class="col-md-4 form-group p_star">
-                                <input type="text" class="form-control" name="last_name" placeholder="Last Name" value="<?php echo htmlspecialchars($affiliate_data['last_name'] ?? ''); ?>" required>
+                            <div class="col-md-4 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="last_name" placeholder="Last Name" value="<?php echo htmlspecialchars($last_name); ?>" required>
                             </div>
-                            <div class="col-md-6 form-group p_star">
-                                <input type="email" class="form-control" name="email" placeholder="Email Address" value="<?php echo htmlspecialchars($affiliate_data['email'] ?? ''); ?>" required>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="email" class="form-control" name="email" placeholder="Email Address" value="<?php echo htmlspecialchars($email); ?>" required>
                             </div>
-                            <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" name="phone" placeholder="Phone Number" value="<?php echo htmlspecialchars($affiliate_data['phone'] ?? ''); ?>" required>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="mobile_number" placeholder="Phone Number" value="<?php echo htmlspecialchars($mobile_number); ?>" required>
                             </div>
-                            <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" name="country" placeholder="Country of Residence" value="<?php echo htmlspecialchars($affiliate_data['country'] ?? ''); ?>" required>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="address" placeholder="Address" value="<?php echo htmlspecialchars($address); ?>" required>
                             </div>
-                            <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" name="address" placeholder="Address" value="<?php echo htmlspecialchars($affiliate_data['address'] ?? ''); ?>" required>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="bank_name" placeholder="Bank Name" value="<?php echo htmlspecialchars($bank_name); ?>">
                             </div>
-
-                            <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" name="website" placeholder="Website (if any)" value="<?php echo htmlspecialchars($affiliate_data['website'] ?? ''); ?>">
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="bank_accname" placeholder="Bank Account Name" value="<?php echo htmlspecialchars($bank_accname); ?>">
                             </div>
-                            <div class="col-md-6 form-group p_star">
-                                <label>Means of Identification:</label>
-                                <input type="file" class="form-control" name="id_upload">
-                                <small>Current File: <?php echo htmlspecialchars($affiliate_data['id_upload'] ?? 'No file uploaded'); ?></small>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="bank_number" placeholder="Bank Account Number" value="<?php echo htmlspecialchars($bank_number); ?>">
                             </div>
-                            
-                            <h4 class="col-md-12">Where Did You Learn About Our Affiliate Program?</h4>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="facebook" placeholder="Facebook Profile" value="<?php echo htmlspecialchars($facebook); ?>">
+                            </div>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="twitter" placeholder="Twitter Profile" value="<?php echo htmlspecialchars($twitter); ?>">
+                            </div>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="instagram" placeholder="Instagram Profile" value="<?php echo htmlspecialchars($instagram); ?>">
+                            </div>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="linkedln" placeholder="LinkedIn Profile" value="<?php echo htmlspecialchars($linkedln); ?>">
+                            </div>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="kin_name" placeholder="Next of Kin Name" value="<?php echo htmlspecialchars($kin_name); ?>">
+                            </div>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="kin_number" placeholder="Next of Kin Phone" value="<?php echo htmlspecialchars($kin_number); ?>">
+                            </div>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="email" class="form-control" name="kin_email" placeholder="Next of Kin Email" value="<?php echo htmlspecialchars($kin_email); ?>">
+                            </div>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                <input type="text" class="form-control" name="kin_relationship" placeholder="Relationship with Next of Kin" value="<?php echo htmlspecialchars($kin_relationship); ?>">
+                            </div>
+                            <div class="col-md-12 form-group p_star mb-3">
+                                <textarea class="form-control" name="biography" placeholder="Biography"><?php echo htmlspecialchars($biography); ?></textarea>
+                            </div>
                             <div class="col-md-12 form-group">
-                                <select class="form-control" name="referral_source" required>
-                                    <option value="">Select</option>
-                                    <option value="Referral" <?php echo (isset($affiliate_data['referral_source']) && $affiliate_data['referral_source'] == 'Referral') ? 'selected' : ''; ?>>Referral</option>
-                                    <option value="Instagram" <?php echo (isset($affiliate_data['referral_source']) && $affiliate_data['referral_source'] == 'Instagram') ? 'selected' : ''; ?>>Instagram</option>
-                                    <option value="Twitter" <?php echo (isset($affiliate_data['referral_source']) && $affiliate_data['referral_source'] == 'Twitter') ? 'selected' : ''; ?>>Twitter</option>
-                                    <option value="Facebook" <?php echo (isset($affiliate_data['referral_source']) && $affiliate_data['referral_source'] == 'Facebook') ? 'selected' : ''; ?>>Facebook</option>
-                                </select>
-                            </div>
-                            
-                            <div class="col-md-12 form-group">
-                                <input type="checkbox" value="1" id="agree_terms" name="agree_terms" <?php echo (isset($affiliate_data['agree_terms']) && $affiliate_data['agree_terms'] == 1) ? 'checked' : ''; ?> required>
-                                <label for="agree_terms">I agree to the terms and conditions</label>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <button type="submit" value="submit" name="update-affiliate" class="btn_1 w-100">
-                                  Update Profile
-                                </button>
+                                <button type="submit" name="update_profile" class="btn btn-primary w-100">Update Profile</button>
                             </div>
                         </form>
                     </div>
@@ -75,5 +81,3 @@
 </section>
 
 <?php include "footer.php"; ?>
-
-
