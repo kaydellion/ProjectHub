@@ -53,7 +53,7 @@
             $tags = $row['tags'];
             $loyalty = $row['loyalty'];
             $user = $row['display_name'];
-            $user_picture = $row['profile_picture'];
+            $user_picture = $imagePath.$row['profile_picture'];
             $created_date = $row['created_date'];
             $updated_date = $row['updated_date'];
             $status = $row['status'];
@@ -93,7 +93,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         $price = $row['price'];
         $tags = $row['tags'];
         $loyalty = $row['loyalty'];
-        $user = $imagePath.$row['display_name'];
+        $user = $row['display_name'];
         $user_picture = $imagePath.$row['profile_picture'];
         $created_date = $row['created_date'];
         $updated_date = $row['updated_date'];

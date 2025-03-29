@@ -1,43 +1,27 @@
-<?php include "header.php"; 
+<?php include "header.php"; include "product_details.php"; 
 
-if(isset($_GET['id'])){
-    $id = mysqli_real_escape_string($con, $_GET['id']);
-    $sql = "SELECT r.*, l.category_name as category_name, ri.picture , sc.category_name as subcategory_name, u.display_name, u.profile_picture 
-    FROM " . $siteprefix . "reports r 
-    LEFT JOIN ".$siteprefix."categories l ON r.category = l.id 
-    LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
-    LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id 
-    LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id 
-    WHERE r.id = '$id' AND r.status = 'approved' GROUP BY r.id";
-    
-    $sql2 = mysqli_query($con, $sql);
-    if (!$sql2) {die("Query failed: " . mysqli_error($con)); }
-    if (mysqli_num_rows($sql2) == 0) { header("Location: $previousPage"); exit(); }
-    $count = 0;
-    while ($row = mysqli_fetch_array($sql2)) {
-        $report_id = $row['id'];
-        $title = $row['title'];
-        $description = $row['description'];
-        $category = $row['category'];
-        $subcategory = $row['subcategory'];
-        $pricing = $row['pricing'];
-        $price = $row['price'];
-        $tags = $row['tags'];
-        $loyalty = $row['loyalty'];
-        $user = $row['display_name'];
-        $user_picture = $imagePath.$row['profile_picture'];
-        $created_date = $row['created_date'];
-        $updated_date = $row['updated_date'];
-        $status = $row['status'];
-        $image_path = $imagePath.$row['picture'];
-    }
-} else {
-    header("Location: $previousPage");
-}
+//get and decode affliate_id if it exists
+$affliate_id = isset($_GET['affliate']) ? base64_decode($_GET['affliate']) : 0;
 
-$rating_data = calculateRating($report_id, $con, $siteprefix);
-$average_rating = $rating_data['average_rating'];
-$review_count = $rating_data['review_count'];
+// Check if user has purchased THIS product
+$purchase_query = "SELECT * FROM ".$siteprefix."orders o 
+JOIN ".$siteprefix."order_items oi ON o.order_id = oi.order_id 
+WHERE o.user = ? AND oi.report_id = ?";
+$stmt = $con->prepare($purchase_query);
+$stmt->bind_param("ss", $user_id, $report_id);
+$stmt->execute();
+$purchase_result = $stmt->get_result();
+$user_purchased = $purchase_result->num_rows > 0;
+
+
+// Check if user already left a review
+$existing_review_query = "SELECT * FROM ".$siteprefix."reviews WHERE user = ? AND report_id = ?";
+$stmt = $con->prepare($existing_review_query);
+$stmt->bind_param("si", $user_id, $report_id);
+$stmt->execute();
+$existing_review_result = $stmt->get_result();
+$user_review = $existing_review_result->fetch_assoc();
+
 ?>
 
 
@@ -70,7 +54,7 @@ $review_count = $rating_data['review_count'];
             <h1 class="h2 mb-3"><?php echo $title; ?></h1>
             <div class="mb-3">
                 <span class="h4 me-2"><?php echo $sitecurrency; echo $price; ?></span><br>
-                <span class="badge text-light bg-danger ms-2">Loyalty Material</span>
+               <?php if($loyalty==1){ ?> <span class="badge text-light bg-danger ms-2">Loyalty Material</span> <?php } ?>
             </div>
 
             <div class="mb-1">
@@ -92,7 +76,17 @@ $review_count = $rating_data['review_count'];
                 </div>
             </div>
 
-            <div><?php echo $description; ?></div>
+     <div>
+        <div class="description-container">
+            <!-- Hidden full description -->
+            <div class="full-description" style="display: none;">
+             <?php echo $description; ?>
+            </div>
+            <!-- Visible preview -->
+            <div class="preview-description"></div>
+            <span class="read-more-btn">Read More</span>
+        </div>
+    </div>
 
             <!-- Color Selection -->
             <form method="post">
@@ -118,9 +112,10 @@ while ($row = mysqli_fetch_array($sql2)) {
             <!-- Actions -->
             <div class="d-grid gap-2">
                 <input type="hidden" name="report_id"  id="current_report_id" value="<?php echo $report_id;?>">
+                <input type="hidden" name="affliate_id" id="affliate_id" value="<?php echo $affliate_id;?>">
                 <button class="btn btn-primary" type="button" data-report="<?php echo $report_id;?>" name="add" id="addCart">Add to Cart</button>
                 </form>
-                <button class="btn btn-outline-secondary" type="button"> <i class="far fa-heart me-2"></i>Add to Wishlist </button>
+                <button class="btn <?php echo $initialbtn; ?> addtowishlist" type="button" data-product-id="<?php echo $report_id; ?>"><i class="far fa-heart me-2"></i><?php echo $initialtext; ?></button>
             </div>
 
             <!-- Additional Info -->
@@ -134,9 +129,60 @@ while ($row = mysqli_fetch_array($sql2)) {
     </div>
 </div>
 
-<!-- Reviews -->
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Content Preview</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Table of Contents</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Reviews</button>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"><!--preview -->
+  <?php echo $preview; ?></div>
+
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"><!--table-->
+  <?php echo $table_content; ?></div>
+
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+    <!-- Reviews -->
 <div class="container py-5">
     <h2 class="h4 mb-4">Reviews</h2>
+
+    <!-- Allow user to leave a review if they purchased the product -->
+    <?php if ($user_purchased) { ?>
+        <div class="card p-3 mb-4">
+            <h5 class="mb-3"><?php echo $user_review ? "Edit Your Review" : "Leave a Review"; ?></h5>
+            <form action="" method="post">
+                <input type="hidden" name="report_id" value="<?php echo $report_id; ?>">
+                <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rating</label>
+                    <select class="form-select" name="rating" required>
+                        <option value="5" <?php if ($user_review && $user_review['rating'] == 5) echo "selected"; ?>>⭐️⭐️⭐️⭐️⭐️</option>
+                        <option value="4" <?php if ($user_review && $user_review['rating'] == 4) echo "selected"; ?>>⭐️⭐️⭐️⭐️</option>
+                        <option value="3" <?php if ($user_review && $user_review['rating'] == 3) echo "selected"; ?>>⭐️⭐️⭐️</option>
+                        <option value="2" <?php if ($user_review && $user_review['rating'] == 2) echo "selected"; ?>>⭐️⭐️</option>
+                        <option value="1" <?php if ($user_review && $user_review['rating'] == 1) echo "selected"; ?>>⭐️</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="review" class="form-label">Your Review</label>
+                    <textarea class="form-control" name="review" rows="3" required><?php echo $user_review ? htmlspecialchars($user_review['review']) : ''; ?></textarea>
+                </div>
+
+                <button type="submit" name="submit-review" value="review" class="btn btn-primary"><?php echo $user_review ? "Update Review" : "Submit Review"; ?></button>
+            </form>
+        </div>
+    <?php } ?>
+
     <div class="row">
     <div class="mt-3 mb-3">
                   <?php
@@ -149,7 +195,7 @@ while ($row = mysqli_fetch_array($sql2)) {
                       while ($review = mysqli_fetch_assoc($review_result)) {
                         echo '<div class="mb-3">';
                         echo '<div class="d-flex align-items-center">';
-                        echo '<strong>' . htmlspecialchars($review['name']) . '</strong>';
+                        echo '<strong>' . htmlspecialchars($review['display_name']) . '</strong>';
                         echo '<div class="ms-3">';
                         for ($i = 1; $i <= $review['rating']; $i++) {
                           echo '<i class="bi bi-star-fill text-warning"></i>';
@@ -161,8 +207,13 @@ while ($row = mysqli_fetch_array($sql2)) {
                       }
                       ?>
                   </div>
-    </div>
 </div>
+</div></div>
+</div>
+</div>
+
+
+
 
 
 <!-- Related Products -->
@@ -177,10 +228,21 @@ $sql2 = mysqli_query($con, $sql);
 if (!$sql2) {die("Query failed: " . mysqli_error($con)); }
 if (mysqli_num_rows($sql2) > 0) {
 while ($row = mysqli_fetch_array($sql2)) {
-    $related_report_id = $row['id'];
-    $related_title = $row['title'];
-    $related_price = $row['price'];
-    $related_image_path = $imagePath.$row['picture'];
+    $report_id = $row['id'];
+    $title = $row['title'];
+    $description = $row['description'];
+    $category = $row['category'];
+    $subcategory = $row['subcategory'];
+    $pricing = $row['pricing'];
+    $price = $row['price'];
+    $tags = $row['tags'];
+    $loyalty = $row['loyalty'];
+    $user = $row['display_name'];
+    $user_picture = $imagePath.$row['profile_picture'];
+    $created_date = $row['created_date'];
+    $updated_date = $row['updated_date'];
+    $status = $row['status'];
+    $image_path = $imagePath.$row['picture'];
 
     include "product-card.php";
 }} else {

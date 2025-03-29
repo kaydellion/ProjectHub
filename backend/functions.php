@@ -198,6 +198,61 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
    }
 }
 
+function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachments = []) {
+    global $siteimg, $adminlink, $siteurl;
+
+    $email_from = $siteMail;
+    $email_to = $vendorEmail;
+    $email_subject = "$emailSubject - $siteName";
+
+    // Generate a unique boundary
+    $boundary = md5(time());
+
+    // Email headers
+    $header = "From: \"$siteName\" <$siteMail>\r\n";
+    $header .= "Cc: $siteMail\r\n";
+    $header .= "Reply-To: $siteMail\r\n";
+    $header .= "MIME-Version: 1.0\r\n";
+    $header .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
+
+    // HTML email message
+    $email_body = "--$boundary\r\n";
+    $email_body .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $email_body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+    $email_body .= "<div style='width:600px; padding:40px; background-color:#000080; color:#fff;'>
+                        <p><img src='https://$adminlink/images/$siteimg' style='width:10%; height:auto;' /></p>
+                        <p style='font-size:14px; color:#fff;'>
+                            <span style='font-size:14px; color:#89CFF0;'>Hello, $vendorName,</span><br>
+                            $emailMessage
+                        </p>
+                        <p><a href='$siteurl' style='font-size:14px; font-weight:600; color:#89CFF0;'>VISIT THE WEBSITE</a></p>
+                    </div>\r\n";
+
+    // Attach files
+    foreach ($attachments as $file) {
+        if (file_exists($file)) {
+            $filename = basename($file);
+            $filedata = chunk_split(base64_encode(file_get_contents($file)));
+
+            $email_body .= "--$boundary\r\n";
+            $email_body .= "Content-Type: application/octet-stream; name=\"$filename\"\r\n";
+            $email_body .= "Content-Transfer-Encoding: base64\r\n";
+            $email_body .= "Content-Disposition: attachment; filename=\"$filename\"\r\n\r\n";
+            $email_body .= "$filedata\r\n";
+        }
+    }
+
+    // Final boundary
+    $email_body .= "--$boundary--";
+
+    // Send email
+    if (@mail($email_to, $email_subject, $email_body, $header)) {
+        return true; // Success
+    } else {
+        return false; // Failed
+    }
+}
+
 
 function showToast($message) {
     echo '<div id="toast-wrapper" class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>';
@@ -494,5 +549,13 @@ function showErrorModal($statusAction, $statusMessage) {
     echo '});';
     echo '</script>';
 }
+
+
+function insertWithdraw($con, $user_id, $amount,$bank, $bankname, $bankno, $date, $status) {
+$query = "INSERT INTO pr_withdrawal (user,amount,bank,bank_name,bank_number, date, status) VALUES ('$user_id', '$amount', '$bank','$bankname','$bankno','$date', '$status')";
+$insert = mysqli_query($con, "UPDATE pr_users SET wallet = CAST(wallet AS DECIMAL(10,2)) - CAST('$amount' AS DECIMAL(10,2)) WHERE s='$user_id'") or die('Could not connect: ' . mysqli_error($con));
+    $submit = mysqli_query($con, $query);
+    if ($submit) { echo "";} 
+    else { die('Could not connect: ' . mysqli_error($con)); }}
 
 ?>

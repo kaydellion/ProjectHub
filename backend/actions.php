@@ -25,6 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $reportId = $_POST['id'];
     $title = $_POST['title'];
     $description = mysqli_real_escape_string($con, $_POST['description']);
+    $preview = mysqli_real_escape_string($con, $_POST['preview']);
+    $tableContent = mysqli_real_escape_string($con, $_POST['tableContent']);
     $category = $_POST['category'];
     $subcategory = isset($_POST['subcategory']) ? $_POST['subcategory'] : null;
     $pricing = $_POST['pricing'];
@@ -91,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
         }
     }
     // Insert data into the database
-    $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) VALUES (NULL, '$reportId', '$title', '$description', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
+    $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, preview, table_content, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) VALUES (NULL, '$reportId', '$title', '$description', '$preview','$tableContent','$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
     if (mysqli_query($con, $sql)) {
         $message .= "Report added successfully!";
     } else {
@@ -590,4 +592,70 @@ if (isset($_POST['create_dispute'])){
         }
     }
 
+//withdrawwallet
+if (isset($_POST['withdraw'])){
+$date=$currentdatetime;
+$bank=$_POST['bank'];
+$bankname=$_POST['bankname'];
+$bankno=$_POST['bankno'];
+$amount=$_POST['amount'];
+$status="pending";
+
+
+insertWithdraw($con, $user_id, $amount,$bank, $bankname, $bankno, $date, $status);
+$emailSubject="Withdrawal Request - Recieved";
+$emailMessage="<p>We have successfully received your withdrawal request of ₦$amount. Your request is now being processed and will be completed within the next 24 hours.";
+$emailMessage_admin="<p>A new withdrawal request has been recieved for ₦$amount. Please login into your dashboard to process it</p>";
+$adminmessage = "New Withdrawal Request - &#8358;$amount";
+$link="withdrawals.php";
+$msgtype='New Withdrawal';
+$message_status=1;
+insertadminAlert($con, $adminmessage, $link, $date, $msgtype, $message_status); 
+//sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
+//sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject);
+    
+   
+$statusAction="Successful";
+$statusMessage="Withdrawal Request Sent Sucessfully!";
+showSuccessModal($statusAction,$statusMessage);
+header("Refresh: 4; url=wallet.php");
+}
+
+
+//add review
+if (isset($_POST['submit-review'])) {
+    $user_id = $_POST['user_id'];
+    $report_id = $_POST['report_id'];
+    $rating = $_POST['rating'];
+    $review = trim($_POST['review']);
+
+    // Check if user already has a review
+    $check_query = "SELECT * FROM ".$siteprefix."reviews WHERE user = ? AND report_id = ?";
+    $stmt = $con->prepare($check_query);
+    $stmt->bind_param("si", $user_id, $report_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // Update existing review
+        $update_query = "UPDATE ".$siteprefix."reviews SET rating = ?, review = ?, date = NOW() WHERE user = ? AND report_id = ?";
+        $stmt = $con->prepare($update_query);
+        $stmt->bind_param("issi", $rating, $review, $user_id, $report_id);
+    } else {
+        // Insert new review
+        $insert_query = "INSERT INTO ".$siteprefix."reviews (report_id, user, rating, review, date) VALUES (?, ?, ?, ?, NOW())";
+        $stmt = $con->prepare($insert_query);
+        $stmt->bind_param("isis", $report_id, $user_id, $rating, $review);
+    }
+
+    if ($stmt->execute()) {
+        $statusAction="Successful";
+        $statusMessage="Your review has been submitted successfully!";
+        showSuccessModal($statusAction,$statusMessage);
+    } else {
+        $statusAction="Error";
+        $statusMessage="An error occurred while submitting your review. Please try again.";
+        showSuccessModal($statusAction,$statusMessage);
+    }
+}
 ?>

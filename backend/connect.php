@@ -27,11 +27,13 @@ $sitename = $row["site_name"];
 $siteimg= $row["site_logo"];
 $siteurl= $row["site_url"];
 $escrowfee= $row["commision_fee"];
-$productcommision= $row["product_fee"];
-$refamount= $row["referal_amount"];
+$affliate_percentage= $row["affliate_percentage"];
 $sitedescription= $row["site_description"];
 $sitekeywords= $row["site_keywords"];} 
-$adminlink=$siteurl.'/admin';
+$adminlink='admin'.$siteurl;
+
+$siteName=$sitename;
+$siteMail=$sitemail;
 
 
 include "functions.php"; 

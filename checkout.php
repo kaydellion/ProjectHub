@@ -8,17 +8,19 @@
         <div class="row">
           <div class="col-lg-8">
             <h3>Billing Details</h3>
-            <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+            <form class="row contact_form" id="paymentForm" novalidate="novalidate">
               <div class="col-md-6 form-group p_star">
-                <input type="text" class="form-control" placeholder="Name" id="first" value="<?php echo $username;?>" name="name" />
+                <input type="text" class="form-control" placeholder="Name" id="first-name" value="<?php echo $username;?>" name="name" />
               </div>
               <div class="col-md-6 form-group p_star">
-                <input type="text" class="form-control" placeholder="Phone number" id="number" value="<?php echo $mobile_number;?>" name="number" />
+                <input type="text" class="form-control" placeholder="Phone number" id="mobile-number" value="<?php echo $mobile_number;?>" name="number" />
               </div>
               <div class="col-md-12 form-group p_star">
-                <input type="text" class="form-control" placeholder="Email Address" value="<?php echo $email;?>" id="email" name="compemailany" />
+                <input type="text" class="form-control" placeholder="Email Address" value="<?php echo $email;?>" id="email-address" name="compemailany" />
               </div>
-            </form>
+              <input type="hidden" id="amount" value="<?php echo $order_total; ?>"/>
+              <input type="hidden" id="ref"   value="<?php echo  $order_id; ?>  "  />
+              <input type="hidden" id="refer" value="<?php echo $siteurl; ?>/pay_success.php?ref=<?php echo $order_id; ?> " />
           </div>
           <div class="col-lg-4">
             <div class="order_box">
@@ -71,7 +73,7 @@
                 <a href="terms.php">terms & conditions*</a>
               </div>
               <?php if ($order_total > 0) { ?>
-                <a class="btn_1 w-100 text-center" href="#">Proceed to Payment</a>
+                <button class="btn_1 w-100 text-center" href="#" onClick="payWithPaystack()">Proceed to Payment</button></form>
               <?php } else {  displayMessage('<a href="marketplace.php">Shop More </a>'); } ?>
             </div>
           </div>
@@ -80,9 +82,6 @@
     </div>
   </section>
   <!--================End Checkout Area =================-->
-
-
-
 
 
 
