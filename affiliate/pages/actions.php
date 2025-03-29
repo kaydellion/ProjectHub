@@ -36,9 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_affiliate_list'
 
   
     // Generate affiliate link
-    $base_url = "http://text/project_hub/ProjectHub/product.php";
-    $affiliate_link = $base_url . "?id=" . urlencode($product_id) . "&ref=" . urlencode($affliate_id);
-    // Add product to affiliate's list
+    $base_url = $siteurl;
+    $affiliate_link = urlencode($base_url . "?id=" . urlencode($product_id) . "&ref=" . urlencode($affliate_id));
+     // Add product to affiliate's list
     $insert_query = "INSERT INTO " . $siteprefix . "affiliate_products (user_id, product_id, affiliate_link,affiliate_id) 
                      VALUES ('$user_id', '$product_id', '$affiliate_link','$affliate_id')";
     if (mysqli_query($con, $insert_query)) {
