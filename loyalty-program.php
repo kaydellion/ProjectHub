@@ -1,10 +1,15 @@
-<?php include "header.php"; ?>
+<?php include "header.php";
+checkActiveLog($active_log);
+?>
 
  <div class="container mt-5">
         <div class="row">
         <div class="col-lg-12">
         <h3>LOYALTY PROGRAM.</h3>
-        <p>Our subscription program offers a cost-effective and convenient way to access project reports, insights, and exclusive discounts.</p>
+        <p>Our subscription program offers a cost-effective and convenient way for users to access a repository of reports and insights without the hassle of individual purchases. 
+        This model ensures continuous access to the latest information, empowering users to make timely and well-informed choices.Buyers on our platform can subscribe to any of the 
+        plans below and enjoy massive discounts our reports, services and trainings.</p>
+            
 </div>
 </div>
        

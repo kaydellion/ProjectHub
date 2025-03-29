@@ -53,6 +53,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_affiliate_list'
     }
 }
 
+
+
+//withdrawwallet
+if (isset($_POST['withdraw'])){
+    $date=$currentdatetime;
+    $bank=$_POST['bank'];
+    $bankname=$_POST['bankname'];
+    $bankno=$_POST['bankno'];
+    $amount=$_POST['amount'];
+    $status="pending";
+    
+    
+    insertWithdraw($con, $user_id, $amount,$bank, $bankname, $bankno, $date, $status);
+    $emailSubject="Withdrawal Request - Recieved";
+    $emailMessage="<p>We have successfully received your withdrawal request of ₦$amount. Your request is now being processed and will be completed within the next 24 hours.";
+    $emailMessage_admin="<p>A new withdrawal request has been recieved for ₦$amount. Please login into your dashboard to process it</p>";
+    $adminmessage = "New Withdrawal Request - &#8358;$amount";
+    $link="withdrawals.php";
+    $msgtype='New Withdrawal';
+    $message_status=1;
+    insertadminAlert($con, $adminmessage, $link, $date, $msgtype, $message_status); 
+    //sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
+    //sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject);
+        
+       
+    $statusAction="Successful";
+    $statusMessage="Withdrawal Request Sent Sucessfully!";
+    showSuccessModal($statusAction,$statusMessage);
+    header("Refresh: 4; url=wallet.php");
+    }
+    
 ?>
 
 

@@ -1,7 +1,7 @@
 <div class="col-md-4 mb-4">
     <div class="plan-card shadow-lg border-0 text-center">
         <div class="plan-card-body">
-            <img src="<?= $image_path ?>" alt="<?= $name ?>" class="img-fluid rounded">
+            <img src="<?= $image_path ?>" alt="<?= $name ?>" class="plan-card-img">
             <h5 class="plan-card-title"><?= $name ?></h5>
             <p class="plan-card-text"><?= $description ?></p>
             <h4 class="plan-card-price">₦<?= number_format($price) ?></h4>
@@ -23,7 +23,7 @@
                     <strong>Benefits:</strong>
                     <ul class="list-unstyled mb-0">
                         <?php foreach ($benefits as $benefit): ?>
-                            <li>✅<?= trim($benefit) ?></li>
+                            <li>✅ <?= trim($benefit) ?></li>
                         <?php endforeach; ?>
                     </ul>
                 </li>

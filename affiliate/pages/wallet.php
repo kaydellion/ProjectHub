@@ -147,7 +147,7 @@ echo' <tr>
         <p><b>Amount Available for withdrawal:  <span class="text-primary">&#8358;<?php echo $wallet; ?></span></b></p>
         <form method="post" action="" onsubmit="return confirm('Proceed with withdrawal?');"  >
         <?php  $disable=""; if($bank_name=="" || $bank_accname=="" || $bank_number==""){ $disable="disabled"; ?>
-        <p class="text-danger"><a href="payment.php" class="btn btn-danger">Update Payment Details</a><br>
+        <p class="text-danger"><a href="settings.php" class="btn btn-danger">Update Payment Details</a><br>
         <i>This is a required detail to be eligible to withdraw</i></p>
         <?php } else{ ?>
        <p>Your Bank Details</p>
