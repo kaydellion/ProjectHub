@@ -59,7 +59,9 @@ if ($result) {
         </div>
     </div>
 </div>
-<script src="https://js.paystack.co/v1/inline.js"></script>
+
+
+<?php include "footer.php"; ?>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("payButton").addEventListener("click", function() {
@@ -95,5 +97,3 @@ if ($result) {
         });
     });
 </script>
-
-<?php include "footer.php"; ?>

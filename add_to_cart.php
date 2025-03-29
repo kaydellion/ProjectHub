@@ -63,7 +63,7 @@ $affliate = $_POST['affliateId'];
 
 
     // Insert order item
-    $sql = "INSERT INTO pr_order_items (report_id, item_id, price,original_price,loyalty_id,affliate_id,order_id, date) 
+    $sql = "INSERT INTO pr_order_items (report_id, item_id, price,original_price,loyalty_id,affiliate_id,order_id, date) 
             VALUES ('$report_id', '$file_id', $price, $original_price, $loyalty, '$affliate', '$order_id', CURRENT_TIMESTAMP)";
     $con->query($sql);
 

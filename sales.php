@@ -1,7 +1,7 @@
 <?php include "header.php";
 
 // Fetch sales where the report belongs to the seller
-$sql = "SELECT oi.order_id, o.date, oi.price
+$sql = "SELECT oi.order_id, o.date, oi.price, r.title, p.title AS file_type
         FROM ".$siteprefix."order_items oi
         JOIN ".$siteprefix."orders o ON oi.order_id = o.order_id
         JOIN  ".$siteprefix."reports_files p ON oi.item_id = p.id
@@ -11,7 +11,7 @@ $sql = "SELECT oi.order_id, o.date, oi.price
         ORDER BY o.date DESC";
         
 $stmt = $con->prepare($sql);
-$stmt->bind_param("s", $seller_id);
+$stmt->bind_param("s", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -29,6 +29,7 @@ $result = $stmt->get_result();
                         <th>Order ID</th>
                         <th>Date</th>
                         <th>Amount</th>
+                        <th>File</th>
                         <th>File Type</th>
                     </tr>
                 </thead>
@@ -36,8 +37,9 @@ $result = $stmt->get_result();
                     <?php while ($row = $result->fetch_assoc()) { ?>
                         <tr>
                             <td>#<?php echo $row['order_id']; ?></td>
-                            <td><?php echo formatDateTime2($row['date']); ?></td>
-                            <td>₦<?php echo number_format($row['price'], 2); ?></td>
+                            <td><?php echo formatDateTime($row['date']); ?></td>
+                            <td><?php echo $sitecurrency;echo number_format($row['price'], 2); ?></td>
+                            <td><?php echo $row['title']; ?> </td>
                             <td><?php echo getFileExtension($row['file_type']); ?></td>
                         </tr>
                     <?php } ?>

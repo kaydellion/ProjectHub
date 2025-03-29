@@ -266,8 +266,8 @@ include "actions.php"; ?>
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block"><?php echo $name; ?></span>
-                            <small class="text-muted"><?php echo $name; ?></small>
+                            <span class="fw-semibold d-block"><?php echo $display_name; ?></span>
+                            <small class="text-muted"><?php echo $display_name; ?></small>
                           </div>
                         </div>
                       </a>
