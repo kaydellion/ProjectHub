@@ -56,8 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_affiliate_list'
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
-
-    // Sanitize and validate input data
+  
+    // Sanitize and validate input
     $user_id = $_POST['user_id'];
     $first_name = mysqli_real_escape_string($con, $_POST['first_name']);
     $middle_name = mysqli_real_escape_string($con, $_POST['middle_name']);
