@@ -23,7 +23,7 @@
                     <strong>Benefits:</strong>
                     <ul class="list-unstyled mb-0">
                         <?php foreach ($benefits as $benefit): ?>
-                            <li>✅ <?= trim($benefit) ?></li>
+                            <li>✅<?= trim($benefit) ?></li>
                         <?php endforeach; ?>
                     </ul>
                 </li>
@@ -41,7 +41,7 @@ $user_has_active_plan = mysqli_num_rows($subscription_result) > 0;
           
                 <?php if ($active_log == 1): ?>
                 <?php if ($user_has_active_plan): ?>
-                    <a href="loyalty-status.php" class="btn btn-secondary">Manage Subscription</a>
+                    <a href="loyalty-status.php" class="btn btn-primary">Manage Subscription</a>
                 <?php else: ?>
                     <button class="btn btn-primary" onclick="payWithPaystack(<?= $plan_id ?>, <?= $price ?>, '<?= $name ?>', <?= $user_id ?>)">Subscribe</button>
                 <?php endif; ?>

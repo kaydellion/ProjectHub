@@ -1,11 +1,6 @@
 <?php
 include "header.php";
-
-if (!isset($_COOKIE['userID'])) {
-    die("You must be logged in to view this page.");
-}
-
-$user_id = $_COOKIE['userID']; // Retrieve the logged-in user's ID
+checkActiveLog($active_log);
 
 // Fetch current loyalty status
 $query = "SELECT ".$siteprefix."loyalty_purchases.*, ".$siteprefix."subscription_plans.name AS plan_name, ".$siteprefix."subscription_plans.price AS plan_price  
@@ -14,7 +9,6 @@ $query = "SELECT ".$siteprefix."loyalty_purchases.*, ".$siteprefix."subscription
           ON ".$siteprefix."loyalty_purchases.loyalty_id = ".$siteprefix."subscription_plans.s 
           WHERE ".$siteprefix."loyalty_purchases.user_id = '$user_id' 
           ORDER BY ".$siteprefix."loyalty_purchases.end_date DESC";
-
 $result = mysqli_query($con, $query);
 ?>
 

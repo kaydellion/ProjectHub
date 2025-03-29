@@ -37,7 +37,7 @@
                             <img src="<?php echo htmlspecialchars($picture); ?>"  alt="<?php echo htmlspecialchars($item['report_title']); ?>" class="img-fluid img-small rounded">
                         </div>
                         <div class="col-md-5">
-                            <h5 class="card-title"><?php echo htmlspecialchars($item['report_title']); ?></h5>
+                            <a href="product.php?id=<?php echo $item['report_id']; ?>"><h5 class="card-title"><?php echo htmlspecialchars($item['report_title']); ?></h5></a>
                             <p class="text-muted">Type: <?php echo htmlspecialchars(getFileExtension($item['file'])); ?></p>
                         </div>
                         <div class="col-md-2">

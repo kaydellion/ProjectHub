@@ -401,6 +401,7 @@ $(document).ready(function(){
       var report_id = $('#current_report_id').val();
       var user_id = $('#user_id').val();
       var order_id = $('#order_id').val();
+      var affliate_id = $('#affliate_id').val();
       if(!fileId) {
           alert('Please select a file format');
           return;
@@ -412,6 +413,7 @@ $(document).ready(function(){
               reportId: report_id,
               userId: user_id,
               orderId: order_id,
+              affliateId: affliate_id,
               file_id: fileId
           },
           success: function(response){
@@ -720,7 +722,125 @@ $j(document).ready(function() {
 });
 
 
+//add to wishlist
+$(document).ready(function() {
+  $('.add-to-wishlist').click(function(e) {
+      e.preventDefault();
 
+      var button = $(this);
+      var productId = button.data('product-id');
+      var userId = $('#user_id').val(); // Get the user ID from the hidden input
+
+      // Redirect if the user is not logged in
+      if (!userId) {
+          window.location.href = '/signin'; // Replace with your login page URL
+          return; // Stop further execution
+      }
+      $.ajax({
+          url: '../project/addwishlist.php', // Replace with your server URL
+          type: 'POST',
+          data: {
+              productId: productId,
+              user: userId, // Send the user ID with the request
+          },
+          success: function(response) {
+              // Handle response from the server (added or removed)
+              if (response.trim() === 'success') {
+                  button.addClass('added'); // Change to "added" state (e.g., filled heart)
+                  showToast('Item added to wishlist');
+              } else if (response.trim() === 'removed') {
+                  button.removeClass('added'); // Change to "removed" state (e.g., unfilled heart)
+                  showToast('Item removed from wishlist');
+              } else if (response.trim() === 'redirect') {
+                  window.location.href = '/signin'; // Redirect to login if required
+              } else {
+                  //alert('Failed to update wishlist: ' + response);
+                  showToast('Failed to update wishlist');
+              }
+          },
+          error: function(xhr, status, error) {
+              console.log(xhr.responseText);
+              alert('An error occurred. Please try again.');
+          }
+      });
+  });
+});
+
+$(document).ready(function () {
+  $('.addtowishlist').click(function (e) {
+      e.preventDefault();
+
+      var button = $(this);
+      var productId = button.data('product-id');
+      var userId = $('#user_id').val(); // Get the user ID from hidden input
+
+      // Redirect if the user is not logged in
+      if (!userId) {
+          window.location.href = '/signin'; // Redirect to login page
+          return; // Stop further execution
+      }
+
+      $.ajax({
+          url: '../project/addwishlist.php', // Replace with your server URL
+          type: 'POST',
+          data: {
+              productId: productId,
+              user: userId, // Send the user ID with the request
+          },
+          success: function (response) {
+              // Handle response from server
+              if (response.trim() === 'success') {
+                  button.text('Remove from Wishlist') // Change button text
+                        .removeClass('btn-outline-secondary') // Remove outline style
+                        .addClass('btn-primary'); // Add primary style
+                  showToast('Item added to wishlist');
+              } else if (response.trim() === 'removed') {
+                  button.text('Add to Wishlist') // Change button text back
+                        .removeClass('btn-primary') // Remove primary style
+                        .addClass('btn-outline-secondary'); // Add outline style
+                  showToast('Item removed from wishlist');
+              } else if (response.trim() === 'redirect') {
+                  window.location.href = '/signin'; // Redirect if required
+              } else {
+                  showToast('Failed to update wishlist');
+              }
+          },
+          error: function (xhr, status, error) {
+              console.log(xhr.responseText);
+              alert('An error occurred. Please try again.');
+          }
+      });
+  });
+});
+
+
+//function for read more or see less
+$(document).ready(function () {
+  $(".description-container").each(function () {
+      let fullDesc = $(this).find(".full-description").html(); // Get full content
+      let previewLength = 100; // Adjust preview length
+      let tempDiv = $("<div>").html(fullDesc); // Preserve HTML
+      
+      let previewText = tempDiv.text().substring(0, previewLength) + "..."; // Extract text only
+
+      $(this).find(".preview-description").html(previewText); // Set preview
+      
+      $(this).find(".read-more-btn").click(function () {
+          let preview = $(this).siblings(".preview-description");
+          let fullContent = $(this).siblings(".full-description");
+
+          if (preview.is(":visible")) {
+              preview.hide();
+              fullContent.show();
+              $(this).text("See Less");
+          } else {
+              preview.show();
+              fullContent.hide();
+              $(this).text("Read More");
+          }
+      });
+  });
+});
 
 }(jQuery));
 

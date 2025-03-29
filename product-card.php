@@ -1,7 +1,17 @@
+<?php
+
+         //check if its in wishlist
+        $theinitialicon="";
+        $checkEmail = mysqli_query($con, "SELECT * FROM ".$siteprefix."wishlist WHERE user='$user_id' AND product='$report_id'");
+        if(mysqli_num_rows($checkEmail) >= 1 ) {
+        $theinitialicon="added";}?>
+
+
+
 <div class="col-lg-3 col-6 product <?php echo removeAllWhitespace($subcategory); ?>">
                     <div class="single_product_item">
                     <div class="single_product_img" style="background: url('<?php echo $image_path; ?>')">
-                    <div class="wishlist_icon"><a href="#"><i class="ti-heart"></i></a></div>
+                    <div class="wishlist_icon"><a class="add-to-wishlist <?php echo $theinitialicon; ?>" data-product-id="<?php echo $report_id; ?>"><i class="ti-heart"></i></a></div>
                             </div>
                             <div class="single_product_text">
                             <a href="product.php?id=<?php echo $report_id; ?>"><h4><?php echo $title; ?></h4></a>

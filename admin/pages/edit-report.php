@@ -21,6 +21,8 @@ if ($row) {
     $report_id = $row['id'];
     $title = $row['title'];
     $description = $row['description'];
+    $preview = $row['preview'];
+    $table_content = $row['table_content'];
     $category = $row['category'];
     $subcategory = $row['subcategory'];
     $pricing = $row['pricing'];
@@ -82,6 +84,16 @@ if ($row) {
                         <label class="form-label" for="basic-default-message">Description</label>
                         <textarea id="basic-default-message" name="description" class="form-control editor"><?php echo $description; ?></textarea>
                     </div>
+                    <div class="mb-3">
+                          <label class="form-label" for="basic-default-message">Preview Content</label>
+                          <textarea id="basic-default-message" name="preview" class="form-control editor" placeholder="This course is a course for ..."><?php echo $preview; ?></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-message">Table of Contents</label>
+                          <textarea id="basic-default-message" name="table_content" class="form-control editor" placeholder="This course is a course for ..."><?php echo $table_content; ?></textarea>
+                        </div>
+
                     <h6>Field Of Study: Select the industry or field where this template/model is most applicable</h6>
                     <div class="mb-3">
                         <select class="form-select" name="category" aria-label="Default select example" required>

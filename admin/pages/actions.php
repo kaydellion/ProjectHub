@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $reportId = $_POST['id'];
     $title = $_POST['title'];
     $description = mysqli_real_escape_string($con, $_POST['description']);
+    $preview = mysqli_real_escape_string($con, $_POST['preview']);
+    $tableContent = mysqli_real_escape_string($con, $_POST['tableContent']);
     $category = $_POST['category'];
     $subcategory = isset($_POST['subcategory']) ? $_POST['subcategory'] : null;
     $pricing = $_POST['pricing'];
@@ -86,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
 
   
     // Insert data into the database
-    $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) VALUES (NULL, '$reportId', '$title', '$description', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
+    $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, preview, table_content, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) VALUES (NULL, '$reportId', '$title', '$description','$preview','$tableContent','$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
     if (mysqli_query($con, $sql)) {
         $message .= "Report added successfully!";
     } else {

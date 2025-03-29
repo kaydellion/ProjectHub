@@ -165,9 +165,8 @@ include "backend/actions.php";
                                    Client Portal
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="product_list.php">My Purchases</a>
-                                        <a class="dropdown-item" href="#">Order History</a>
-                                        <a class="dropdown-item" href="#">Notifications</a>
+                                        <a class="dropdown-item" href="my_orders.php">My Purchases</a>
+                                        <a class="dropdown-item" href="wallet.php">My Wallet</a>
                                     </div>
                                 </li>
                                <?php if($seller==1){ ?>
@@ -178,10 +177,9 @@ include "backend/actions.php";
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
                                         <a class="dropdown-item" href="models.php">Manage Models</a>
-                                        <a class="dropdown-item" href="">Sales Analytics</a>
-                                        <a class="dropdown-item" href="#">Revenue Management</a>
-                                        <a class="dropdown-item" href="#">Customer Feedback</a>
-                                        <a class="dropdown-item" href="#">Marketing Tools</a>
+                                        <a class="dropdown-item" href="sales.php">Sales Analytics</a>
+                                        <a class="dropdown-item" href="wallet.php">Revenue Management</a>
+                                        <a class="dropdown-item" href="reviews.php">Customer Feedback</a>
                                     </div>
                                 </li>
                                 <?php }} ?>
@@ -196,15 +194,12 @@ include "backend/actions.php";
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                                          <a class="dropdown-item" href="tickets.php">Support Tickets</a>
-                                        <a class="dropdown-item" href="blog.php">Contact Us</a>
-                                        <a class="dropdown-item" href="single-blog.php">FAQ</a>
+                                        <a class="dropdown-item" href="contact.php">Contact Us</a>
+                                        <a class="dropdown-item" href="faq.php">FAQ</a>
                                         <a class="dropdown-item" href="loyalty-program.php">Loyalty System</a>
                                     </div>
                                 </li>
                                 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="contact.php">Contact</a>
-                                </li>
                             </ul>
                         </div>
                         <div class="hearer_icon d-flex align-items-center">
@@ -230,6 +225,7 @@ include "backend/actions.php";
                                 <?php if($active_log==1){ ?>
                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="dashboard.php">My Account</a>
+                                    <a class="dropdown-item" href="notifications.php">Notifications</a>
                                     <a class="dropdown-item" href="logout.php">Logout</a>
                                 </div>
                                 <?php }else{ ?>
@@ -257,4 +253,4 @@ include "backend/actions.php";
     <!-- Header part end-->
 
     <input type="hidden" id="order_id" value="<?php echo $order_id; ?>">
-    <input type="hidden" id="user_id" value="<?php // echo $user_id; ?>">
+    <input type="hidden" id="user_id" value="<?php echo $user_id; ?>">
