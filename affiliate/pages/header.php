@@ -76,7 +76,7 @@ include "actions.php"; ?>
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Affiliate | <?php echo $sitename; ?></title>
+    <title>Affliate Dashboard | <?php echo $sitename; ?></title>
 
     <meta name="description" content="" />
 
@@ -175,15 +175,28 @@ include "actions.php"; ?>
                     <div data-i18n="Without navbar">My Sales</div>
                   </a>
                 </li>
-             
               </ul>
+            </li>
+
+            <li class="menu-item ">
+              <a href="wallet.php" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-wallet"></i>
+                <div data-i18n="Analytics">Wallet</div>
+              </a>
+            </li>
+
+            <li class="menu-item">
+              <a href="withdrawhistory.php" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-book"></i>
+                <div data-i18n="Analytics">Withdrawals</div>
+              </a>
             </li>
 
           
 
         
             <!-- Misc -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">ADMIN</span></li>
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">EXTRAS</span></li>
             <li class="menu-item"> <a href="notifications.php" class="menu-link"><i class="menu-icon tf-icons bx bx-bell"></i> <div data-i18n="Spinners">Notifications</div></a></li>
             <li class="menu-item"> <a href="settings.php" class="menu-link"><i class="menu-icon tf-icons bx bx-cog"></i> <div data-i18n="Spinners">Settings</div></a></li>
             <li class="menu-item"> <a href="logout.php" class="menu-link"><i class="menu-icon tf-icons bx bx-log-out"></i> <div data-i18n="Spinners">Log Out</div></a></li>

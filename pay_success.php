@@ -70,6 +70,13 @@ if($affliate_id != 0){
     $amount = $affliate_amount;
     $type = "credit";
     insertWallet($con, $user_id, $amount, $type, $note, $date);
+    
+    //notify affliate
+    $message = "You have earned $sitecurrency $affliate_amount from Order ID: $order_id";
+    $link = "wallet.php";
+    $msgtype = "wallet";
+    $status = 0;
+    insertadminAlert($con, $message, $link, $date, $msgtype, $status);
     }} //end affliate loop
 
     //check each of their files with item_id from report_files and append them to be able to send to mail

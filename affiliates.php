@@ -43,7 +43,7 @@
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                                         <div class="input-group-append">
-                                            <span class="input-group-text" onclick="togglePasswordVisibility('password')">
+                                            <span class="input-group-text p-3" onclick="togglePasswordVisibility('password')">
                                                 <i class="fa fa-eye" id="togglePasswordIcon"></i>
                                             </span>
                                         </div>
@@ -53,13 +53,14 @@
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Retype Password" required>
                                         <div class="input-group-append">
-                                            <span class="input-group-text" onclick="togglePasswordVisibility('retypePassword')">
+                                            <span class="input-group-text p-3" onclick="togglePasswordVisibility('retypePassword')">
                                                 <i class="fa fa-eye" id="toggleRetypePasswordIcon"></i>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                             <div class="col-md-6 form-group p_star mb-3">
+                            <label>Website:</label>
                                 <input type="text" class="form-control" name="website" placeholder="Website (if any)">
                             </div>
                             <div class="col-md-6 form-group p_star mb-3">
@@ -78,7 +79,7 @@
                                 </select>
                             </div>
                             
-                            <div class="col-md-12 form-group mb-3">
+                            <div class="col-md-12 form-group mb-3 m-3">
                                 <input type="checkbox" value="1" id="agree_terms" name="agree_terms" required>
                                 <label for="agree_terms">I agree to the terms and conditions</label>
                             </div>
