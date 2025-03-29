@@ -67,11 +67,11 @@
                   </a>
                 </li>
               </ul>
-              <div class="creat_account">
+              <!---<div class="creat_account">
                 <input type="checkbox" id="f-option4" name="selector" />
                 <label for="f-option4">I’ve read and accept the </label>
                 <a href="terms.php">terms & conditions*</a>
-              </div>
+              </div> -->
               <?php if ($order_total > 0) { ?>
                 <button class="btn_1 w-100 text-center" href="#" onClick="payWithPaystack()">Proceed to Payment</button></form>
               <?php } else {  displayMessage('<a href="marketplace.php">Shop More </a>'); } ?>

@@ -1,10 +1,9 @@
 <?php include "header.php";
 
 
-// Fetch user's orders
-$sql = "SELECT * FROM ".$siteprefix."orders WHERE user = ? AND status = 'paid' ORDER BY date DESC";
+// Fetch all orders
+$sql = "SELECT * FROM ".$siteprefix."orders WHERE status = 'paid' ORDER BY date DESC";
 $stmt = $con->prepare($sql);
-$stmt->bind_param("s", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 

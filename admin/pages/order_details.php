@@ -70,7 +70,7 @@ $items_result = $stmt->get_result();
                 <?php while ($item = $items_result->fetch_assoc()) { ?>
                     <tr>
                         <td><?php echo $item['title']; ?></td>
-                        <td><img src="<?php echo $imagePath.'/'; echo $item['picture']; ?>" alt="Product Image" style="width:50px; height:auto;"></td>
+                        <td><img src="../../<?php echo $imagePath.'/'; echo $item['picture']; ?>" alt="Product Image" style="width:50px; height:auto;"></td>
                         <td>₦<?php echo number_format($item['original_price'], 2); ?></td>
                         <td>₦<?php echo number_format($item['price'], 2); ?></td>
                         <td>1</td>

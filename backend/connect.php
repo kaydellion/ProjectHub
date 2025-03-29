@@ -14,6 +14,7 @@ $imagePath='uploads/';
 $adminlink='admin/';
 $adminimagePath='../../uploads/';
 $sitecurrency="₦";
+$sitecurrencyCode="&#8358;";
 $documentPath='documents/';
 
 

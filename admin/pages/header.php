@@ -208,6 +208,28 @@ include "actions.php"; ?>
               </ul>
             </li>
 
+              <!-- Plans -->
+              <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-folder-open"></i>
+                <div data-i18n="Layouts">Transactions</div>
+              </a>
+
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="transactions.php" class="menu-link">
+                    <div data-i18n="Without menu">All Transactions</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="profits.php" class="menu-link">
+                    <div data-i18n="Without navbar">Profits</div>
+                  </a>
+                </li>
+              
+              </ul>
+            </li>
+
              <!-- Components -->           
              <li class="menu-header small text-uppercase"><span class="menu-header-text">Users</span></li>
             <li class="menu-item"><a href="adduser.php" class="menu-link"><i class="menu-icon tf-icons bx bx-user-plus"></i><div data-i18n="Spinners">Add New User</div></a></li>
@@ -239,7 +261,6 @@ include "actions.php"; ?>
 
           
 
-            <li class="menu-item"><a href="rewards.php" class="menu-link"><i class="menu-icon tf-icons bx bxs-bar-chart-alt-2"></i><div data-i18n="Spinners">Rewards Leaderboard</div></a></li>
             
             <!-- Components -->           
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Resolution Module</span></li>

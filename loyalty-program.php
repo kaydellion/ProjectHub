@@ -59,7 +59,9 @@ if ($result) {
         </div>
     </div>
 </div>
-<script src="https://js.paystack.co/v1/inline.js"></script>
+
+
+<?php include "footer.php"; ?>
 <script>
     function payWithPaystack(planId, amount, planName, userId) {
         var handler = PaystackPop.setup({
@@ -92,4 +94,3 @@ if ($result) {
         handler.openIframe();
     }
 </script>
-<?php include "footer.php"; ?>
