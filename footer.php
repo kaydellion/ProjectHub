@@ -107,7 +107,7 @@ function payWithPaystack(e) {
     <script src="js/jquery.ajaxchimp.min.js"></script>
     <script src="js/jquery.form.js"></script>
     <script src="js/jquery.validate.min.js"></script>
-    <!-- <script src="js/mail-script.js"></script> -->
+   <!--- <!-- <script src="js/mail-script.js"></script>  --> -->
     <!-- custom js -->
     <script src="js/custom.js"></script>
 </body>

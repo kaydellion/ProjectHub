@@ -136,7 +136,7 @@ if(isset($_POST['register-user'])){
   $statusAction="Ooops!";
   $statusMessage="This email has already been registered. Please try registering another email.";
   showErrorModal($statusAction, $statusMessage); } 	
-  
+
   //check if password is less than 6
   else if (strlen($password) < 6){
       $statusAction="Try Again";
@@ -194,6 +194,7 @@ if(isset($_POST['register-user'])){
             showErrorModal($statusAction, $statusMessage);
             exit();
         }
+
         $emailSubject="Verify Your Email";
         $emailMessage="<p>Thank you for registering on our website. To complete your registration, 
         please click on the following link to verify your email address:<br>
@@ -220,7 +221,121 @@ if(isset($_POST['register-user'])){
 
 
 
+// Affiliate Registration
+if (isset($_POST['register-affiliate'])) {
+    // Sanitize and validate input fields
+    $first_name = mysqli_real_escape_string($con, $_POST['first_name']);
+    $middle_name = mysqli_real_escape_string($con, $_POST['middle_name']);
+    $last_name = mysqli_real_escape_string($con, $_POST['last_name']);
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $phone = mysqli_real_escape_string($con, $_POST['phone']);
+    $country = mysqli_real_escape_string($con, $_POST['country']);
+    $address = mysqli_real_escape_string($con, $_POST['address']);
+    $website = mysqli_real_escape_string($con, $_POST['website']);
+    $referral_source = mysqli_real_escape_string($con, $_POST['referral_source']);
+    $agree_terms = isset($_POST['agree_terms']) ? 1 : 0;
+    $password = mysqli_real_escape_string($con, $_POST['password']);
+    $retypePassword = mysqli_real_escape_string($con, $_POST['retypePassword']);
+    $date = date('Y-m-d H:i:s');
+    $status = 'active';
+    $type = 'affiliate';
+    $affiliate = 'AFF-' . strtoupper(substr(bin2hex(random_bytes(6)), 0, 12));
+ // Generate unique affiliate ID
 
+    // Validate email uniqueness
+    $checkEmail = mysqli_query($con, "SELECT * FROM " . $siteprefix . "users WHERE email='$email' AND type='$type'");
+    if (mysqli_num_rows($checkEmail) >= 1) {
+        $statusAction = "Ooops!";
+        $statusMessage = "This email has already been registered. Please try registering with another email.";
+        showErrorModal($statusAction, $statusMessage);
+        exit();
+    }
+
+    // Validate password length
+    if (strlen($password) < 6) {
+        $statusAction = "Try Again";
+        $statusMessage = "Password must have 6 or more characters.";
+        showErrorModal($statusAction, $statusMessage);
+        exit();
+    }
+
+    // Validate password match
+    if ($password !== $retypePassword) {
+        $statusAction = "Ooops!";
+        $statusMessage = "Passwords do not match!";
+        showErrorModal($statusAction, $statusMessage);
+        exit();
+    }
+
+    // Hash the password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    // Handle file upload for ID
+    $id_upload = '';
+    if (!empty($_FILES['id_upload']['name'])) {
+        $uploadDir = 'uploads/';
+        $fileName = basename($_FILES['id_upload']['name']);
+        $id_upload = $uploadDir . $fileName;
+
+        // Validate file type and size
+        $allowed_types = ['image/jpeg', 'image/png', 'application/pdf'];
+        if (!in_array($_FILES['id_upload']['type'], $allowed_types)) {
+            $statusAction = "Invalid File!";
+            $statusMessage = "Only JPG, PNG, and PDF files are allowed.";
+            showErrorModal($statusAction, $statusMessage);
+            exit();
+        }
+        if ($_FILES['id_upload']['size'] > 2000000) { // Limit to 2MB
+            $statusAction = "File Too Large!";
+            $statusMessage = "File size exceeds the limit of 2MB.";
+            showErrorModal($statusAction, $statusMessage);
+            exit();
+        }
+
+        // Move uploaded file to the uploads directory
+        if (!move_uploaded_file($_FILES['id_upload']['tmp_name'], $id_upload)) {
+            $statusAction = "Upload Failed!";
+            $statusMessage = "Failed to upload the file. Please try again.";
+            showErrorModal($statusAction, $statusMessage);
+            exit();
+        }
+    }
+
+    // Insert affiliate details into the database
+    $query = "INSERT INTO " . $siteprefix . "users 
+              (display_name, first_name, middle_name, last_name, profile_picture, mobile_number, email, password, gender, address, type, status, last_login, created_date, preference, bank_name, bank_accname, bank_number, loyalty, wallet, affliate, seller, facebook, twitter, instagram, linkedln, kin_name, kin_number, kin_email, biography, kin_relationship) 
+              VALUES 
+              ('$first_name', '$first_name', '$middle_name', '$last_name', '$id_upload', '$phone', '$email', '$hashedPassword', '', '$address', '$type', '$status', '$date', '$date', '', '', '', '', '0', '0', '$affiliate', '0', '', '', '', '', '', '', '', '', '')";
+
+    if (mysqli_query($con, $query)) {
+        $user_id = mysqli_insert_id($con);
+/*
+        // Send confirmation email to the affiliate
+        $emailSubject = "Affiliate Registration Successful";
+        $emailMessage = "<p>Dear $first_name $last_name,</p>
+                         <p>Thank you for registering as an affiliate. Your application has been received and is under review.</p>
+                         <p>We will contact you shortly with further details.</p>";
+        sendEmail($email, "$first_name $last_name", $siteName, $siteMail, $emailMessage, $emailSubject);
+
+        // Notify admin about the new affiliate registration
+        $adminMessage = "A new affiliate has registered: $first_name $last_name ($email)";
+        $adminSubject = "New Affiliate Registration";
+        sendEmail($siteMail, "Admin", $siteName, $siteMail, $adminMessage, $adminSubject);
+*/
+        // Show success modal and redirect
+     // Show success modal and redirect
+$statusAction = "Success!";
+$message = "Affiliate registration successful! A confirmation email has been sent to $email.";
+showSuccessModal($statusAction, $message); // Correctly pass the variable
+header("refresh:1; url=affiliate/");
+exit();
+    } else {
+        $statusAction = "Error!";
+        $statusMessage = "There was an error registering the affiliate: " . mysqli_error($con);
+        showErrorModal($statusAction, $statusMessage);
+        exit();
+    }
+}
 
 if(isset($_POST['update-profile'])){
     $fullName = htmlspecialchars($_POST['fullName']);

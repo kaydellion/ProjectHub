@@ -106,7 +106,7 @@ margin-bottom: 10px;
   position: relative !important;
   margin: 0 !important;
 }
-/*plan-card */
+/*plan-card 
 @media (max-width: 576px) {
   .plans{
     padding: 30px;
@@ -123,7 +123,7 @@ margin-bottom: 10px;
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
-  height: 100%; /* Ensure all cards have the same height */
+  height: 100%; 
   padding: 50px;
 }
 
@@ -131,8 +131,8 @@ margin-bottom: 10px;
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
-
-/* Image settings */
+*/
+/* Image settings
 .plan-card img {
   width: 100% !important;
   height: 200px !important;
@@ -142,10 +142,10 @@ margin-bottom: 10px;
   margin: 0 !important;
   border-radius: 8px;
 }
-
-/* Plan content */
+ */
+/* Plan content
 .plan-card-body {
-  flex-grow: 1; /* Allows content area to stretch */
+  flex-grow: 1; 
 }
 
 .plan-card-title {
@@ -160,8 +160,8 @@ margin-bottom: 10px;
   color: #555;
  /* min-height: 10px; /* Ensures text doesn’t shift card heights */
 }
-
-/* Price styling */
+*/
+/* Price styling 
 .plan-card-price {
   font-size: 20px;
   font-weight: bold;
@@ -169,7 +169,7 @@ margin-bottom: 10px;
   margin: 10px 0;
 }
 
-/* Features list */
+
 .plan-features {
   list-style: none;
   padding: 0;
@@ -182,8 +182,8 @@ margin-bottom: 10px;
   padding: 5px 0;
   border-bottom: 1px solid #eee;
 }
-
-/* Subscribe button */
+*/
+/* Subscribe button
 .plan-card-btn {
   display: block;
   background: #F57C00;
@@ -194,13 +194,13 @@ margin-bottom: 10px;
   font-size: 16px;
   font-weight: 500;
   transition: background 0.3s ease-in-out;
-  margin-top: auto; /* Pushes the button to the bottom */
+  margin-top: auto; 
 }
 
 .plan-card-btn:hover {
   background: #F57C00;
 }
-
+ */
 .user-image {
   width: 10%;
   height: auto;
