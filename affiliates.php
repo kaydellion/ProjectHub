@@ -16,30 +16,30 @@
                         <h3>Affiliate Registration</h3>
                         <form class="row contact_form" method="post" enctype="multipart/form-data" novalidate="novalidate">
                             <h4 class="col-md-12">Affiliate Details</h4>
-                            <div class="col-md-4 form-group p_star">
+                            <div class="col-md-4 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
                             </div>
-                            <div class="col-md-4 form-group p_star">
+                            <div class="col-md-4 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="middle_name" placeholder="Middle Name">
                             </div>
-                            <div class="col-md-4 form-group p_star">
+                            <div class="col-md-4 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
                             </div>
-                            <div class="col-md-6 form-group p_star">
+                            <div class="col-md-6 form-group p_star mb-3">
                                 <input type="email" class="form-control" name="email" placeholder="Email Address" required>
                             </div>
-                            <div class="col-md-6 form-group p_star">
+                            <div class="col-md-6 form-group p_star mb-3 mb-3">
                                 <input type="text" class="form-control" name="phone" placeholder="Phone Number" required>
                             </div>
-                            <div class="col-md-6 form-group p_star">
+                            <div class="col-md-6 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="country" placeholder="Country of Residence" required>
                             </div>
-                            <div class="col-md-6 form-group p_star">
+                            <div class="col-md-6 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="address" placeholder="Address" required>
                             </div>
 
                          
-                            <div class="form-group col-md-6 p_star">
+                            <div class="form-group col-md-6 p_star mb-3">
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                                         <div class="input-group-append">
@@ -49,7 +49,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-6 p_star">
+                                <div class="form-group col-md-6 p_star mb-3">
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Retype Password" required>
                                         <div class="input-group-append">
@@ -59,10 +59,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            <div class="col-md-6 form-group p_star">
+                            <div class="col-md-6 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="website" placeholder="Website (if any)">
                             </div>
-                            <div class="col-md-6 form-group p_star">
+                            <div class="col-md-6 form-group p_star mb-3">
                                 <label>Means of Identification:</label>
                                 <input type="file" class="form-control" name="id_upload" required>
                             </div>
@@ -78,11 +78,11 @@
                                 </select>
                             </div>
                             
-                            <div class="col-md-12 form-group">
+                            <div class="col-md-12 form-group mb-3">
                                 <input type="checkbox" value="1" id="agree_terms" name="agree_terms" required>
                                 <label for="agree_terms">I agree to the terms and conditions</label>
                             </div>
-                            <div class="col-md-12 form-group">
+                            <div class="col-md-12 form-group mb-3">
                                 <button type="submit" value="submit" name="register-affiliate" class="btn_1 w-100">
                                   Register as Affiliate
                                 </button>
