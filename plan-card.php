@@ -43,7 +43,15 @@ $user_has_active_plan = mysqli_num_rows($subscription_result) > 0;
                 <?php if ($user_has_active_plan): ?>
                     <a href="loyalty-status.php" class="btn btn-primary">Manage Subscription</a>
                 <?php else: ?>
-                    <button class="btn btn-primary" onclick="payWithPaystack(<?= $plan_id ?>, <?= $price ?>, '<?= $name ?>', <?= $user_id ?>)">Subscribe</button>
+                   <!-- Pay Button with Data Attributes -->
+<button id="payButton" class="btn btn-primary"
+    data-plan-id="<?= $plan_id ?>"
+    data-amount="<?= $price ?>"
+    data-plan-name="<?= htmlspecialchars($name, ENT_QUOTES) ?>"
+    data-user-id="<?= $user_id ?>"
+    data-email="<?= $email ?>">
+    Subscribe
+</button>
                 <?php endif; ?>
             <?php else: ?>
                 <!-- If user is not logged in, show the modal trigger -->
