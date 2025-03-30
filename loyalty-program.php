@@ -63,34 +63,37 @@ if ($result) {
 
 <?php include "footer.php"; ?>
 <script>
-    function payWithPaystack(planId, amount, planName, userId) {
-        var handler = PaystackPop.setup({
-            key: 'pk_test_3156df58b30d0b29f8319737a485b5b31fd97c9c', // Replace with your Paystack public key
-            email: '<?= $email ?>', // Replace with the logged-in user's email
-            amount: amount * 100, // Paystack expects the amount in kobo (multiply by 100)
-            currency: 'NGN', // Currency in Nigerian Naira
-            ref: 'PH-' + Math.floor((Math.random() * 1000000000) + 1), // Generate a unique reference
-            metadata: {
-                custom_fields: [
-                    {
-                        display_name: "Plan Name",
-                        variable_name: "plan_name",
-                        value: planName
-                    }
-                ]
-            },
-            callback: function(response) {
-                // Payment was successful
-                alert('Payment successful! Reference: ' + response.reference);
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("payButton").addEventListener("click", function() {
+            let button = this;
+            let planId = button.dataset.planId;
+            let amount = parseFloat(button.dataset.amount) * 100; // Convert to kobo
+            let planName = button.dataset.planName;
+            let userId = button.dataset.userId;
+            let email = button.dataset.email;
 
-                // Redirect to a PHP script to handle subscription activation
-                window.location.href = 'backend/verify_payment.php?action=verify_payment&reference=' + response.reference + '&plan_id=' + planId + '&user_id=' + userId;
-            },
-            onClose: function() {
-                // Payment was canceled
-                alert('Payment canceled.');
+            if (!email || isNaN(amount)) {
+                alert("Invalid payment details. Please try again.");
+                return;
             }
+
+            var handler = PaystackPop.setup({
+                key: 'pk_test_3156df58b30d0b29f8319737a485b5b31fd97c9c', // Replace with live key in production
+                email: email,
+                amount: amount,
+                currency: 'NGN',
+                ref: 'PH-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+                metadata: {
+                    custom_fields: [{ display_name: "Plan Name", variable_name: "plan_name", value: planName }]
+                },
+                callback: function(response) {
+                    window.location.href = `backend/verify_payment.php?action=verify_payment&reference=${response.reference}&plan_id=${planId}&user_id=${userId}`;
+                },
+                onClose: function() {
+                    alert('Payment was canceled.');
+                }
+            });
+            handler.openIframe();
         });
-        handler.openIframe();
-    }
+    });
 </script>
