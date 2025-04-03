@@ -88,6 +88,21 @@ td{
   text-align: center;
 
 }
+.text-orange{
+  color: #F57C00 !important;
+
+}
+.text-hero{
+  font-size: 18px;
+
+}
+.crafted-text {
+  position: relative;
+  color: #F57C00; /* Orange color for the text */
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
 
 .category-logo{
 text-align: center; 
@@ -881,7 +896,7 @@ ul {
 /* line 24, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_button.scss */
 .btn_1 {
   display: inline-block;
-  padding: 17px 50px;
+  padding: 18px 36px;
   border-radius: 5px;
   background-color: #F57C00;
   border: 2px solid #F57C00;
@@ -2813,6 +2828,8 @@ ul {
   /* line 2, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_banner.scss */
   .banner_part {
     height: 550px;
+  
+   
   }
 }
 
@@ -2872,7 +2889,7 @@ ul {
 @media (max-width: 991px) {
   /* line 37, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_banner.scss */
   .banner_part .banner_text {
-    margin-top: -150px;
+   /* margin-top: -150px; */
   }
 }
 
@@ -2913,7 +2930,7 @@ ul {
   /* line 45, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_banner.scss */
   .banner_part .banner_text h1 {
     font-size: 40px;
-    margin-bottom: 15px;
+
     line-height: 1.3;
   }
 }
@@ -4705,6 +4722,7 @@ input:focus {
 .s_product_img .carousel .carousel-indicators li.active:before {
   opacity: 1;
 }
+
 
 @media (max-width: 576px) {
   /* line 646, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */

@@ -59,14 +59,11 @@
                                         </div>
                                     </div>
                                 </div>
-                            <div class="col-md-6 form-group p_star mb-3">
+                            <div class="col-md-12 form-group p_star mb-3">
                             <label>Website:</label>
                                 <input type="text" class="form-control" name="website" placeholder="Website (if any)">
                             </div>
-                            <div class="col-md-6 form-group p_star mb-3">
-                                <label>Means of Identification:</label>
-                                <input type="file" class="form-control" name="id_upload" required>
-                            </div>
+                           
                             
                             <h4 class="col-md-12">Where Did You Learn About Our Affiliate Program?</h4>
                             <div class="col-md-12 form-group">
