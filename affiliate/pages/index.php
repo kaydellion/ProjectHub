@@ -170,4 +170,5 @@
 <!-- Append Modals Outside the Table -->
 <?php echo $modals; ?>
 
+
 <?php include "footer.php"; ?>
