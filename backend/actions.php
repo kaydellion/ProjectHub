@@ -269,7 +269,7 @@ if (isset($_POST['register-affiliate'])) {
 
     // Hash the password
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
+/*
     // Handle file upload for ID
     $id_upload = '';
     if (!empty($_FILES['id_upload']['name'])) {
@@ -298,12 +298,12 @@ if (isset($_POST['register-affiliate'])) {
             showErrorModal($statusAction, $statusMessage);
         }
     }
-
+*/
     // Insert affiliate details into the database
     $query = "INSERT INTO " . $siteprefix . "users 
               (display_name, first_name, middle_name, last_name, profile_picture, mobile_number, email, password, gender, address, type, status, last_login, created_date, preference, bank_name, bank_accname, bank_number, loyalty, wallet, affliate, seller, facebook, twitter, instagram, linkedln, kin_name, kin_number, kin_email, biography, kin_relationship) 
               VALUES 
-              ('$first_name', '$first_name', '$middle_name', '$last_name', '$id_upload', '$phone', '$email', '$hashedPassword', '', '$address', '$type', '$status', '$date', '$date', '', '', '', '0', '0', '0', '$affiliate', '0', '', '', '', '', '', '', '', '', '')";
+              ('$first_name', '$first_name', '$middle_name', '$last_name', '', '$phone', '$email', '$hashedPassword', '', '$address', '$type', '$status', '$date', '$date', '', '', '', '0', '0', '0', '$affiliate', '0', '', '', '', '', '', '', '', '', '')";
 
     if (mysqli_query($con, $query)) {
         $user_id = mysqli_insert_id($con);

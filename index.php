@@ -1,17 +1,26 @@
 <?php include "header.php"; ?>
 
  <!-- banner part start-->
- <section class="banner_part" style="margin:30px; border-radius:30px; position: relative; background: url('img/bann.jpg') no-repeat center center/cover;">
-    <div style=" border-radius:30px; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);"></div>
+ <section class="banner_part" style="margin:30px; border-radius:30px; position: relative; background: url('img/hero-image.jpg') no-repeat center center/cover;">
+    <div style="border-radius:30px; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(80deg, rgba(0, 0, 0, 0.8), rgba(255, 165, 0, 0.3));"></div>
     <div class="container" style="position: relative; z-index: 1;">
         <div class="row align-items-center">
             <div class="col-md-10">
                 <div class="banner_text">
                     <div class="banner_text_iner">
-                        <h2 class="text-white"><?php echo $sitename; ?></h2>
-                        <p class="text-white">Your one-stop platform for premium project reports and research documentation in Nigeria. 
-                            Whether you're a student, entrepreneur, or professional, we provide expertly crafted reports tailored to your needs. </p>
+                        <h4 class="text-orange"><?php echo $sitename; ?></h4>
+                     <!---   <h2 class="text-white">Your Go-To Hub for <span class="text-orange">Expert Project</span> Reports!</h2>---->                       <p class="text-white text-hero">
+                        <p class="text-white">   Your go-to platform for premium project reports and research documentation in Nigeria—expertly crafted for students, entrepreneurs, and professionals.
+                        </p>
                         <a href="reports.php" class="btn_1">Explore Now</a>
+                                <!-- Trusted By Section -->
+                                <div class="trusted-by mt-4">
+            <p class="text-white" style="font-size: 16px; font-weight: bold; line-height: 1.8;">
+                <i class="fas fa-users" style="color: #FFA500; font-size: 16px;"></i> 
+                Trusted by <br><span style="font-size: 2rem;">500+</span>
+                <span style="font-size: 1rem; margin-left:20px;">professionals</span>
+            </p>
+        </div>
                     </div>
                 </div>
             </div>
@@ -19,6 +28,48 @@
     </div>
 </section>
 <!-- banner part start-->
+ <!-- How It Works Section Start -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h3>How It Works</h3>
+            <p>Follow these simple steps to get started with our platform.</p>
+        </div>
+    </div>
+    <div class="row mt-4 gy-4">
+        <!-- Step 1 -->
+        <div class="col-lg-4 text-center">
+            <div class="how-it-works-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <div class="icon mb-3" style="position: relative; display: inline-block; width: 80px; height: 80px; background-color: #F57C00; border-radius: 50%; color: #fff; line-height: 80px; font-size: 30px;">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h5>Step 1: Sign Up</h5>
+                <p>Create an account on our platform to access premium reports and projects.</p>
+            </div>
+        </div>
+        <!-- Step 2 -->
+        <div class="col-lg-4 text-center">
+            <div class="how-it-works-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <div class="icon mb-3" style="position: relative; display: inline-block; width: 80px; height: 80px; background-color: #F57C00; border-radius: 50%; color: #fff; line-height: 80px; font-size: 30px;">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h5>Step 2: Browse Reports</h5>
+                <p>Explore a wide range of categories and find the perfect report for your needs.</p>
+            </div>
+        </div>
+        <!-- Step 3 -->
+        <div class="col-lg-4 text-center">
+            <div class="how-it-works-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <div class="icon mb-3" style="position: relative; display: inline-block; width: 80px; height: 80px; background-color: #F57C00; border-radius: 50%; color: #fff; line-height: 80px; font-size: 30px;">
+                    <i class="fas fa-download"></i>
+                </div>
+                <h5>Step 3: Download & Use</h5>
+                <p>Purchase and download the report instantly to start using it for your project.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- How It Works Section End -->
 
    <!-- recent reports start-->
         <div class="container mt-5">
@@ -106,14 +157,14 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 </div></div></div></div>
 <div class="container mt-5">
-    <div class="row align-items-center" style="background-color: #f8f9fa; border-radius: 15px; padding: 30px;">
+    <div class="row align-items-center" style="background-color: #f8f9fa; border-radius: 15px; padding: 30px; padding-bottom:0px;">
         <div class="col-lg-6">
             <h2>Ready to Get Started?</h2>
             <p>Join us today and take your business to the next level with our comprehensive reports and innovative projects.</p>
             <a href="signup.php" class="btn_1">Sign Up Now</a>
         </div>
         <div class="col-lg-6">
-            <img src="img/cta-image.png" alt="CTA Image" class="img-fluid" style="border-radius: 15px;">
+            <img src="img/get-started.png" alt="CTA Image" class="img-fluid" style="border-radius:2px;">
         </div>
     </div>
 </div>
@@ -151,56 +202,46 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
 
+<!-- Testimonials Section Start -->
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-12">
-            <h3>Testimonials</h3>
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="testimonial-card">
-                        <div class="testimonial-image">
-                            <img src="img/client_1.png" alt="Testimonial Image" class="img-fluid">
-                        </div>
-                        <div class="testimonial-text">
-                            <p>"I was able to find the perfect report for my project. The quality of the report was top-notch and the delivery was prompt. I highly recommend this platform."</p>
-                            <h5>John Doe</h5>
-                            <span>CEO, XYZ Company</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="testimonial-card">
-                        <div class="testimonial-image">
-                            <img src="img/client_2.png" alt="Testimonial Image" class="img-fluid">
-                        </div>
-                        <div class="testimonial-text">
-                            <p>"I was able to find the perfect report for my project. The quality of the report was top-notch and the delivery was prompt. I highly recommend this platform."</p>
-                            <h5>Jane Doe</h5>
-                            <span>CEO, ABC Company</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="testimonial-card">
-                        <div class="testimonial-image">
-                            <img src="img/client_1.png" alt="Testimonial Image" class="img-fluid">
-                        </div>
-                        <div class="testimonial-text">
-                            <p>"I was able to find the perfect report for my project. The quality of the report was top-notch and the delivery was prompt. I highly recommend this platform."</p>
-                            <h5>John Smith</h5>
-                            <span>CEO, PQR Company</span>
-                        </div>
-                    </div>
-                </div>
+            <h3 class="text-center">What Our Clients Say</h3>
+            <p class="text-center">Hear from our satisfied customers who have benefited from our platform.</p>
+        </div>
+    </div>
+    <div class="row mt-4 gy-4">
+        <!-- Testimonial 1 -->
+        <div class="col-lg-4">
+            <div class="testimonial-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <p style="font-style: italic;">"I was able to find the perfect report for my project. The quality of the report was top-notch and the delivery was prompt."</p>
+                <h5 style="margin-top: 15px; font-weight: bold; color: #F57C00;">John Doe</h5>
+                <span style="color: #6c757d;">CEO, XYZ Company</span>
+            </div>
+        </div>
+        <!-- Testimonial 2 -->
+        <div class="col-lg-4">
+            <div class="testimonial-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <p style="font-style: italic;">"The platform is user-friendly, and I was able to access high-quality reports that helped me complete my project successfully."</p>
+                <h5 style="margin-top: 15px; font-weight: bold; color: #F57C00;">Jane Doe</h5>
+                <span style="color: #6c757d;">Entrepreneur</span>
+            </div>
+        </div>
+        <!-- Testimonial 3 -->
+        <div class="col-lg-4">
+            <div class="testimonial-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <p style="font-style: italic;">"This platform has been a game-changer for my business. The reports are detailed and well-researched."</p>
+                <h5 style="margin-top: 15px; font-weight: bold; color: #F57C00;">John Smith</h5>
+                <span style="color: #6c757d;">Business Owner</span>
             </div>
         </div>
     </div>
 </div>
-
+<!-- Testimonials Section End -->
 
 <!-- Loyalty Program CTA Start -->
 
-<div class="row align-items-center mt-5 mb-0" style="background-color: #f8f9fa; border-radius: 15px; padding: 30px;">
+<div class="row gy-3 align-items-center mt-5 mb-0" style="background-color: #f8f9fa; border-radius: 15px; padding: 30px;">
         <div class="col-lg-8">
             <h2>Join Our Loyalty Program</h2>
             <p>Our loyalty program offers exclusive benefits and rewards for our valued customers. By joining, you gain access to special discounts, early access to new reports, and other perks that enhance your experience and provide greater value.</p>
@@ -211,5 +252,32 @@ while ($row = mysqli_fetch_assoc($result)) {
         </div>
     </div>
 <!-- Loyalty Program CTA End -->
+<!-- Become a Seller Section -->
+<div class="container mt-5">
+    <div class="row align-items-center" style="background-color: #f8f9fa; border-radius: 15px; padding: 30px;">
+        <div class="col-lg-6">
+            <img src="img/seller.png" alt="Become a Seller" class="img-fluid" style="border-radius: 15px;">
+        </div>
+        <div class="col-lg-6">
+            <h2>Become a <span class="text-orange">Seller</span></h2>
+            <p>Join our platform as a seller and showcase your reports to a wide audience. Earn money by sharing your expertise and helping others succeed.</p>
+            <a href="become_a_seller.php" class="btn-kayd">Get Started as a Seller</a>
+        </div>
+    </div>
+</div>
+
+<!-- Become an Affiliate Section -->
+<div class="container mt-5 mb-5">
+    <div class="row align-items-center" style="background-color: #212121; border-radius: 15px; padding: 30px; color: #fff;">
+        <div class="col-lg-6 order-lg-2">
+            <img src="img/affiliate.jpg" alt="Become an Affiliate" class="img-fluid" style="border-radius: 15px;">
+        </div>
+        <div class="col-lg-6 order-lg-1">
+            <h2 class="text-white">Become an <span class="text-orange">Affiliate</span></h2>
+            <p class="text-white">Partner with us as an affiliate and earn commissions by promoting our platform. Share our reports and projects with your network and grow your income.</p>
+            <a href="become_an_affliate.php" class="btn-kayd" style="color: #000;">Join as an Affiliate</a>
+        </div>
+    </div>
+</div>
 
 <?php include "footer.php"; ?>
