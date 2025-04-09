@@ -80,7 +80,7 @@ $items_result = $stmt->get_result();
         </table>
     </div>
 
-    <a href="my_orders.php" class="btn btn-primary mt-3">Back to My Orders</a>
+    <a href="javascript:history.back()" class="btn btn-primary mt-3">Back to previous page</a>
 </div>
 
 

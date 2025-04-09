@@ -14,6 +14,7 @@
                         <th>User</th>
                         <th>Email</th>
                         <th>Type</th>
+                        <th>Status</th>
                         <th>Registered_Date</th>
                         <th>Last Login</th>
                         <th>Actions</th>
@@ -25,15 +26,37 @@
       $i=1;
       while ($row = mysqli_fetch_array($sql2)) {
         $userid = $row["s"];
-        $name = $row['name'];
+        $display_name = $row['display_name'];
+        $first_name = $row['first_name']; 
+        $middle_name = $row['middle_name'];
+        $last_name = $row['last_name'];
+        $profile_picture = !empty($row['profile_picture']) ? $row['profile_picture'] : 'user.png';
+        $mobile_number = $row['mobile_number'];
         $email = $row['email'];
         $password = $row['password'];
+        $gender = $row['gender'];
+        $address = $row['address'];
         $type = $row['type'];
-        $reward_points = $row['reward_points'];
-        $created_date = $row['created_date'];
-        $last_login = $row['last_login'];
-        $email_verify = $row['email_verify'];
+        $seller = $row['seller'];
         $status = $row['status'];
+        $last_login = $row['last_login'];
+        $created_date = $row['created_date'];
+        $preference = $row['preference'];
+        $bank_name = $row['bank_name'];
+        $bank_accname = $row['bank_accname'];
+        $bank_number = $row['bank_number'];
+        $loyalty = $row['loyalty'];
+        $wallet = $row['wallet'];
+        $affliate = $row['affliate'];
+        $facebook = $row['facebook'];
+        $twitter = $row['twitter'];
+        $instagram = $row['instagram'];
+        $linkedln = $row['linkedln'];
+        $kin_name = $row['kin_name'];
+        $kin_number = $row['kin_number'];
+        $kin_email = $row['kin_email'];
+        $biography = $row['biography'];
+        $kin_relationship = $row['kin_relationship'];
 
             $formatedupdatedate=formatDateTime($last_login);
             $formateduploaddate=formatDateTime($created_date);
@@ -41,9 +64,10 @@
             ?>
                       <tr>
                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><?php echo $i; ?></strong></td>
-                        <td><?php echo $name; ?></td>
+                        <td><?php echo $display_name; ?></td>
                         <td><?php echo $email; ?></td>
                         <td><span class="badge bg-label-<?php echo getUserColor($type); ?> me-1"><?php echo $type; ?></span></td>
+                        <td><span class="badge bg-label-<?php echo getBadgeColor($status); ?> me-1"><?php echo $status; ?></span></td>
                         <td><?php echo $formateduploaddate; ?></td>
                         <td><?php echo $formatedupdatedate; ?></td>
                         <td><div class="dropdown">
@@ -56,7 +80,7 @@
                           </div>
                         </td>
                       </tr>
-                      <?php $i++; } ?>
+                      <?php $i++; } ?> 
                     </tbody>
                   </table>
                 </div>

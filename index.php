@@ -28,48 +28,6 @@
     </div>
 </section>
 <!-- banner part start-->
- <!-- How It Works Section Start -->
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h3>How It Works</h3>
-            <p>Follow these simple steps to get started with our platform.</p>
-        </div>
-    </div>
-    <div class="row mt-4 gy-4">
-        <!-- Step 1 -->
-        <div class="col-lg-4 text-center">
-            <div class="how-it-works-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                <div class="icon mb-3" style="position: relative; display: inline-block; width: 80px; height: 80px; background-color: #F57C00; border-radius: 50%; color: #fff; line-height: 80px; font-size: 30px;">
-                    <i class="fas fa-user-plus"></i>
-                </div>
-                <h5>Step 1: Sign Up</h5>
-                <p>Create an account on our platform to access premium reports and projects.</p>
-            </div>
-        </div>
-        <!-- Step 2 -->
-        <div class="col-lg-4 text-center">
-            <div class="how-it-works-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                <div class="icon mb-3" style="position: relative; display: inline-block; width: 80px; height: 80px; background-color: #F57C00; border-radius: 50%; color: #fff; line-height: 80px; font-size: 30px;">
-                    <i class="fas fa-search"></i>
-                </div>
-                <h5>Step 2: Browse Reports</h5>
-                <p>Explore a wide range of categories and find the perfect report for your needs.</p>
-            </div>
-        </div>
-        <!-- Step 3 -->
-        <div class="col-lg-4 text-center">
-            <div class="how-it-works-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                <div class="icon mb-3" style="position: relative; display: inline-block; width: 80px; height: 80px; background-color: #F57C00; border-radius: 50%; color: #fff; line-height: 80px; font-size: 30px;">
-                    <i class="fas fa-download"></i>
-                </div>
-                <h5>Step 3: Download & Use</h5>
-                <p>Purchase and download the report instantly to start using it for your project.</p>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- How It Works Section End -->
 
    <!-- recent reports start-->
         <div class="container mt-5">
@@ -117,8 +75,65 @@
 </div>
 </div></div></div>
 
+ <!-- How It Works Section Start -->
+ <div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h3>How It Works</h3>
+            <p>Follow these simple steps to get started with our platform.</p>
+        </div>
+    </div>
+    <div class="row mt-4 gy-4">
+        <!-- Step 1 -->
+        <div class="col-lg-4 text-center">
+            <div class="how-it-works-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <div class="icon mb-3" style="position: relative; display: inline-block; width: 80px; height: 80px; background-color: #F57C00; border-radius: 50%; color: #fff; line-height: 80px; font-size: 30px;">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h5>Step 1: Sign Up</h5>
+                <p>Create an account on our platform to access premium reports and projects.</p>
+            </div>
+        </div>
+        <!-- Step 2 -->
+        <div class="col-lg-4 text-center">
+            <div class="how-it-works-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <div class="icon mb-3" style="position: relative; display: inline-block; width: 80px; height: 80px; background-color: #F57C00; border-radius: 50%; color: #fff; line-height: 80px; font-size: 30px;">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h5>Step 2: Browse Reports</h5>
+                <p>Explore a wide range of categories and find the perfect report for your needs.</p>
+            </div>
+        </div>
+        <!-- Step 3 -->
+        <div class="col-lg-4 text-center">
+            <div class="how-it-works-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <div class="icon mb-3" style="position: relative; display: inline-block; width: 80px; height: 80px; background-color: #F57C00; border-radius: 50%; color: #fff; line-height: 80px; font-size: 30px;">
+                    <i class="fas fa-download"></i>
+                </div>
+                <h5>Step 3: Download & Use</h5>
+                <p>Purchase and download the report instantly to start using it for your project.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- How It Works Section End -->
 
 
+<!-- Become an Affiliate Section -->
+<div class="container mt-5 mb-5">
+    <div class="row align-items-center" style="background-color: #212121; border-radius: 15px; padding: 30px; color: #fff;">
+        <div class="col-lg-6 order-lg-2">
+            <img src="img/affiliate.jpg" alt="Become an Affiliate" class="img-fluid" style="border-radius: 15px;">
+        </div>
+        <div class="col-lg-6 order-lg-1">
+            <h2 class="text-white">Become an <span class="text-orange">Affiliate</span></h2>
+            <p class="text-white">Partner with us as an affiliate and earn commissions by promoting our platform. Share our reports and projects with your network and grow your income.</p>
+            <a href="become_an_affliate.php" class="btn-2 mt-3">Join as an Affiliate</a>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Reports Section Start -->
 <div class="container mt-5">
 <div class="row">
 <div class="col-lg-12">
@@ -185,7 +200,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                         $category_name = $row['category_name'];
                         ?>
                         <div class="col-md-3 mb-3">
-                            <a href="category.php?id=<?php echo $category_id; ?>" class="btn btn-dark btn-block"><?php echo $category_name; ?></a>
+                            <a href="category.php?id=<?php echo $category_id; ?>" class="btn btn-dark btn-block w-100"><?php echo $category_name; ?></a>
                         </div>
                         <?php
                     }
@@ -239,19 +254,9 @@ while ($row = mysqli_fetch_assoc($result)) {
 </div>
 <!-- Testimonials Section End -->
 
-<!-- Loyalty Program CTA Start -->
 
-<div class="row gy-3 align-items-center mt-5 mb-0" style="background-color: #f8f9fa; border-radius: 15px; padding: 30px;">
-        <div class="col-lg-8">
-            <h2>Join Our Loyalty Program</h2>
-            <p>Our loyalty program offers exclusive benefits and rewards for our valued customers. By joining, you gain access to special discounts, early access to new reports, and other perks that enhance your experience and provide greater value.</p>
-            <p><a href="loyalty-program.php" class="btn-kayd">Learn More</a></p>
-        </div>
-        <div class="col-lg-4">
-            <img src="img/loyalty-program.jpg" alt="Loyalty Program" class="img-fluid">
-        </div>
-    </div>
-<!-- Loyalty Program CTA End -->
+
+
 <!-- Become a Seller Section -->
 <div class="container mt-5">
     <div class="row align-items-center" style="background-color: #f8f9fa; border-radius: 15px; padding: 30px;">
@@ -261,23 +266,11 @@ while ($row = mysqli_fetch_assoc($result)) {
         <div class="col-lg-6">
             <h2>Become a <span class="text-orange">Seller</span></h2>
             <p>Join our platform as a seller and showcase your reports to a wide audience. Earn money by sharing your expertise and helping others succeed.</p>
-            <a href="become_a_seller.php" class="btn-kayd">Get Started as a Seller</a>
+            <a href="become_a_seller.php" class="btn-kayd mt-3">Get Started as a Seller</a>
         </div>
     </div>
 </div>
 
-<!-- Become an Affiliate Section -->
-<div class="container mt-5 mb-5">
-    <div class="row align-items-center" style="background-color: #212121; border-radius: 15px; padding: 30px; color: #fff;">
-        <div class="col-lg-6 order-lg-2">
-            <img src="img/affiliate.jpg" alt="Become an Affiliate" class="img-fluid" style="border-radius: 15px;">
-        </div>
-        <div class="col-lg-6 order-lg-1">
-            <h2 class="text-white">Become an <span class="text-orange">Affiliate</span></h2>
-            <p class="text-white">Partner with us as an affiliate and earn commissions by promoting our platform. Share our reports and projects with your network and grow your income.</p>
-            <a href="become_an_affliate.php" class="btn-kayd" style="color: #000;">Join as an Affiliate</a>
-        </div>
-    </div>
-</div>
+
 
 <?php include "footer.php"; ?>

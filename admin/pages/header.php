@@ -226,13 +226,22 @@ include "actions.php"; ?>
                     <div data-i18n="Without navbar">Profits</div>
                   </a>
                 </li>
+                <li class="menu-item">
+                  <a href="withdrawals.php" class="menu-link">
+                    <div data-i18n="Without menu">All Withdrawals</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="pending-withdrawals.php" class="menu-link">
+                    <div data-i18n="Without navbar">Pending Withdrawals</div>
+                  </a>
+                </li>
               
               </ul>
             </li>
 
              <!-- Components -->           
              <li class="menu-header small text-uppercase"><span class="menu-header-text">Users</span></li>
-            <li class="menu-item"><a href="adduser.php" class="menu-link"><i class="menu-icon tf-icons bx bx-user-plus"></i><div data-i18n="Spinners">Add New User</div></a></li>
             <li class="menu-item"> <a href="users.php" class="menu-link"><i class="menu-icon tf-icons bx bxs-user-account"></i> <div data-i18n="Spinners">All Users</div></a></li>
             <li class="menu-item"> <a href="send-message.php" class="menu-link"><i class="menu-icon tf-icons bx bx-mail-send"></i> <div data-i18n="Spinners">Send Message</div></a></li>
 
@@ -340,8 +349,8 @@ include "actions.php"; ?>
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block"><?php echo $name; ?></span>
-                            <small class="text-muted"><?php echo $name; ?></small>
+                            <span class="fw-semibold d-block"><?php echo $display_name; ?></span>
+                            <small class="text-muted"><?php echo $display_name; ?></small>
                           </div>
                         </div>
                       </a>

@@ -18,14 +18,16 @@
                         <div class="mb-3">
                         <label class="form-label" for="exampleFormControlSelect1">Select Recipient(s)</label>
                         <select class="form-select select-multiple" name="user" id="exampleFormControlSelect1" aria-label="Default select example" multiple="multiple">
+                          <option value="buyer">All Buyers</option>
+                          <option value="seller">All Sellers</option>
+                          <option value="user">All Buyers and Sellers</option>
+                          <option value="affiliate">All Affliates</option>
                           <option value="all">All Users</option>
-                          <option value="instructor">All Instructors</option>
-                          <option value="user">All Users</option>
                           <?php
                      $sql = "SELECT * FROM " . $siteprefix . "users where type !='admin'";
                      $sql2 = mysqli_query($con, $sql);
                      while ($row = mysqli_fetch_array($sql2)) {
-                      echo '<option value="' . $row['email'] . '">' . $row['name'] . ' (' . $row['type'] . ')</option>'; }?>
+                      echo '<option value="' . $row['email'] . '">' . $row['display_name'] . ' (' . $row['type'] . ')</option>'; }?>
                         </select>
                         </div>
                         <div class="mb-3">
