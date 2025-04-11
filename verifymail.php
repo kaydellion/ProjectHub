@@ -27,14 +27,14 @@
                     } else {
                         while($row = mysqli_fetch_array($sql2)) {
                             $id = $row["s"];   
-                            $name = $row["name"];
+                            $name = $row["display_name"];
                             $email = $row["email"];
                         }
                         
                         $subject = "Email Verified - $sitename";
                         $emailMessage = "Hello there, $name, Your email address has been successfully verified.<br><span style='color:#fff;'> Proceed to log in into your account.";
                         sendEmail($sitemail, $sitename, $sitename, $sitemail, $emailMessage, $subject);
-                        $insert = mysqli_query($con, "UPDATE ".$siteprefix."users SET status='active' where id='$user_log'") or die ('Could not connect: ' .mysqli_error($con));
+                        $insert = mysqli_query($con, "UPDATE ".$siteprefix."users SET status='active' where s='$user_log'") or die ('Could not connect: ' .mysqli_error($con));
                         if(sendEmail($sitemail, $sitename, $sitename, $sitemail, $emailMessage, $subject)) {
                             $message = 'Email Verified Successfully!';
                             showSuccessModal('Success', $message);
