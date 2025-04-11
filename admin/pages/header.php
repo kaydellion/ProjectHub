@@ -185,7 +185,33 @@ include "actions.php"; ?>
                 </li>
               </ul>
             </li>
+  <!--  manual payment --->
+  <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-folder-open"></i>
+                <div data-i18n="Layouts">Manual Payment</div>
+              </a>
 
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="manual_orders.php" class="menu-link">
+                    <div data-i18n="Without menu">Pending Payment</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="payment_resend.php" class="menu-link">
+                    <div data-i18n="Without navbar">Payment Resent</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="Approved_payment.php" class="menu-link">
+                    <div data-i18n="Container">Approved</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            
                 <!-- Plans -->
                 <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">

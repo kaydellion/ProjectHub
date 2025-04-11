@@ -125,9 +125,50 @@ while ($row = mysqli_fetch_array($sql2)) {
                     <span>Verified seller </span>
                 </div>
             </div>
+           <!-- Social Share Icons -->
+<!-- Social Share Icons -->
+<div class="d-flex mt-3">
+    <?php
+    $share_url = urlencode("https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    $share_title = urlencode($title);
+    $share_text = urlencode("Check out this report: " . $title);
+    ?>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $share_url; ?>" target="_blank" class="text-decoration-none">
+        <i class="fab fa-facebook text-primary p-2" style="font-size: 1.5rem;"></i>
+    </a>
+    <a href="https://twitter.com/intent/tweet?text=<?php echo $share_text; ?>&url=<?php echo $share_url; ?>" target="_blank" class="text-decoration-none">
+        <i class="fab fa-twitter text-info p-2" style="font-size: 1.5rem;"></i> 
+    </a>
+    <a href="https://api.whatsapp.com/send?text=<?php echo $share_text . ' ' . $share_url; ?>" target="_blank" class="text-decoration-none">
+        <i class="fab fa-whatsapp text-success p-2" style="font-size: 1.5rem;"></i> 
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo $share_url; ?>" target="_blank" class="text-decoration-none">
+        <i class="fab fa-linkedin text-primary p-2" style="font-size: 1.5rem;"></i> 
+    </a>
+   
+</div>
+
+
+
+
         </div>
     </div>
 </div>
+
+<!-- Report Product Button -->
+<?php if ($active_log == 1): ?>
+    <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-danger" data-toggle="modal" data-target="#reportProductModal">
+            <i class="fas fa-flag"></i> Report Product
+        </button>
+    </div>
+<?php else: ?>
+    <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-secondary" disabled>
+            <i class="fas fa-flag"></i> Report Product
+        </button>
+    </div>
+<?php endif; ?>
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -254,4 +295,56 @@ echo '<div class="alert alert-warning" role="alert">
 </div></div>  <!-- / .row -->
 
 </div>  <!-- / .container -->
+
+
+<!-- Report Product Modal -->
+<div class="modal fade" id="reportProductModal" tabindex="-1" role="dialog" aria-labelledby="reportProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportProductModalLabel">Report Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="product_id" value="<?php echo $report_id; ?>">
+                    <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                    <div class="mb-3">
+                        <label for="reason" class="form-label">Reason for Reporting</label>
+                        <select class="form-select" name="reason" id="reason" required>
+                            <option value="Inappropriate Content">Inappropriate Content</option>
+                            <option value="Copyright Violation">Copyright Violation</option>
+                            <option value="Spam or Misleading">Spam or Misleading</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="customReasonContainer" style="display: none;">
+                        <label for="custom_reason" class="form-label">Custom Reason</label>
+                        <textarea class="form-control" name="custom_reason" id="custom_reason" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" name="submit_report" class="btn btn-danger">Submit Report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const reasonSelect = document.getElementById("reason");
+        const customReasonContainer = document.getElementById("customReasonContainer");
+
+        reasonSelect.addEventListener("change", function () {
+            if (this.value === "Other") {
+                customReasonContainer.style.display = "block";
+            } else {
+                customReasonContainer.style.display = "none";
+            }
+        });
+    });
+</script>
 <?php include "footer.php"; ?>

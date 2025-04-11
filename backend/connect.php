@@ -30,6 +30,9 @@ $siteurl= $row["site_url"];
 $escrowfee= $row["commision_fee"];
 $affliate_percentage= $row["affliate_percentage"];
 $sitedescription= $row["site_description"];
+$siteaccno= $row["account_number"];
+$siteaccname= $row["account_name"];
+$site_bank= $row["site_bank"];
 $sitekeywords= $row["site_keywords"];} 
 $adminlink='admin'.$siteurl;
 

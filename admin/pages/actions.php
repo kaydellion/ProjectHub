@@ -168,7 +168,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addPlan'])) {
     showSuccessModal('Processed', $message);
     header("refresh:2; url=add-plan.php");
 }
+// manual payment rejection
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reject_payment'])) {
+    $order_id = mysqli_real_escape_string($con, $_POST['order_id']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+    $rejection_reason = mysqli_real_escape_string($con, $_POST['rejection_reason']);
+    $date = date('Y-m-d H:i:s');
 
+    // Update the payment status to "payment resend" and store the rejection reason
+    $update_query = "UPDATE " . $siteprefix . "manual_payments SET status = 'payment resend', rejection_reason = '$rejection_reason'  WHERE order_id = '$order_id'";
+    if (mysqli_query($con, $update_query)) {
+        // Fetch user details
+        $user_query = "SELECT display_name, email FROM " . $siteprefix . "users WHERE s = '$user_id'";
+        $user_result = mysqli_query($con, $user_query);
+
+        if ($user_result && mysqli_num_rows($user_result) > 0) {
+            $user = mysqli_fetch_assoc($user_result);
+            $user_name = $user['display_name'];
+            $user_email = $user['email'];
+
+            // Send email to the user
+            $emailSubject = "Payment Rejected for Order #$order_id";
+            $emailMessage = "
+                <p>Dear $user_name,</p>
+                <p>Your payment for Order ID <strong>$order_id</strong> has been rejected for the following reason:</p>
+                <p><em>$rejection_reason</em></p>
+                <p>Please resubmit your payment proof to proceed with your order.</p>
+                <p>Thank you.</p>
+            ";
+
+            sendEmail($user_email, $user_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+        }
+
+        // Display success message
+        $message = "Payment for Order ID $order_id has been rejected successfully.";
+        showToast($message); // Use showToast to display the message
+        header("refresh:2;");
+       
+    } else {
+        // Display error message
+        $message = "An error occurred while rejecting the payment. Please try again.";
+        showErrorModal('Oops', $message); // Use showErrorModal to display the error
+        header("refresh:2;");
+       
+    }
+}
 //update plans
 if (isset($_POST['updatePlan'])) {
     $plan_id = $_POST['id'];
@@ -247,6 +291,43 @@ if (isset($_GET['action']) && $_GET['action'] == 'deleteplans') {
 
     showToast($message);
     header("refresh:1; url=$page");
+}
+
+
+//approve payment
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
+    $order_id = mysqli_real_escape_string($con, $_POST['order_id']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+    $amount = mysqli_real_escape_string($con, $_POST['amount']);
+    $date = date('Y-m-d H:i:s');
+
+    // Update the payment status to "approved"
+    $update_query = "UPDATE " . $siteprefix . "manual_payments 
+                     SET status = 'approved', rejection_reason = '' WHERE order_id = '$order_id'";
+    if (mysqli_query($con, $update_query)) {
+        // Insert into orders table
+        $insert_query = "INSERT INTO " . $siteprefix . "orders (order_id, user, status, total_amount, date) 
+                         VALUES ('$order_id', '$user_id', 'paid', '$amount', '$date')";
+        if (mysqli_query($con, $insert_query)) {
+            // Display success message
+            $message = "Payment for Order ID $order_id has been approved successfully.";
+            showSuccessModal('Processed', $message);
+            header("refresh:2;");
+           
+        } else {
+            // Display error message for order insertion failure
+            $message = "An error occurred while inserting the order. Please try again.";
+            showErrorModal('Oops', $message);
+            header("refresh:2;");
+         
+        }
+    } else {
+        // Display error message for payment status update failure
+        $message = "An error occurred while updating the payment status. Please try again.";
+        showErrorModal('Oops', $message);
+        header("refresh:2;");
+       
+    }
 }
 
 //update dispute status

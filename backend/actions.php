@@ -477,7 +477,193 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     header("refresh:2; url=$page");
 }
 
+//updateproof
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_proof'])) {
+    $order_id = mysqli_real_escape_string($con, $_POST['order_id']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+    $date = date('Y-m-d H:i:s');
 
+    // Handle file upload
+    if (isset($_FILES['proof_of_payment']) && $_FILES['proof_of_payment']['error'] === UPLOAD_ERR_OK) {
+        $file_tmp = $_FILES['proof_of_payment']['tmp_name'];
+        $file_name = $_FILES['proof_of_payment']['name'];
+        $file_ext = pathinfo($file_name, PATHINFO_EXTENSION); // File extension (optional, no validation here)
+        $new_file_name = uniqid() . '.' . $file_ext;
+        $upload_dir = 'uploads/'; // Subdirectory for payment proofs
+        $upload_path = $upload_dir . $new_file_name;
+
+        // Ensure the directory exists
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
+
+        if (move_uploaded_file($file_tmp, $upload_path)) {
+            // Update the proof of payment in the database
+            $update_query = "UPDATE " . $siteprefix . "manual_payments 
+                             SET proof = '$new_file_name', status = 'pending', date_created = '$date' 
+                             WHERE order_id = '$order_id' AND user_id = '$user_id'";
+            if (mysqli_query($con, $update_query)) {
+                // Fetch admin email
+                $admin_email = $siteMail; // Replace with your admin email variable
+                $admin_name = "Admin"; // Replace with your admin name variable
+
+                // Fetch user details
+                $user_query = "SELECT display_name, email FROM " . $siteprefix . "users WHERE s = '$user_id'";
+                $user_result = mysqli_query($con, $user_query);
+
+                if ($user_result && mysqli_num_rows($user_result) > 0) {
+                    $user = mysqli_fetch_assoc($user_result);
+                    $user_name = $user['display_name'];
+                    $user_email = $user['email'];
+                } else {
+                    $user_name = "Unknown User";
+                    $user_email = "Unknown Email";
+                }
+
+                // Email content for admin
+                $emailSubject = "Payment Resent for Order #$order_id";
+                $emailMessage = "
+                    <p>A payment has been resent:</p>
+                    <p><strong>Order ID:</strong> $order_id</p>
+                    <p><strong>User:</strong> $user_name ($user_email)</p>
+                    <p><strong>Date:</strong> $date</p>
+                    <p>Please log in to the admin panel to verify the payment.</p>
+                ";
+
+                // Send email to admin
+                sendEmail($admin_email, $admin_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+
+                // Success message for the user
+                $statusAction = "Success!";
+                $statusMessage = "Proof of payment updated successfully. The admin has been notified.";
+                showSuccessModal($statusAction, $statusMessage);
+                header("refresh:2; url=my_orders.php");
+                
+            } else {
+                // Database update error
+                $statusAction = "Error!";
+                $statusMessage = "An error occurred while updating the proof of payment.";
+                showErrorModal($statusAction, $statusMessage);
+                header("refresh:2; url=my_orders.php");
+                
+            }
+        } else {
+            // File upload error
+            $statusAction = "Error!";
+            $statusMessage = "Failed to upload the proof of payment. Please try again.";
+            showErrorModal($statusAction, $statusMessage);
+            header("refresh:2; url=my_orders.php");
+            
+        }
+    } else {
+        // No file uploaded
+        $statusAction = "Error!";
+        $statusMessage = "No proof of payment uploaded. Please try again.";
+        showErrorModal($statusAction, $statusMessage);
+        header("refresh:2; url=my_orders.php");
+        
+    }
+}
+//manual payment
+
+if (isset($_POST['submit_manual_payment'])) {
+    $order_id = mysqli_real_escape_string($con, $_POST['order_id']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+    $amount = mysqli_real_escape_string($con, $_POST['amount']);
+    $date = date('Y-m-d H:i:s');
+
+    // Handle file upload
+    if (isset($_FILES['proof_of_payment']) && $_FILES['proof_of_payment']['error'] === UPLOAD_ERR_OK) {
+        $file_tmp = $_FILES['proof_of_payment']['tmp_name'];
+        $file_name = $_FILES['proof_of_payment']['name'];
+        $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+        $allowed_ext = ['jpg', 'jpeg', 'png', 'pdf'];
+
+        if (in_array($file_ext, $allowed_ext)) {
+            $new_file_name = uniqid() . '.' . $file_ext;
+            $upload_dir = 'uploads/'; // Subdirectory for payment proofs
+            $upload_path = $upload_dir . $new_file_name;
+
+            // Ensure the directory exists
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
+            }
+
+            if (move_uploaded_file($file_tmp, $upload_path)) {
+                // Insert payment proof into the database
+                $query = "INSERT INTO " . $siteprefix . "manual_payments (order_id, user_id, amount, proof, status, date_created, rejection_reason) 
+                          VALUES ('$order_id', '$user_id', '$amount', '$new_file_name', 'pending', '$date', '')";
+                if (mysqli_query($con, $query)) {
+                    // Update order status to pending
+                    $update_order_query = "UPDATE " . $siteprefix . "orders SET status = 'pending' WHERE order_id = '$order_id'";
+                    mysqli_query($con, $update_order_query);
+
+                    // Fetch admin email
+                    $admin_email = $siteMail; // Replace with your admin email variable
+                    $admin_name = "Admin"; // Replace with your admin name variable
+
+                    // Fetch user details
+                    $user_query = "SELECT display_name, email FROM " . $siteprefix . "users WHERE s = '$user_id'";
+                    $user_result = mysqli_query($con, $user_query);
+
+                    if ($user_result && mysqli_num_rows($user_result) > 0) {
+                        $user = mysqli_fetch_assoc($user_result);
+                        $user_name = $user['display_name'];
+                        $user_email = $user['email'];
+                    } else {
+                        $user_name = "Unknown User";
+                        $user_email = "Unknown Email";
+                    }
+
+                    // Email content for admin
+                    $emailSubject = "New Manual Payment Submitted";
+                    $emailMessage = "
+                        <p>A new manual payment has been submitted:</p>
+                        <p><strong>Order ID:</strong> $order_id</p>
+                        <p><strong>User:</strong> $user_name ($user_email)</p>
+                        <p><strong>Amount:</strong> $sitecurrency" . number_format($amount, 2) . "</p>
+                        <p><strong>Date:</strong> $date</p>
+                        <p>Please log in to the admin panel to verify the payment.</p>
+                    ";
+
+                    // Send email to admin
+                    sendEmail($admin_email, $admin_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+
+                    // Success message for the user
+                    $statusAction = "Success!";
+                    $statusMessage = "Your payment proof has been submitted successfully. Your order is now pending verification.";
+                    showSuccessModal($statusAction, $statusMessage);
+                    header("refresh:2; url=checkout.php");
+                
+                } else {
+                    $statusAction = "Error!";
+                    $statusMessage = "An error occurred while submitting your payment proof. Please try again.";
+                    showErrorModal($statusAction, $statusMessage);
+                    header("refresh:2; url=checkout.php");
+                    
+                }
+            } else {
+                $statusAction = "Error!";
+                $statusMessage = "Failed to upload the proof of payment. Please try again.";
+                showErrorModal($statusAction, $statusMessage);
+                header("refresh:2; url=checkout.php");
+            
+            }
+        } else {
+            $statusAction = "Error!";
+            $statusMessage = "Invalid file type. Only JPG, JPEG, PNG, and PDF files are allowed.";
+            showErrorModal($statusAction, $statusMessage);
+            header("refresh:2; url=checkout.php");
+          
+        }
+    } else {
+        $statusAction = "Error!";
+        $statusMessage = "No proof of payment uploaded. Please try again.";
+        showErrorModal($statusAction, $statusMessage);
+        header("refresh:2; url=checkout.php");
+       
+    }
+}
 //add dispute
 if (isset($_POST['create_dispute'])){
     $category = $_POST['category'];
@@ -587,6 +773,87 @@ if (isset($_POST['create_dispute'])){
         showErrorModal('Oops', $message);
         }
     }
+
+
+   // Handle Report Product Submission
+if (isset($_POST['submit_report'])) {
+    $product_id = mysqli_real_escape_string($con, $_POST['product_id']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+    $reason = mysqli_real_escape_string($con, $_POST['reason']);
+    $custom_reason = isset($_POST['custom_reason']) ? mysqli_real_escape_string($con, trim($_POST['custom_reason'])) : null;
+
+    // Use custom reason if "Other" is selected
+    if ($reason === "Other" && !empty($custom_reason)) {
+        $reason = $custom_reason;
+    }
+
+    $date = date('Y-m-d H:i:s');
+
+    // Fetch the product title
+    $product_query = "SELECT title FROM " . $siteprefix . "reports WHERE id = '$product_id'";
+    $product_result = mysqli_query($con, $product_query);
+
+    if ($product_result && mysqli_num_rows($product_result) > 0) {
+        $product = mysqli_fetch_assoc($product_result);
+        $product_title = $product['title'];
+    } else {
+        $statusAction = "Error!";
+        $statusMessage = "Product not found.";
+        showErrorModal($statusAction, $statusMessage);
+        header("refresh:2; url=product.php?id=$product_id");
+        exit();
+    }
+
+    // Insert the report into the database
+    $insert_query = "INSERT INTO " . $siteprefix . "product_reports (product_id, user_id, reason, report_date) 
+                     VALUES ('$product_id', '$user_id', '$reason', '$date')";
+
+    if (mysqli_query($con, $insert_query)) {
+        // Fetch admin email
+        $admin_email = $siteMail; // Replace with your admin email variable
+       
+        // Fetch user details
+        $user_query = "SELECT display_name, email FROM " . $siteprefix . "users WHERE s = '$user_id'";
+        $user_result = mysqli_query($con, $user_query);
+
+        if ($user_result && mysqli_num_rows($user_result) > 0) {
+            $user = mysqli_fetch_assoc($user_result);
+            $user_name = $user['display_name'];
+            $user_email = $user['email'];
+        } else {
+            $user_name = "Unknown User";
+            $user_email = "Unknown Email";
+        }
+
+        // Email content
+        $emailSubject = "New Product Report Submitted";
+        $emailMessage = "
+            <p>A new product report has been submitted:</p>
+            <p><strong>Product Title:</strong> $product_title</p>
+            <p><strong>User:</strong> $user_name ($user_email)</p>
+            <p><strong>Reason:</strong> $reason</p>
+            <p><strong>Date:</strong> $date</p>
+        ";
+
+        // Send email to admin
+      //  sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage, $emailSubject);
+
+        // Success message
+        $statusAction = "Success!";
+        $statusMessage = "Your report for <strong>$product_title</strong> has been submitted successfully.";
+        showSuccessModal($statusAction, $statusMessage);
+        header("refresh:2; url=product.php?id=$product_id");
+      
+    } else {
+        // Error message
+        $statusAction = "Error!";
+        $statusMessage = "An error occurred while submitting your report. Please try again.";
+        showErrorModal($statusAction, $statusMessage);
+        header("refresh:2; url=product.php?id=$product_id");
+       
+    }
+}
+
 
 //withdrawwallet
 if (isset($_POST['withdraw'])){

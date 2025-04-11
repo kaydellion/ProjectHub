@@ -156,7 +156,7 @@ if ($row) {
                             <option value="approved" <?php echo ($status == 'approved') ? 'selected' : ''; ?>>Approved</option>
                           </select>
                         </div>
-                    <button type="submit" name="addcourse" value="course" class="btn btn-primary w-100">Update Report</button>
+                    <button type="submit" name="editcourse" value="course" class="btn btn-primary w-100">Update Report</button>
                 </form>
             </div>
         </div>
