@@ -183,6 +183,11 @@ include "actions.php"; ?>
                     <div data-i18n="Container">Pending Reports</div>
                   </a>
                 </li>
+                <li class="menu-item">
+                  <a href="product_reports.php" class="menu-link">
+                    <div data-i18n="Container">Product Reports</div>
+                  </a>
+                </li>
               </ul>
             </li>
   <!--  manual payment --->
