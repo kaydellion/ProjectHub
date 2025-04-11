@@ -32,6 +32,14 @@
                                 <input type="email" class="form-control" name="email" placeholder="Email Address" value="<?php echo htmlspecialchars($email); ?>" required>
                             </div>
                             <div class="col-md-6 form-group p_star mb-3">
+    
+    <select class="form-control" id="gender" name="gender" required>
+        <option value="male" <?php echo ($gender === 'male') ? 'selected' : ''; ?>>Male</option>
+        <option value="female" <?php echo ($gender === 'female') ? 'selected' : ''; ?>>Female</option>
+       
+    </select>
+</div>
+                            <div class="col-md-6 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="mobile_number" placeholder="Phone Number" value="<?php echo htmlspecialchars($mobile_number); ?>" required>
                             </div>
                             <div class="col-md-6 form-group p_star mb-3">
