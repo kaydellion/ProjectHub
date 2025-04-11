@@ -30,6 +30,10 @@
                     <div class="signup_part_form_iner">
                         <h3>Profile Details</h3>
                         <form class="row contact_form" method="POST" enctype="multipart/form-data">
+                        <div class="col-md-12 form-group p_star mb-3">
+                            <label for="profile_picture" class="form-label">Change Profile Picture</label>
+                            <input type="file" class="form-control" id="profile_picture" name="profile_picture" placeholder="Photo" required>
+                            </div>
                             <div class="col-md-4 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="first_name" placeholder="First Name" value="<?php echo htmlspecialchars($first_name); ?>" required>
                             </div>
@@ -46,6 +50,12 @@
                             <div class="col-md-6 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="mobile_number" placeholder="Phone Number" value="<?php echo htmlspecialchars($mobile_number); ?>" required>
                             </div>
+                            <div class="col-md-6 form-group p_star mb-3">
+<select name="gender">
+<option value="" <?php echo empty($gender) ? 'selected' : ''; ?>>-Select Gender-</option>
+<option value="male" <?php echo ($gender == 'Male') ? 'selected' : ''; ?>>Male</option>
+<option value="female" <?php echo ($gender == 'Female') ? 'selected' : ''; ?>>Female</option>
+</select></select> </div>
                             <div class="col-md-6 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="address" placeholder="Address" value="<?php echo htmlspecialchars($address); ?>" required>
                             </div>

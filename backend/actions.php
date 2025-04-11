@@ -931,6 +931,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $kin_email = mysqli_real_escape_string($con, $_POST['kin_email']);
     $kin_relationship = mysqli_real_escape_string($con, $_POST['kin_relationship']);
     $biography = mysqli_real_escape_string($con, $_POST['biography']);
+    $gender=  mysqli_real_escape_string($con, $_POST['gender']);
+
+
+    $uploadDir = 'uploads/';
+    $fileKey='profilePicture';
+    global $fileName;
+    $profilePicture = $_FILES['profilePicture']['name'];
+
+    // Update profile picture if a new one is uploaded
+    if (!empty($profilePicture)) {
+        $profilePicture = handleFileUpload($fileKey, $uploadDir, $fileName);
+    } else {
+        $profilePicture = $profile_picture; // Use the current profile picture if no new one is uploaded
+    }
 
     // Update query
     $update_query = "
@@ -953,7 +967,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
             kin_number = '$kin_number',
             kin_email = '$kin_email',
             kin_relationship = '$kin_relationship',
-            biography = '$biography'
+            biography = '$biography',
+            profile_picture='$profilePicture'
         WHERE s = '$user_id'
     ";
 
