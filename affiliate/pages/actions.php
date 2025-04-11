@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $uploadDir = '../uploads/';
     $fileKey='profilePicture';
     global $fileName;
-    $profilePicture = $_FILES['profilePicture']['name'];
+    $profilePicture = $_FILES['profile_picture']['name'];
 
     // Update profile picture if a new one is uploaded
     if (!empty($profilePicture)) {
