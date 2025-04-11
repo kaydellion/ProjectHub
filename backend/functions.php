@@ -187,11 +187,11 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
    $email_from = $siteMail;
    $email_to = $vendorEmail;
    $email_subject = "$emailSubject - $siteName";
-   $email_message = "<div style='width:600px; padding:100px 60px; background-color:#000080; color:#fff;'>
-   <p><img src='$siteurl/uploads/$siteimg' style='width:10%; height:auto;' /></p>
-   <p style='font-size:14px; color:#fff;'> <span style='font-size:14px; color:#89CFF0;'>Hello there, $vendorName,</span>
+   $email_message = "<div style='width:600px; padding:100px 60px; background-color:#000000; color:#fff;'>
+   <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
+   <p style='font-size:14px; color:#fff;'> <span style='font-size:14px; color:#F57C00;'>Hello there, $vendorName,</span>
    $emailMessage</p>
-   <p><a href='$siteurl' style='font-size:14px; padding-top:20px;  font-weight:600; color:#89CFF0;'>VISIT THE WEBSITE</a></p>
+   <p><a href='$siteurl' style='font-size:14px; padding-top:20px;  font-weight:600; color:#F57C00;'>VISIT THE WEBSITE</a></p>
    </div>";
 
    // create email headers
@@ -228,12 +228,12 @@ function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessa
     $email_body .= "Content-Type: text/html; charset=UTF-8\r\n";
     $email_body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
     $email_body .= "<div style='width:600px; padding:40px; background-color:#000080; color:#fff;'>
-                        <p><img src='$siteurl/uploads/$siteimg' style='width:10%; height:auto;' /></p>
+                        <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
                         <p style='font-size:14px; color:#fff;'>
-                            <span style='font-size:14px; color:#89CFF0;'>Hello, $vendorName,</span><br>
+                            <span style='font-size:14px; color:#F57C00;'>Hello, $vendorName,</span><br>
                             $emailMessage
                         </p>
-                        <p><a href='$siteurl' style='font-size:14px; font-weight:600; color:#89CFF0;'>VISIT THE WEBSITE</a></p>
+                        <p><a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>VISIT THE WEBSITE</a></p>
                     </div>\r\n";
 
     // Attach files

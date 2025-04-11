@@ -205,10 +205,10 @@ if(isset($_POST['register-user'])){
         $link="users.php";
         $msgtype='New User';
         $message_status=1;
-        $emailMessage_admin="<p>Hello Dear Admin,a new user has been successfully registered!</p>";
+        $emailMessage_admin="<p>A new user has been successfully registered!</p>";
         $emailSubject_admin="New User Registeration";
         insertadminAlert($con, $adminmessage, $link, $date, $msgtype, $message_status); 
-        sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
+        sendEmail($email, $display_name, $siteName, $siteMail, $emailMessage, $emailSubject);
         sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject_admin);
         if($seller==1){
         //$statusMessage="Your account has been created successfully. You can now proceed to sign your the contract.";
