@@ -235,6 +235,7 @@ if (isset($_POST['register-affiliate'])) {
     $address = mysqli_real_escape_string($con, $_POST['address']);
     $website = mysqli_real_escape_string($con, $_POST['website']);
     $referral_source = mysqli_real_escape_string($con, $_POST['referral_source']);
+    $gender = mysqli_real_escape_string($con, $_POST['gender']);
     $agree_terms = isset($_POST['agree_terms']) ? 1 : 0;
     $password = mysqli_real_escape_string($con, $_POST['password']);
     $retypePassword = mysqli_real_escape_string($con, $_POST['retypePassword']);
@@ -304,7 +305,7 @@ if (isset($_POST['register-affiliate'])) {
     // Insert affiliate details into the database
     $query = "INSERT INTO " . $siteprefix . "users 
     (display_name, first_name, middle_name, last_name, profile_picture, mobile_number, email, password, gender, address, type, status, last_login, created_date, preference, bank_name, bank_accname, bank_number, loyalty, wallet, affliate, seller, facebook, twitter, instagram, linkedln, kin_name, kin_number, kin_email, biography, kin_relationship) 
-    VALUES ('$first_name', '$first_name', '$middle_name', '$last_name', '', '$phone', '$email', '$hashedPassword', '', '$address', '$type', '$status', '$date', '$date', '', '', '', '0', '0', '0', '$affiliate', '0', '', '', '', '', '', '', '', '', '')";
+    VALUES ('$first_name', '$first_name', '$middle_name', '$last_name', '', '$phone', '$email', '$hashedPassword', '$gender', '$address', '$type', '$status', '$date', '$date', '', '', '', '0', '0', '0', '$affiliate', '0', '', '', '', '', '', '', '', '', '')";
 
 if (mysqli_query($con, $query)) {
 $user_id = mysqli_insert_id($con);

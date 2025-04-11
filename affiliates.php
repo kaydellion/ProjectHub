@@ -36,6 +36,12 @@
                             <div class="col-md-6 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="address" placeholder="Address" required>
                             </div>
+                            <div class="col-md-6 form-group p_star mb-3">
+                                    <select class="form-control" id="gender" name="gender" required>
+                                    <option value="">-Select Gender-</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    </select> </div>
 
                          
                             <div class="form-group col-md-6 p_star mb-3">
