@@ -349,7 +349,7 @@ if(isset($_POST['update-profile'])){
     }
 
     $uploadDir = 'uploads/';
-    $fileKey='profilePicture';
+    $fileKey='profile_picture';
     global $fileName;
 
     // Update profile picture if a new one is uploaded
@@ -937,7 +937,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
 
 
     $uploadDir = 'uploads/';
-    $fileKey='profilePicture';
+    $fileKey='profile_picture';
     global $fileName;
     $profilePicture = $_FILES['profile_picture']['name'];
 

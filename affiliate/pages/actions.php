@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $biography = mysqli_real_escape_string($con, $_POST['biography']);
 
     $uploadDir = '../uploads/';
-    $fileKey='profilePicture';
+    $fileKey='profile_picture';
     global $fileName;
     $profilePicture = $_FILES['profile_picture']['name'];
 
