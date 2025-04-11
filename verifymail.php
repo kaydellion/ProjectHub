@@ -19,7 +19,7 @@
                 <?php 
                 if(isset($_GET['verify_status'])){
                     $user_log = $_GET['verify_status'];
-                    $sql = "SELECT * from users where s='$user_log'";
+                    $sql = "SELECT * from ".$siteprefix."users where s='$user_log'";
                     $sql2 = mysqli_query($con, $sql);
                     if (mysqli_affected_rows($con) == 0){
                         $message = 'User does not exist!';
@@ -32,7 +32,7 @@
                         }
                         
                         $subject = "Email Verified - $sitename";
-                        $emailMessage = "Hello there, $name, Your email address has been successfully verified.<br><span style='color:#fff;'> Proceed to log in into your account.";
+                        $emailMessage = "Hello there, $display_name, Your email address has been successfully verified.<br><span style='color:#fff;'> Proceed to log in into your account.";
                         sendEmail($sitemail, $sitename, $sitename, $sitemail, $emailMessage, $subject);
                         $insert = mysqli_query($con, "UPDATE ".$siteprefix."users SET status='active' where s='$user_log'") or die ('Could not connect: ' .mysqli_error($con));
                         if(sendEmail($sitemail, $sitename, $sitename, $sitemail, $emailMessage, $subject)) {

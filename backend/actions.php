@@ -200,7 +200,7 @@ if(isset($_POST['register-user'])){
         $emailSubject="Verify Your Email";
         $emailMessage="<p>Thank you for registering on our website. To complete your registration, 
         please click on the following link to verify your email address:<br>
-        <a href='$siteurl/verifymail.php?verify_status=$user_id'>Verify My Email</a></p>";
+        <a href='$siteurl/verifymail.php?verify_status=$user_id'>Click here to verify</a></p>";
         $adminmessage = "A new user has been registered($display_name - $account)";
         $link="users.php";
         $msgtype='New User';
