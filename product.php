@@ -157,13 +157,13 @@ while ($row = mysqli_fetch_array($sql2)) {
 
 <!-- Report Product Button -->
 <?php if ($active_log == 1): ?>
-    <div class="d-flex justify-content-center mt-3">
+    <div class="d-flex justify-content-left mt-3 mb-3">
         <button class="btn btn-danger" data-toggle="modal" data-target="#reportProductModal">
             <i class="fas fa-flag"></i> Report Product
         </button>
     </div>
 <?php else: ?>
-    <div class="d-flex justify-content-center mt-3">
+    <div class="d-flex justify-content-left mt-3 mb-3">
         <button class="btn btn-secondary" disabled>
             <i class="fas fa-flag"></i> Report Product
         </button>
