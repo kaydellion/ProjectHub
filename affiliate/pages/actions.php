@@ -63,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $middle_name = mysqli_real_escape_string($con, $_POST['middle_name']);
     $last_name = mysqli_real_escape_string($con, $_POST['last_name']);
     $email = mysqli_real_escape_string($con, $_POST['email']);
+    $sex = mysqli_real_escape_string($con, $_POST['gender']);
     $mobile_number = mysqli_real_escape_string($con, $_POST['mobile_number']);
     $address = mysqli_real_escape_string($con, $_POST['address']);
     $bank_name = mysqli_real_escape_string($con, $_POST['bank_name']);
@@ -86,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
             middle_name = '$middle_name',
             last_name = '$last_name',
             email = '$email',
+            gender = '$sex',
             mobile_number = '$mobile_number',
             address = '$address',
             bank_name = '$bank_name',
