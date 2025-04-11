@@ -564,8 +564,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_proof'])) {
         
     }
 }
-//manual payment
 
+//manual payment
 if (isset($_POST['submit_manual_payment'])) {
     $order_id = mysqli_real_escape_string($con, $_POST['order_id']);
     $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
