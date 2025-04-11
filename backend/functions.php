@@ -195,7 +195,7 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
    </div>";
 
    // create email headers
-   $header = 'From: ' . $siteName . ' <' . $siteMail . '>' . "\r\n";
+   $header = 'From: ' . preg_replace('/[^\x20-\x7E]/', '', $siteName) . ' <' . filter_var($siteMail, FILTER_SANITIZE_EMAIL) . '>' . "\r\n";
    $header .= "Cc:$siteMail \r\n";
    $header .= 'Reply-To: ' . $siteMail . '' . "\r\n";
    $header .= "MIME-Version: 1.0\r\n";
