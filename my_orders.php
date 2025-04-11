@@ -1,15 +1,21 @@
 <?php include "header.php";
 
-
-// Fetch user's orders
-$sql = "SELECT * FROM ".$siteprefix."orders WHERE user = ? AND status = 'paid' ORDER BY date DESC";
+// Fetch user's orders (paid orders and manual payments with status 'payment resend')
+$sql = "
+    SELECT order_id, date_created AS date, amount AS total_amount, status, 'manual' AS type 
+    FROM ".$siteprefix."manual_payments 
+    WHERE user_id = ? AND status = 'payment resend'
+    UNION ALL
+    SELECT order_id, date, total_amount, status, 'regular' AS type 
+    FROM ".$siteprefix."orders 
+    WHERE user = ? AND status = 'paid'
+    ORDER BY date DESC";
 $stmt = $con->prepare($sql);
-$stmt->bind_param("s", $user_id);
+$stmt->bind_param("ss", $user_id, $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
 ?>
-
 
 <div class="container mt-5 mb-5">
     <h2 class="mb-4">My Orders</h2>
@@ -38,11 +44,48 @@ $result = $stmt->get_result();
                                 </span>
                             </td>
                             <td>
-                                <a href="order_details.php?order_id=<?php echo $row['order_id']; ?>" class="text-small btn btn-kayd btn-sm">
-                                    View Details
-                                </a>
+                                <?php if ($row['type'] == 'manual' && $row['status'] == 'payment resend') { ?>
+                                    <!-- Button to update proof of payment -->
+                                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#updateProofModal<?php echo $row['order_id']; ?>">
+                                        Update Proof
+                                    </button>
+                                <?php } else { ?>
+                                    <a href="order_details.php?order_id=<?php echo $row['order_id']; ?>" class="text-small btn btn-kayd btn-sm">
+                                        View Details
+                                    </a>
+                                <?php } ?>
                             </td>
                         </tr>
+
+                        <?php if ($row['type'] == 'manual' && $row['status'] == 'payment resend') { ?>
+                            <!-- Modal for updating proof of payment -->
+                            <div class="modal fade" id="updateProofModal<?php echo $row['order_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="updateProofModalLabel<?php echo $row['order_id']; ?>" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="updateProofModalLabel<?php echo $row['order_id']; ?>">Update Proof of Payment</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form method="post"  enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="proof_of_payment">Upload New Proof of Payment</label>
+                                                    <input type="file" class="form-control" id="proof_of_payment" name="proof_of_payment" required>
+                                                </div>
+                                                <input type="hidden" name="order_id" value="<?php echo $row['order_id']; ?>">
+                                                <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-primary" name="update_proof">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
                     <?php } ?>
                 </tbody>
             </table>
@@ -52,18 +95,5 @@ $result = $stmt->get_result();
     <?php } ?>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <?php include "footer.php"; ?>
