@@ -31,7 +31,7 @@ $show="none"; $textshow="none";
                         <div class="login_part_form_iner">
                         <div class="alert alert-success alert-dismissible mb-3 fade show" id="myAlert" role="alert" style="display:<?php echo $show; ?>">
             Congratulations! Your account has been successfully created. Thank you for registering! <span style="display: <?php echo $textshow;?>"> your email to verify your account.</span>
-            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span></button></div>
                             <h3>Welcome Back ! <br>
                                 Please Sign in now</h3>
