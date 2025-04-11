@@ -19,26 +19,30 @@
                 <?php 
                 if(isset($_GET['verify_status'])){
                     $user_log = $_GET['verify_status'];
-                    $sql = "SELECT * from users where id='$user_log'";
+                    $sql = "SELECT * from ".$siteprefix."users where s='$user_log'";
                     $sql2 = mysqli_query($con, $sql);
                     if (mysqli_affected_rows($con) == 0){
                         $message = 'User does not exist!';
                         showErrorModal('Error', $message);
                     } else {
                         while($row = mysqli_fetch_array($sql2)) {
-                            $id = $row["id"];   
-                            $name = $row["name"];
+                            $id = $row["s"];   
+                            $name = $row["display_name"];
                             $email = $row["email"];
                         }
                         
                         $subject = "Email Verified - $sitename";
                         $emailMessage = "Hello there, $name, Your email address has been successfully verified.<br><span style='color:#fff;'> Proceed to log in into your account.";
-                        sendEmail($sitemail, $sitename, $sitename, $sitemail, $emailMessage, $subject);
-                        $insert = mysqli_query($con, "UPDATE ".$siteprefix."users SET status='active' where id='$user_log'") or die ('Could not connect: ' .mysqli_error($con));
-                        if(sendEmail($sitemail, $sitename, $sitename, $sitemail, $emailMessage, $subject)) {
-                            $message = 'Email Verified Successfully!';
-                            showSuccessModal('Success', $message);
-                            header("refresh:2;url=signin.php?verify_login=$user_log");
+                        if(mysqli_query($con, "UPDATE ".$siteprefix."users SET status='active' where s='$user_log'")) {
+                            if(sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $subject)) {
+                                $message = 'Email Verified Successfully!';
+                                showSuccessModal('Success', $message);
+                                header("refresh:2;url=signin.php?verify_login=$user_log");
+                            } else {
+                                $message = 'Verification successful but failed to send email';
+                                showSuccessModal('Partial Success', $message);
+                                header("refresh:2;url=signin.php?verify_login=$user_log");
+                            }
                         } else {
                             $message = 'Failed to verify';
                             showErrorModal('Error', $message);

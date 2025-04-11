@@ -254,4 +254,4 @@ include "backend/actions.php";
     <!-- Header part end-->
 
     <input type="hidden" id="order_id" value="<?php echo $order_id; ?>">
-    <input type="hidden" id="user_id" value="<?php echo $user_id; ?>">
+    <input type="hidden" id="user_id" value="<?php if($active_log==1){echo $user_id; }?>">
