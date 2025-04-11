@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $kin_relationship = mysqli_real_escape_string($con, $_POST['kin_relationship']);
     $biography = mysqli_real_escape_string($con, $_POST['biography']);
 
-    $uploadDir = 'uploads/';
+    $uploadDir = '../uploads/';
     $fileKey='profilePicture';
     global $fileName;
     $profilePicture = $_FILES['profilePicture']['name'];
