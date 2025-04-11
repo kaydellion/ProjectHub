@@ -12,6 +12,7 @@ $currentdate=date("Y-m-d");
 $currentdatetime=date("Y-m-d H:i:s");
 $imagePath='uploads/';
 $adminlink='admin/';
+$adminName='Project Hub';
 $adminimagePath='../../uploads/';
 $sitecurrency="₦";
 $sitecurrencyCode="&#8358;";

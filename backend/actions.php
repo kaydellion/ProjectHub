@@ -112,6 +112,7 @@ if(isset($_POST['register-user'])){
     $password = $_POST['password'];
     $retypePassword = $_POST['retypePassword'];
     $seller = !empty($_POST['register_as_seller']) ? 1 : 0;
+    $profilePicture = $_FILES['profilePicture']['name'];
     
 
        //status
@@ -158,7 +159,7 @@ if(isset($_POST['register-user'])){
         $first_name = mysqli_real_escape_string($con, $_POST['first_name']);
         $middle_name = mysqli_real_escape_string($con, $_POST['middle_name']);
         $last_name = mysqli_real_escape_string($con, $_POST['last_name']);
-        $profile_picture = mysqli_real_escape_string($con, $profilePicture);
+        $profile_picture = $profilePicture;
         $mobile_number = mysqli_real_escape_string($con, $_POST['mobile_number']);
         $email = mysqli_real_escape_string($con, $_POST['email']);
         $gender = mysqli_real_escape_string($con, $_POST['gender']);
@@ -184,7 +185,8 @@ if(isset($_POST['register-user'])){
         $biography = mysqli_real_escape_string($con, $_POST['biography']);
         $kin_relationship = mysqli_real_escape_string($con, $_POST['kin_relationship']);
 
-        $query = "INSERT INTO ".$siteprefix."users (display_name, first_name, middle_name, last_name, profile_picture, mobile_number, email, password, gender, address, type, status, last_login, created_date, preference, bank_name, bank_accname, bank_number, loyalty, wallet, affliate, seller, facebook, twitter, instagram, linkedln, kin_name, kin_number, kin_email, biography, kin_relationship) VALUES ('$display_name', '$first_name', '$middle_name', '$last_name', '$profile_picture', '$mobile_number', '$email', '$password', '$gender', '$address', '$type', '$status', '$last_login', '$created_date', '$preference', '$bank_name', '$bank_accname', '$bank_number', '$loyalty', '$wallet', '$affliate', '0', '$facebook', '$twitter', '$instagram', '$linkedln', '$kin_name', '$kin_number', '$kin_email', '$biography', '$kin_relationship')";
+        $query = "INSERT INTO ".$siteprefix."users (display_name, first_name, middle_name, last_name, profile_picture, mobile_number, email, password, gender, address, type, status, last_login, created_date, preference, bank_name, bank_accname, bank_number, loyalty, wallet, affliate, seller, facebook, twitter, instagram, linkedln, kin_name, kin_number, kin_email, biography, kin_relationship)
+         VALUES ('$display_name', '$first_name', '$middle_name', '$last_name', '$profile_picture', '$mobile_number', '$email', '$password', '$gender', '$address', '$type', '$status', '$last_login', '$created_date', '$preference', '$bank_name', '$bank_accname', '$bank_number', '$loyalty', '$wallet', '$affliate', '0', '$facebook', '$twitter', '$instagram', '$linkedln', '$kin_name', '$kin_number', '$kin_email', '$biography', '$kin_relationship')";
 
         if (mysqli_query($con, $query)) {
             $user_id = mysqli_insert_id($con);
@@ -203,10 +205,10 @@ if(isset($_POST['register-user'])){
         $link="users.php";
         $msgtype='New User';
         $message_status=1;
-        $emailMessage_admin="<p>Hello Dear Admin,a new user has been successfully registered!</p>";
+        $emailMessage_admin="<p>A new user has been successfully registered!</p>";
         $emailSubject_admin="New User Registeration";
         insertadminAlert($con, $adminmessage, $link, $date, $msgtype, $message_status); 
-        sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
+        sendEmail($email, $display_name, $siteName, $siteMail, $emailMessage, $emailSubject);
         sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject_admin);
         if($seller==1){
         //$statusMessage="Your account has been created successfully. You can now proceed to sign your the contract.";
@@ -301,31 +303,15 @@ if (isset($_POST['register-affiliate'])) {
 */
     // Insert affiliate details into the database
     $query = "INSERT INTO " . $siteprefix . "users 
-              (display_name, first_name, middle_name, last_name, profile_picture, mobile_number, email, password, gender, address, type, status, last_login, created_date, preference, bank_name, bank_accname, bank_number, loyalty, wallet, affliate, seller, facebook, twitter, instagram, linkedln, kin_name, kin_number, kin_email, biography, kin_relationship) 
-              VALUES 
-              ('$first_name', '$first_name', '$middle_name', '$last_name', '', '$phone', '$email', '$hashedPassword', '', '$address', '$type', '$status', '$date', '$date', '', '', '', '0', '0', '0', '$affiliate', '0', '', '', '', '', '', '', '', '', '')";
+    (display_name, first_name, middle_name, last_name, profile_picture, mobile_number, email, password, gender, address, type, status, last_login, created_date, preference, bank_name, bank_accname, bank_number, loyalty, wallet, affliate, seller, facebook, twitter, instagram, linkedln, kin_name, kin_number, kin_email, biography, kin_relationship) 
+    VALUES ('$first_name', '$first_name', '$middle_name', '$last_name', '', '$phone', '$email', '$hashedPassword', '', '$address', '$type', '$status', '$date', '$date', '', '', '', '0', '0', '0', '$affiliate', '0', '', '', '', '', '', '', '', '', '')";
 
     if (mysqli_query($con, $query)) {
-        $user_id = mysqli_insert_id($con);
-/*
-        // Send confirmation email to the affiliate
-        $emailSubject = "Affiliate Registration Successful";
-        $emailMessage = "<p>Dear $first_name $last_name,</p>
-                         <p>Thank you for registering as an affiliate. Your application has been received and is under review.</p>
-                         <p>We will contact you shortly with further details.</p>";
-        sendEmail($email, "$first_name $last_name", $siteName, $siteMail, $emailMessage, $emailSubject);
-
-        // Notify admin about the new affiliate registration
-        $adminMessage = "A new affiliate has registered: $first_name $last_name ($email)";
-        $adminSubject = "New Affiliate Registration";
-        sendEmail($siteMail, "Admin", $siteName, $siteMail, $adminMessage, $adminSubject);
-*/
-        // Show success modal and redirect
-     // Show success modal and redirect
+$user_id = mysqli_insert_id($con);
 $statusAction = "Success!";
 $message = "Affiliate registration successful! A confirmation email has been sent to $email.";
 showSuccessModal($statusAction, $message); // Correctly pass the variable
-header("refresh:1; url=affiliate/");
+header("refresh:1; url=https://affiliate.projectreporthub.ng/"); 
     } else {
         $statusAction = "Error!";
         $statusMessage = "There was an error registering the affiliate: " . mysqli_error($con);
@@ -564,8 +550,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_proof'])) {
         
     }
 }
-//manual payment
 
+//manual payment
 if (isset($_POST['submit_manual_payment'])) {
     $order_id = mysqli_real_escape_string($con, $_POST['order_id']);
     $user_id = mysqli_real_escape_string($con, $_POST['user_id']);

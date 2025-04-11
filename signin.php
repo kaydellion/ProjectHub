@@ -52,7 +52,7 @@ $show="none"; $textshow="none";
                                     <button type="submit" value="submit" name="signin" class="btn_3">
                                         log in
                                     </button>
-                                    <a class="lost_pass" href="#">forget password?</a>
+                                    <a class="lost_pass" href="forgot-password.php">forget password?</a>
                                 </div>
                             </form>
                         </div>

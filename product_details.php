@@ -44,9 +44,10 @@ $review_count = $rating_data['review_count'];
 
 $initialtext = "Add to Wishlist";
 $initialbtn = "btn-outline-secondary";
+if($active_log==1){
 $checkEmail = mysqli_query($con, "SELECT * FROM ".$siteprefix."wishlist WHERE user='$user_id' AND product='$report_id'");
 if(mysqli_num_rows($checkEmail) >= 1 ) {
     $initialtext = "Remove from Wishlist";
     $initialbtn = "btn-primary";
-}
+}}
 ?>

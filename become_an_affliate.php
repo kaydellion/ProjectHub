@@ -40,7 +40,7 @@
             </div>
         </div>
 
-    <p class="text-center mt-1"><a href="affiliates.php"  target="_blank" class="btn-kayd w-100 mt-3">Sign up as an Affliate</a></p>
+    <p class="text-center mt-1 mb-5"><a href="affiliates.php"  target="_blank" class="btn-kayd w-100 mt-3">Sign up as an Affliate</a></p>
 </div></div></div>
 </section>
 
