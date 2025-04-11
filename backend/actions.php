@@ -206,8 +206,8 @@ if(isset($_POST['register-user'])){
         $emailMessage_admin="<p>Hello Dear Admin,a new user has been successfully registered!</p>";
         $emailSubject_admin="New User Registeration";
         insertadminAlert($con, $adminmessage, $link, $date, $msgtype, $message_status); 
-        //sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
-        //sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject_admin);
+        sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
+        sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject_admin);
         if($seller==1){
         //$statusMessage="Your account has been created successfully. You can now proceed to sign your the contract.";
         echo header("location:contract.php?user_login=$user_id&name=$first_name $middle_name $last_name&address=$address&display_name=$display_name&email=$email&phone=$mobile_number");
@@ -525,8 +525,8 @@ if (isset($_POST['create_dispute'])){
         $emailMessage_admin="<p>Hello Dear Admin,a new dispute has been submitted!</p>";
         $emailSubject_admin="New Dispute";
         insertadminAlert($con, $adminmessage, $link, $date, $msgtype, $message_status);
-        //sendEmail($email, $display_name, $siteName, $siteMail, $emailMessage, $emailSubject);
-        //sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject_admin);
+        sendEmail($email, $display_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+        sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject_admin);
     
             if($recipient_id){
             $rDetails = getUserDetails($con, $siteprefix, $recipient_id);
@@ -534,7 +534,7 @@ if (isset($_POST['create_dispute'])){
             $r_name = $rDetails['display_name'];
             $r_emailSubject="New Dispute ($ticket_number)";
             $r_emailMessage="<p>A new dispute has been submitted with you as the recipient. Login to your dashboard to check</p>";
-           //sendEmail($r_email, $r_name, $siteName, $siteMail, $r_emailMessage, $r_emailSubject);
+           sendEmail($r_email, $r_name, $siteName, $siteMail, $r_emailMessage, $r_emailSubject);
            $message = "A new dispute has been submitted with you as the recipient: " . $ticket_number;
            $status=0;
            insertAlert($con, $recipient_id, $message, $date, $status);
@@ -607,8 +607,8 @@ $link="withdrawals.php";
 $msgtype='New Withdrawal';
 $message_status=1;
 insertadminAlert($con, $adminmessage, $link, $date, $msgtype, $message_status); 
-//sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
-//sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject);
+sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
+sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject);
     
    
 $statusAction="Successful";
