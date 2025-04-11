@@ -33,12 +33,16 @@
                         
                         $subject = "Email Verified - $sitename";
                         $emailMessage = "Hello there, $name, Your email address has been successfully verified.<br><span style='color:#fff;'> Proceed to log in into your account.";
-                        sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $subject);
-                        $insert = mysqli_query($con, "UPDATE ".$siteprefix."users SET status='active' where s='$user_log'") or die ('Could not connect: ' .mysqli_error($con));
-                        if(sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage, $subject)) {
-                            $message = 'Email Verified Successfully!';
-                            showSuccessModal('Success', $message);
-                            header("refresh:2;url=signin.php?verify_login=$user_log");
+                        if(mysqli_query($con, "UPDATE ".$siteprefix."users SET status='active' where s='$user_log'")) {
+                            if(sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $subject)) {
+                                $message = 'Email Verified Successfully!';
+                                showSuccessModal('Success', $message);
+                                header("refresh:2;url=signin.php?verify_login=$user_log");
+                            } else {
+                                $message = 'Verification successful but failed to send email';
+                                showSuccessModal('Partial Success', $message);
+                                header("refresh:2;url=signin.php?verify_login=$user_log");
+                            }
                         } else {
                             $message = 'Failed to verify';
                             showErrorModal('Error', $message);
