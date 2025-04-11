@@ -53,7 +53,7 @@
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                                         <div class="input-group-append">
-                                            <span class="input-group-text" onclick="togglePasswordVisibility('password')">
+                                            <span class="input-group-text p-3" onclick="togglePasswordVisibility('password')">
                                                 <i class="fa fa-eye" id="togglePasswordIcon"></i>
                                             </span>
                                         </div>
@@ -63,7 +63,7 @@
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Password" required>
                                         <div class="input-group-append">
-                                            <span class="input-group-text" onclick="togglePasswordVisibility('retypePassword')">
+                                            <span class="input-group-text p-3" onclick="togglePasswordVisibility('retypePassword')">
                                                 <i class="fa fa-eye" id="toggleRetypePasswordIcon"></i>
                                             </span>
                                         </div>

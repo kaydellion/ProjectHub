@@ -10,11 +10,11 @@
                 <div>
                  <label for="profilePictureInput" class="text-light">Click to change profile picture</label>
                  <input type="file" id="profilePictureInput" name="profilePicture" accept="image/*" style="display: none;" onchange="previewProfilePicture(event)">
-                 <img src="../../uploads/<?php echo htmlspecialchars($profile_picture); ?>" class="mt-3" alt="Avatar" id="profilePicturePreview" onclick="document.getElementById('profilePictureInput').click();">
+                 <img  style="width:10%; height:auto;" src="../../uploads/<?php echo htmlspecialchars($profile_picture); ?>" class="mt-3" alt="Avatar" id="profilePicturePreview" onclick="document.getElementById('profilePictureInput').click();">
                 </div>
                     <div class="form-group col-md-6 mb-3">
-                        <label for="fullName">Full Name</label>
-                        <input type="text" class="form-control" id="fullName" name="fullName" value="<?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>" required>
+                        <label for="fullName">Name</label>
+                        <input type="text" class="form-control" id="fullName" name="fullName" value="<?php echo htmlspecialchars($display_name, ENT_QUOTES, 'UTF-8'); ?>" required>
                     </div>
                     <div class="form-group col-md-6 mb-3">
                         <label for="email">Email</label>
@@ -27,7 +27,7 @@
             <div class="input-group">
             <input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="Password">
             <div class="input-group-append">
-                <span class="input-group-text" onclick="togglePasswordVisibility('oldpassword')">
+                <span class="input-group-text p-3" onclick="togglePasswordVisibility('oldpassword')">
                 <i class="bx bx-low-vision" id="togglePasswordIcon"></i>
                 </span>
             </div>
@@ -38,7 +38,7 @@
             <div class="input-group">
             <input type="password" class="form-control" id="password" name="password" placeholder="Password">
             <div class="input-group-append">
-                <span class="input-group-text" onclick="togglePasswordVisibility('password')">
+                <span class="input-group-text p-3" onclick="togglePasswordVisibility('password')">
                 <i class="bx bx-low-vision" id="togglePasswordIcon"></i>
                 </span>
             </div>
@@ -49,7 +49,7 @@
             <div class="input-group">
             <input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Password">
             <div class="input-group-append">
-                <span class="input-group-text" onclick="togglePasswordVisibility('retypePassword')">
+                <span class="input-group-text p-3" onclick="togglePasswordVisibility('retypePassword')">
                 <i class="bx bx-low-vision" id="toggleRetypePasswordIcon"></i>
                 </span>
             </div>

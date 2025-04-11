@@ -1,12 +1,32 @@
 <?php
 
+// Query to count total users
+$totalUsersQuery = "SELECT COUNT(*) AS total_users FROM ".$siteprefix."users WHERE type != 'admin'"; 
+$totalUsersResult = mysqli_query($con, $totalUsersQuery);
+$totalUsers = mysqli_fetch_assoc($totalUsersResult)['total_users'];
+
+// Query to calculate total profit
+$totalProfitQuery = "SELECT SUM(amount) AS total_profit FROM ".$siteprefix."profits";
+$totalProfitResult = mysqli_query($con, $totalProfitQuery);
+$totalProfit = mysqli_fetch_assoc($totalProfitResult)['total_profit'];
+
+// Query to count total reports
+$totalReportsQuery = "SELECT COUNT(*) AS total_reports FROM ".$siteprefix."reports";
+$totalReportsResult = mysqli_query($con, $totalReportsQuery);
+$totalReports = mysqli_fetch_assoc($totalReportsResult)['total_reports'];
+
+// Query to count total sales (paid orders)
+$totalSalesQuery = "SELECT COUNT(order_id) AS total_sales FROM ".$siteprefix."orders WHERE status = 'paid'";
+$totalSalesResult = mysqli_query($con, $totalSalesQuery);
+$totalSales = mysqli_fetch_assoc($totalSalesResult)['total_sales'];
+
 
 $sql = "SELECT * FROM  ".$siteprefix."alerts WHERE status='0' ORDER BY s DESC LIMIT 5";
 $sql2 = mysqli_query($con,$sql);
 $notification_count = mysqli_num_rows($sql2);
  
 if (isset($_GET['action']) && $_GET['action'] == 'read-message') {
-    $sql = "UPDATE dv_alerts SET status='1' WHERE status='0'";
+    $sql = "UPDATE ".$siteprefix."alerts SET status='1' WHERE status='0'";
     $sql2 = mysqli_query($con,$sql);
     $message="All notifications marked as read.";
     showToast($message);
@@ -466,6 +486,314 @@ insertAlert($con, $user, $alertmessage, $date, $status);
 insertWallet($con, $user, $amount, $type, $note, $date);
 showSuccessModal('Processed',$message);
 }
+
+
+
+
+
+if(isset($_POST['approvewithdraw'])){
+    $action=$_POST['approvewithdraw'];
+    $therow=$_POST['therow'];
+    $user=$_POST['user'];
+    $date = date('Y-m-d H:i:s');
+    
+    $sql = "SELECT * FROM " . $siteprefix . "withdrawal WHERE s = '$therow'";
+    $sql2 = mysqli_query($con, $sql);
+    while ($insertedRecord = mysqli_fetch_array($sql2)) {
+            $amount = $insertedRecord['amount'];
+            $bank = $insertedRecord['bank'];
+            $bankname = $insertedRecord['bank_name'];
+            $bankno = $insertedRecord['bank_number'];
+            $thedate = formatDateTime($insertedRecord['date']);
+        }
+        
+    $sql = "SELECT * FROM  ".$siteprefix."users WHERE s='$user'";
+    $result = mysqli_query($con, $sql);
+    while ($insertedRecord = mysqli_fetch_array($result)) {
+            $host_mail = $insertedRecord['email'];
+            $host_name = $insertedRecord['display_name'];
+            $thecurrency = $sitecurrency;
+            $host_phone= $insertedRecord['mobile_number'];}
+            
+            
+    $message_status = 1;
+    $siteName = $sitename;
+    $siteMail = $sitemail;
+    $vendorEmail = $host_mail;
+    $vendorName = $host_name;
+    $currency = convertHtmlEntities($thecurrency);
+    
+    $submit = mysqli_query($con, "UPDATE ".$siteprefix."withdrawal SET status='paid' WHERE s = '$therow'") or die('Could not connect: ' . mysqli_error($con));
+    $emailSubject="Withdrawal Request Paid ($currency$amount)";
+    $vendor_emailMessage="Your withdrawal requested made on $thedate for an amount of $currency$amount has been paid to your account<br> $bank | $bankno | $bankname.";
+    $message = "Your withdrawal requested made on $thedate for an amount of $thecurrency$amount has been paid ";
+    
+    
+    $statusAction="Successful";
+    $statusMessage="You have successfully marked this payment as paid";   
+    sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $vendor_emailMessage, $emailSubject);
+    insertAlert($con, $user, $message, $date, $message_status);  
+    showSuccessModal($statusAction,$statusMessage);
+    header('Refresh:3; url=' . $_SERVER['REQUEST_URI']);
+    
+    
+    }
+
+
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile_admin'])) {
+  
+    // Sanitize and validate input
+    $user_id = $_POST['user_id'];
+    $first_name = mysqli_real_escape_string($con, $_POST['first_name']);
+    $middle_name = mysqli_real_escape_string($con, $_POST['middle_name']);
+    $last_name = mysqli_real_escape_string($con, $_POST['last_name']);
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $mobile_number = mysqli_real_escape_string($con, $_POST['mobile_number']);
+    $address = mysqli_real_escape_string($con, $_POST['address']);
+    $bank_name = mysqli_real_escape_string($con, $_POST['bank_name']);
+    $bank_accname = mysqli_real_escape_string($con, $_POST['bank_accname']);
+    $bank_number = mysqli_real_escape_string($con, $_POST['bank_number']);
+    $facebook = mysqli_real_escape_string($con, $_POST['facebook']);
+    $twitter = mysqli_real_escape_string($con, $_POST['twitter']);
+    $instagram = mysqli_real_escape_string($con, $_POST['instagram']);
+    $linkedln = mysqli_real_escape_string($con, $_POST['linkedln']);
+    $kin_name = mysqli_real_escape_string($con, $_POST['kin_name']);
+    $kin_number = mysqli_real_escape_string($con, $_POST['kin_number']);
+    $kin_email = mysqli_real_escape_string($con, $_POST['kin_email']);
+    $kin_relationship = mysqli_real_escape_string($con, $_POST['kin_relationship']);
+    $biography = mysqli_real_escape_string($con, $_POST['biography']);
+    $seller = isset($_POST['seller']) ? 1 : 0;
+    $status = $_POST['status'];
+
+    // Update query
+    $update_query = "
+        UPDATE ".$siteprefix."users 
+        SET 
+            first_name = '$first_name',
+            middle_name = '$middle_name',
+            last_name = '$last_name',
+            email = '$email',
+            mobile_number = '$mobile_number',
+            address = '$address',
+            bank_name = '$bank_name',
+            bank_accname = '$bank_accname',
+            bank_number = '$bank_number',
+            facebook = '$facebook',
+            twitter = '$twitter',
+            instagram = '$instagram',
+            linkedln = '$linkedln',
+            kin_name = '$kin_name',
+            kin_number = '$kin_number',
+            kin_email = '$kin_email',
+            kin_relationship = '$kin_relationship',
+            biography = '$biography',
+            seller  ='$seller',
+            status ='$status'
+        WHERE s = '$user_id'
+    ";
+
+    // Execute the query
+    if (mysqli_query($con, $update_query)) {
+        // Success modal
+        $statusAction = "Success!";
+        $statusMessage = "User updated successfully!";
+        showSuccessModal($statusAction, $statusMessage);
+        header("refresh:1; url=users.php");
+        
+    } else {
+        // Error modal
+        $statusAction = "Error!";
+        $statusMessage = "Failed to update profile: " . mysqli_error($con);
+        showErrorModal($statusAction, $statusMessage);
+       
+    }
+}
+
+
+//admin update profile
+if(isset($_POST['update-profile'])){
+    $fullName = htmlspecialchars($_POST['fullName']);
+    $email = htmlspecialchars($_POST['email']);
+    $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
+    $retypePassword = !empty($_POST['retypePassword']) ? $_POST['retypePassword'] : null;
+    $oldPassword = htmlspecialchars($_POST['oldpassword']);
+    $profilePicture = $_FILES['profilePicture']['name'];
+
+    // Validate passwords match
+    if ($password && $password !== $retypePassword) {
+        $message= "Passwords do not match.";
+    }
+
+    // Validate old password
+    $stmt = $con->prepare("SELECT password FROM ".$siteprefix."users WHERE s = ?");
+    if ($stmt === false) {
+        $message = "Error preparing statement: " . $con->error;
+    } else {
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        if ($user === null || !checkPassword($oldPassword, $user['password'])) {
+            $message = "Old password is incorrect.";
+        }
+    }
+
+    $uploadDir = '../../uploads/';
+    $fileKey='profilePicture';
+    global $fileName;
+
+    // Update profile picture if a new one is uploaded
+    if (!empty($profilePicture)) {
+        $profilePicture = handleFileUpload($fileKey, $uploadDir, $fileName);
+    } else {
+        $profilePicture = $profile_picture; // Use the current profile picture if no new one is uploaded
+    }
+
+    // Update user information in the database
+    $query = "UPDATE ".$siteprefix."users SET display_name = ?, email = ?, profile_picture = ?";
+    $params = [$fullName, $email, $profilePicture];
+
+    if ($password) {
+        $query .= ", password = ?";
+        $params[] = $password;
+    }
+
+    $query .= " WHERE s = ?";
+    $params[] = $user_id;
+
+    $stmt = $con->prepare($query);
+    $stmt->bind_param(str_repeat('s', count($params)), ...$params);
+    if ($stmt->execute()) {
+        $message= "Profile updated successfully.";
+    } else {
+        $message= "Error updating profile.";
+    }
+    showToast($message); 
+    echo "<meta http-equiv='refresh' content='2'>";
+}
+
+
+      
+if(isset($_POST['settings'])){
+    $name = $_POST['site_name'];
+    $keywords = $_POST['site_keywords'];
+    $url = $_POST['site_url']; 
+    $description = $_POST['site_description'];
+    $email = $_POST['site_mail'];
+    $number = $_POST['site_number'];
+    $profilePicture = $_FILES['site_logo'];
+
+
+    $uploadDir = '../../img/';
+    $fileKey='site_logo';
+    global $fileName;
+
+    // Update profile picture if a new one is uploaded
+    if (!empty($profilePicture)) {
+        $logo = handleFileUpload($fileKey, $uploadDir, $fileName);
+    } else {
+        $logo = $siteimg; // Use the current picture  
+    }
+
+  
+    $update = mysqli_query($con,"UPDATE " . $siteprefix . "site_settings SET site_name='$name', site_keywords='$keywords', site_url='$url', site_description='$description', site_logo='$logo', site_mail='$email', site_number='$number' WHERE s=1");
+
+
+    if($update){
+     $statusAction = "Successful";
+    $statusMessage = "Settings Updated Successfully!";
+    showSuccessModal2($statusAction, $statusMessage);
+     header("refresh:2; url=settings.php");
+    } else {
+        $statusAction = "Oops!";
+        $statusMessage = "An error has occurred!";
+        showErrorModal2($statusAction, $statusMessage);
+    }
+}
+
+
+//send message
+if (isset($_POST['sendmessage'])) {
+    $subject = htmlspecialchars(trim($_POST['title']), ENT_QUOTES, 'UTF-8');
+    $content = trim($_POST['content']);
+    $recipientSelection = $_POST['user']; // For arrays, sanitize later
+
+    // Initialize recipient list and names
+    $recipients = [];
+    $recipientNames = [];
+    $query = '';    
+
+    // Handle recipient selection
+    if (in_array('all', $recipientSelection)) {
+        // Query all users excluding admins
+        $query = "SELECT email, display_name FROM " . $siteprefix . "users WHERE type != 'admin'";
+    } elseif (in_array('affiliate', $recipientSelection)) {
+        // Query instructors only
+        $query = "SELECT email, display_name FROM " . $siteprefix . "users WHERE type = 'affiliate'";
+    } elseif (in_array('user', $recipientSelection)) {
+        // Query regular users only
+        $query = "SELECT email, display_name FROM " . $siteprefix . "users WHERE type = 'user'";
+    } elseif (in_array('buyer', $recipientSelection)) {
+        // Query regular users only
+        $query = "SELECT email, display_name FROM " . $siteprefix . "users WHERE type = 'user' AND seller ='0'";
+    }elseif (in_array('seller', $recipientSelection)) {
+        // Query regular users only
+        $query = "SELECT email, display_name FROM " . $siteprefix . "users WHERE type = 'user' AND seller ='1'";
+    } else {
+        // Add specific user emails
+        foreach ($recipientSelection as $email) {
+            $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                // Fetch name for individual users
+                $individualQuery = "SELECT display_name FROM " . $siteprefix . "users WHERE email = '$email'";
+                $result = mysqli_query($con, $individualQuery);
+                if ($result && $row = mysqli_fetch_assoc($result)) {
+                    $recipients[] = $email;
+                    $recipientNames[$email] = htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8');
+                } else {
+                    $recipients[] = $email;
+                    $recipientNames[$email] = 'Valued User'; // Default name
+                }
+            }
+        }
+    }
+
+    // If a query is needed for group selections, execute and fetch emails and names
+    if (!empty($query)) {
+        $result = mysqli_query($con, $query);
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $email = $row['email'];
+                $name = htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8');
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $recipients[] = $email;
+                    $recipientNames[$email] = $name;
+                }
+            }
+        }
+    }
+
+    // Remove duplicates
+    $recipients = array_unique($recipients);
+
+    // Send emails
+    foreach ($recipients as $email) {
+        $name = $recipientNames[$email] ?? 'Valued User'; // Default to "Valued User" if no name
+        $personalizedContent = str_replace('{{name}}', $name, $content); // Replace {{name}} in content
+
+        if (sendEmail($email, $name, $siteName, $siteMail, $personalizedContent, $subject)) {
+            $message = "Message sent to $name ($email)";
+            showToast($message);
+        } else {
+            $statusAction="Failed";
+            $message = "Failed to send message to $name ($email)";
+            showErrorModal2($statusAction, $message);
+        }
+    }
+}
+
 ?>
 
 

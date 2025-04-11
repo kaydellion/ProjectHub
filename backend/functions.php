@@ -19,6 +19,14 @@ function displayMessage($message) {
     echo "<div class='alert alert-warning'>$message</div>";
 }
 
+function formatNumber($number) {
+    return number_format($number);
+}
+
+function convertHtmlEntities($input) {
+    return html_entity_decode($input, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+    
 function removeAllWhitespace($string) {
     return preg_replace('/\s+/', '', $string);
 }
@@ -363,8 +371,8 @@ function limitDescriptionshort($description, $wordLimit = 4) {
 }  
 
 function getUserColor($status) {
-    switch ($status) {
-        case 'instructor':
+    switch ($status) { 
+        case 'affiliate':
             return 'info'; // Info for pending payment
         case 'inprogress':
         case 'user':
@@ -558,4 +566,54 @@ $insert = mysqli_query($con, "UPDATE pr_users SET wallet = CAST(wallet AS DECIMA
     if ($submit) { echo "";} 
     else { die('Could not connect: ' . mysqli_error($con)); }}
 
+
+
+
+function showSuccessModal2($statusAction,$statusMessage) {
+    echo '<div class="modal fade" id="statusSuccessModal" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">';
+    echo '<div class="modal-dialog modal-dialog-centered modal-sm" role="document">';
+    echo '<div class="modal-content">';
+    echo '<div class="modal-body text-center p-lg-4">';
+    echo '<svg version="1.1" class="lazyload" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">';
+    echo '<circle class="path circle" fill="none" stroke="#198754" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />';
+    echo '<polyline class="path check" fill="none" stroke="#198754" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />';
+    echo '</svg>';
+    echo '<h4 class="text-success mt-3">' . $statusAction. '</h4>';
+    echo '<p class="mt-3">' . $statusMessage. '</p>';
+    echo '<button type="button" class="btn btn-sm mt-3 btn-success" data-dismiss="modal">Okay</button>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '<script>';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    echo 'var myModal = new bootstrap.Modal(document.getElementById("statusSuccessModal"));';
+    echo 'myModal.show();';
+    echo '});';
+    echo '</script>';
+}
+
+function showErrorModal2($statusAction, $statusMessage) {
+    echo '<div class="modal fade" id="statusErrorsModal" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">';
+    echo '<div class="modal-dialog modal-dialog-centered modal-sm" role="document">';
+    echo '<div class="modal-content">';
+    echo '<div class="modal-body text-center p-lg-4">';
+     echo '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">';
+    echo '<circle class="path circle" fill="none" stroke="#db3646" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />';
+    echo '<polyline class="path check" fill="none" stroke="#db3646" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />';
+    echo '</svg>';
+    echo '<h4 class="text-danger mt-3">' . $statusAction. '</h4>';
+    echo '<p class="mt-3">' . $statusMessage. '</p>';
+    echo '<button type="button" class="btn btn-sm mt-3 btn-danger" data-dismiss="modal">Okay</button>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '<script>';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    echo 'var myModal = new bootstrap.Modal(document.getElementById("statusErrorsModal"));';
+    echo 'myModal.show();';
+    echo '});';
+    echo '</script>';
+}
 ?>

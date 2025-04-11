@@ -13,6 +13,9 @@
         </div>
         <h2 class="title text-primary text-bold mt-3">Hi, <?php echo htmlspecialchars($username); ?></h2>
     <?php
+
+    //if user is not a seller yet
+    if($seller==0){ echo "<p><a href='contract.php?user_login=$user_id&name=$first_name $middle_name $last_name&address=$address&display_name=$display_name&email=$email&phone=$mobile_number' class='btn-kayd m-3'>Become a seller</a></p>";}
     // Fetch last 4 notifications where status is 0
     $sql = "SELECT message, date FROM ".$siteprefix."notifications WHERE user = ? AND status = 0 ORDER BY date DESC LIMIT 4";
     $stmt = $con->prepare($sql);
@@ -31,6 +34,19 @@
 
 
 
+<!-- Loyalty Program CTA Start -->
+<div class="container mt-5">
+    <div class="row align-items-center" style="background-color: #f8f9fa; border-radius: 15px; padding: 30px;">
+        <div class="col-lg-6">
+            <img src="img/seller.png" alt="Become a Seller" class="img-fluid" style="border-radius: 15px;">
+        </div>
+        <div class="col-lg-6">
+            <h2>Join Our  <span class="text-orange">Loyalty Program</span></h2>
+            <p>Our loyalty program offers exclusive benefits and rewards for our valued customers. By joining, you gain access to special discounts, early access to new reports, and other perks that enhance your experience and provide greater value.</p>
+            <a href="loyalty-program.php" class="btn-kayd mt-3">Start Saving Now</a>
+        </div>
+    </div>
+</div>
 
 
 

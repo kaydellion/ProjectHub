@@ -1,71 +1,40 @@
-<?php include "header.php"; 
+<?php include 'header.php'; ?>
+<main class="main">
 
-$user_id = $_GET['user'] ?? null;
-if (!$user_id) {
-  header("Location: users.php");
-  exit();
-}
-
-$sql = "SELECT * FROM " . $siteprefix . "users WHERE s = '" .$user_id. "'";
-$sql2 = mysqli_query($con, $sql);
-if ($sql2 && mysqli_num_rows($sql2) > 0) {
-    while ($row = mysqli_fetch_array($sql2)) {
-        $userid = $row["s"];
-        $display_name = $row['display_name'];
-        $first_name = $row['first_name']; 
-        $middle_name = $row['middle_name'];
-        $last_name = $row['last_name'];
-        $profile_picture = !empty($row['profile_picture']) ? $row['profile_picture'] : 'user.png';
-        $mobile_number = $row['mobile_number'];
-        $email = $row['email'];
-        $password = $row['password'];
-        $gender = $row['gender'];
-        $address = $row['address'];
-        $type = $row['type'];
-        $seller = $row['seller'];
-        $status = $row['status'];
-        $last_login = $row['last_login'];
-        $created_date = $row['created_date'];
-        $preference = $row['preference'];
-        $bank_name = $row['bank_name'];
-        $bank_accname = $row['bank_accname'];
-        $bank_number = $row['bank_number'];
-        $loyalty = $row['loyalty'];
-        $wallet = $row['wallet'];
-        $affliate = $row['affliate'];
-        $facebook = $row['facebook'];
-        $twitter = $row['twitter'];
-        $instagram = $row['instagram'];
-        $linkedln = $row['linkedln'];
-        $kin_name = $row['kin_name'];
-        $kin_number = $row['kin_number'];
-        $kin_email = $row['kin_email'];
-        $biography = $row['biography'];
-        $kin_relationship = $row['kin_relationship'];
-        $active_log = 1;
-        $user_reg_date = formatDateTime($created_date);
-        $user_lastseen = formatDateTime($last_login);
-    }
-} else {
-    // Redirect to users page if no matching record is found
-    header("Location: users.php");
-    exit;
-}
+<section>
+<div class="row bg-dark p-5">
+  <div class="col-lg-2 col-12">
+    <img src="<?php echo htmlspecialchars($imagePath . '/' . $profile_picture); ?>" alt="Avatar" class="img-fluid rounded-circle">
+  </div>
+  <div class="col-lg-10 col-12 d-flex align-items-center pt-3 mb-5">
+    <div class="d-flex flex-column w-100">
+        <div class="d-flex">
+            <?php include "links.php"; ?>
+        </div>
+    </div>
+  </div> 
+</div>
 
 
-?>
-
-<div class="container-xxl flex-grow-1 container-p-y">
-    <div class="card">
-        <div class="card-body">
-            <form method="POST" enctype="multipart/form-data">
-                <p class="text-bold text-dark">Edit User Account</p>
-                <div class="row">
+<section class="signup_part mt-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12 col-md-12">
+                <div class="signup_part_text">
+                    <div class="signup_part_text_iner">
+                        <h2>Edit Profile</h2>
+                        <p>Update your profile information below.</p>
+                    </div>
+                </div>
+                <div class="signup_part_form">
+                    <div class="signup_part_form_iner">
+                        <h3>Profile Details</h3>
+                        <form class="row contact_form" method="POST" enctype="multipart/form-data">
                             <div class="col-md-4 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="first_name" placeholder="First Name" value="<?php echo htmlspecialchars($first_name); ?>" required>
                             </div>
                             <div class="col-md-4 form-group p_star mb-3">
-                                <input type="hidden" name="user_id" value="<?php echo $userid; ?>">
+                                <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
                                 <input type="text" class="form-control" name="middle_name" placeholder="Middle Name" value="<?php echo htmlspecialchars($middle_name); ?>">
                             </div>
                             <div class="col-md-4 form-group p_star mb-3">
@@ -116,31 +85,23 @@ if ($sql2 && mysqli_num_rows($sql2) > 0) {
                             <div class="col-md-12 form-group p_star mb-3">
                                 <textarea class="form-control" name="biography" placeholder="Biography"><?php echo htmlspecialchars($biography); ?></textarea>
                             </div>
-                            <div class="form-group col-md-6 mb-3">
-                        <label for="type">User Type</label>
-                        <select class="form-select p-3" name="type" id="type" required>
-                            <option value="user" <?php if ($type === 'user') echo 'selected'; ?>>User</option>
-                            <option value="affiliate" <?php if ($type === 'affiliate') echo 'selected'; ?>>Affliate</option>
-                        </select>
+                            <div class="col-md-12 form-group">
+                                <button type="submit" name="update_profile" class="btn btn-primary w-100">Update Profile</button>
+                            </div>
+                        </form>
                     </div>
-                <div class="form-group col-md-6 mb-3">
-                    <label for="status">Status</label>
-                    <select class="form-select p-3" name="status" id="status" required>
-                        <option value="active" <?php if ($status === 'active') echo 'selected'; ?>>Active</option>
-                        <option value="inactive" <?php if ($status === 'inactive') echo 'selected'; ?>>Inactive</option>
-                    </select>
-                </div>                </div>
-                <div class="mb-3">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="seller" name="seller"  <?php echo ($seller) ? 'checked' : ''; ?>>
-                            <label class="form-check-label" for="seller">Make user a seller</label>
-                          </div>
-                        </div>
-                <p><button class="w-100 btn btn-primary" name="update_profile_admin" value="update-user">Update Account</button></p>
-                <input type="hidden" name="userid" value="<?php echo htmlspecialchars($userid, ENT_QUOTES, 'UTF-8'); ?>">
-            </form>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
-<?php include "footer.php"; ?>
+
+
+
+
+
+
+</section>
+</main>
+<?php include 'footer.php'; ?>

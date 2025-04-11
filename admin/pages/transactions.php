@@ -11,7 +11,7 @@ $result = $stmt->get_result();
 
 
 <div class="container mt-5 mb-5">
-    <h2 class="mb-4">My Orders</h2>
+    <h2 class="mb-4">Transactions</h2>
 
     <?php if ($result->num_rows > 0) { ?>
         <div class="table-responsive">

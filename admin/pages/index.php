@@ -1,67 +1,45 @@
 <?php include "header.php"; ?>
 
-<?php
-// Query to count total users
-$totalUsersQuery = "SELECT COUNT(*) AS total_users FROM ".$siteprefix."users WHERE type = 'user'"; 
-$totalUsersResult = mysqli_query($con, $totalUsersQuery);
-$totalUsers = mysqli_fetch_assoc($totalUsersResult)['total_users'];
-
-// Query to calculate total profit
-$totalProfitQuery = "SELECT SUM(amount) AS total_profit FROM ".$siteprefix."profits";
-$totalProfitResult = mysqli_query($con, $totalProfitQuery);
-$totalProfit = mysqli_fetch_assoc($totalProfitResult)['total_profit'];
-
-// Query to count total reports
-$totalReportsQuery = "SELECT COUNT(*) AS total_reports FROM ".$siteprefix."reports";
-$totalReportsResult = mysqli_query($con, $totalReportsQuery);
-$totalReports = mysqli_fetch_assoc($totalReportsResult)['total_reports'];
-
-// Query to count total sales (paid orders)
-$totalSalesQuery = "SELECT COUNT(order_id) AS total_sales FROM ".$siteprefix."orders WHERE status = 'paid'";
-$totalSalesResult = mysqli_query($con, $totalSalesQuery);
-$totalSales = mysqli_fetch_assoc($totalSalesResult)['total_sales'];
-?>
-
 <div class="container mt-4">
     <div class="row">
         <!-- Total Users Card -->
-        <div class="col-md-3">
+        <div class="col-md-3"><a href="users.php">
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Total Users</h5>
+                    <h5 class="card-title text-white">Total Users</h5>
                     <p class="card-text"><?php echo $totalUsers; ?></p>
                 </div>
-            </div>
+            </div></a>
         </div>
 
         <!-- Total Sales Card -->
-        <div class="col-md-3">
+        <div class="col-md-3"><a href="transactions.php">
             <div class="card text-white bg-success mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Total Sales</h5>
+                    <h5 class="card-title">No of Orders</h5>
                     <p class="card-text"><?php echo $totalSales; ?></p>
                 </div>
-            </div>
+            </div></a>
         </div>
 
         <!-- Total Reports Card -->
-        <div class="col-md-3">
+        <div class="col-md-3"><a href="reports.php">
             <div class="card text-white bg-secondary mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Total Reports</h5>
                     <p class="card-text"><?php echo $totalReports; ?></p>
                 </div>
-            </div>
+            </div></a>
         </div>
 
         <!-- Total Profit Card -->
-        <div class="col-md-3">
+        <div class="col-md-3"><a href="profits.php">
             <div class="card text-white bg-danger mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Total Profit</h5>
-                    <p class="card-text">₦<?php echo number_format($totalProfit, 2); ?></p>
+                    <h5 class="card-title text-white">Total Profit</h5>
+                    <p class="card-text"><?php echo $sitecurrency; echo number_format($totalProfit, 2); ?></p>
                 </div>
-            </div>
+            </div></a>
         </div>
     </div>
 </div>
@@ -95,6 +73,7 @@ $latestSalesResult = mysqli_query($con, $latestSalesQuery);
 ?>
 <div class="container mt-5">
     <h3 class="mb-4">Recent Sales</h3>
+    <p><a href="transactions.php" class="btn btn-primary">View all sales</a></p>
     <div class="table-responsive text-nowrap">
     <table class="table table-hover">
     <thead>

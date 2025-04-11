@@ -1,10 +1,11 @@
 <?php
 
          //check if its in wishlist
+        if($active_log==1){
         $theinitialicon="";
         $checkEmail = mysqli_query($con, "SELECT * FROM ".$siteprefix."wishlist WHERE user='$user_id' AND product='$report_id'");
         if(mysqli_num_rows($checkEmail) >= 1 ) {
-        $theinitialicon="added";}?>
+        $theinitialicon="added";}}?>
 
 
 

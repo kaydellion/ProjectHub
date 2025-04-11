@@ -54,7 +54,7 @@ if (mysqli_affected_rows($con) > 0) {
                     insertWallet($con, $affiliate_user_id, $affiliate_amount, $type, $note, $date);
                     
                     // Notify affiliate
-                    $message = "You have earned $sitecurrencyCode$affiliate_amount from Order ID: $order_id";
+                    $message = "You have earned $sitecurrency$affiliate_amount from Order ID: $order_id";
                     $link = "wallet.php";
                     $msgtype = "wallet";
                     $status = 0;
@@ -69,7 +69,7 @@ if (mysqli_affected_rows($con) > 0) {
         mysqli_query($con, $sql_insert_commission);
         
         // Notify admin
-        $message = "Admin Commission of $sitecurrencyCode$admin_commission from Order ID: $order_id";
+        $message = "Admin Commission of $sitecurrency$admin_commission from Order ID: $order_id";
         $link = "profits.php";
         $msgtype = "profits";
         insertadminAlert($con, $message, $link, $date, $msgtype, 0);
@@ -94,7 +94,7 @@ if (mysqli_affected_rows($con) > 0) {
                 insertWallet($con, $seller_id, $seller_amount, $type, $note, $date);
                 
                 // Notify seller
-                insertAlert($con, $seller_id, "You have received $sitecurrencyCode$seller_amount from Order ID: $order_id", $date, 0);
+                insertAlert($con, $seller_id, "You have received $sitecurrency$seller_amount from Order ID: $order_id", $date, 0);
                 
                 // Send email
                 sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, "You have received $sitecurrencyCode$seller_amount from Order ID: $order_id", "Payment Received");

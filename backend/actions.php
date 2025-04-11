@@ -206,8 +206,8 @@ if(isset($_POST['register-user'])){
         $emailMessage_admin="<p>Hello Dear Admin,a new user has been successfully registered!</p>";
         $emailSubject_admin="New User Registeration";
         insertadminAlert($con, $adminmessage, $link, $date, $msgtype, $message_status); 
-        //sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
-        //sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject_admin);
+        sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
+        sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject_admin);
         if($seller==1){
         //$statusMessage="Your account has been created successfully. You can now proceed to sign your the contract.";
         echo header("location:contract.php?user_login=$user_id&name=$first_name $middle_name $last_name&address=$address&display_name=$display_name&email=$email&phone=$mobile_number");
@@ -240,7 +240,7 @@ if (isset($_POST['register-affiliate'])) {
     $status = 'active';
     $type = 'affiliate';
     $affiliate = 'AFF-' . strtoupper(substr(bin2hex(random_bytes(6)), 0, 12));
- // Generate unique affiliate ID
+    // Generate unique affiliate ID
 
     // Validate email uniqueness
     $checkEmail = mysqli_query($con, "SELECT * FROM " . $siteprefix . "users WHERE email='$email' AND type='$type'");
@@ -711,8 +711,8 @@ if (isset($_POST['create_dispute'])){
         $emailMessage_admin="<p>Hello Dear Admin,a new dispute has been submitted!</p>";
         $emailSubject_admin="New Dispute";
         insertadminAlert($con, $adminmessage, $link, $date, $msgtype, $message_status);
-        //sendEmail($email, $display_name, $siteName, $siteMail, $emailMessage, $emailSubject);
-        //sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject_admin);
+        sendEmail($email, $display_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+        sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject_admin);
     
             if($recipient_id){
             $rDetails = getUserDetails($con, $siteprefix, $recipient_id);
@@ -720,7 +720,7 @@ if (isset($_POST['create_dispute'])){
             $r_name = $rDetails['display_name'];
             $r_emailSubject="New Dispute ($ticket_number)";
             $r_emailMessage="<p>A new dispute has been submitted with you as the recipient. Login to your dashboard to check</p>";
-           //sendEmail($r_email, $r_name, $siteName, $siteMail, $r_emailMessage, $r_emailSubject);
+           sendEmail($r_email, $r_name, $siteName, $siteMail, $r_emailMessage, $r_emailSubject);
            $message = "A new dispute has been submitted with you as the recipient: " . $ticket_number;
            $status=0;
            insertAlert($con, $recipient_id, $message, $date, $status);
@@ -874,8 +874,8 @@ $link="withdrawals.php";
 $msgtype='New Withdrawal';
 $message_status=1;
 insertadminAlert($con, $adminmessage, $link, $date, $msgtype, $message_status); 
-//sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
-//sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject);
+sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
+sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject);
     
    
 $statusAction="Successful";
@@ -919,6 +919,72 @@ if (isset($_POST['submit-review'])) {
         $statusAction="Error";
         $statusMessage="An error occurred while submitting your review. Please try again.";
         showSuccessModal($statusAction,$statusMessage);
+    }
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
+  
+    // Sanitize and validate input
+    $user_id = $_POST['user_id'];
+    $first_name = mysqli_real_escape_string($con, $_POST['first_name']);
+    $middle_name = mysqli_real_escape_string($con, $_POST['middle_name']);
+    $last_name = mysqli_real_escape_string($con, $_POST['last_name']);
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $mobile_number = mysqli_real_escape_string($con, $_POST['mobile_number']);
+    $address = mysqli_real_escape_string($con, $_POST['address']);
+    $bank_name = mysqli_real_escape_string($con, $_POST['bank_name']);
+    $bank_accname = mysqli_real_escape_string($con, $_POST['bank_accname']);
+    $bank_number = mysqli_real_escape_string($con, $_POST['bank_number']);
+    $facebook = mysqli_real_escape_string($con, $_POST['facebook']);
+    $twitter = mysqli_real_escape_string($con, $_POST['twitter']);
+    $instagram = mysqli_real_escape_string($con, $_POST['instagram']);
+    $linkedln = mysqli_real_escape_string($con, $_POST['linkedln']);
+    $kin_name = mysqli_real_escape_string($con, $_POST['kin_name']);
+    $kin_number = mysqli_real_escape_string($con, $_POST['kin_number']);
+    $kin_email = mysqli_real_escape_string($con, $_POST['kin_email']);
+    $kin_relationship = mysqli_real_escape_string($con, $_POST['kin_relationship']);
+    $biography = mysqli_real_escape_string($con, $_POST['biography']);
+
+    // Update query
+    $update_query = "
+        UPDATE ".$siteprefix."users 
+        SET 
+            first_name = '$first_name',
+            middle_name = '$middle_name',
+            last_name = '$last_name',
+            email = '$email',
+            mobile_number = '$mobile_number',
+            address = '$address',
+            bank_name = '$bank_name',
+            bank_accname = '$bank_accname',
+            bank_number = '$bank_number',
+            facebook = '$facebook',
+            twitter = '$twitter',
+            instagram = '$instagram',
+            linkedln = '$linkedln',
+            kin_name = '$kin_name',
+            kin_number = '$kin_number',
+            kin_email = '$kin_email',
+            kin_relationship = '$kin_relationship',
+            biography = '$biography'
+        WHERE s = '$user_id'
+    ";
+
+    // Execute the query
+    if (mysqli_query($con, $update_query)) {
+        // Success modal
+        $statusAction = "Success!";
+        $statusMessage = "Profile updated successfully!";
+        showSuccessModal($statusAction, $statusMessage);
+        header("refresh:1; url=settings.php");
+        
+    } else {
+        // Error modal
+        $statusAction = "Error!";
+        $statusMessage = "Failed to update profile: " . mysqli_error($con);
+        showErrorModal($statusAction, $statusMessage);
+       
     }
 }
 ?>

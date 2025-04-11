@@ -6,16 +6,15 @@
             <div class="col-lg-12 col-md-12">
                 <div class="signup_part_text">
                     <div class="signup_part_text_iner">
-                        <h2>Become an Affiliate!</h2>
+                    <h3>Affiliate Registration</h3>
                         <p>Join our affiliate program and earn commissions by promoting our platform.</p>
                         <a href="affiliate/" class="btn_3 mb-3">Already registered? Sign In</a>
                     </div>
                 </div>
                 <div class="signup_part_form">
                     <div class="signup_part_form_iner">
-                        <h3>Affiliate Registration</h3>
                         <form class="row contact_form" method="post" enctype="multipart/form-data" novalidate="novalidate">
-                            <h4 class="col-md-12">Affiliate Details</h4>
+                            <h5 class="col-md-12 mt-3">Affiliate Details</h5>
                             <div class="col-md-4 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
                             </div>
@@ -65,7 +64,7 @@
                             </div>
                            
                             
-                            <h4 class="col-md-12">Where Did You Learn About Our Affiliate Program?</h4>
+                            <h5 class="col-md-12">Where Did You Learn About Our Affiliate Program?</h5>
                             <div class="col-md-12 form-group">
                                 <select class="form-control" name="referral_source" required>
                                     <option value="">Select</option>

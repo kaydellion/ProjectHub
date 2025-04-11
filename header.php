@@ -98,8 +98,7 @@ include "backend/actions.php";
 
 <body>
     <!--::header part start::-->
-    <header class="main_menu home_menu">
-        <div class="top-bar bg-kayd">
+    <div class="top-bar bg-kayd">
             <div class="container p-1">
             <div class="row justify-content-between">
                 <div class="col-md-6 col-8 d-flex align-items-center">
@@ -120,6 +119,7 @@ include "backend/actions.php";
             </div>
             </div>
         </div>
+    <header class="main_menu home_menu">
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-lg-12">
@@ -165,6 +165,7 @@ include "backend/actions.php";
                                    Client Portal
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+                                        <a class="dropdown-item" href="saved-reports.php">Saved Reports</a>
                                         <a class="dropdown-item" href="my_orders.php">My Purchases</a>
                                         <a class="dropdown-item" href="wallet.php">My Wallet</a>
                                     </div>

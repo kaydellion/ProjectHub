@@ -2671,6 +2671,8 @@ ul {
   box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.05);
   top: 0;
   background-color: #fff;
+  justify-content: center;
+  align-items: center;
 }
 
 /* line 121, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_menu.scss */
@@ -2766,7 +2768,7 @@ ul {
   }
   /* line 213, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_menu.scss */
   .navbar-brand img {
-    max-width: 120px;
+    max-width: 80px;
     margin: 0 auto;
     position: absolute;
     left: 0;
