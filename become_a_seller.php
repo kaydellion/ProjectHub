@@ -30,7 +30,7 @@
     
     <p>Start selling today and join a growing community of project report creators who are making an impact. Whether you're an academic writer, industry expert, or experienced researcher, <a href="http://www.projectreporthub.ng">www.projectreporthub.ng</a> is the platform for you to share your work and earn from your expertise.</p>
     
-    <p class="text-center mt-1"><a href="signup.php" class="btn-kayd">Create Your Profile</a></p>
+    <p class="text-center mt-1 mb-5"><a href="signup.php" class="btn-kayd">Create Your Profile</a></p>
 </div></div></div>
 </section>
 

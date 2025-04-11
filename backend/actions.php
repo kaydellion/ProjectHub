@@ -301,31 +301,15 @@ if (isset($_POST['register-affiliate'])) {
 */
     // Insert affiliate details into the database
     $query = "INSERT INTO " . $siteprefix . "users 
-              (display_name, first_name, middle_name, last_name, profile_picture, mobile_number, email, password, gender, address, type, status, last_login, created_date, preference, bank_name, bank_accname, bank_number, loyalty, wallet, affliate, seller, facebook, twitter, instagram, linkedln, kin_name, kin_number, kin_email, biography, kin_relationship) 
-              VALUES 
-              ('$first_name', '$first_name', '$middle_name', '$last_name', '', '$phone', '$email', '$hashedPassword', '', '$address', '$type', '$status', '$date', '$date', '', '', '', '0', '0', '0', '$affiliate', '0', '', '', '', '', '', '', '', '', '')";
+    (display_name, first_name, middle_name, last_name, profile_picture, mobile_number, email, password, gender, address, type, status, last_login, created_date, preference, bank_name, bank_accname, bank_number, loyalty, wallet, affliate, seller, facebook, twitter, instagram, linkedln, kin_name, kin_number, kin_email, biography, kin_relationship) 
+    VALUES ('$first_name', '$first_name', '$middle_name', '$last_name', '', '$phone', '$email', '$hashedPassword', '', '$address', '$type', '$status', '$date', '$date', '', '', '', '0', '0', '0', '$affiliate', '0', '', '', '', '', '', '', '', '', '')";
 
     if (mysqli_query($con, $query)) {
-        $user_id = mysqli_insert_id($con);
-/*
-        // Send confirmation email to the affiliate
-        $emailSubject = "Affiliate Registration Successful";
-        $emailMessage = "<p>Dear $first_name $last_name,</p>
-                         <p>Thank you for registering as an affiliate. Your application has been received and is under review.</p>
-                         <p>We will contact you shortly with further details.</p>";
-        sendEmail($email, "$first_name $last_name", $siteName, $siteMail, $emailMessage, $emailSubject);
-
-        // Notify admin about the new affiliate registration
-        $adminMessage = "A new affiliate has registered: $first_name $last_name ($email)";
-        $adminSubject = "New Affiliate Registration";
-        sendEmail($siteMail, "Admin", $siteName, $siteMail, $adminMessage, $adminSubject);
-*/
-        // Show success modal and redirect
-     // Show success modal and redirect
+$user_id = mysqli_insert_id($con);
 $statusAction = "Success!";
 $message = "Affiliate registration successful! A confirmation email has been sent to $email.";
 showSuccessModal($statusAction, $message); // Correctly pass the variable
-header("refresh:1; url=affiliate/");
+header("refresh:1; url=https://affiliate.projectreporthub.ng/"); 
     } else {
         $statusAction = "Error!";
         $statusMessage = "There was an error registering the affiliate: " . mysqli_error($con);
