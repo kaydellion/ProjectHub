@@ -564,6 +564,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile_admin']
     $kin_email = mysqli_real_escape_string($con, $_POST['kin_email']);
     $kin_relationship = mysqli_real_escape_string($con, $_POST['kin_relationship']);
     $biography = mysqli_real_escape_string($con, $_POST['biography']);
+    $gender = mysqli_real_escape_string($con, $_POST['gender']);
     $seller = isset($_POST['seller']) ? 1 : 0;
     $status = $_POST['status'];
 
@@ -590,7 +591,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile_admin']
             kin_relationship = '$kin_relationship',
             biography = '$biography',
             seller  ='$seller',
-            status ='$status'
+            status ='$status',
+            gender = '$gender'
         WHERE s = '$user_id'
     ";
 

@@ -33,8 +33,8 @@
                             </div>
     <div class="col-md-6 form-group p_star mb-3">
     <select class="form-control" id="gender" name="gender" required>
-        <option value="male" <?php echo ($gender === 'Male') ? 'selected' : ''; ?>>Male</option>
-        <option value="female" <?php echo ($gender === 'Female') ? 'selected' : ''; ?>>Female</option>
+        <option value="Male" <?php echo ($gender === 'Male') ? 'selected' : ''; ?>>Male</option>
+        <option value="Female" <?php echo ($gender === 'Female') ? 'selected' : ''; ?>>Female</option>
     </select>
 </div>
                             <div class="col-md-6 form-group p_star mb-3">

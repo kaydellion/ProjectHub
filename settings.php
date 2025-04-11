@@ -53,9 +53,9 @@
                             <div class="col-md-6 form-group p_star mb-3">
                             <select class="form-control" id="gender" name="gender" required>
 <option value="" <?php echo empty($gender) ? 'selected' : ''; ?>>-Select Gender-</option>
-<option value="male" <?php echo ($gender == 'Male') ? 'selected' : ''; ?>>Male</option>
-<option value="female" <?php echo ($gender == 'Female') ? 'selected' : ''; ?>>Female</option>
-</select></select> </div>
+<option value="Male" <?php echo ($gender == 'Male') ? 'selected' : ''; ?>>Male</option>
+<option value="Female" <?php echo ($gender == 'Female') ? 'selected' : ''; ?>>Female</option>
+</select></div>
                             <div class="col-md-6 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="address" placeholder="Address" value="<?php echo htmlspecialchars($address); ?>" required>
                             </div>
