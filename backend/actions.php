@@ -112,7 +112,7 @@ if(isset($_POST['register-user'])){
     $password = $_POST['password'];
     $retypePassword = $_POST['retypePassword'];
     $seller = !empty($_POST['register_as_seller']) ? 1 : 0;
-    $profilePicture = $_FILES['profile_picture'];
+    $profilePicture = $_FILES['profilePicture']['name'];
     
 
        //status
