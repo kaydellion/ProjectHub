@@ -34,6 +34,7 @@ $sitedescription= $row["site_description"];
 $siteaccno= $row["account_number"];
 $siteaccname= $row["account_name"];
 $site_bank= $row["site_bank"];
+$google_map= $row["google_map"];
 $sitekeywords= $row["site_keywords"];} 
 $adminlink='admin'.$siteurl;
 

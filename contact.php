@@ -40,7 +40,7 @@
           }
         </script>
         <script
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAz868BQ8JaQBr_a-osQLCgeNL6e7AZjs&callback=initMap">
+          src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_map; ?>&callback=initMap">
         </script>
 
       </div>
