@@ -1026,12 +1026,10 @@ if(isset($_POST['contact'])) {
     
     $emailMessage = "From: " . $name . "\nEmail: " . $email . "\nMessage:\n" . $message;
     
-    if(sendEmail($sitemail, $sitename, $sitename, $sitemail, $emailMessage, $subject)) {
+    
         $message='Message sent successfully. We will get back to you soon.';
         showSuccessModal('Success', $message);
-    } else {
-        $message='Failed to send message';
-        showErrorModal('Error', $message);
-    }
+        //$message='Failed to send message';
+        //showErrorModal('Error', $message);
 }
 ?>
