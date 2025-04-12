@@ -43,9 +43,53 @@ $affliate = $_POST['affliateId'];
   
     // Apply loyalty discount if applicable
     if ($loyalty > 0){
-        $result = $con->query("SELECT discount FROM {$siteprefix}subscription_plans WHERE s = '$loyalty'");
-        $discount = $result->fetch_assoc()['discount'] ?? 0;
+
         $price = $price - ($price * $discount / 100);
+       
+        // Check if the user has reached the maximum number of downloads for their loyalty plan
+        $query = "SELECT COUNT(r.*) as count FROM pr_order_items r
+        LEFT JOIN pr_orders o ON o.order_id = r.order_id
+        WHERE o.user = '$user_id' AND status != 'cancelled'
+        AND original_price != $price";
+        $result = mysqli_query($con, $query);
+        $row = mysqli_fetch_assoc($result);
+        $count = $row['count'];
+
+        //check number of downloads allowed for loyalty plan user is on
+        $query = "SELECT downloads FROM {$siteprefix}subscription_plans WHERE s = '$loyalty'";
+        $result = mysqli_query($con, $query);
+        $row = mysqli_fetch_assoc($result);
+        $downloads = $row['downloads'];
+        if ($count >= $downloads) {
+            // Notify user and set loyalty to 0
+            $query = "UPDATE pr_users SET loyalty = 0 WHERE s = '$user_id'";
+            mysqli_query($con, $query);
+    
+          $query = "SELECT lp.*, u.email, u.name AS display_name
+          FROM pr_loyalty_purchases lp
+          JOIN pr_users u ON lp.user_id = u.s
+          WHERE u.s = '$user_id'";
+          $result = mysqli_query($con, $query);
+         if (mysqli_num_rows($result) > 0) {
+         while ($row = mysqli_fetch_assoc($result)) {
+        $user_id = $row['user_id'];
+        $email = $row['email'];
+        $display_name = $row['display_name'];
+        $plan_id = $row['loyalty_id'];
+        $end_date = $row['end_date'];
+
+        // Email details
+        $emailSubject = "Your Subscription Has Expired";
+        $emailMessage = "<p>Dear $display_name,</p>
+                         <p>Your subscription for plan ID $plan_id has expired on $end_date. Please log in to your account to renew your subscription.</p>
+                         <p>Thank you for using our service!</p>";
+        // Send email to the user
+        sendEmail($email, $display_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+        
+        $price= $original_price ;
+    }}}
+
+        
     }
 
 

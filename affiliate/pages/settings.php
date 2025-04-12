@@ -14,6 +14,10 @@
                     <div class="signup_part_form_iner">
                         <h3>Profile Details</h3>
                         <form class="row contact_form" method="POST" enctype="multipart/form-data">
+                        <div class="col-md-12 form-group p_star mb-3">
+                            <label for="profile_picture" class="form-label">Change Profile Picture</label>
+                            <input type="file" class="form-control" id="profile_picture" name="profile_picture" placeholder="Photo" required>
+                            </div>
                             <div class="col-md-4 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="first_name" placeholder="First Name" value="<?php echo htmlspecialchars($first_name); ?>" required>
                             </div>
@@ -27,12 +31,10 @@
                             <div class="col-md-6 form-group p_star mb-3">
                                 <input type="email" class="form-control" name="email" placeholder="Email Address" value="<?php echo htmlspecialchars($email); ?>" required>
                             </div>
-                            <div class="col-md-6 form-group p_star mb-3">
-    
+    <div class="col-md-6 form-group p_star mb-3">
     <select class="form-control" id="gender" name="gender" required>
-        <option value="male" <?php echo ($gender === 'male') ? 'selected' : ''; ?>>Male</option>
-        <option value="female" <?php echo ($gender === 'female') ? 'selected' : ''; ?>>Female</option>
-       
+        <option value="Male" <?php echo ($gender === 'Male') ? 'selected' : ''; ?>>Male</option>
+        <option value="Female" <?php echo ($gender === 'Female') ? 'selected' : ''; ?>>Female</option>
     </select>
 </div>
                             <div class="col-md-6 form-group p_star mb-3">
@@ -71,12 +73,46 @@
                             <div class="col-md-6 form-group p_star mb-3">
                                 <input type="email" class="form-control" name="kin_email" placeholder="Next of Kin Email" value="<?php echo htmlspecialchars($kin_email); ?>">
                             </div>
-                            <div class="col-md-6 form-group p_star mb-3">
+                            <div class="col-md-12 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="kin_relationship" placeholder="Relationship with Next of Kin" value="<?php echo htmlspecialchars($kin_relationship); ?>">
                             </div>
                             <div class="col-md-12 form-group p_star mb-3">
                                 <textarea class="form-control" name="biography" placeholder="Biography"><?php echo htmlspecialchars($biography); ?></textarea>
                             </div>
+                            <div class="form-row row">
+                <div class="form-group col-md-4 mb-3">
+            <label for="password">Old Password</label>
+            <div class="input-group">
+            <input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="Password">
+            <div class="input-group-append">
+                <span class="input-group-text p-3" onclick="togglePasswordVisibility('oldpassword')">
+                <i class="bx bx-low-vision" id="togglePasswordIcon"></i>
+                </span>
+            </div>
+            </div>
+        </div>
+        <div class="form-group col-md-4 mb-3">
+            <label for="password">New Password</label>
+            <div class="input-group">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            <div class="input-group-append">
+                <span class="input-group-text p-3" onclick="togglePasswordVisibility('password')">
+                <i class="bx bx-low-vision" id="togglePasswordIcon"></i>
+                </span>
+            </div>
+            </div>
+        </div>
+        <div class="form-group col-md-4 mb-3">
+            <label for="retypePassword">Retype Password</label>
+            <div class="input-group">
+            <input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Password">
+            <div class="input-group-append">
+                <span class="input-group-text p-3" onclick="togglePasswordVisibility('retypePassword')">
+                <i class="bx bx-low-vision" id="toggleRetypePasswordIcon"></i>
+                </span>
+            </div>
+            </div>
+        </div>
                             <div class="col-md-12 form-group">
                                 <button type="submit" name="update_profile" class="btn btn-primary w-100">Update Profile</button>
                             </div>

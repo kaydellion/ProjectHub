@@ -720,7 +720,7 @@ $(document).ready(function() {
           return; // Stop further execution
       }
       $.ajax({
-          url: '../project/addwishlist.php', // Replace with your server URL
+          url: '../addwishlist.php', // Replace with your server URL
           type: 'POST',
           data: {
               productId: productId,
@@ -764,7 +764,7 @@ $(document).ready(function () {
       }
 
       $.ajax({
-          url: '../project/addwishlist.php', // Replace with your server URL
+          url: '../addwishlist.php', // Replace with your server URL
           type: 'POST',
           data: {
               productId: productId,

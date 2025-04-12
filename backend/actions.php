@@ -112,7 +112,7 @@ if(isset($_POST['register-user'])){
     $password = $_POST['password'];
     $retypePassword = $_POST['retypePassword'];
     $seller = !empty($_POST['register_as_seller']) ? 1 : 0;
-    $profilePicture = $_FILES['profilePicture']['name'];
+    $profilePicture = $_FILES['profile_picture']['name'];
     
 
        //status
@@ -235,6 +235,7 @@ if (isset($_POST['register-affiliate'])) {
     $address = mysqli_real_escape_string($con, $_POST['address']);
     $website = mysqli_real_escape_string($con, $_POST['website']);
     $referral_source = mysqli_real_escape_string($con, $_POST['referral_source']);
+    $gender = mysqli_real_escape_string($con, $_POST['gender']);
     $agree_terms = isset($_POST['agree_terms']) ? 1 : 0;
     $password = mysqli_real_escape_string($con, $_POST['password']);
     $retypePassword = mysqli_real_escape_string($con, $_POST['retypePassword']);
@@ -304,9 +305,9 @@ if (isset($_POST['register-affiliate'])) {
     // Insert affiliate details into the database
     $query = "INSERT INTO " . $siteprefix . "users 
     (display_name, first_name, middle_name, last_name, profile_picture, mobile_number, email, password, gender, address, type, status, last_login, created_date, preference, bank_name, bank_accname, bank_number, loyalty, wallet, affliate, seller, facebook, twitter, instagram, linkedln, kin_name, kin_number, kin_email, biography, kin_relationship) 
-    VALUES ('$first_name', '$first_name', '$middle_name', '$last_name', '', '$phone', '$email', '$hashedPassword', '', '$address', '$type', '$status', '$date', '$date', '', '', '', '0', '0', '0', '$affiliate', '0', '', '', '', '', '', '', '', '', '')";
+    VALUES ('$first_name', '$first_name', '$middle_name', '$last_name', '', '$phone', '$email', '$hashedPassword', '$gender', '$address', '$type', '$status', '$date', '$date', '', '', '', '0', '0', '0', '$affiliate', '0', '', '', '', '', '', '', '', '', '')";
 
-    if (mysqli_query($con, $query)) {
+if (mysqli_query($con, $query)) {
 $user_id = mysqli_insert_id($con);
 $statusAction = "Success!";
 $message = "Affiliate registration successful! A confirmation email has been sent to $email.";
@@ -348,7 +349,7 @@ if(isset($_POST['update-profile'])){
     }
 
     $uploadDir = 'uploads/';
-    $fileKey='profilePicture';
+    $fileKey='profile_picture';
     global $fileName;
 
     // Update profile picture if a new one is uploaded
@@ -607,7 +608,7 @@ if (isset($_POST['submit_manual_payment'])) {
                         <p>A new manual payment has been submitted:</p>
                         <p><strong>Order ID:</strong> $order_id</p>
                         <p><strong>User:</strong> $user_name ($user_email)</p>
-                        <p><strong>Amount:</strong> $sitecurrency" . number_format($amount, 2) . "</p>
+                        <p><strong>Amount:</strong> $sitecurrencyCode" . number_format($amount, 2) . "</p>
                         <p><strong>Date:</strong> $date</p>
                         <p>Please log in to the admin panel to verify the payment.</p>
                     ";
@@ -932,6 +933,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $kin_email = mysqli_real_escape_string($con, $_POST['kin_email']);
     $kin_relationship = mysqli_real_escape_string($con, $_POST['kin_relationship']);
     $biography = mysqli_real_escape_string($con, $_POST['biography']);
+    $gender=  mysqli_real_escape_string($con, $_POST['gender']);
+
+
+    $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
+    $retypePassword = !empty($_POST['retypePassword']) ? $_POST['retypePassword'] : null;
+    $oldPassword = htmlspecialchars($_POST['oldpassword']);
+
+    // Validate passwords match
+    if ($password && $password !== $retypePassword) {
+        $message= "Passwords do not match.";
+    }
+
+    // Validate old password
+    $stmt = $con->prepare("SELECT password FROM ".$siteprefix."users WHERE s = ?");
+    if ($stmt === false) {
+        $message = "Error preparing statement: " . $con->error;
+    } else {
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        if ($user === null || !checkPassword($oldPassword, $user['password'])) {
+            $message = "Old password is incorrect.";
+        }
+    }
+
+
+    $uploadDir = 'uploads/';
+    $fileKey='profile_picture';
+    global $fileName;
+    $profilePicture = $_FILES['profile_picture']['name'];
+
+    // Update profile picture if a new one is uploaded
+    if (!empty($profilePicture)) {
+        $profilePicture = handleFileUpload($fileKey, $uploadDir, $fileName);
+    } else {
+        $profilePicture = $profile_picture; // Use the current profile picture if no new one is uploaded
+    }
 
     // Update query
     $update_query = "
@@ -941,6 +980,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
             middle_name = '$middle_name',
             last_name = '$last_name',
             email = '$email',
+            password = '$password',
             mobile_number = '$mobile_number',
             address = '$address',
             gender = '$sex',
@@ -955,7 +995,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
             kin_number = '$kin_number',
             kin_email = '$kin_email',
             kin_relationship = '$kin_relationship',
-            biography = '$biography'
+            biography = '$biography',
+            profile_picture='$profilePicture'
         WHERE s = '$user_id'
     ";
 
@@ -963,7 +1004,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     if (mysqli_query($con, $update_query)) {
         // Success modal
         $statusAction = "Success!";
-        $statusMessage = "Profile updated successfully!";
+        $statusMessage = "Profile updated successfully! $message";
         showSuccessModal($statusAction, $statusMessage);
         header("refresh:1; url=settings.php");
         
@@ -974,5 +1015,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
         showErrorModal($statusAction, $statusMessage);
        
     }
+}
+
+//contact us
+if(isset($_POST['contact'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $subject = $_POST['subject'];
+    $message = $_POST['message'];
+    
+    $emailMessage = "From: " . $name . "\nEmail: " . $email . "\nMessage:\n" . $message;
+    sendEmail($sitemail, $sitename, $sitename, $sitemail, $emailMessage, $subject);
+    
+        $message='Message sent successfully. We will get back to you soon.';
+        showSuccessModal('Success', $message);
+        //$message='Failed to send message';
+        //showErrorModal('Error', $message);
 }
 ?>

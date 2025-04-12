@@ -26,14 +26,20 @@
         }
         ?>
 
-        <ul class="list-unstyled w-100">
-        <?php foreach ($notifications as $notification): ?>
-            <li class="notification-item bg-light p-3 mb-2 rounded">
-                <p class="text-dark mb-1"><?php echo htmlspecialchars($notification['message']); ?></p>
-                <small class="text-muted"><?php echo htmlspecialchars($notification['date']); ?></small>
-            </li>
-        <?php endforeach; ?>
-        </ul>
+        <?php if (empty($notifications)): ?>
+            <div class="alert alert-warning" role="alert">
+          No notifications found.
+            </div>
+        <?php else: ?>
+            <ul class="list-unstyled w-100">
+            <?php foreach ($notifications as $notification): ?>
+          <li class="notification-item bg-light p-3 mb-2 rounded">
+              <p class="text-dark mb-1"><?php echo htmlspecialchars($notification['message']); ?></p>
+              <small class="text-muted"><?php echo htmlspecialchars($notification['date']); ?></small>
+          </li>
+            <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
     </div>
   </div> 
 </div>

@@ -40,6 +40,25 @@
                         <label class="form-label">Site Phone Number</label>
                         <input type="text" name="site_number" class="form-control" value="<?php echo $sitenumber; ?>">
                     </div>
+                    <div class="mb-3">
+                      <label class="form-label">Site Bank</label>
+                      <input type="text" name="site_bank" class="form-control" value="<?php echo $site_bank; ?>"> 
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label">Site Account Number</label>
+                      <input type="text" name="account_number" class="form-control" value="<?php echo $siteaccno; ?>">
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label">Site Account Name</label>
+                      <input type="text" name="account_name" class="form-control" value="<?php echo $siteaccname; ?>">
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label">Google Map</label>
+                      <input type="text" name="google_map" class="form-control" value="<?php echo $google_map; ?>">
+                    </div>
                     <button type="submit" name="settings" value="course" class="btn btn-primary w-100">Update Settings</button>
                     </form>
                     </div>

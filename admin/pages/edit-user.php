@@ -116,20 +116,27 @@ if ($sql2 && mysqli_num_rows($sql2) > 0) {
                             <div class="col-md-12 form-group p_star mb-3">
                                 <textarea class="form-control" name="biography" placeholder="Biography"><?php echo htmlspecialchars($biography); ?></textarea>
                             </div>
-                            <div class="form-group col-md-6 mb-3">
+                            <div class="form-group col-md-4 mb-3">
                         <label for="type">User Type</label>
                         <select class="form-select p-3" name="type" id="type" required>
                             <option value="user" <?php if ($type === 'user') echo 'selected'; ?>>User</option>
                             <option value="affiliate" <?php if ($type === 'affiliate') echo 'selected'; ?>>Affliate</option>
                         </select>
                     </div>
-                <div class="form-group col-md-6 mb-3">
+                <div class="form-group col-md-4 mb-3">
                     <label for="status">Status</label>
                     <select class="form-select p-3" name="status" id="status" required>
                         <option value="active" <?php if ($status === 'active') echo 'selected'; ?>>Active</option>
                         <option value="inactive" <?php if ($status === 'inactive') echo 'selected'; ?>>Inactive</option>
                     </select>
-                </div>                </div>
+                </div> 
+                <div class="col-md-4 form-group mb-3">
+                <select class="form-control" id="gender" name="gender" required>
+<option value="" <?php echo empty($gender) ? 'selected' : ''; ?>>-Select Gender-</option>
+<option value="Male" <?php echo ($gender == 'Male') ? 'selected' : ''; ?>>Male</option>
+<option value="Female" <?php echo ($gender == 'Female') ? 'selected' : ''; ?>>Female</option>
+</select></div>
+</div>
                 <div class="mb-3">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="seller" name="seller"  <?php echo ($seller) ? 'checked' : ''; ?>>

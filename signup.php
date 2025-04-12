@@ -40,8 +40,11 @@
                                     <textarea class="form-control" id="biography" name="biography" placeholder="About Me" required><?php echo isset($_POST['biography']) ? $_POST['biography'] : ''; ?></textarea>
                                 </div>
                                 <div class="col-md-4 form-group p_star mb-3">
-                                    <input type="text" class="form-control" id="gender" name="gender" placeholder="Gender" value="<?php echo isset($_POST['gender']) ? $_POST['gender'] : ''; ?>" required>
-                                </div>
+                                    <select class="form-control" id="gender" name="gender" required>
+                                    <option value="">-Select Gender-</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    </select> </div>
                                 <div class="col-md-4 form-group p_star mb-3">
                                     <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" required>
                                 </div>

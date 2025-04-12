@@ -79,6 +79,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $kin_relationship = mysqli_real_escape_string($con, $_POST['kin_relationship']);
     $biography = mysqli_real_escape_string($con, $_POST['biography']);
 
+
+    $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
+    $retypePassword = !empty($_POST['retypePassword']) ? $_POST['retypePassword'] : null;
+    $oldPassword = htmlspecialchars($_POST['oldpassword']);
+
+    // Validate passwords match
+    if ($password && $password !== $retypePassword) {
+        $message= "Passwords do not match.";
+    }
+
+    // Validate old password
+    $stmt = $con->prepare("SELECT password FROM ".$siteprefix."users WHERE s = ?");
+    if ($stmt === false) {
+        $message = "Error preparing statement: " . $con->error;
+    } else {
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        if ($user === null || !checkPassword($oldPassword, $user['password'])) {
+            $message = "Old password is incorrect.";
+        }
+    }
+
+    $uploadDir = '../uploads/';
+    $fileKey='profile_picture';
+    global $fileName;
+    $profilePicture = $_FILES['profile_picture']['name'];
+
+    // Update profile picture if a new one is uploaded
+    if (!empty($profilePicture)) {
+        $profilePicture = handleFileUpload($fileKey, $uploadDir, $fileName);
+    } else {
+        $profilePicture = $profile_picture; // Use the current profile picture if no new one is uploaded
+    }
+
     // Update query
     $update_query = "
         UPDATE ".$siteprefix."users 
@@ -87,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
             middle_name = '$middle_name',
             last_name = '$last_name',
             email = '$email',
+            password = '$password',
             gender = '$sex',
             mobile_number = '$mobile_number',
             address = '$address',
@@ -101,7 +138,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
             kin_number = '$kin_number',
             kin_email = '$kin_email',
             kin_relationship = '$kin_relationship',
-            biography = '$biography'
+            biography = '$biography',
+            profile_picture = '$profilePicture'
         WHERE s = '$user_id'
     ";
 
@@ -109,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     if (mysqli_query($con, $update_query)) {
         // Success modal
         $statusAction = "Success!";
-        $statusMessage = "Profile updated successfully!";
+        $statusMessage = "Profile updated successfully! $message";
         showSuccessModal($statusAction, $statusMessage);
         header("refresh:1; url=settings.php");
         
