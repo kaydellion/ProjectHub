@@ -61,7 +61,7 @@
                     placeholder='Enter Message'></textarea>
                 </div>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-6 mb-3">
                 <div class="form-group">
                   <input class="form-control" name="name" id="name" type="text" onfocus="this.placeholder = ''"
                     onblur="this.placeholder = 'Enter your name'" placeholder='Enter your name'>
