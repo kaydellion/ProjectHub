@@ -73,7 +73,7 @@
                             <div class="col-md-6 form-group p_star mb-3">
                                 <input type="email" class="form-control" name="kin_email" placeholder="Next of Kin Email" value="<?php echo htmlspecialchars($kin_email); ?>">
                             </div>
-                            <div class="col-md-6 form-group p_star mb-3">
+                            <div class="col-md-12 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="kin_relationship" placeholder="Relationship with Next of Kin" value="<?php echo htmlspecialchars($kin_relationship); ?>">
                             </div>
                             <div class="col-md-12 form-group p_star mb-3">
