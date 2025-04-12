@@ -492,7 +492,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_proof'])) {
             if (mysqli_query($con, $update_query)) {
                 // Fetch admin email
                 $admin_email = $siteMail; // Replace with your admin email variable
-                $admin_name = "Admin"; // Replace with your admin name variable
+                $admin_name = $sitename; // Replace with your admin name variable
 
                 // Fetch user details
                 $user_query = "SELECT display_name, email FROM " . $siteprefix . "users WHERE s = '$user_id'";
@@ -524,14 +524,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_proof'])) {
                 $statusAction = "Success!";
                 $statusMessage = "Proof of payment updated successfully. The admin has been notified.";
                 showSuccessModal($statusAction, $statusMessage);
-                header("refresh:2; url=my_orders.php");
+                header("refresh:2;");
                 
             } else {
                 // Database update error
                 $statusAction = "Error!";
                 $statusMessage = "An error occurred while updating the proof of payment.";
                 showErrorModal($statusAction, $statusMessage);
-                header("refresh:2; url=my_orders.php");
+                header("refresh:2;");
                 
             }
         } else {
@@ -539,7 +539,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_proof'])) {
             $statusAction = "Error!";
             $statusMessage = "Failed to upload the proof of payment. Please try again.";
             showErrorModal($statusAction, $statusMessage);
-            header("refresh:2; url=my_orders.php");
+            header("refresh:2;");
             
         }
     } else {
@@ -547,7 +547,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_proof'])) {
         $statusAction = "Error!";
         $statusMessage = "No proof of payment uploaded. Please try again.";
         showErrorModal($statusAction, $statusMessage);
-        header("refresh:2; url=my_orders.php");
+        header("refresh:2;");
         
     }
 }
