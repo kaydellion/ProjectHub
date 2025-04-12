@@ -936,6 +936,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $gender=  mysqli_real_escape_string($con, $_POST['gender']);
 
 
+    $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
+    $retypePassword = !empty($_POST['retypePassword']) ? $_POST['retypePassword'] : null;
+    $oldPassword = htmlspecialchars($_POST['oldpassword']);
+
+    // Validate passwords match
+    if ($password && $password !== $retypePassword) {
+        $message= "Passwords do not match.";
+    }
+
+    // Validate old password
+    $stmt = $con->prepare("SELECT password FROM ".$siteprefix."users WHERE s = ?");
+    if ($stmt === false) {
+        $message = "Error preparing statement: " . $con->error;
+    } else {
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        if ($user === null || !checkPassword($oldPassword, $user['password'])) {
+            $message = "Old password is incorrect.";
+        }
+    }
+
+
     $uploadDir = 'uploads/';
     $fileKey='profile_picture';
     global $fileName;
@@ -956,6 +980,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
             middle_name = '$middle_name',
             last_name = '$last_name',
             email = '$email',
+            password = '$password',
             mobile_number = '$mobile_number',
             address = '$address',
             gender = '$sex',
@@ -979,7 +1004,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     if (mysqli_query($con, $update_query)) {
         // Success modal
         $statusAction = "Success!";
-        $statusMessage = "Profile updated successfully!";
+        $statusMessage = "Profile updated successfully! $message";
         showSuccessModal($statusAction, $statusMessage);
         header("refresh:1; url=settings.php");
         
@@ -989,6 +1014,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
         $statusMessage = "Failed to update profile: " . mysqli_error($con);
         showErrorModal($statusAction, $statusMessage);
        
+    }
+}
+
+//contact us
+if(isset($_POST['contact'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $subject = $_POST['subject'];
+    $message = $_POST['message'];
+    
+    $emailMessage = "From: " . $name . "\nEmail: " . $email . "\nMessage:\n" . $message;
+    
+    if(sendEmail($sitemail, $sitename, $sitename, $sitemail, $emailMessage, $subject)) {
+        $message='Message sent successfully. We will get back to you soon.';
+        showSuccessModal('Success', $message);
+    } else {
+        $message='Failed to send message';
+        showErrorModal('Error', $message);
     }
 }
 ?>

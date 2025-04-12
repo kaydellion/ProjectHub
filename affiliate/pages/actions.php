@@ -79,6 +79,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $kin_relationship = mysqli_real_escape_string($con, $_POST['kin_relationship']);
     $biography = mysqli_real_escape_string($con, $_POST['biography']);
 
+
+    $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
+    $retypePassword = !empty($_POST['retypePassword']) ? $_POST['retypePassword'] : null;
+    $oldPassword = htmlspecialchars($_POST['oldpassword']);
+
+    // Validate passwords match
+    if ($password && $password !== $retypePassword) {
+        $message= "Passwords do not match.";
+    }
+
+    // Validate old password
+    $stmt = $con->prepare("SELECT password FROM ".$siteprefix."users WHERE s = ?");
+    if ($stmt === false) {
+        $message = "Error preparing statement: " . $con->error;
+    } else {
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        if ($user === null || !checkPassword($oldPassword, $user['password'])) {
+            $message = "Old password is incorrect.";
+        }
+    }
+
     $uploadDir = '../uploads/';
     $fileKey='profile_picture';
     global $fileName;
@@ -99,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
             middle_name = '$middle_name',
             last_name = '$last_name',
             email = '$email',
+            password = '$password',
             gender = '$sex',
             mobile_number = '$mobile_number',
             address = '$address',

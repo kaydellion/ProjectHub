@@ -51,7 +51,7 @@
           <h2 class="contact-title">Get in Touch</h2>
         </div>
         <div class="col-lg-8">
-          <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm"
+          <form class="form-contact contact_form"  method="post" id="contactForm"
             novalidate="novalidate">
             <div class="row">
               <div class="col-12">
@@ -82,7 +82,7 @@
               </div>
             </div>
             <div class="form-group mt-3">
-              <a href="#" class="btn_3 button-contactForm">Send Message</a>
+              <button type="submit" value="contact" name="contact" class="btn_3 button-contactForm">Send Message</a>
             </div>
           </form>
         </div>
@@ -90,21 +90,20 @@
           <div class="media contact-info">
             <span class="contact-info__icon"><i class="ti-home"></i></span>
             <div class="media-body">
-              <h3>Buttonwood, California.</h3>
-              <p>Rosemead, CA 91770</p>
+              <h3>Lagos,Nigeria</h3>
             </div>
           </div>
           <div class="media contact-info">
             <span class="contact-info__icon"><i class="ti-tablet"></i></span>
             <div class="media-body">
-              <h3>00 (440) 9865 562</h3>
+              <h3><?php echo $sitenumber; ?></h3>
               <p>Mon to Fri 9am to 6pm</p>
             </div>
           </div>
           <div class="media contact-info">
             <span class="contact-info__icon"><i class="ti-email"></i></span>
             <div class="media-body">
-              <h3>support@colorlib.com</h3>
+              <h3><?php echo $sitemail; ?></h3>
               <p>Send us your query anytime!</p>
             </div>
           </div>
@@ -114,75 +113,5 @@
   </section>
   <!-- ================ contact section end ================= -->
 
-<!-- Section Title -->
-<div class="container section-title" data-aos="fade-up">
-  <h2>Contact Us</h2>
-  <p>Explore thousands of reports and get access to more through us today! Reach out to our team below</p>
-</div><!-- End Section Title -->
-
-<div class="container" data-aos="fade-up" data-aos-delay="100">
-
-  <div class="row gy-4">
-    <div class="col-lg-6 ">
-      <div class="row gy-4">
-
-        <div class="col-lg-12">
-          <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
-            <i class="bi bi-geo-alt"></i>
-            <h3>Address</h3>
-            <p>South Africa</p>
-          </div>
-        </div><!-- End Info Item -->
-
-        <div class="col-md-6">
-          <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
-            <i class="bi bi-telephone"></i>
-            <h3>Call Us</h3>
-            <p><?php echo $sitenumber; ?></p>
-          </div>
-        </div><!-- End Info Item -->
-
-        <div class="col-md-6">
-          <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
-            <i class="bi bi-envelope"></i>
-            <h3>Email Us</h3>
-            <p><?php echo $sitemail; ?></p>
-          </div>
-        </div><!-- End Info Item -->
-
-      </div>
-    </div>
-
-    <div class="col-lg-6">
-      <form action="" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
-        <div class="row gy-4">
-
-          <div class="col-md-6">
-            <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
-          </div>
-
-          <div class="col-md-6 ">
-            <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-          </div>
-
-          <div class="col-md-12">
-            <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-          </div>
-
-          <div class="col-md-12">
-            <textarea class="form-control" name="message" rows="4" placeholder="Message" required=""></textarea>
-          </div>
-
-          <div class="col-md-12 text-center">
-            <button type="submit" name="contact" value="message">Send Message</button>
-          </div>
-
-        </div>
-      </form>
-    </div><!-- End Contact Form -->
-
-  </div>
-
-</div>
 
 <?php include 'footer.php'; ?>

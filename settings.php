@@ -95,6 +95,40 @@
                             <div class="col-md-12 form-group p_star mb-3">
                                 <textarea class="form-control" name="biography" placeholder="Biography"><?php echo htmlspecialchars($biography); ?></textarea>
                             </div>
+                            <div class="form-row row">
+                <div class="form-group col-md-4 mb-3">
+            <label for="password">Old Password</label>
+            <div class="input-group">
+            <input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="Password">
+            <div class="input-group-append">
+                <span class="input-group-text p-3" onclick="togglePasswordVisibility('oldpassword')">
+                <i class="bx bx-low-vision" id="togglePasswordIcon"></i>
+                </span>
+            </div>
+            </div>
+        </div>
+        <div class="form-group col-md-4 mb-3">
+            <label for="password">New Password</label>
+            <div class="input-group">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            <div class="input-group-append">
+                <span class="input-group-text p-3" onclick="togglePasswordVisibility('password')">
+                <i class="bx bx-low-vision" id="togglePasswordIcon"></i>
+                </span>
+            </div>
+            </div>
+        </div>
+        <div class="form-group col-md-4 mb-3">
+            <label for="retypePassword">Retype Password</label>
+            <div class="input-group">
+            <input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Password">
+            <div class="input-group-append">
+                <span class="input-group-text p-3" onclick="togglePasswordVisibility('retypePassword')">
+                <i class="bx bx-low-vision" id="toggleRetypePasswordIcon"></i>
+                </span>
+            </div>
+            </div>
+        </div>
                             <div class="col-md-12 form-group">
                                 <button type="submit" name="update_profile" class="btn btn-primary w-100">Update Profile</button>
                             </div>
