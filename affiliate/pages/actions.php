@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     if (mysqli_query($con, $update_query)) {
         // Success modal
         $statusAction = "Success!";
-        $statusMessage = "Profile updated successfully!";
+        $statusMessage = "Profile updated successfully! $message";
         showSuccessModal($statusAction, $statusMessage);
         header("refresh:1; url=settings.php");
         

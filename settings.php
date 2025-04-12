@@ -102,7 +102,7 @@
             <input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="Password">
             <div class="input-group-append">
                 <span class="input-group-text p-3" onclick="togglePasswordVisibility('oldpassword')">
-                <i class="bx bx-low-vision" id="togglePasswordIcon"></i>
+                <i class="fa fa-eye" id="togglePasswordIcon"></i>
                 </span>
             </div>
             </div>
@@ -113,7 +113,7 @@
             <input type="password" class="form-control" id="password" name="password" placeholder="Password">
             <div class="input-group-append">
                 <span class="input-group-text p-3" onclick="togglePasswordVisibility('password')">
-                <i class="bx bx-low-vision" id="togglePasswordIcon"></i>
+                <i class="fa fa-eye" id="togglePasswordIcon"></i>
                 </span>
             </div>
             </div>
@@ -124,7 +124,7 @@
             <input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Password">
             <div class="input-group-append">
                 <span class="input-group-text p-3" onclick="togglePasswordVisibility('retypePassword')">
-                <i class="bx bx-low-vision" id="toggleRetypePasswordIcon"></i>
+                <i class="fa fa-eye" id="toggleRetypePasswordIcon"></i>
                 </span>
             </div>
             </div>

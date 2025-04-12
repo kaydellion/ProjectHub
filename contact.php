@@ -8,8 +8,8 @@
         <script>
           function initMap() {
             var uluru = {
-              lat: -25.363,
-              lng: 131.044
+              lat: 6.465422,
+              lng: 3.406448
             };
             var grayStyles = [{
                 featureType: "all",
@@ -40,7 +40,7 @@
           }
         </script>
         <script
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&callback=initMap">
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALiCh5Ki_zwTQAaMHvmC7j8Py_1rBBn_I&callback=initMap">
         </script>
 
       </div>
