@@ -30,8 +30,8 @@
             ];
             var map = new google.maps.Map(document.getElementById('map'), {
               center: {
-                lat: -31.197,
-                lng: 150.744
+                lat: 6.465422,
+                lng: 3.406448
               },
               zoom: 9,
               styles: grayStyles,
@@ -51,8 +51,7 @@
           <h2 class="contact-title">Get in Touch</h2>
         </div>
         <div class="col-lg-8">
-          <form class="form-contact contact_form"  method="post" id="contactForm"
-            novalidate="novalidate">
+          <form class="form-contact contact_form"  method="post" id="contactForm">
             <div class="row">
               <div class="col-12">
                 <div class="form-group">
