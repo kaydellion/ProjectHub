@@ -1,7 +1,5 @@
 <?php
 // add_to_cart.php
-
-
 require_once 'backend/connect.php';
 
 // Get POST data
