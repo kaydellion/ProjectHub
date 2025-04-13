@@ -3,11 +3,20 @@
 require_once 'backend/connect.php';
 
 // Get POST data
-$report_id = $_POST['reportId'];
-$user_id = $_POST['userId'];
-$order_id = $_POST['orderId'];
-$file_id = $_POST['file_id'];
-$affliate = $_POST['affliateId'];
+$report_id = $_POST['reportId'] ?? null;
+$user_id = $_POST['userId'] ?? null;
+$order_id = $_POST['orderId'] ?? null;
+$file_id = $_POST['file_id'] ?? null;
+$affliate = $_POST['affliateId'] ?? null;
+
+if (!$file_id || !$report_id || !$user_id || !$order_id) {
+    echo json_encode([
+        'error' => 'Missing one or more required fields',
+        'data' => $_POST
+    ]);
+    exit;
+}
+
 
       // Get cart item count
       $sql = "SELECT COUNT(*) as count FROM pr_order_items WHERE order_id = ?";
