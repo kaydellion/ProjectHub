@@ -246,6 +246,7 @@
   }
 })();
 
+
 inputNumber($('.input-number'));
 }(jQuery));
 
