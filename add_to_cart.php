@@ -63,7 +63,7 @@ $debug['results']['price'] = $row['price'];
 // Check if price is valid
 $price = floatval($row['price']);
 $original_price = $price;
-if ($price <= 0) {
+if ($price == "") {
     $debug['errors'][] = "Invalid price value: " . $price;
     echo json_encode(['success' => false, 'message' => 'Invalid price value', 'debug' => $debug]);
     exit();
