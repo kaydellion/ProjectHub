@@ -246,9 +246,8 @@
   }
 })();
 
-
 inputNumber($('.input-number'));
-}(jQuery));
+
 
 
   setInterval(function () {
@@ -494,7 +493,7 @@ document.querySelectorAll('a.read').forEach(link => {
 });
 
 
-
+}(jQuery));
 const imageInput = document.getElementById('imageInput');
 const preview = document.getElementById('preview');
 let files = new DataTransfer();
