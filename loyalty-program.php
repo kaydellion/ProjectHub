@@ -63,9 +63,11 @@ if ($result) {
 
 <?php include "footer.php"; ?>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("payButton").addEventListener("click", function() {
-            let button = this;
+document.addEventListener("DOMContentLoaded", function () {
+    let payButtons = document.querySelectorAll(".payButton");
+
+    payButtons.forEach(function(button) {
+        button.addEventListener("click", function () {
             let planId = button.dataset.planId;
             let amount = parseFloat(button.dataset.amount) * 100; // Convert to kobo
             let planName = button.dataset.planName;
@@ -78,22 +80,29 @@ if ($result) {
             }
 
             var handler = PaystackPop.setup({
-                key: 'pk_test_3156df58b30d0b29f8319737a485b5b31fd97c9c', // Replace with live key in production
+                key: '<?php echo $apikey; ?>', // Replace with live key in production
                 email: email,
                 amount: amount,
                 currency: 'NGN',
                 ref: 'PH-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
                 metadata: {
-                    custom_fields: [{ display_name: "Plan Name", variable_name: "plan_name", value: planName }]
+                    custom_fields: [{
+                        display_name: "Plan Name",
+                        variable_name: "plan_name",
+                        value: planName
+                    }]
                 },
-                callback: function(response) {
+                callback: function (response) {
                     window.location.href = `backend/verify_payment.php?action=verify_payment&reference=${response.reference}&plan_id=${planId}&user_id=${userId}`;
                 },
-                onClose: function() {
+                onClose: function () {
                     alert('Payment was canceled.');
                 }
             });
             handler.openIframe();
         });
     });
+});
+
 </script>
+
