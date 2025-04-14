@@ -81,7 +81,7 @@ include "actions.php"; ?>
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../../img/<?php echo $siteimg; ?>" />
+    <link rel="icon" type="image/x-icon" href="<?php echo $siteurl;?>img/<?php echo $siteimg; ?>" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -138,7 +138,7 @@ include "actions.php"; ?>
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="index.php" class="app-brand-link">
-              <img src="../../img/<?php echo $siteimg; ?>" alt="">
+              <img src="<?php echo $siteurl;?>img/<?php echo $siteimg; ?>" alt="">
             </a>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
