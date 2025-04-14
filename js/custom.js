@@ -279,7 +279,7 @@ function toggleFavorite(userId,courseId) {
   var icon = btn.querySelector('i');
 
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'toggle_favorite.php', true);
+  xhr.open('POST', 'toggle_favorite', true);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhr.onreadystatechange = function() {
       if (xhr.readyState === 4) {
@@ -390,7 +390,7 @@ $(document).ready(function(){
           return;
       }   
       $.ajax({
-          url: 'add_to_cart.php',
+          url: 'add_to_cart',
           type: 'POST',
           data: {
               reportId: report_id,
@@ -421,7 +421,7 @@ $('.delete-cart-item').click(function() {
   var itemId = $(this).data('item-id');
   if(confirm('Are you sure you want to remove this item?')) {
     $.ajax({
-      url: 'delete_cart_item.php',
+      url: 'delete_cart_item',
       type: 'POST',
       data: {item_id: itemId},
       success: function(response) {
@@ -447,7 +447,7 @@ document.querySelectorAll('.delete-image').forEach(button => {
   button.addEventListener('click', function() {
       if (confirm('Are you sure you want to delete this image?')) {
           let imageId = this.getAttribute('data-image-id');
-          fetch(`delete_image.php?action=deleteimage&image_id=${imageId}`, {
+          fetch(`delete_image?action=deleteimage&image_id=${imageId}`, {
               method: 'GET'
           })
           .then(response => response.json())
@@ -689,7 +689,7 @@ function getAcceptedFormats(docType) {
 
 function getOrderDetails(orderId) {
   $j.ajax({
-    url: 'get_order_details.php',
+    url: 'get_order_details',
     type: 'POST', 
     data: { order_id: orderId },
     success: function(response) {
@@ -720,7 +720,7 @@ $(document).ready(function() {
           return; // Stop further execution
       }
       $.ajax({
-          url: '../addwishlist.php', // Replace with your server URL
+          url: '../addwishlist', // Replace with your server URL
           type: 'POST',
           data: {
               productId: productId,
@@ -764,7 +764,7 @@ $(document).ready(function () {
       }
 
       $.ajax({
-          url: '../addwishlist.php', // Replace with your server URL
+          url: '../addwishlist', // Replace with your server URL
           type: 'POST',
           data: {
               productId: productId,

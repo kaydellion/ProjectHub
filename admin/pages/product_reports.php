@@ -57,9 +57,9 @@ if (!$result) {
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <p><strong>Title:</strong> <?php echo htmlspecialchars($row['product_title']); ?></p>
-                                            <p><strong>Name:</strong> <?php echo htmlspecialchars($row['user_name']); ?></p>
-                                       
+                                            <p><strong>Title:</strong> <?php echo $row['product_title']; ?></p>
+                                            <p><strong>Name:</strong> <?php echo $row['user_name']; ?></p>
+                                            <p><strong>Reason:</strong> <?php echo $row['reason']; ?></p>
                                             <p><strong>Date:</strong> <?php echo date('Y-m-d H:i:s', strtotime($row['report_date'])); ?></p>
                                         </div>
                                         <div class="modal-footer">
