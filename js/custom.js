@@ -604,75 +604,6 @@ if (documentSelect) {
 });
 }
 
-function handleDocumentSelect(selectElement) {
-  console.log('Document select changed');
-  const selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
-  console.log('Selected options:', selectedOptions);
-  const pageInputsDiv = document.getElementById('pageInputs');
-
-  // Loop through existing inputs and remove the ones for deselected options
-  Array.from(pageInputsDiv.children).forEach(child => {
-      const inputName = child.getAttribute('data-doc-type');
-      if (!selectedOptions.includes(inputName)) {
-          child.remove();
-      }
-  });
-
-  // Add inputs for newly selected options
-  selectedOptions.forEach(docType => {
-      if (!document.querySelector(`[data-doc-type="${docType}"]`)) {
-          // Create container div
-          const inputContainer = document.createElement('div');
-          inputContainer.className = 'mb-3';
-          inputContainer.setAttribute('data-doc-type', docType);
-
-          // Create label and file input
-          const fileLabel = document.createElement('label');
-          fileLabel.className = 'form-label';
-          fileLabel.textContent = `Upload ${docType}:`;
-
-          const fileInput = document.createElement('input');
-          fileInput.type = 'file';
-          fileInput.className = 'form-control';
-          fileInput.name = `file_${docType}`;
-          fileInput.accept = getAcceptedFormats(docType);
-
-          // Create label and page input
-          const pageLabel = document.createElement('label');
-          pageLabel.className = 'form-label mt-2';
-          pageLabel.textContent = `Number of Pages for ${docType}:`;
-
-          const pageInput = document.createElement('input');
-          pageInput.type = 'number';
-          pageInput.className = 'form-control';
-          pageInput.min = '1';
-          pageInput.name = `pages_${docType}`;
-          pageInput.required = true;
-
-          // Append elements
-          inputContainer.appendChild(fileLabel);
-          inputContainer.appendChild(fileInput);
-          inputContainer.appendChild(pageLabel);
-          inputContainer.appendChild(pageInput);
-          pageInputsDiv.appendChild(inputContainer);
-      }
-  });
-}
-
-
-// Function to return accepted file formats
-function getAcceptedFormats(docType) {
-    const formats = {
-        word: ".doc,.docx",
-        excel: ".xls,.xlsx",
-        powerpoint: ".ppt,.pptx",
-        pdf: ".pdf",
-        text: ".txt"
-    };
-    return formats[docType] || "*";
-}
-
-
 
 function getOrderDetails(orderId) {
   $j.ajax({
@@ -843,5 +774,74 @@ function togglePasswordVisibility(fieldId) {
   icon.classList.remove('fa-eye-slash');
   icon.classList.add('fa-eye');
   }
+}
+
+
+function handleDocumentSelect(selectElement) {
+  console.log('Document select changed');
+  const selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
+  console.log('Selected options:', selectedOptions);
+  const pageInputsDiv = document.getElementById('pageInputs');
+
+  // Loop through existing inputs and remove the ones for deselected options
+  Array.from(pageInputsDiv.children).forEach(child => {
+      const inputName = child.getAttribute('data-doc-type');
+      if (!selectedOptions.includes(inputName)) {
+          child.remove();
+      }
+  });
+
+  // Add inputs for newly selected options
+  selectedOptions.forEach(docType => {
+      if (!document.querySelector(`[data-doc-type="${docType}"]`)) {
+          // Create container div
+          const inputContainer = document.createElement('div');
+          inputContainer.className = 'mb-3';
+          inputContainer.setAttribute('data-doc-type', docType);
+
+          // Create label and file input
+          const fileLabel = document.createElement('label');
+          fileLabel.className = 'form-label';
+          fileLabel.textContent = `Upload ${docType}:`;
+
+          const fileInput = document.createElement('input');
+          fileInput.type = 'file';
+          fileInput.className = 'form-control';
+          fileInput.name = `file_${docType}`;
+          fileInput.accept = getAcceptedFormats(docType);
+
+          // Create label and page input
+          const pageLabel = document.createElement('label');
+          pageLabel.className = 'form-label mt-2';
+          pageLabel.textContent = `Number of Pages for ${docType}:`;
+
+          const pageInput = document.createElement('input');
+          pageInput.type = 'number';
+          pageInput.className = 'form-control';
+          pageInput.min = '1';
+          pageInput.name = `pages_${docType}`;
+          pageInput.required = true;
+
+          // Append elements
+          inputContainer.appendChild(fileLabel);
+          inputContainer.appendChild(fileInput);
+          inputContainer.appendChild(pageLabel);
+          inputContainer.appendChild(pageInput);
+          pageInputsDiv.appendChild(inputContainer);
+      }
+  });
+}
+
+
+// Function to return accepted file formats
+function getAcceptedFormats(docType) {
+    const formats = {
+        word: ".doc,.docx",
+        excel: ".xls,.xlsx",
+        powerpoint: ".ppt,.pptx",
+        pdf: ".pdf",
+        text: ".txt"
+    };
+    return formats[docType] || "*";
 }
 
