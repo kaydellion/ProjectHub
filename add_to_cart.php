@@ -153,7 +153,7 @@ if ($row['count'] > 0) {
     // Debugging: Log item update query
     $debug['queries'][] = $sql;
 
-    echo json_encode(['success' => true, 'message' => 'Price updated', 'cartCount' => $price, 'debug' => $debug]);
+    echo json_encode(['success' => true, 'message' => 'Price updated', 'cartCount' => $cart_count, 'debug' => $debug]);
     exit();
 }
 
