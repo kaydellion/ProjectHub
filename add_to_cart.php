@@ -1,7 +1,5 @@
 <?php
 // add_to_cart.php
-
-
 require_once 'backend/connect.php';
 
 // Get POST data
@@ -19,16 +17,24 @@ $affliate = $_POST['affliateId'];
       $result = $stmt->get_result();
       $cart_count = $result->fetch_assoc()['count'];
 
-    //check if user is a loyalty member
-    $sql = "SELECT * FROM ".$siteprefix."users  WHERE s  = '$user_id'";
-    $sql2 = mysqli_query($con, $sql);
-    while ($row = mysqli_fetch_array($sql2)) {
-    $loyalty = $row['loyalty']; }
+    //check if user is a loyalty member and get discount
+    $sql = "SELECT u.loyalty, sp.discount FROM ".$siteprefix."users u 
+            LEFT JOIN ".$siteprefix."subscription_plans sp ON u.loyalty = sp.s 
+            WHERE u.s = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("s", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $loyalty = $row['loyalty'];
+    $discount = $row['discount'] ?? 0;
 
-    
-    // Get price from reports table with basic query
-    $sql = "SELECT price FROM pr_reports WHERE id = '$report_id'";
-    $result = $con->query($sql);
+    // Get price from reports table with prepared statement
+    $sql = "SELECT price FROM pr_reports WHERE id = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("s", $report_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if (!$result || $result->num_rows == 0) {
        return "Report not found";
     }
