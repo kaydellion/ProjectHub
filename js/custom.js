@@ -493,7 +493,9 @@ document.querySelectorAll('a.read').forEach(link => {
 });
 
 
-}(jQuery));
+
+
+
 const imageInput = document.getElementById('imageInput');
 const preview = document.getElementById('preview');
 let files = new DataTransfer();
@@ -671,6 +673,7 @@ function getAcceptedFormats(docType) {
 }
 
 
+
 function getOrderDetails(orderId) {
   $j.ajax({
     url: 'get_order_details',
@@ -809,8 +812,24 @@ $(document).ready(function () {
   });
 });
 
+}(jQuery));
 
 
+function previewProfilePicture(event) {
+  var reader = new FileReader();
+  reader.onload = function(){
+      var output = document.getElementById('profilePicturePreview');
+      output.src = reader.result;
+  };
+  reader.readAsDataURL(event.target.files[0]);
+}
+
+
+function togglePrice() {
+  const pricingType = document.getElementById('pricing-type');
+  const priceField = document.getElementById('price-field');
+  priceField.style.display = pricingType.value === 'paid' ? 'block' : 'none';
+}
 
 function togglePasswordVisibility(fieldId) {
   const passwordField = document.getElementById(fieldId);
@@ -825,6 +844,4 @@ function togglePasswordVisibility(fieldId) {
   icon.classList.add('fa-eye');
   }
 }
-
-
 
