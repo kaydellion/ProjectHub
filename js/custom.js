@@ -247,7 +247,7 @@
 })();
 
 inputNumber($('.input-number'));
-
+}(jQuery));
 
 
   setInterval(function () {
@@ -492,22 +492,6 @@ document.querySelectorAll('a.read').forEach(link => {
   });
 });
 
-
-function previewProfilePicture(event) {
-  var reader = new FileReader();
-  reader.onload = function(){
-      var output = document.getElementById('profilePicturePreview');
-      output.src = reader.result;
-  };
-  reader.readAsDataURL(event.target.files[0]);
-}
-
-
-function togglePrice() {
-  const pricingType = document.getElementById('pricing-type');
-  const priceField = document.getElementById('price-field');
-  priceField.style.display = pricingType.value === 'paid' ? 'block' : 'none';
-}
 
 
 const imageInput = document.getElementById('imageInput');
@@ -825,7 +809,7 @@ $(document).ready(function () {
   });
 });
 
-}(jQuery));
+
 
 
 function togglePasswordVisibility(fieldId) {
@@ -841,4 +825,6 @@ function togglePasswordVisibility(fieldId) {
   icon.classList.add('fa-eye');
   }
 }
+
+
 
