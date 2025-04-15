@@ -167,6 +167,7 @@ include "backend/actions.php";
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
                                         <a class="dropdown-item" href="saved-reports.php">Saved Reports</a>
                                         <a class="dropdown-item" href="my_orders.php">My Purchases</a>
+                                        <a class="dropdown-item" href="manual_orders.php">Manual Purchases</a>
                                         <a class="dropdown-item" href="wallet.php">My Wallet</a>
                                     </div>
                                 </li>

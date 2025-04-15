@@ -10,7 +10,7 @@
                 <div>
                  <label for="profilePictureInput" class="text-light">Click to change profile picture</label>
                  <input type="file" id="profilePictureInput" name="profilePicture" accept="image/*" style="display: none;" onchange="previewProfilePicture(event)">
-                 <img  style="width:10%; height:auto;" src="../../uploads/<?php echo htmlspecialchars($profile_picture); ?>" class="mt-3" alt="Avatar" id="profilePicturePreview" onclick="document.getElementById('profilePictureInput').click();">
+                 <img  style="width:10%; height:auto;" src="<?php echo $siteurl;?>uploads/<?php echo htmlspecialchars($profile_picture); ?>" class="mt-3" alt="Avatar" id="profilePicturePreview" onclick="document.getElementById('profilePictureInput').click();">
                 </div>
                     <div class="form-group col-md-6 mb-3">
                         <label for="fullName">Name</label>

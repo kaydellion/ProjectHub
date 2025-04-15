@@ -3,7 +3,7 @@
         <div class="plan-card-body">
             <img src="<?= $image_path ?>" alt="<?= $name ?>" class="plan-card-img">
             <h5 class="plan-card-title"><?= $name ?></h5>
-            <p class="plan-card-text"><?= $description ?></p>
+            <p class="plan-card-text p-3"><?= $description ?></p>
             <h4 class="plan-card-price">₦<?= number_format($price) ?></h4>
               <!-- Display formatted duration -->
               <small class="text-muted">
@@ -44,7 +44,7 @@ $user_has_active_plan = mysqli_num_rows($subscription_result) > 0;
                     <a href="loyalty-status.php" class="btn btn-primary">Manage Subscription</a>
                 <?php else: ?>
                    <!-- Pay Button with Data Attributes -->
-<button id="payButton" class="btn btn-primary"
+<button class="btn btn-primary payButton"
     data-plan-id="<?= $plan_id ?>"
     data-amount="<?= $price ?>"
     data-plan-name="<?= htmlspecialchars($name, ENT_QUOTES) ?>"

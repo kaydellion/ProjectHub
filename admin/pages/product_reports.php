@@ -35,8 +35,9 @@ if (!$result) {
                     <?php if (mysqli_num_rows($result) > 0): ?>
                         <?php while ($row = mysqli_fetch_assoc($result)): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($row['product_title']); ?></td>
-                                <td><?php echo htmlspecialchars($row['user_name']); ?></td>
+                                <td><?php echo $row['product_title']; ?></td>
+                                <td><?php echo $row['user_name']; ?></td>
+                                <td><?php echo $row['reason']; ?></td>
         
                                 <td><?php echo date('Y-m-d H:i:s', strtotime($row['report_date'])); ?></td>
                                 <td>
@@ -56,9 +57,9 @@ if (!$result) {
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <p><strong>Title:</strong> <?php echo htmlspecialchars($row['product_title']); ?></p>
-                                            <p><strong>Name:</strong> <?php echo htmlspecialchars($row['user_name']); ?></p>
-                                       
+                                            <p><strong>Title:</strong> <?php echo $row['product_title']; ?></p>
+                                            <p><strong>Name:</strong> <?php echo $row['user_name']; ?></p>
+                                            <p><strong>Reason:</strong> <?php echo $row['reason']; ?></p>
                                             <p><strong>Date:</strong> <?php echo date('Y-m-d H:i:s', strtotime($row['report_date'])); ?></p>
                                         </div>
                                         <div class="modal-footer">
