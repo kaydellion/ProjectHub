@@ -385,6 +385,12 @@ $(document).ready(function(){
       var user_id = $('#user_id').val();
       var order_id = $('#order_id').val();
       var affliate_id = $('#affliate_id').val();
+
+      // Redirect if the user is not logged in
+      if (!user_id) {
+          window.location.href = '/signin'; // Redirect to login page
+          return; // Stop further execution
+      }
       if(!fileId) {
           alert('Please select a file format');
           return;
