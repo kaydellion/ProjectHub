@@ -27,7 +27,7 @@ if ($row) {
     $image = $row['image'];
     $created_at = $row['created_at'];
 } else {
-    die('Plan not found.');
+    debug('Plan not found.');
 }
 ?>
 

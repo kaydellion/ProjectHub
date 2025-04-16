@@ -8,7 +8,7 @@ if(isset($_GET['id'])){
     LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
     LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id 
     LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id 
-    WHERE r.id = '$id' AND r.status = 'approved' GROUP BY r.id";
+    WHERE r.id = '$id' GROUP BY r.id";
     
     $sql2 = mysqli_query($con, $sql);
     if (!$sql2) {die("Query failed: " . mysqli_error($con)); }

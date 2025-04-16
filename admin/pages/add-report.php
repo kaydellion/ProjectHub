@@ -31,22 +31,25 @@
 
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-message">Description</label>
-                          <textarea id="basic-default-message" name="description" class="form-control editor" placeholder="This course is a course for ..."></textarea>
+                          <textarea id="basic-default-message" name="description" class="form-control editor" placeholder="Write required information or details here...."></textarea>
                         </div>
 
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-message">Preview Content</label>
-                          <textarea id="basic-default-message" name="preview" class="form-control editor" placeholder="This course is a course for ..."></textarea>
+                          <textarea id="basic-default-message" name="preview" class="form-control editor" placeholder="Write required information or details here...."></textarea>
                         </div>
 
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-message">Table of Contents</label>
-                          <textarea id="basic-default-message" name="table_content" class="form-control editor" placeholder="This course is a course for ..."></textarea>
+                          <textarea id="basic-default-message" name="table_content" class="form-control editor" placeholder="Write required information or details here...."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-message">Methodology</label>
+                          <textarea id="basic-default-message" name="methodology" class="form-control editor" placeholder="Write required information or details here...."></textarea>
                         </div>
 
                         <h6>Field Of Study: Select the industry or field where this template/model is most applicable</h6>
-
-
                         <div class="mb-3">
                         <select class="form-select" name="category" aria-label="Default select example" required>
                           <option selected>- Select Category -</option>
@@ -58,20 +61,96 @@
                         </select>
                         </div>
 
-                        <div class="mb-5" id="subcategory-container" style="display:none;">
+                        <div class="mb-3" id="subcategory-container" style="display:none;">
                           <select class="form-select" name="subcategory" id="subcategory-select" required>
                             <option selected>- Select Subcategory -</option>
                           </select>
                         </div>
 
-                        <h6>Pricing and File Upload</h6>
-                        
 
+
+<?php
+$sql = "SELECT * FROM  " . $siteprefix . "education_levels ORDER BY is_new DESC, name ASC";
+$result = $con->query($sql);
+?>
+<div class="mb-3">
+<select name="education_level" class="form-control" required>
+    <option value="">-- Select Education Level --</option>
+    <?php while ($row = $result->fetch_assoc()): ?>
+        <option value="<?php echo $row['id']; ?>">
+            <?php echo $row['name']; ?>
+        </option>
+    <?php endwhile; ?>
+</select>
+</div>
+
+
+<?php
+// Fetch all
+$yearsOfStudy = [
+  "Post UTME",
+  "Year 1",
+  "Year 2",
+  "Year 3",
+  "Year 4",
+  "Year 5",
+  "Year 6",
+  "Post Graduation / Work"
+];
+$sql = "SELECT * FROM " . $siteprefix . "resource_types ORDER BY parent_id ASC, name ASC";
+$result = $con->query($sql);
+$resources = [];
+while ($row = $result->fetch_assoc()) {
+    $resources[$row['parent_id']][] = $row;
+}
+?>
+<div class="mb-3">
+<label class="form-label" for="resourceType">Resource Type</label>
+<select name="resource_type[]" id="resourceType" multiple class="form-select mb-4 select-multiple" onchange="togglePast()"  required>
+<option value="">-- Select Resource Type --</option>
+    <?php
+    foreach ($resources[NULL] as $parent) {
+        echo '<option disabled>' . $parent['name'] . '</option>';
+        if (!empty($resources[$parent['id']])) {
+            foreach ($resources[$parent['id']] as $child) {
+                echo '<option value="' . $child['id'] . '"> &nbsp;&nbsp;&nbsp; ' . $child['name'] . '</option>';
+            }
+        }
+    }
+    ?>
+</select>
+</div>
+
+<div class="mb-3" id="past-field" style="display:none;">
+<label class="form-label" for="past">Does the resource have answer?</label>
+<select name="answer" class="form-control"required>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<div class="mb-3">
+<label><strong>What Year of Study Does the Resource Apply:</strong></label><br>
+<select name="year_of_study[]" multiple class="form-select mb-4 select-multiple" required>
+    <?php foreach ($yearsOfStudy as $year): ?>
+    <option value="<?= htmlspecialchars($year) ?>"><?= $year ?></option>
+    <?php endforeach; ?>
+</select></div>
+
+<div class="mb-3">
+<label class="form-label" for="chapter">Number of Chapters</label>
+<input type="number" id="chapter" name="chapter" class="form-control" step="1" min="1" required>
+</div>
+
+
+
+                        <h6>Pricing and File Upload</h6>
                         <div class="mb-3">
                           <label class="form-label" for="pricing-type">Pricing Type</label>
                           <select id="pricing-type" name="pricing" class="form-control" onchange="togglePrice()" required>
                             <option value="free">Free</option>
                             <option value="paid">Paid</option>
+                            <option value="donation">Donation</option>
                           </select>
                         </div>
 
@@ -88,13 +167,13 @@
           <option value="powerpoint">PowerPoint Presentation (.ppt, .pptx)</option>
           <option value="pdf">PDF Document (.pdf)</option>
           <option value="text">Text File (.txt)</option>
+          <option value="zip">Zip File (.zip)</option>
         </select>
       </div>
       
       <div id="pageInputs"></div>
 
                         <h6>Additional Information</h6>
-
                         <div class="mb-3">
                           <label class="form-label" for="course-tags">Tags & Keywords</label>
                           <input type="text" id="course-tags" name="tags" class="form-control" placeholder="Separate tags with commas" required>
@@ -111,7 +190,7 @@
 
                         <div class="mb-3">
                           <label class="form-label" for="status-type">Approval Status</label>
-                          <select id="status-type" name="status" class="form-control" required>
+                          <select id="status-type" name="status" class="form-control" required <?= getReadonlyAttribute() ?>>
                             <option value="pending" selected>Pending</option>
                             <option value="approved">Approved</option>
                           </select>

@@ -7,6 +7,7 @@ $stmt = $con->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
 
+redirectToDashboardIfSubAdmin();
 ?>
 
 

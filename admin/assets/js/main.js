@@ -173,52 +173,28 @@ function togglePrice() {
   priceField.style.display = pricingType.value === 'paid' ? 'block' : 'none';
 }
 
+function togglePast() {
+  const pricingType = document.getElementById('resource-type');
+  const priceField = document.getElementById('past-field');
+  priceField.style.display = pricingType.value === 'past' ? 'block' : 'none';
+}
 
-const imageInput = document.getElementById('imageInput');
-const preview = document.getElementById('preview');
-let files = new DataTransfer();
+function togglePast() {
+  const pricingType = document.getElementById('resource-type');
+  const priceField = document.getElementById('past-field');
 
-imageInput.addEventListener('change', function() {
-  const newFiles = Array.from(this.files);
-  
-  newFiles.forEach(file => {
-    files.items.add(file);
-    
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const div = document.createElement('div');
-      div.className = 'image-preview';
-      
-      const img = document.createElement('img');
-      img.src = e.target.result;
-      img.className = 'preview-image';
-      
-      const deleteBtn = document.createElement('button');
-      deleteBtn.className = 'delete-btn';
-      deleteBtn.innerHTML = 'X';
-      deleteBtn.onclick = function(e) {
-        e.preventDefault();
-        const index = Array.from(preview.children).indexOf(div);
-        const newFiles = new DataTransfer();
-        
-        Array.from(files.files).forEach((file, i) => {
-          if (i !== index) newFiles.items.add(file);
-        });
-        
-        files = newFiles;
-        imageInput.files = files.files;
-        div.remove();
-      };
-      
-      div.appendChild(img);
-      div.appendChild(deleteBtn);
-      preview.appendChild(div);
-    };
-    reader.readAsDataURL(file);
-  });
-  
-  this.files = files.files;
-});
+  // Convert selected options to array of values
+  const selectedValues = Array.from(pricingType.selectedOptions).map(opt => opt.value);
+
+  // Check if '19' is one of the selected values
+  if (selectedValues.includes('19')) {
+    priceField.style.display = 'block';
+  } else {
+    priceField.style.display = 'none';
+  }
+}
+
+
 
 
 document.getElementById('documentSelect').addEventListener('change', function() {
@@ -339,7 +315,8 @@ function getAcceptedFormats(docType) {
         excel: ".xls,.xlsx",
         powerpoint: ".ppt,.pptx",
         pdf: ".pdf",
-        text: ".txt"
+        text: ".txt",
+        zip: ".zip,.rar,.tgz,.tar,.gz",
     };
     return formats[docType] || "*";
 }
@@ -404,6 +381,30 @@ document.querySelectorAll('.delete-image').forEach(button => {
 });
 
 
+document.querySelectorAll('.deletefile').forEach(button => {
+  button.addEventListener('click', function() {
+      if (confirm('Are you sure you want to delete this file?')) {
+          let imageId = this.getAttribute('data-file-id');
+          fetch(`delete_image.php?action=deletefile&image_id=${imageId}`, {
+              method: 'GET'
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  this.closest('.file-preview').remove();
+                  showToast('File deleted successfully.');
+              } else {
+                  alert('Failed to delete file.');
+              }
+          })
+          .catch(error => {
+              console.error('Error deleting file:', error);
+          });
+      }
+  });
+});
+
+
 function updateStatus() {
   const status = document.getElementById('statusAction').value;
   if (!status) return;
@@ -442,3 +443,19 @@ function updateWallet() {
       walletForm.submit();
   }
 }
+
+function togglePast() {
+  const pricingType = document.getElementById('resourceType');
+  const priceField = document.getElementById('past-field');
+
+  // Convert selected options to array of values
+  const selectedValues = Array.from(pricingType.selectedOptions).map(opt => opt.value);
+
+  // Check if '19' is one of the selected values
+  if (selectedValues.includes('19')) {
+    priceField.style.display = 'block';
+  } else {
+    priceField.style.display = 'none';
+  }
+}
+

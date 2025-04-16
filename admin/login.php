@@ -21,11 +21,17 @@ if (isset($_POST['login'])){
     $type = $row['type'];
     }
 
+    if($type!="admin"||$type!="sub-admin"){
+    echo'Unauthotrized user!';
+    }
+
+    else if (!checkPassword($password, $hashedPassword)) {
+    }
     if (!checkPassword($password, $hashedPassword)) {
     echo'Incorrect Password for this account! <a href="forgetpassword.php" style="color:red;">Forgot password? Recover here</a>';
     }
                 
-   else if($status == "active" && $type=="admin"){
+   else if($status == "active" && ($type=="admin"||$type=="sub-admin")){
     $date=date('Y-m-d H:i:s');
     $insert = mysqli_query($con,"UPDATE ".$siteprefix."users SET last_login='$date' where s='$id'") or die ('Could not connect: ' .mysqli_error($con)); 
                   

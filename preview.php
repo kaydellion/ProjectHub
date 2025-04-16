@@ -1,4 +1,4 @@
-<?php include "header.php"; include "product_details.php"; 
+<?php include "header.php"; include "preview-details.php"; 
 
 //get and decode affliate_id if it exists
 $affliate_id = isset($_GET['affliate']) ? base64_decode($_GET['affliate']) : 0;

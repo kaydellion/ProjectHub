@@ -1,5 +1,5 @@
 <?php
-include "../../backend/connect.php"; 
+include "backend/connect.php"; 
 $siteprefix="pr_";
 $action = $_GET['action'];
 

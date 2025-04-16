@@ -46,6 +46,8 @@ if (mysqli_affected_rows($con) == 0) {
         $kin_email = $row['kin_email'];
         $biography = $row['biography'];
         $kin_relationship = $row['kin_relationship'];
+
+        $_SESSION['user_role'] = $user_type;
         
 
         
@@ -190,8 +192,8 @@ include "actions.php"; ?>
                 </li>
               </ul>
             </li>
-  <!--  manual payment --->
-  <li class="menu-item">
+            <!--  manual payment --->
+            <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-folder-open"></i>
                 <div data-i18n="Layouts">Manual Payment</div>
@@ -218,7 +220,7 @@ include "actions.php"; ?>
 
             
                 <!-- Plans -->
-                <li class="menu-item">
+                <li class="menu-item <?= getDisplayClass() ?>">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-folder-open"></i>
                 <div data-i18n="Layouts">Subscription Plans</div>
@@ -240,7 +242,7 @@ include "actions.php"; ?>
             </li>
 
               <!-- Plans -->
-              <li class="menu-item">
+              <li class="menu-item <?= getDisplayClass() ?>">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-folder-open"></i>
                 <div data-i18n="Layouts">Transactions</div>
@@ -274,7 +276,7 @@ include "actions.php"; ?>
              <!-- Components -->           
              <li class="menu-header small text-uppercase"><span class="menu-header-text">Users</span></li>
             <li class="menu-item"> <a href="users.php" class="menu-link"><i class="menu-icon tf-icons bx bxs-user-account"></i> <div data-i18n="Spinners">All Users</div></a></li>
-            <li class="menu-item"> <a href="send-message.php" class="menu-link"><i class="menu-icon tf-icons bx bx-mail-send"></i> <div data-i18n="Spinners">Send Message</div></a></li>
+            <li class="menu-item <?= getDisplayClass() ?>"> <a href="send-message.php" class="menu-link"><i class="menu-icon tf-icons bx bx-mail-send"></i> <div data-i18n="Spinners">Send Message</div></a></li>
 
         
 
@@ -312,7 +314,7 @@ include "actions.php"; ?>
             <!-- Misc -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">ADMIN</span></li>
             <li class="menu-item"> <a href="notifications.php" class="menu-link"><i class="menu-icon tf-icons bx bx-bell"></i> <div data-i18n="Spinners">Notifications</div></a></li>
-            <li class="menu-item"> <a href="settings.php" class="menu-link"><i class="menu-icon tf-icons bx bx-cog"></i> <div data-i18n="Spinners">Settings</div></a></li>
+            <li class="menu-item <?= getDisplayClass() ?>"> <a href="settings.php" class="menu-link"><i class="menu-icon tf-icons bx bx-cog"></i> <div data-i18n="Spinners">Settings</div></a></li>
             <li class="menu-item"> <a href="logout.php" class="menu-link"><i class="menu-icon tf-icons bx bx-log-out"></i> <div data-i18n="Spinners">Log Out</div></a></li>
             
         </aside>

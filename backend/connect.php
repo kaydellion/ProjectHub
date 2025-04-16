@@ -28,6 +28,8 @@ $adminimagePath='../../uploads/';
 $sitecurrency="₦";
 $sitecurrencyCode="&#8358;";
 $documentPath='documents/';
+$affiliateurl='https://affiliate.projectreporthub.ng/';
+$adminurl='https://admin.projectreporthub.ng/';
 
 
 $sql = "SELECT * from ".$siteprefix."site_settings";

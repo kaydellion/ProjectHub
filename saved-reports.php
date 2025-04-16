@@ -74,7 +74,7 @@ $total_pages = ceil($total_reports / $limit);
                         include "product-card.php";
                     }
                 } else {
-                    die('No reports found.');
+                    debug('No reports found.');
                 }
                 ?>
             </div>
