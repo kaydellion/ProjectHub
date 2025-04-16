@@ -4,7 +4,7 @@
 <script src="https://cdn.datatables.net/2.2.1/js/dataTables.bootstrap5.min.js"></script>
 
 <!-- Place the first <script> tag in your HTML's <head> -->
-<script src="https://cdn.tiny.cloud/1/lxphyils3mh06lqfkntl7w5kgljaoegwzfnylpr6m9g3ids6/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/roklacl9yumv7b559nuyz23j49bjjvemnwk5a4er079qd7cg/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
 <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
 <script>
