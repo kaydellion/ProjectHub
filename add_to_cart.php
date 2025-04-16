@@ -70,7 +70,7 @@ if ($price == "") {
 }
 
 //select loyalty discount
-$sql = "SELECT discount FROM pr_subscription_plans WHERE id = '$loyalty'";
+$sql = "SELECT discount FROM pr_subscription_plans WHERE s = '$loyalty'";
 $result = $con->query($sql);
 if (!$result || $result->num_rows == 0) {
     $debug['errors'][] = "Loyalty plan not found.";
