@@ -71,7 +71,7 @@ $yearsOfStudy = [
             <div class="card-body">
                 <form method="POST" enctype="multipart/form-data">
                     <h6>Basic Information</h6>
-                    <p><a href="<?php echo $siteurl;?>/product.php?id=<?php echo $report_id;?>" class="btn btn-primary" target="_blank">View Report</a></p>
+                    <p><a href="<?php echo $siteurl;?>preview.php?id=<?php echo $report_id;?>" class="btn btn-primary" target="_blank">View Report</a></p>
                     <div class="mb-3">
                         <p>Current Images</p>
                         <div id="preview1" class="preview-container">
