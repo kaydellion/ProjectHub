@@ -98,7 +98,7 @@ if ($row) {
                     <div class="mb-3">
                         <select class="form-select" name="category" aria-label="Default select example" required>
                             <option selected value="<?php echo $category; ?>"><?php echo $category; ?></option>
-                            <?php
+                            <?php 
                             $sql = "SELECT * FROM " . $siteprefix . "categories";
                             $sql2 = mysqli_query($con, $sql);
                             while ($row = mysqli_fetch_array($sql2)) {
