@@ -238,6 +238,7 @@ while ($row = mysqli_fetch_array($sql2)) {
 <span class="file-preview">
 <input type="radio" class="btn-check" value="<?php echo $file_id; ?>" name="btnradio" id="btnradio<?php echo $file_id; ?>" autocomplete="off">
 <label class="btn btn-outline-primary deletefile" data-file-id="<?php echo $file_id; ?>" for="btnradio<?php echo $file_id; ?>"><?php echo $file_extension;?> (p.<?php echo $file_pages;?>)</label>
+<a href="<?php echo $siteurl;?>documents/<?php echo $file_title;?>" target="_blank" class="btn btn-outline-secondary">View</a>
 </span>
 <?php } ?></div>
 
