@@ -840,8 +840,46 @@ function getAcceptedFormats(docType) {
         excel: ".xls,.xlsx",
         powerpoint: ".ppt,.pptx",
         pdf: ".pdf",
-        text: ".txt"
+        text: ".txt",
+        zip: ".zip,.rar,.tgz,.tar,.gz",
     };
     return formats[docType] || "*";
 }
 
+document.querySelectorAll('.deletefile').forEach(button => {
+  button.addEventListener('click', function() {
+      if (confirm('Are you sure you want to delete this file?')) {
+          let imageId = this.getAttribute('data-file-id');
+          fetch(`delete_image.php?action=deletefile&image_id=${imageId}`, {
+              method: 'GET'
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  this.closest('.file-preview').remove();
+                  showToast('File deleted successfully.');
+              } else {
+                  alert('Failed to delete file.');
+              }
+          })
+          .catch(error => {
+              console.error('Error deleting file:', error);
+          });
+      }
+  });
+});
+
+function togglePast() {
+  const pricingType = document.getElementById('resourceType');
+  const priceField = document.getElementById('past-field');
+
+  // Convert selected options to array of values
+  const selectedValues = Array.from(pricingType.selectedOptions).map(opt => opt.value);
+
+  // Check if '19' is one of the selected values
+  if (selectedValues.includes('19')) {
+    priceField.style.display = 'block';
+  } else {
+    priceField.style.display = 'none';
+  }
+}

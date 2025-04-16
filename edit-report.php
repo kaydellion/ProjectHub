@@ -71,7 +71,6 @@ $yearsOfStudy = [
             <div class="card-body">
                 <form method="POST" enctype="multipart/form-data">
                     <h6>Basic Information</h6>
-                    <p><a href="<?php echo $siteurl;?>/product.php?id=<?php echo $report_id;?>" class="btn btn-primary" target="_blank">View Report</a></p>
                     <div class="mb-3">
                         <p>Current Images</p>
                         <div id="preview1" class="preview-container">
@@ -218,7 +217,7 @@ foreach ($resources[NULL] as $parent) {
                     </div>
                     <div class="mb-3" id="price-field" style="display:<?php echo ($pricing == 'paid') ? 'block' : 'none'; ?>;">
                         <label class="form-label" for="course-price">Price</label>
-                        <input type="number" id="course-price" name="price" class="form-control" step="0.01" value="<?php echo $price; ?>" <?= getReadonlyAttribute() ?>>
+                        <input type="number" id="course-price" name="price" class="form-control" step="0.01" value="<?php echo $price; ?>">
                     </div>
 
 
@@ -259,21 +258,6 @@ while ($row = mysqli_fetch_array($sql2)) {
                         <label class="form-label" for="course-tags">Tags & Keywords</label>
                         <input type="text" id="course-tags" name="tags" class="form-control" value="<?php echo $tags; ?>" required>
                     </div>
-                    <?php if ($user_type === 'admin'): ?>
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="loyalty" name="loyalty" <?php echo ($loyalty) ? 'checked' : ''; ?>>
-                            <label class="form-check-label" for="loyalty">List under our Loyalty Program</label>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-                    <div class="mb-3">
-                          <label class="form-label" for="status-type">Approval Status</label>
-                          <select id="status-type" name="status" class="form-control" required <?= getReadonlyAttribute() ?>>
-                            <option value="pending" <?php echo ($status == 'pending') ? 'selected' : ''; ?>>Pending</option>
-                            <option value="approved" <?php echo ($status == 'approved') ? 'selected' : ''; ?>>Approved</option>
-                          </select>
-                        </div>
                     <button type="submit" name="update-report" value="course" class="btn btn-primary w-100">Update Report</button>
                 </form>
             </div>

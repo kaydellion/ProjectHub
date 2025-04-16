@@ -32,6 +32,14 @@ if(isset($_GET['id'])){
         $updated_date = $row['updated_date'];
         $status = $row['status'];
         $image_path = $imagePath.$row['picture'];
+        $methodology = $row['methodology'];
+        $selected_education_level = $row['education_level'] ?? '';
+        $selected_resource_type = $row['resource_type'] ?? '';
+        $selected_resource_type_array = explode(',',$selected_resource_type); // assuming stored as comma-separated
+        $selected_years = $row['year_of_study'] ?? '';
+        $selected_years_array = explode(',',$selected_years); // assuming stored as comma-separated
+        $chapter_count = $row['chapter'] ?? '';
+        $answer = $row['answer'] ?? '';
     }
 } else {
     header("Location: $previousPage");
@@ -50,4 +58,22 @@ if(mysqli_num_rows($checkEmail) >= 1 ) {
     $initialtext = "Remove from Wishlist";
     $initialbtn = "btn-primary";
 }}
+
+//getresource_type and education_level
+$sql = "SELECT * FROM ".$siteprefix."resource_types WHERE id = '$selected_resource_type' ORDER BY is_new DESC, name ASC ";
+$result = $con->query($sql);
+$resource_types = [];
+while ($row = $result->fetch_assoc()) {
+    $resource_type = $row['name'];
+}
+$sql = "SELECT * FROM ".$siteprefix."education_levels WHERE id = '$selected_education_level' ORDER BY is_new DESC, name ASC ";
+$result = $con->query($sql);
+$education_levels = [];
+while ($row = $result->fetch_assoc()) {
+    $education_level = $row['name'];
+}
+
+
+
+
 ?>

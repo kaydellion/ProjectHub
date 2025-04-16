@@ -2,9 +2,9 @@
 
 error_reporting(E_ALL); ini_set('display_errors', 1); ini_set('log_errors', 1);
 $db_host = "localhost"; 
-$db_username = "projectr_project"; 
-$db_pass = "Y34GgwK(]h82Yg"; 
-$db_name = "projectr_project";
+$db_username ="root";// "projectr_project"; 
+$db_pass ="";// "Y34GgwK(]h82Yg"; 
+$db_name = "project_hub"; //projectr_project";
 $con = mysqli_connect ("$db_host","$db_username","$db_pass","$db_name");
 $siteprefix="pr_";
 date_default_timezone_set('Africa/Lagos');
@@ -17,6 +17,8 @@ $adminimagePath='../../uploads/';
 $sitecurrency="₦";
 $sitecurrencyCode="&#8358;";
 $documentPath='documents/';
+$affiliateurl='https://affiliate.projectreporthub.ng/';
+$adminurl='https://admin.projectreporthub.ng/';
 
 
 $sql = "SELECT * from ".$siteprefix."site_settings";

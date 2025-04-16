@@ -34,6 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $tags = $_POST['tags'];
     $loyalty = isset($_POST['loyalty']) ? 1 : 0;
     $documentTypes = isset($_POST['documentSelect']) ? $_POST['documentSelect'] : [];
+    $methodology =  $_POST['methodology'];
+    $year_of_study = implode(',',$_POST['year_of_study']); 
+    $resource_type = implode(',',$_POST['resource_type']);
+    $education_level = $_POST['education_level'];
+    $chapter = $_POST['chapter'];
+    $answer = $_POST['answer'];
   
     // Upload images
     $uploadDir = 'uploads/';
@@ -93,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
         }
     }
     // Insert data into the database
-    $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, preview, table_content, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) VALUES (NULL, '$reportId', '$title', '$description', '$preview','$tableContent','$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
+    $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, preview, table_content,methodology,chapter,year_of_study,resource_type,education_level,answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) VALUES (NULL, '$reportId', '$title', '$description','$preview','$tableContent','$methodology','$chapter','$year_of_study','$resource_type','$education_level','$answer','$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
     if (mysqli_query($con, $sql)) {
         $message .= "Report added successfully!";
     } else {
@@ -104,6 +110,98 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     header("refresh:2; url=models.php");
   }
 
+
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update-report'])) {
+    $reportId = $_POST['id'];
+    $title = $_POST['title'];
+    $description = mysqli_real_escape_string($con, $_POST['description']);
+    $preview = mysqli_real_escape_string($con, $_POST['preview']);
+    $tableContent = mysqli_real_escape_string($con, $_POST['table_content']);
+    $category = $_POST['category'];
+    $subcategory = isset($_POST['subcategory']) ? $_POST['subcategory'] : null;
+    $pricing = $_POST['pricing'];
+    $price = !empty($_POST['price']) ? $_POST['price'] : '0';
+    $tags = $_POST['tags'];
+    $loyalty = isset($_POST['loyalty']) ? 1 : 0;
+    $documentTypes = isset($_POST['documentSelect']) ? $_POST['documentSelect'] : [];
+    $status = "pending";
+    $methodology =  $_POST['methodology'];
+    $year_of_study = implode(',',$_POST['year_of_study']); 
+    $resource_type = implode(',',$_POST['resource_type']);
+    $education_level = $_POST['education_level'];
+    $chapter = $_POST['chapter'];
+    $answer = $_POST['answer'];
+  
+    // Upload images
+    $uploadDir = '../../uploads/';
+    $fileuploadDir = '../../documents/';
+    $fileKey='images';
+    global $fileName;
+    $message="";
+
+    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+    if (empty($_FILES[$fileKey]['name'][0])) {
+       // Array of default images
+        //$defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
+        // Pick a random default image
+        //$randomImage = $defaultImages[array_rand($defaultImages)];
+        //$reportImages = [$randomImage];
+    }else{
+    
+    $uploadedFiles = [];
+    foreach ($reportImages as $image) {
+        $stmt = $con->prepare("INSERT INTO  ".$siteprefix."reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
+        $stmt->bind_param("ss", $reportId, $image);
+        if ($stmt->execute()) {
+            $uploadedFiles[] = $image;
+        } else {
+            $message.="Error: " . $stmt->error;
+        }
+        $stmt->close();
+    }}
+
+    // Handle file uploads
+    $fileFields = [
+        'file_word' => 'word',
+        'file_excel' => 'excel',
+        'file_pdf' => 'pdf',
+        'file_powerpoint' => 'powerpoint',
+        'file_text' => 'text'
+    ];
+
+    foreach ($fileFields as $fileField => $docType) {
+        if (isset($_FILES[$fileField]) && $_FILES[$fileField]['error'] == UPLOAD_ERR_OK) {
+            $filePath = handleFileUpload($fileField, $fileuploadDir);
+            $pagesField = 'pages_' . $docType;
+            $pages = isset($_POST[$pagesField]) ? $_POST[$pagesField] : 0;
+
+            $stmt = $con->prepare("INSERT INTO  ".$siteprefix."reports_files (report_id, title, pages, updated_at) VALUES (?, ?, ?, current_timestamp())");
+            $stmt->bind_param("ssi", $reportId, $filePath, $pages);
+
+            if ($stmt->execute()) {
+                $message.="File uploaded and record added successfully!";
+            } else {
+                $message.="Error: " . $stmt->error;
+            }
+
+            $stmt->close();
+        }
+    }
+
+
+  
+    // Insert data into the database for update
+    $sql = "UPDATE ".$siteprefix."reports SET title='$title', answer='$answer', description='$description', preview='$preview', table_content='$tableContent', methodology='$methodology', chapter='$chapter', year_of_study='$year_of_study', resource_type='$resource_type', education_level='$education_level', category='$category', subcategory='$subcategory', pricing='$pricing', price='$price', tags='$tags', loyalty='$loyalty', user='$user_id', updated_date=current_timestamp(), status='$status' WHERE id = '$reportId'";
+    if (mysqli_query($con, $sql)) {
+        $message .= "Report updated successfully!";
+    } else {
+        $message .= "Error: " . mysqli_error($con);
+    }
+
+    showSuccessModal('Processed',$message);
+    header("refresh:2; url=models.php");
+  }
 
 //new-registertion
 if(isset($_POST['register-user'])){

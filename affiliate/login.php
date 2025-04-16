@@ -22,7 +22,11 @@ if (isset($_POST['login'])){
     $type = $row['type'];
     }
 
-    if (!checkPassword($password, $hashedPassword)) {
+    if($type!="affiliate"){
+    echo'You are not an affiliate user! <a href="'.$affiliateurl.'" style="color:red;">Create an account here</a>';
+    }
+  
+    else if (!checkPassword($password, $hashedPassword)) {
     echo'Incorrect Password for this account! <a href="forgetpassword.php" style="color:red;">Forgot password? Recover here</a>';
     }
                 

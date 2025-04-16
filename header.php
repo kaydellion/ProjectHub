@@ -49,6 +49,7 @@ if (mysqli_affected_rows($con) == 0) {
         $biography = $row['biography'];
         $kin_relationship = $row['kin_relationship'];
            
+        $_SESSION['user_role'] = $user_type;
 
         $active_log = 1;
         $user_id=$id;

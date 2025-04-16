@@ -118,9 +118,10 @@ if ($sql2 && mysqli_num_rows($sql2) > 0) {
                             </div>
                             <div class="form-group col-md-4 mb-3">
                         <label for="type">User Type</label>
-                        <select class="form-select p-3" name="type" id="type" required>
+                        <select class="form-select p-3" name="type" id="type" required <?= getReadonlyAttribute() ?>>
                             <option value="user" <?php if ($type === 'user') echo 'selected'; ?>>User</option>
                             <option value="affiliate" <?php if ($type === 'affiliate') echo 'selected'; ?>>Affliate</option>
+                            <option value="sub-admin" <?php if ($type === 'sub-admin') echo 'selected'; ?>>Sub Admin</option>
                         </select>
                     </div>
                 <div class="form-group col-md-4 mb-3">

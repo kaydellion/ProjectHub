@@ -88,6 +88,15 @@ $user_review = $existing_review_result->fetch_assoc();
         </div>
     </div>
 
+    <p><strong>Resource Type: </strong><?php echo $resource_type;?><br>
+    <?php if($answer!=""){ ?>
+    <strong>Answer Key: </strong> <?php echo $answer;?><br><?php } ?>
+    <strong>Education Level: </strong><?php echo $education_level;?><br>
+    <strong>Year of Study: </strong><?php echo $selected_years;?><br>
+    <strong>Chapter Count: </strong><?php echo $chapter_count;?><br>
+    <strong>Tags: </strong><?php echo $tags;?><br>
+    </p>
+
             <!-- Color Selection -->
             <form method="post">
             <div class="mb-3">
@@ -175,9 +184,13 @@ while ($row = mysqli_fetch_array($sql2)) {
   <li class="nav-item" role="presentation">
     <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Content Preview</button>
   </li>
+  <?php if ($table_content) { ?>
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Table of Contents</button>
-  </li>
+  </li><?php } elseif($methodology) { ?>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#method" type="button" role="tab" aria-controls="profile" aria-selected="false">Methodology</button>
+  </li><?php } ?>
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Reviews</button>
   </li>
@@ -189,6 +202,9 @@ while ($row = mysqli_fetch_array($sql2)) {
 
   <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"><!--table-->
   <?php echo $table_content; ?></div>
+
+  <div class="tab-pane fade" id="method" role="tabpanel" aria-labelledby="profile-tab"><!--table-->
+  <?php echo $methodology; ?></div>
 
   <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
     <!-- Reviews -->

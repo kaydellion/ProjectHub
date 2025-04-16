@@ -616,4 +616,33 @@ function showErrorModal2($statusAction, $statusMessage) {
     echo '});';
     echo '</script>';
 }
+
+function getUserRole() {
+    // Replace with your actual role-checking logic
+    return $_SESSION['user_role'] ?? 'guest';
+}
+
+function getReadonlyAttribute() {
+    $role = getUserRole();
+    if ($role === 'admin') {
+        return ''; // No restriction
+    } elseif ($role === 'sub-admin') {
+        return 'readonly';
+    }
+    return '';
+}
+
+function getDisplayClass() {
+    $role = getUserRole();
+    return ($role === 'admin') ? 'd-none' : '';
+}
+
+function redirectToDashboardIfSubAdmin() {
+    // Assuming roles are strings like 'admin', 'subadmin', 'editor', etc.
+    $userRole=getUserRole();
+    if ($userRole === 'sub-admin') {
+        header("Location: /dashboard.php");
+        exit();
+    }
+}
 ?>
