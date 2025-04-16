@@ -15,7 +15,7 @@
                     <div class="wishlist_icon"><a class="add-to-wishlist <?php echo $theinitialicon; ?>" data-product-id="<?php echo $report_id; ?>"><i class="ti-heart"></i></a></div>
                             </div>
                             <div class="single_product_text">
-                            <a href="product.php?id=<?php echo $report_id; ?>"><h4><?php echo $title; ?></h4></a>
+                            <a href="product.php?id=<?php echo $report_id; ?>"><h5><?php echo $title; ?></h5></a>
                             <div class="user_info">
                             <img src="<?php echo $user_picture; ?>" alt="<?php echo $user; ?>" class="img-fluid user-image">
                             <span><?php echo $user; ?></span>
