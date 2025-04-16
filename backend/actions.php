@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $title = $_POST['title'];
     $description = mysqli_real_escape_string($con, $_POST['description']);
     $preview = mysqli_real_escape_string($con, $_POST['preview']);
-    $tableContent = mysqli_real_escape_string($con, $_POST['tableContent']);
+    $tableContent = mysqli_real_escape_string($con, $_POST['table_content']);
     $category = $_POST['category'];
     $subcategory = isset($_POST['subcategory']) ? $_POST['subcategory'] : null;
     $pricing = $_POST['pricing'];
