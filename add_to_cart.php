@@ -69,6 +69,24 @@ if ($price == "") {
     exit();
 }
 
+//select loyalty discount
+$sql = "SELECT discount FROM pr_loyalty_plans WHERE id = '$loyalty'";
+$result = $con->query($sql);
+if (!$result || $result->num_rows == 0) {
+    $debug['errors'][] = "Loyalty plan not found.";
+    echo json_encode(['success' => false, 'message' => 'Loyalty plan not found', 'debug' => $debug]);
+    exit();
+}
+$row = $result->fetch_assoc();
+// Debugging: Log loyalty discount query and result
+$debug['queries'][] = $sql;
+$discount = floatval($row['discount']);
+if ($discount == "") {
+    $debug['errors'][] = "Invalid discount value: " . $discount;
+    echo json_encode(['success' => false, 'message' => 'Invalid discount value', 'debug' => $debug]);
+    exit();
+}
+
 // Apply loyalty discount if applicable
 if ($loyalty > 0) {
     $price = $price - ($price * $discount / 100);
@@ -80,10 +98,13 @@ if ($loyalty > 0) {
     ];
 
     // Check if the user has reached the maximum number of downloads for their loyalty plan
-    $query = "SELECT COUNT(r.*) as count FROM pr_order_items r
-              LEFT JOIN pr_orders o ON o.order_id = r.order_id
-              WHERE o.user = '$user_id' AND status != 'cancelled'
-              AND original_price != $price";
+    $query = "
+    SELECT COUNT(*) AS count 
+    FROM pr_order_items r
+    LEFT JOIN pr_orders o ON o.order_id = r.order_id
+    WHERE o.user = '$user_id' 
+      AND o.status != 'cancelled' 
+      AND r.original_price != $price";
     $result = mysqli_query($con, $query);
     $row = mysqli_fetch_assoc($result);
     $count = $row['count'];
