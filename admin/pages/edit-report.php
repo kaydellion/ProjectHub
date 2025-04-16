@@ -81,7 +81,7 @@ $yearsOfStudy = [
                          if (!$sql4) {die("Query failed: " . mysqli_error($con)); }
                          while ($image_row = mysqli_fetch_array($sql4)) {
                                echo '<div class="image-preview">';
-                               echo '<img class="preview-image" src="../../uploads/' .$image_row['picture'] . '" alt="Report Image">';
+                               echo '<img class="preview-image" src="'.$siteurl.'uploads/' .$image_row['picture'] . '" alt="Report Image">';
                                echo '<button type="button" class="delete-btn delete-image" data-image-id="' .$image_row['id'] . '">X</button>';
                                echo '</div>';
                            }
