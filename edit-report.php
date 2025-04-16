@@ -261,10 +261,11 @@ while ($row = mysqli_fetch_array($sql2)) {
                     </div>
                     <button type="submit" name="update-report" value="course" class="btn btn-primary w-100">Update Report</button>
                 </form>
+                </div>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-    </div>
-</div>
 <script>
 const selectedSubcategoryId = <?= json_encode($subcategory_id ?? null) ?>;
 function fetchSubcategories(parentId) {
