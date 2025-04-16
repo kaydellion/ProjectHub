@@ -650,7 +650,6 @@ function debug($data) {
     echo '<div class="alert alert-danger" role="alert" style="margin: 20px;">';
     echo '<strong>Debug:</strong><pre style="margin: 0;">' . print_r($data, true) . '</pre>';
     echo '</div>';
-    exit;
 }
 
 ?>
