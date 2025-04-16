@@ -36,7 +36,7 @@ if ($result) {
         include "plan-card.php"; // Include your plan display template
     }
 } else {
-    die('No subscription plans found.');
+    debug('No subscription plans found.');
 }
 ?>
 
