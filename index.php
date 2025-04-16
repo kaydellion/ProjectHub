@@ -69,9 +69,10 @@
             $image_path = $imagePath.$row['picture'];
     
             include "product-card.php";
-            }} else {  debug('No reports not found.'); }?>
+            }?>
 <div class="col-lg-12 mt-1">
-<div class="text-right"> <a href="reports.php" class="btn-kayd">View More</a> </div></div>
+<div class="text-right"> <a href="marketplace.php" class="btn-kayd">View More</a></div></div>
+<?php }else {  debug('No reports not found.'); }?>
 </div>
 </div></div></div>
 
