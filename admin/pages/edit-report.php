@@ -123,8 +123,13 @@ $yearsOfStudy = [
                     <h6>Field Of Study: Select the industry or field where this template/model is most applicable</h6>
                     <div class="mb-3">
                         <select class="form-select" name="category" aria-label="Default select example" required>
+<<<<<<< HEAD
+                            <option selected value="<?php echo $category; ?>"><?php echo $category; ?></option>
+                            <?php 
+=======
                             <option selected value="<?php echo $category_id; ?>"><?php echo $category; ?></option>
                             <?php
+>>>>>>> 468a9b3b6c3224ac70650b7e7553cefd98ec1031
                             $sql = "SELECT * FROM " . $siteprefix . "categories";
                             $sql2 = mysqli_query($con, $sql);
                             while ($row = mysqli_fetch_array($sql2)) {
