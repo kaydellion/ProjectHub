@@ -278,8 +278,9 @@ while ($row = mysqli_fetch_array($sql2)) {
     <h2 class="h4 mb-4">Related Products</h2>
     <div class="row">
 <?php
-$sql = "SELECT r.*, ri.picture FROM ".$siteprefix."reports r
+$sql = "SELECT r.*, u.display_name, u.profile_picture ,ri.picture FROM ".$siteprefix."reports r
 LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
+ LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
 WHERE r.category = '$category' AND r.subcategory = '$subcategory' AND r.id != '$report_id' AND r.status = 'approved' GROUP BY r.id LIMIT 4";
 $sql2 = mysqli_query($con, $sql);
 if (!$sql2) {die("Query failed: " . mysqli_error($con)); }
