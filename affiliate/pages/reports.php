@@ -50,7 +50,7 @@
                         
                         <td>
                             <!-- View Product Button -->
-                            <a href="../../product.php?id=<?php echo $report_id; ?>" target="_blank" class="btn btn-info btn-sm me-2">View Product</a>
+                            <a href="<?php echo $siteurl;?>product.php?id=<?php echo $report_id; ?>" target="_blank" class="btn btn-info btn-sm me-2">View Product</a>
                         </td>
                         <td>
                             <?php if ($pricing != 'free'): ?>

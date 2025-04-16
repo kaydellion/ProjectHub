@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $loyalty = isset($_POST['loyalty']) ? 1 : 0;
     $documentTypes = isset($_POST['documentSelect']) ? $_POST['documentSelect'] : [];
     $status = $_POST['status'];
-    $methodology =  $_POST['methodology'];
+    $methodology =  mysqli_real_escape_string($con, $_POST['methodology']);
     $year_of_study = implode(',',$_POST['year_of_study']); 
     $resource_type = implode(',',$_POST['resource_type']);
     $education_level = $_POST['education_level'];
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $loyalty = isset($_POST['loyalty']) ? 1 : 0;
     $documentTypes = isset($_POST['documentSelect']) ? $_POST['documentSelect'] : [];
     $status = $_POST['status'];
-    $methodology = $_POST['methodology'];
+    $methodology =  mysqli_real_escape_string($con, $_POST['methodology']);
     $year_of_study = implode(',',$_POST['year_of_study']); 
     $resource_type = implode(',',$_POST['resource_type']);
     $education_level = $_POST['education_level'];
