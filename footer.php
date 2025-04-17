@@ -72,16 +72,15 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/jquery.nice-select.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <?php include "backend/datatable.php"; ?>
     <!-- slick js -->
     <script src="js/slick.min.js"></script>
     <script src="js/jquery.counterup.min.js"></script>
-    <script src="js/waypoints.min.js"></script>
     <script src="js/contact.js"></script>
     <script src="js/jquery.ajaxchimp.min.js"></script>
     <script src="js/jquery.form.js"></script>
     <script src="js/jquery.validate.min.js"></script>
-   <!--- <script src="js/mail-script.js"></script>  -->
+   <!--- <script src="js/mail-script.js"></script> 
+   <script src="js/waypoints.min.js"></script> -->
     <!-- custom js -->
     <script src="js/custom.js"></script>
     <script type="text/javascript">const paymentForm = document.getElementById('paymentForm');
