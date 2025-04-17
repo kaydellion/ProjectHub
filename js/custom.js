@@ -172,19 +172,17 @@
       delay: 3000,
     },
     breakpoints: {
-      768: {
-        slidesPerView: 2,
-      },
       480: {
         slidesPerView: 1,
+      },
+      768: {
+        slidesPerView: 2,
       },
       1024: {
         slidesPerView: 4,
       }
     }
   });
-
-
 
   // Search Toggle
   $("#search_input_box").hide();

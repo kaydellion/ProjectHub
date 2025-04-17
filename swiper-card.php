@@ -8,8 +8,8 @@
         $theinitialicon="added";}}?>
 
 
-<div class="swiper-wrapper" id="swiper-wrapper-779a55113310c81044">
-<div class="col-lg-3 col-6 product <?php echo removeAllWhitespace($subcategory); ?>">
+
+<div class="swiper-slide col-lg-3 col-6 product <?php echo removeAllWhitespace($subcategory); ?>">
                     <div class="single_product_item">
                     <div class="single_product_img" style="background: url('<?php echo $image_path; ?>')">
                     <div class="wishlist_icon"><a class="add-to-wishlist <?php echo $theinitialicon; ?>" data-product-id="<?php echo $report_id; ?>"><i class="ti-heart"></i></a></div>
@@ -27,4 +27,4 @@
                             <span class="text-bold">5.0</span>
                              </div>
                             </div>
-                            </div></div></div></div>
+                            </div></div></div>
