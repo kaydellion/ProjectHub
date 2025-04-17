@@ -69,6 +69,10 @@ if ($price == "") {
     exit();
 }
 
+
+
+// Apply loyalty discount if applicable
+if ($loyalty > 0) {
 //select loyalty discount
 $sql = "SELECT discount FROM pr_subscription_plans WHERE s = '$loyalty'";
 $result = $con->query($sql);
@@ -86,9 +90,6 @@ if ($discount == "") {
     echo json_encode(['success' => false, 'message' => 'Invalid discount value', 'debug' => $debug]);
     exit();
 }
-
-// Apply loyalty discount if applicable
-if ($loyalty > 0) {
     $price = $price - ($price * $discount / 100);
     
     // Debugging: Log loyalty discount application
