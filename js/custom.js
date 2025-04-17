@@ -156,38 +156,35 @@
   });
 
   
-  const swiper = new Swiper(".mySwiper", {
-    slidesPerView: 1,
-    slidesPerGroup: 1,
-    spaceBetween: 16,
+  var swiper = new Swiper('.mySwiper', {
+    slidesPerView: 4,
+    spaceBetween: 20,
     loop: true,
-
-    autoplay: {
-      delay: 2500,
-      disableOnInteraction: false,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
     },
-
     pagination: {
-      el: ".swiper-pagination",
+      el: '.swiper-pagination',
       clickable: true,
     },
-
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
+    autoplay: {
+      delay: 3000,
     },
-
     breakpoints: {
       768: {
         slidesPerView: 2,
-        slidesPerGroup: 1,
+      },
+      480: {
+        slidesPerView: 1,
       },
       1024: {
         slidesPerView: 4,
-        slidesPerGroup: 1,
       }
     }
   });
+
+
 
   // Search Toggle
   $("#search_input_box").hide();

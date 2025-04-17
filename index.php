@@ -71,12 +71,13 @@
     
             include "product-card.php";
             }?>
-            </div>
- <!-- Navigation buttons -->
+ </div>
+
+<!-- Navigation -->
 <div class="swiper-button-next"></div>
 <div class="swiper-button-prev"></div>
 
-  <!-- Pagination dots -->
+<!-- Pagination -->
 <div class="swiper-pagination"></div>
 <div class="col-lg-12 mt-1">
 <div class="text-right"> <a href="marketplace.php" class="btn-kayd">View More</a></div></div>
