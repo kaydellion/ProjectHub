@@ -175,6 +175,16 @@
     },
 
     breakpoints: {
+      //for small screen
+      0: {
+        slidesPerView: 1,
+        slidesPerGroup: 1,
+      },
+      // when window width is >= 480px (mobile and up)
+      480: {
+        slidesPerView: 2,
+        slidesPerGroup: 1,
+      },
       // when window width is >= 768px (tablet and up)
       768: {
         slidesPerView: 2,
