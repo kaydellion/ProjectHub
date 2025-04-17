@@ -55,34 +55,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         </div>
     </footer>
 <script src="https://js.paystack.co/v1/inline.js"></script> 
-<script type="text/javascript">const paymentForm = document.getElementById('paymentForm');
-paymentForm.addEventListener("submit", payWithPaystack, false);
-function payWithPaystack(e) {
-  e.preventDefault();
-  let handler = PaystackPop.setup({
-    key: '<?php echo $apikey; ?>', // Replace with your public key
-    email:  document.getElementById("email-address").value,
-    amount: document.getElementById("amount").value * 100,
-    ref: document.getElementById("ref").Value, // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
-    // label: "Optional string that replaces customer email"
-    metadata: {
-               custom_fields: [
-                  {
-                      display_name: "Mobile Number",
-                      variable_name: "mobile_number",
-                      value: document.getElementById("mobile-number").value,
-                  }
-               ]
-            },
-    onClose: function(){
-      alert('Window closed.');
-    },
-    callback: function(response){ 
-	window.location.href = document.getElementById("refer").value;
-	}
-  });
-  handler.openIframe();
-}</script>
 
     <!--::footer_part end::-->
 
@@ -112,6 +84,34 @@ function payWithPaystack(e) {
    <!--- <script src="js/mail-script.js"></script>  -->
     <!-- custom js -->
     <script src="js/custom.js"></script>
+    <script type="text/javascript">const paymentForm = document.getElementById('paymentForm');
+paymentForm.addEventListener("submit", payWithPaystack, false);
+function payWithPaystack(e) {
+  e.preventDefault();
+  let handler = PaystackPop.setup({
+    key: '<?php echo $apikey; ?>', // Replace with your public key
+    email:  document.getElementById("email-address").value,
+    amount: document.getElementById("amount").value * 100,
+    ref: document.getElementById("ref").Value, // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+    // label: "Optional string that replaces customer email"
+    metadata: {
+               custom_fields: [
+                  {
+                      display_name: "Mobile Number",
+                      variable_name: "mobile_number",
+                      value: document.getElementById("mobile-number").value,
+                  }
+               ]
+            },
+    onClose: function(){
+      alert('Window closed.');
+    },
+    callback: function(response){ 
+	window.location.href = document.getElementById("refer").value;
+	}
+  });
+  handler.openIframe();
+}</script>
 </body>
 
 </html>
