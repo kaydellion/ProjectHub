@@ -71,7 +71,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- carousel js -->
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/jquery.nice-select.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <?php include "backend/datatable.php"; ?>
     <!-- slick js -->
     <script src="js/slick.min.js"></script>
