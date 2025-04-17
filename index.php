@@ -71,13 +71,13 @@
     
             include "product-card.php";
             }?>
-</div>
-
-<!-- Optional navigation -->
+            </div>
+ <!-- Navigation buttons -->
 <div class="swiper-button-next"></div>
 <div class="swiper-button-prev"></div>
+
+  <!-- Pagination dots -->
 <div class="swiper-pagination"></div>
-</div>
 <div class="col-lg-12 mt-1">
 <div class="text-right"> <a href="marketplace.php" class="btn-kayd">View More</a></div></div>
 <?php }else {  debug('No reports not found.'); }?>

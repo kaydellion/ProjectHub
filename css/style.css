@@ -12,13 +12,20 @@ html, body {
   overflow-x: hidden;
   width: 100%;
 }
-.swiper-slide {
-  background: #eee;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
+
+.swiper {
+  width: 100%;
+  padding: 20px 0;
 }
 
+.swiper-slide {
+  background: #f44336;
+  color: #fff;
+  font-size: 20px;
+  border-radius: 8px;
+  padding: 40px 0;
+  text-align: center;
+}
 .preview-container1 {
   display: flex;
   flex-wrap: wrap;
@@ -241,6 +248,7 @@ margin-bottom: 10px;
 .single_product_item {
   margin-bottom: 30px;
   border: 1px solid #f1f1f1;
+  min-height: 250px;
   padding: 5px;
   border-radius: 10px;
 }
