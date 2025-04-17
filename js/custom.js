@@ -177,7 +177,7 @@
     breakpoints: {
       //for small screen
       0: {
-        slidesPerView: 1,
+        slidesPerView: 2,
         slidesPerGroup: 1,
       },
       // when window width is >= 480px (mobile and up)
