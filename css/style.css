@@ -28,7 +28,7 @@ html, body {
   color: #F57C00 !important
 }
 .swiper-button-next:after, .swiper-button-prev:after {
-  font-size: 20px;
+  font-size: 14px !important;
   color: #F57C00 !important;
 }
 .swiper-pagination-bullet-active {
@@ -254,16 +254,23 @@ margin-bottom: 10px;
   height: 200px;
 }
 
+@media screen and (max-width: 768px) {
+  .single_product_item {
+    min-height: 400px;
+  }
+}
+
 .single_product_item {
   margin-bottom: 30px;
   border: 1px solid #f1f1f1;
   padding: 5px;
-  min-height: 180px;
+  min-height: 250px;
   border-radius: 10px;
 }
 .single_product_text h4 {
   margin-top: 10px;
   margin-bottom: 10px;
+  text-transform: capitalize;
 }
 .single_product_text .user_info {
   display: flex;

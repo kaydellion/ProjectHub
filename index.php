@@ -78,8 +78,7 @@
     <!-- Add Pagination -->
     <div class="swiper-pagination"></div>
   </div>
-<div class="col-lg-12 mt-1">
-<div class="text-right"> <a href="marketplace.php" class="btn-kayd">View More</a></div></div>
+</div>
 <?php }else {  debug('No reports not found.'); }?>
 </div>
 </div></div></div>
@@ -176,10 +175,14 @@ while ($row = mysqli_fetch_assoc($result)) {
         $image_path = $imagePath.$row['picture'];
 
         include "product-card.php";
+}
+?>
+</div>
+<div class="col-lg-12 mt-1">
+<div class="text-right"> <a href="marketplace.php" class="btn-kayd">View More</a></div>
+<?php } else {  debug('No reports not found.'); }?>
 
-}} else {  debug('No reports not found.'); }?>
-
-</div></div></div></div>
+</div></div></div>
 <div class="container mt-5">
     <div class="row align-items-center" style="background-color: #f8f9fa; border-radius: 15px; padding: 30px; padding-bottom:0px;">
         <div class="col-lg-6">
