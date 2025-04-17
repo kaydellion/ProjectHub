@@ -69,7 +69,7 @@
             $status = $row['status'];
             $image_path = $imagePath.$row['picture'];
     
-            include "product-card.php";
+            include "swiper-card.php";
             }?>
  </div>
 
