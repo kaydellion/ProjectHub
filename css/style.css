@@ -6,6 +6,19 @@
 Grey (Neutral Base) –#6E6E6E (Medium Grey)
 Orange (Accent) – #F57C00 (Vibrant Orange)
 Black (Bold & Contrast) – #212121 (Deep Black)*/
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
+.swiper-slide {
+  background: #eee;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
 .preview-container1 {
   display: flex;
   flex-wrap: wrap;

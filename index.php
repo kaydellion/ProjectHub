@@ -37,7 +37,8 @@
         <p>Explore a wide range of topics, gain valuable insights, and achieve your goals with ease. Simplify your research journey today!</p>
         <div class="row mt-3">
            
-
+        <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
     <?php
     $query = "SELECT r.*, u.display_name, u.profile_picture, l.category_name AS category, sc.category_name AS subcategory, ri.picture 
         FROM ".$siteprefix."reports r 
@@ -70,6 +71,13 @@
     
             include "product-card.php";
             }?>
+</div>
+
+<!-- Optional navigation -->
+<div class="swiper-button-next"></div>
+<div class="swiper-button-prev"></div>
+<div class="swiper-pagination"></div>
+</div>
 <div class="col-lg-12 mt-1">
 <div class="text-right"> <a href="marketplace.php" class="btn-kayd">View More</a></div></div>
 <?php }else {  debug('No reports not found.'); }?>
