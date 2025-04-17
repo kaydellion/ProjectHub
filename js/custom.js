@@ -155,15 +155,17 @@
     }]
   });
 
-  
-  var swiper = new Swiper('.mySwiper', {
-    slidesPerView: 4,
-    spaceBetween: 20,
+  const swiper = new Swiper('.mySwiper', {
+    slidesPerView: 1,
+    spaceBetween: 16,
+    slidesPerGroup: 1, // scroll 1 at a time
     loop: true,
+
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',
     },
+
     pagination: {
       el: '.swiper-pagination',
       clickable: true,
@@ -171,18 +173,22 @@
     autoplay: {
       delay: 3000,
     },
+
     breakpoints: {
-      480: {
-        slidesPerView: 1,
-      },
+      // when window width is >= 768px (tablet and up)
       768: {
         slidesPerView: 2,
+        slidesPerGroup: 1,
       },
+      // when window width is >= 1024px (laptop and up)
       1024: {
         slidesPerView: 4,
+        slidesPerGroup: 1,
       }
     }
   });
+
+ 
 
   // Search Toggle
   $("#search_input_box").hide();
