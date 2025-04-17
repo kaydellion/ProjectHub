@@ -37,7 +37,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'read-message') {
 //upload-report
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $reportId = $_POST['id'];
-    $title = $_POST['title'];
+    $title =  mysqli_real_escape_string($con,$_POST['title']);
     $description = mysqli_real_escape_string($con, $_POST['description']);
     $preview = mysqli_real_escape_string($con, $_POST['preview']);
     $tableContent = mysqli_real_escape_string($con, $_POST['table_content']);
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $subcategory = isset($_POST['subcategory']) ? $_POST['subcategory'] : null;
     $pricing = $_POST['pricing'];
     $price = !empty($_POST['price']) ? $_POST['price'] : '0';
-    $tags = $_POST['tags'];
+    $tags = mysqli_real_escape_string($con,$_POST['tags']);
     $loyalty = isset($_POST['loyalty']) ? 1 : 0;
     $documentTypes = isset($_POST['documentSelect']) ? $_POST['documentSelect'] : [];
     $status = $_POST['status'];
@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update-report'])) {
     $reportId = $_POST['id'];
-    $title = $_POST['title'];
+    $title =  mysqli_real_escape_string($con,$_POST['title']);
     $description = mysqli_real_escape_string($con, $_POST['description']);
     $preview = mysqli_real_escape_string($con, $_POST['preview']);
     $tableContent = mysqli_real_escape_string($con, $_POST['table_content']);
@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $subcategory = isset($_POST['subcategory']) ? $_POST['subcategory'] : null;
     $pricing = $_POST['pricing'];
     $price = !empty($_POST['price']) ? $_POST['price'] : '0';
-    $tags = $_POST['tags'];
+    $tags = mysqli_real_escape_string($con,$_POST['tags']);
     $loyalty = isset($_POST['loyalty']) ? 1 : 0;
     $documentTypes = isset($_POST['documentSelect']) ? $_POST['documentSelect'] : [];
     $status = $_POST['status'];

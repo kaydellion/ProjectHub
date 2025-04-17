@@ -23,7 +23,7 @@ if($active_log==1){
 //upload-report
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $reportId = $_POST['id'];
-    $title = $_POST['title'];
+    $title =  mysqli_real_escape_string($con,$_POST['title']);
     $description = mysqli_real_escape_string($con, $_POST['description']);
     $preview = mysqli_real_escape_string($con, $_POST['preview']);
     $tableContent = mysqli_real_escape_string($con, $_POST['table_content']);
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $subcategory = isset($_POST['subcategory']) ? $_POST['subcategory'] : null;
     $pricing = $_POST['pricing'];
     $price = !empty($_POST['price']) ? $_POST['price'] : '0';
-    $tags = $_POST['tags'];
+    $tags = mysqli_real_escape_string($con,$_POST['tags']);
     $loyalty = isset($_POST['loyalty']) ? 1 : 0;
     $documentTypes = isset($_POST['documentSelect']) ? $_POST['documentSelect'] : [];
     $methodology =  mysqli_real_escape_string($con, $_POST['methodology']);
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update-report'])) {
     $reportId = $_POST['id'];
-    $title = $_POST['title'];
+    $title =  mysqli_real_escape_string($con,$_POST['title']);
     $description = mysqli_real_escape_string($con, $_POST['description']);
     $preview = mysqli_real_escape_string($con, $_POST['preview']);
     $tableContent = mysqli_real_escape_string($con, $_POST['table_content']);
@@ -122,17 +122,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $subcategory = isset($_POST['subcategory']) ? $_POST['subcategory'] : null;
     $pricing = $_POST['pricing'];
     $price = !empty($_POST['price']) ? $_POST['price'] : '0';
-    $tags = $_POST['tags'];
+    $tags = mysqli_real_escape_string($con,$_POST['tags']);
     $loyalty = isset($_POST['loyalty']) ? 1 : 0;
     $documentTypes = isset($_POST['documentSelect']) ? $_POST['documentSelect'] : [];
     $status = "pending";
-    $methodology =   mysqli_real_escape_string($con, $_POST['methodology']);
+    $methodology =  mysqli_real_escape_string($con, $_POST['methodology']);
     $year_of_study = implode(',',$_POST['year_of_study']); 
     $resource_type = implode(',',$_POST['resource_type']);
     $education_level = $_POST['education_level'];
     $chapter = $_POST['chapter'];
     $answer = $_POST['answer'];
-  
+
+
     // Upload images
     $uploadDir = '../../uploads/';
     $fileuploadDir = '../../documents/';
