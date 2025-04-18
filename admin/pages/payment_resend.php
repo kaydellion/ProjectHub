@@ -12,7 +12,7 @@ $result = mysqli_query($con, $query);
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="card">
         <h5 class="card-header">Manage Manual Payments</h5>
-        <div class="table-responsive text-nowrap">
+        <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -20,8 +20,8 @@ $result = mysqli_query($con, $query);
                         <th>Order ID</th>
                         <th>User</th>
                         <th>Amount</th>
-                        <th>Date Submitted</th>
-                        <th>Proof of Payment</th>
+                        <th class="text-nowrap">Date Submitted</th>
+                        <th class="text-nowrap">Proof of Payment</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -30,17 +30,17 @@ $result = mysqli_query($con, $query);
                     $sn = 1; // Initialize serial number
                     while ($row = mysqli_fetch_assoc($result)) { ?>
                         <tr>
-                            <td><?php echo $sn++; ?></td> <!-- Increment S/N -->
-                            <td><?php echo $row['order_id']; ?></td>
-                            <td><?php echo $row['display_name'] . " (" . $row['email'] . ")"; ?></td>
-                            <td><?php echo $sitecurrency . number_format($row['amount'], 2); ?></td>
-                            <td><?php echo date('Y-m-d H:i:s', strtotime($row['date_created'])); ?></td>
-                            <td>
+                            <td class="text-nowrap"><?php echo $sn++; ?></td> <!-- Increment S/N -->
+                            <td class="text-nowrap"><?php echo $row['order_id']; ?></td>
+                            <td class="text-nowrap"><?php echo $row['display_name'] . " (" . $row['email'] . ")"; ?></td>
+                            <td class="text-nowrap"><?php echo $sitecurrency . number_format($row['amount'], 2); ?></td>
+                            <td class="text-nowrap"><?php echo date('Y-m-d H:i:s', strtotime($row['date_created'])); ?></td>
+                            <td class="text-nowrap">
                                 <a href="../../uploads/<?php echo $row['proof']; ?>" target="_blank" class="btn btn-info btn-sm">View Proof</a>
                             </td>
-                            <td>
+                            <td class="text-nowrap">
                                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#orderDetailsModal<?php echo $row['s']; ?>">View Details</button>
-                                <form method="post">
+                                <form method="post"  onsubmit="return confirmApprove();">
     <input type="hidden" name="order_id" value="<?php echo $row['order_id']; ?>">
     <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>">
     <input type="hidden" name="amount" value="<?php echo $row['amount']; ?>">
@@ -56,7 +56,7 @@ $result = mysqli_query($con, $query);
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="orderDetailsModalLabel<?php echo $row['s']; ?>">Order Details</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" class="close btn-danger" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -68,6 +68,13 @@ $result = mysqli_query($con, $query);
                                         <p><strong>Proof of Payment:</strong> <a href="../../uploads/<?php echo $row['proof']; ?>" target="_blank">View Proof</a></p>
                                     </div>
                                     <div class="modal-footer">
+                                    <form method="post" onsubmit="return confirmApprove();">
+    <input type="hidden" name="order_id" value="<?php echo $row['order_id']; ?>">
+    <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>">
+    <input type="hidden" name="amount" value="<?php echo $row['amount']; ?>">
+    <button type="submit" class="btn btn-success btn-sm" name="approve_payment">Approve</button>
+</form>
+<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectConfirmationModal<?php echo $row['s']; ?>" data-dismiss="modal">Reject</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
@@ -80,7 +87,7 @@ $result = mysqli_query($con, $query);
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="rejectConfirmationModalLabel<?php echo $row['s']; ?>">Confirm Rejection</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" class="close btn-danger" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -102,7 +109,7 @@ $result = mysqli_query($con, $query);
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="rejectionReasonModalLabel<?php echo $row['s']; ?>">Reason for Rejection</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" class="close btn-danger" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -130,5 +137,9 @@ $result = mysqli_query($con, $query);
         </div>
     </div>
 </div>
-
+<script>
+    function confirmApprove() {
+        return confirm("Are you sure you want to approve this payment?");
+    }
+</script>
 <?php include "footer.php"; ?>
