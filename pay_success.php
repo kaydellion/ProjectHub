@@ -117,10 +117,7 @@ mysqli_query($con, $sql_update_order);
 $subject = "Order Confirmation";
 $emailMessage="<p>Thank you for your order. We appreciate your business!<br>
 The resources have been sent to your email address and it is also available on your profile.<br>
-Feel free to visit our website for more information, updates, or to explore additional services.</p>
-<p>Best regards,<br>
-The Project Report Hub Team<br>
-hello@projectreporthub.ng | 🌐 www.projectreporthub.ng</p>";
+Feel free to visit our website for more information, updates, or to explore additional services.</p>";
 
 sendEmail($email, $username, $siteName, $siteMail,$emailMessage, $subject, $attachments);
 ?>

@@ -39,8 +39,8 @@
                                 showSuccessModal('Success', $message);
                                 header("refresh:2;url=signin.php?verify_login=$user_log");
                             } else {
-                                $message = 'Verification successful but failed to send email';
-                                showSuccessModal('Partial Success', $message);
+                                $message = 'Verification successful'; //but failed to send email
+                                showSuccessModal('Success', $message);
                                 header("refresh:2;url=signin.php?verify_login=$user_log");
                             }
                         } else {

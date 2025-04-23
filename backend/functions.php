@@ -191,8 +191,12 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
    <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
    <p style='font-size:14px; color:#fff;'> <span style='font-size:14px; color:#F57C00;'>Hello there, $vendorName,</span>
    $emailMessage</p>
-   <p><a href='$siteurl' style='font-size:14px; padding-top:20px;  font-weight:600; color:#F57C00;'>VISIT THE WEBSITE</a></p>
-   </div>";
+
+<p>
+Best regards,<br>
+The Project Report Hub Team<br>
+$siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>🌐 www.projectreporthub.ng</a></p>
+</div>";
 
    // create email headers
    $header = 'From: ' . preg_replace('/[^\x20-\x7E]/', '', $siteName) . ' <' . filter_var($siteMail, FILTER_SANITIZE_EMAIL) . '>' . "\r\n";
@@ -233,8 +237,12 @@ function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessa
                             <span style='font-size:14px; color:#F57C00;'>Hello, $vendorName,</span><br>
                             $emailMessage
                         </p>
-                        <p><a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>VISIT THE WEBSITE</a></p>
-                    </div>\r\n";
+
+<p>
+Best regards,<br>
+The Project Report Hub Team<br>
+$siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>🌐 www.projectreporthub.ng</a></p>
+</div>\r\n";
 
     // Attach files
     foreach ($attachments as $file) {
