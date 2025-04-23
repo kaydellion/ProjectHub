@@ -63,6 +63,20 @@ if (mysqli_affected_rows($con) > 0) {
             }
         }
 
+
+        // Get seller ID
+        $sql_seller = "SELECT u.s AS user, u.* FROM ".$siteprefix."users u LEFT JOIN ".$siteprefix."reports r ON r.user=u.s WHERE r.id = '$report_id'";
+        $sql_seller_result = mysqli_query($con, $sql_seller);
+        if (mysqli_affected_rows($con) > 0) {
+            while ($row_seller = mysqli_fetch_array($sql_seller_result)) {
+                $seller_id = $row_seller['user']; 
+                $vendorEmail = $row_seller['email'];
+                $vendorName = $row_seller['display_name'];
+                $sellertype = $row_seller['type'];
+                $admin_commission=0;
+
+        
+        if($sellertype=="user"){
         // Admin commission deduction
         $admin_commission = $price * ($escrowfee / 100);
         $sql_insert_commission = "INSERT INTO ".$siteprefix."profits (amount, report_id, order_id, date) VALUES ('$admin_commission', '$report_id', '$order_id', '$date')";
@@ -73,15 +87,7 @@ if (mysqli_affected_rows($con) > 0) {
         $link = "profits.php";
         $msgtype = "profits";
         insertadminAlert($con, $message, $link, $date, $msgtype, 0);
-
-        // Get seller ID
-        $sql_seller = "SELECT u.s AS user, u.* FROM ".$siteprefix."users u LEFT JOIN ".$siteprefix."reports r ON r.user=u.s WHERE r.id = '$report_id'";
-        $sql_seller_result = mysqli_query($con, $sql_seller);
-        if (mysqli_affected_rows($con) > 0) {
-            while ($row_seller = mysqli_fetch_array($sql_seller_result)) {
-                $seller_id = $row_seller['user']; 
-                $vendorEmail = $row_seller['email'];
-                $vendorName = $row_seller['display_name'];
+        }
                 
                 // Credit seller
                 $seller_amount = $price - $admin_commission;
@@ -108,7 +114,15 @@ $sql_update_order = "UPDATE ".$siteprefix."orders SET status = 'paid' WHERE orde
 mysqli_query($con, $sql_update_order);
 
 // Send order confirmation email
-sendEmail($email, $username, $siteName, $siteMail, "Thank you for your order. Your invoice is attached.", "Order Confirmation", $attachments);
+$subject = "Order Confirmation";
+$emailMessage="<p>Thank you for your order. We appreciate your business!<br>
+The resources have been sent to your email address and it is also available on your profile.<br>
+Feel free to visit our website for more information, updates, or to explore additional services.</p>
+<p>Best regards,<br>
+The Project Report Hub Team<br>
+hello@projectreporthub.ng | 🌐 www.projectreporthub.ng</p>";
+
+sendEmail($email, $username, $siteName, $siteMail,$emailMessage, $subject, $attachments);
 ?>
 
 <div class="container mt-5 mb-5">

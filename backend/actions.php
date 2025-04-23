@@ -980,9 +980,18 @@ $amount=$_POST['amount'];
 $status="pending";
 
 
+
+$emailMessage="<p>We are writing to confirm that we have successfully received your withdrawal request in the amount of $sitecurrency$amount.<br>
+Please note that your request is currently being processed and is expected to be completed within the next twenty-four (24) hours. Once the transaction has been finalized, you will receive a confirmation notification.<br>
+Should you have any questions or require further assistance, please do not hesitate to contact our support team.<br>
+Thank you for choosing our services.</p>
+<p>Warm regards,<br>
+Ikechukwu Anaekwe<br>
+Project Report Hub (Customer Support Team).<br>";
+
+
 insertWithdraw($con, $user_id, $amount,$bank, $bankname, $bankno, $date, $status);
 $emailSubject="Withdrawal Request - Recieved";
-$emailMessage="<p>We have successfully received your withdrawal request of ₦$amount. Your request is now being processed and will be completed within the next 24 hours.";
 $emailMessage_admin="<p>A new withdrawal request has been recieved for ₦$amount. Please login into your dashboard to process it</p>";
 $adminmessage = "New Withdrawal Request - &#8358;$amount";
 $link="withdrawals.php";

@@ -5,7 +5,13 @@
         if($active_log==1){
         $checkEmail = mysqli_query($con, "SELECT * FROM ".$siteprefix."wishlist WHERE user='$user_id' AND product='$report_id'");
         if(mysqli_num_rows($checkEmail) >= 1 ) {
-        $theinitialicon="added";}}?>
+        $theinitialicon="added";}}
+        
+        
+//rating
+$rating_data = calculateRating($report_id, $con, $siteprefix);
+$average_rating = $rating_data['average_rating'];
+?>
 
 
 
@@ -24,7 +30,7 @@
                             <h6><?php echo $sitecurrency; echo $price; ?></h6>
                             <div class="rating">
                             <i class="fa fa-star text-primary"></i>
-                            <span class="text-bold">5.0</span>
+                            <span class="text-bold"><?php echo $average_rating; ?></span>
                              </div>
                             </div>
                             </div></div></div>
