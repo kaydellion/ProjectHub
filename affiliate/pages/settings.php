@@ -16,7 +16,7 @@
                         <form class="row contact_form" method="POST" enctype="multipart/form-data">
                         <div class="col-md-12 form-group p_star mb-3">
                             <label for="profile_picture" class="form-label">Change Profile Picture</label>
-                            <input type="file" class="form-control" id="profile_picture" name="profile_picture" placeholder="Photo" required>
+                            <input type="file" class="form-control" id="profile_picture" name="profile_picture" placeholder="Photo">
                             </div>
                             <div class="col-md-4 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="first_name" placeholder="First Name" value="<?php echo htmlspecialchars($first_name); ?>" required>

@@ -1,5 +1,30 @@
 <?php include "header.php";
+?>
+<?php
+// Fetch the number of pending or payment resend manual orders
+$pendingOrResendQuery = "SELECT COUNT(*) AS pending_or_resend_count 
+                         FROM ".$siteprefix."manual_payments 
+                         WHERE user_id = ? AND status IN ('pending', 'payment resend')";
+$stmt = $con->prepare($pendingOrResendQuery);
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+$pendingOrResendResult = $stmt->get_result();
+$pendingOrResendRow = $pendingOrResendResult->fetch_assoc();
+$pendingOrResendCount = $pendingOrResendRow['pending_or_resend_count'] ?? 0;
 
+// Fetch the number of approved manual orders
+$approvedQuery = "SELECT COUNT(*) AS approved_count 
+                  FROM ".$siteprefix."manual_payments 
+                  WHERE user_id = ? AND status = 'approved'";
+$stmt = $con->prepare($approvedQuery);
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+$approvedResult = $stmt->get_result();
+$approvedRow = $approvedResult->fetch_assoc();
+$approvedCount = $approvedRow['approved_count'] ?? 0;
+?>
+
+<?php
 // Fetch manual payments
 $sql = "
     SELECT order_id, date_created AS date, amount AS total_amount, status, rejection_reason 
@@ -12,7 +37,29 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 ?>
+<div class="container mt-5">
+    <div class="row mb-4">
+        <!-- Pending or Payment Resend Manual Orders -->
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title text-white">Pending/Payment Resend</h5>
+                    <p class="card-text text-white"><?php echo $pendingOrResendCount; ?></p>
+                </div>
+            </div>
+        </div>
 
+        <!-- Approved Manual Orders -->
+        <div class="col-md-3">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title text-white">Approved Orders</h5>
+                    <p class="card-text text-white"><?php echo $approvedCount; ?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container mt-5 mb-5">
     <h2 class="mb-4">My Manual Orders</h2>
 

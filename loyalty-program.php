@@ -5,12 +5,23 @@ checkActiveLog($active_log);
  <div class="container mt-5">
         <div class="row">
         <div class="col-lg-12">
-        <h3>LOYALTY PROGRAM.</h3>
-        <p>Our subscription program offers a cost-effective and convenient way for users to access a repository of reports and insights without the hassle of individual purchases. 
-        This model ensures continuous access to the latest information, empowering users to make timely and well-informed choices.Buyers on our platform can subscribe to any of the 
-        plans below and enjoy massive discounts our reports, services and trainings.</p>
-            
-</div>
+            <h3>Loyalty Program</h3>
+            <p>
+                Project Report Hub NG is a premier platform dedicated to providing high-quality, up-to-date academic and research reports, including project papers, core study materials, assignments & research works, laboratory & practical works, exam preparation & study aids, and presentation & seminar materials across a wide range of disciplines.
+            </p>
+            <p>
+                Backed by a robust network of researchers, analysts, and verified data sources, we deliver in-depth content that spans market trends, industry forecasts, competitive analysis, and strategic insights.
+            </p>
+            <p>
+                To make access even more affordable and seamless, we offer a flexible subscription program. This allows users to unlock unlimited access to our rich library of reports and resources—without the need for repeated individual purchases.
+            </p>
+            <p>
+                With a subscription, you’re always connected to the latest research and insights to support your academic or professional goals.
+            </p>
+            <p>
+                Explore our subscription plans below and enjoy exclusive discounts on all academic resources programs available on our platform.
+            </p>
+        </div>
 </div>
        
         <div class="row mt-3 plans">

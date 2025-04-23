@@ -309,13 +309,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reject_payment'])) {
             $user_email = $user['email'];
 
             // Send email to the user
-            $emailSubject = "Payment Rejected for Order #$order_id";
+            $emailSubject = "Payment Rejected for Order ID  $order_id";
             $emailMessage = "
                 <p>Dear $user_name,</p>
-                <p>Your payment for Order ID <strong>$order_id</strong> has been rejected for the following reason:</p>
-                <p><em>$rejection_reason</em></p>
-                <p>Please resubmit your payment proof to proceed with your order.</p>
-                <p>Thank you.</p>
+                <p>We hope this message finds you well.</p>
+                <p>Unfortunately, your payment for Order ID: <strong>$order_id</strong> has been rejected for the following reason:</p>
+                <p><em>\"$rejection_reason\"</em></p>
+                <p>To proceed with your order, kindly resubmit a valid payment proof at your earliest convenience.</p>
+                <p>Thank you for your understanding. If you have any questions, feel free to contact our support team.</p>
+                <p>Warm regards,</p>
+                <p>The Project Report Hub Team</p>
+                <p><a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
             ";
 
             sendEmail($user_email, $user_name, $siteName, $siteMail, $emailMessage, $emailSubject);

@@ -24,11 +24,21 @@
                             <div class="col-md-4 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
                             </div>
-                            <div class="col-md-6 form-group p_star mb-3">
+                            <div class="col-md-3 form-group p_star mb-3">
+                                    <select class="form-control" id="gender" name="gender" required>
+                                    <option value="">-Select Gender-</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    </select> </div>
+                            <div class="col-md-3 form-group p_star mb-3">
                                 <input type="email" class="form-control" name="email" placeholder="Email Address" required>
                             </div>
-                            <div class="col-md-6 form-group p_star mb-3 mb-3">
+                            <div class="col-md-3 form-group p_star mb-3 mb-3">
                                 <input type="text" class="form-control" name="phone" placeholder="Phone Number" required>
+                            </div>
+                            <div class="col-md-3 form-group p_star mb-3">
+                            <label>Website:</label>
+                                <input type="text" class="form-control" name="website" placeholder="Website (if any)">
                             </div>
                             <div class="col-md-6 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="country" placeholder="Country of Residence" required>
@@ -36,12 +46,7 @@
                             <div class="col-md-6 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="address" placeholder="Address" required>
                             </div>
-                            <div class="col-md-6 form-group p_star mb-3">
-                                    <select class="form-control" id="gender" name="gender" required>
-                                    <option value="">-Select Gender-</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    </select> </div>
+                            
 
                          
                             <div class="form-group col-md-6 p_star mb-3">
@@ -64,10 +69,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            <div class="col-md-12 form-group p_star mb-3">
-                            <label>Website:</label>
-                                <input type="text" class="form-control" name="website" placeholder="Website (if any)">
-                            </div>
+                           
                            
                             
                             <h5 class="col-md-12">Where Did You Learn About Our Affiliate Program?</h5>

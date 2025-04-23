@@ -112,10 +112,11 @@ include "backend/actions.php";
                 </div>
                 <div class="col-md-6 col-4 d-flex justify-content-end align-items-center">
                 <ul class="top-bar-links d-flex">
+                <li class="bg-dark-orange p-2 me-2"><a class="" href="loyalty-program.php">Loyalty Program</a></li>
                     <?php if($active_log==0){ ?>
-                    <li class="bg-black p-1"><a class="text-white" href="become_a_seller.php">Become a Seller</a></li>
+                    <li class="bg-dark-orange p-2"><a class="" href="become_a_seller.php">Become a Seller</a></li>
                     <?php } else {?>
-                    <li class="bg-black p-1"><a class="text-white" href="logout.php">Logout</a></li>
+                    <li class="bg-dark-orange p-2"><a class="" href="logout.php">Logout</a></li>
                     <?php } ?>
                 </ul>
                 </div>
@@ -201,7 +202,7 @@ include "backend/actions.php";
                                          <a class="dropdown-item" href="tickets.php">Support Tickets</a>
                                         <a class="dropdown-item" href="contact.php">Contact Us</a>
                                         <a class="dropdown-item" href="faq.php">FAQ</a>
-                                        <a class="dropdown-item" href="loyalty-program.php">Loyalty System</a>
+                                     <!---   <a class="dropdown-item" href="loyalty-program.php">Loyalty System</a> ---->
                                     </div>
                                 </li>
                                 

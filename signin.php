@@ -20,8 +20,13 @@ $show="none"; $textshow="none";
                 <div class="col-lg-6 col-md-6 order-2 order-md-1">
                     <div class="login_part_text text-center">
                         <div class="login_part_text_iner">
-                            <h2>New to Project Hub?</h2>
-                            <p>Join Project Hub today to access a wide range of reports and e-commerce features. Stay updated with the latest advancements in science and technology.</p>
+                      
+
+                            <h2>New to Project Report Hub?
+                            </h2>
+                            <p>Join ProjectReportHub.ng today and unlock instant access to quality project reports,
+academic resources, and student-friendly tools. Stay ahead with the latest research
+trends and innovations across all fields of study!</p>
                             <a href="signup.php" class="btn_3">Create an Account</a>
                         </div>
                     </div>

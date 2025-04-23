@@ -56,8 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_affiliate_list'
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
-  
-    // Sanitize and validate input
     $user_id = $_POST['user_id'];
     $first_name = mysqli_real_escape_string($con, $_POST['first_name']);
     $middle_name = mysqli_real_escape_string($con, $_POST['middle_name']);
@@ -79,51 +77,60 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $kin_relationship = mysqli_real_escape_string($con, $_POST['kin_relationship']);
     $biography = mysqli_real_escape_string($con, $_POST['biography']);
 
-
-    $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
+    $password = !empty($_POST['password']) ? $_POST['password'] : null;
     $retypePassword = !empty($_POST['retypePassword']) ? $_POST['retypePassword'] : null;
     $oldPassword = htmlspecialchars($_POST['oldpassword']);
 
-    // Validate passwords match
-    if ($password && $password !== $retypePassword) {
-        $message= "Passwords do not match.";
-    }
+    // Validation logic
+    if ($password || $retypePassword || $oldPassword) {
+        if (empty($password) || empty($retypePassword) || empty($oldPassword)) {
+            echo "<script>alert('All password fields must be filled out.'); window.history.back();</script>";
+            exit;
+        }
 
-    // Validate old password
-    $stmt = $con->prepare("SELECT password FROM ".$siteprefix."users WHERE s = ?");
-    if ($stmt === false) {
-        $message = "Error preparing statement: " . $con->error;
-    } else {
+        if ($password !== $retypePassword) {
+            echo "<script>alert('Passwords do not match.'); window.history.back();</script>";
+            exit;
+        }
+
+        $stmt = $con->prepare("SELECT password FROM {$siteprefix}users WHERE s = ?");
+        if (!$stmt) {
+            echo "<script>alert('Database error.'); window.history.back();</script>";
+            exit;
+        }
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
-        if ($user === null || !checkPassword($oldPassword, $user['password'])) {
-            $message = "Old password is incorrect.";
+        $stmt->close();
+
+        if (!$user || !password_verify($oldPassword, $user['password'])) {
+            echo "<script>alert('Old password is incorrect.'); window.history.back();</script>";
+            exit;
         }
+
+        // Hash new password
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    $uploadDir = '../uploads/';
-    $fileKey='profile_picture';
-    global $fileName;
-    $profilePicture = $_FILES['profile_picture']['name'];
-
-    // Update profile picture if a new one is uploaded
+    // Handle profile picture
+    $uploadDir = '../../uploads/';
+    $fileKey = 'profile_picture';
+    $profilePicture = $_FILES['profile_picture']['name'] ?? '';
     if (!empty($profilePicture)) {
+        global $fileName;
         $profilePicture = handleFileUpload($fileKey, $uploadDir, $fileName);
     } else {
-        $profilePicture = $profile_picture; // Use the current profile picture if no new one is uploaded
+        $profilePicture = $_POST['existing_picture'] ?? ''; // Fallback
     }
 
-    // Update query
+    // Build the query dynamically
     $update_query = "
-        UPDATE ".$siteprefix."users 
-        SET 
+        UPDATE {$siteprefix}users SET
             first_name = '$first_name',
             middle_name = '$middle_name',
             last_name = '$last_name',
             email = '$email',
-            password = '$password',
             gender = '$sex',
             mobile_number = '$mobile_number',
             address = '$address',
@@ -140,23 +147,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
             kin_relationship = '$kin_relationship',
             biography = '$biography',
             profile_picture = '$profilePicture'
-        WHERE s = '$user_id'
     ";
 
-    // Execute the query
+    // Add password only if it's being updated
+    if (isset($hashedPassword)) {
+        $update_query .= ", password = '$hashedPassword'";
+    }
+
+    $update_query .= " WHERE s = '$user_id'";
+
+    // Execute update
     if (mysqli_query($con, $update_query)) {
-        // Success modal
         $statusAction = "Success!";
-        $statusMessage = "Profile updated successfully! $message";
+        $statusMessage = "Profile updated successfully!";
         showSuccessModal($statusAction, $statusMessage);
         header("refresh:1; url=settings.php");
-        
+      
     } else {
-        // Error modal
         $statusAction = "Error!";
         $statusMessage = "Failed to update profile: " . mysqli_error($con);
         showErrorModal($statusAction, $statusMessage);
-       
     }
 }
 

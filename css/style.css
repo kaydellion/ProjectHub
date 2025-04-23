@@ -957,7 +957,11 @@ ul {
     padding: 13px 35px;
   }
 }
-
+.bg-dark-orange{
+  background-color: rgb(120, 118, 118);
+  color:#FF8C00;
+  
+}
 /* line 44, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_button.scss */
 .btn_3 {
   display: inline-block;

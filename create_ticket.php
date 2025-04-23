@@ -13,8 +13,20 @@
 <div class="mb-3">
 <label>Dispute Category:</label>
     <select name="category" class="form-control"  required>
-        <option value="Non-payment">Non-payment</option>
-        <option value="Quality Issue">Quality Issue</option>
+    <option value="Product Quality Issues">Product Quality Issues</option>
+        <option value="Wrong Item Received">Wrong Item Received</option>
+        <option value="Item Not Delivered">Item Not Delivered</option>
+        <option value="Refund Issues">Refund Issues</option>
+        <option value="Login/Access Problems">Login/Access Problems</option>
+        <option value="Account Security">Account Security</option>
+        <option value="Technical Bugs">Technical Bugs</option>
+        <option value="User Experience Issues">User Experience Issues</option>
+        <option value="Poor Support Experience">Poor Support Experience</option>
+        <option value="Policy Disputes">Policy Disputes</option>
+        <option value="Loyalty Program">Loyalty Program</option>
+        <option value="Affiliate Program">Affiliate Program</option>
+        <option value="Fake or Misleading Reviews">Fake or Misleading Reviews</option>
+        <option value="Payment Issues">Payment Issues</option>
     </select></div> 
     
     <div class="mb-3"> <label>Order Reference:</label>

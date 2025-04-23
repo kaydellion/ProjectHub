@@ -4,9 +4,9 @@ error_reporting(E_ALL); ini_set('display_errors', 1); ini_set('log_errors', 1);
 $db_host = "localhost"; 
 
 
-$db_username = "projectr_project"; 
-$db_pass = "Y34GgwK(]h82Yg"; 
-$db_name = "projectr_project";
+$db_username = "root"; 
+$db_pass = ""; 
+$db_name = "project_hub";
 $con = mysqli_connect ("$db_host","$db_username","$db_pass","$db_name");
 $siteprefix="pr_";
 date_default_timezone_set('Africa/Lagos');
