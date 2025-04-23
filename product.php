@@ -1,4 +1,4 @@
-<?php include "header.php"; include "product_details.php"; 
+<?php include "header.php"; include "product_details.php";  include "sellers-info.php"; 
 
 //get and decode affliate_id if it exists
 $affliate_id = isset($_GET['affliate']) ? base64_decode($_GET['affliate']) : 0;
@@ -29,25 +29,63 @@ $user_review = $existing_review_result->fetch_assoc();
     <div class="row">
         <!-- Product Images -->
         <div class="col-md-6 mb-4">
-            <div class="card">
-                <img src="<?php echo $image_path; ?>" class="card-img-top" alt="Product Image">
-                <div class="card-body">
-                    <div class="row g-2">
-                        <?php
-                        $sql3 = "SELECT * FROM ".$siteprefix."reports_images WHERE report_id = '$report_id'";   
-                        $sql4 = mysqli_query($con, $sql3);
-                        if (!$sql4) {die("Query failed: " . mysqli_error($con)); }
-                        while ($row = mysqli_fetch_array($sql4)) {
-                            $image_path = $imagePath.$row['picture'];
-                        ?>
-                        <div class="col-3">
-                            <img src="<?php echo $image_path; ?>" class="img-thumbnail" alt="Thumbnail 1">
-                        </div>
-                        <?php } ?>
-                    </div>
+    <div class="card">
+        <!-- Main image stays untouched -->
+        <img src="<?php echo $image_path; ?>" class="card-img-top" alt="Product Image">
+
+        <div class="card-body">
+            <div class="row g-2">
+                <?php
+                $sql3 = "SELECT * FROM ".$siteprefix."reports_images WHERE report_id = '$report_id'";
+                $sql4 = mysqli_query($con, $sql3);
+                if (!$sql4) { die("Query failed: " . mysqli_error($con)); }
+
+                $allImages = [];
+                while ($row = mysqli_fetch_array($sql4)) {
+                    $allImages[] = $imagePath . $row['picture'];
+                }
+
+                foreach ($allImages as $index => $img) {
+                ?>
+                <div class="col-3">
+                    <img src="<?php echo $img; ?>" class="img-thumbnail" alt="Thumbnail <?php echo $index + 1; ?>"
+                         data-toggle="modal" data-target="#imageModal"
+                         data-slide-to="<?php echo $index; ?>">
                 </div>
+                <?php } ?>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal with Carousel for Bootstrap 4 -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content bg-dark">
+      <div class="modal-body p-0">
+        <div id="carouselPreview" class="carousel slide" data-ride="false" data-interval="false">
+          <div class="carousel-inner">
+            <?php foreach ($allImages as $index => $img) { ?>
+              <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
+                <img src="<?php echo $img; ?>" style="max-height: 80vh; object-fit: contain;"  class="d-block w-100" alt="Preview <?php echo $index + 1; ?>">
+              </div>
+            <?php } ?>
+          </div>
+          <a class="carousel-control-prev" href="#carouselPreview" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </a>
+          <a class="carousel-control-next" href="#carouselPreview" role="button" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer bg-dark border-0 justify-content-center">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
         <!-- Product Details -->
         <div class="col-md-6">
@@ -88,13 +126,43 @@ $user_review = $existing_review_result->fetch_assoc();
         </div>
     </div>
 
-    <p><strong>Resource Type: </strong><?php echo $resource_type;?><br>
-    <?php if($answer!=""){ ?>
-    <strong>Answer Key: </strong> <?php echo $answer;?><br><?php } ?>
-    <strong>Education Level: </strong><?php echo $education_level;?><br>
-    <strong>Year of Study: </strong><?php echo $selected_years;?><br>
-    <strong>Chapter Count: </strong><?php echo $chapter_count;?><br>
-    <strong>Tags: </strong><?php echo $tags;?><br>
+    <p>
+    <table class="table table-bordered">
+    <thead style="background-color: orange; color: white;">
+        <tr>
+            <th>Resource Attributes</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody style="background-color: #f8f9fa; color: #333;">
+        <tr>
+            <td><strong>Resource Type</strong></td>
+            <td><?php echo $resource_type; ?></td>
+        </tr>
+        <?php if ($answer != "") { ?>
+        <tr>
+            <td><strong>Answer Key</strong></td>
+            <td><?php echo $answer; ?></td>
+        </tr>
+        <?php } ?>
+        <tr>
+            <td><strong>Education Level</strong></td>
+            <td><?php echo $education_level; ?></td>
+        </tr>
+        <tr>
+            <td><strong>Year of Study</strong></td>
+            <td><?php echo $selected_years; ?></td>
+        </tr>
+        <tr>
+            <td><strong>Chapter Count</strong></td>
+            <td><?php echo $chapter_count; ?></td>
+        </tr>
+        <tr>
+            <td><strong>Tags</strong></td>
+            <td><?php echo $tags; ?></td>
+        </tr>
+    </tbody>
+</table>
     </p>
 
             <!-- Color Selection -->
@@ -119,21 +187,89 @@ while ($row = mysqli_fetch_array($sql2)) {
             </div>
 
             <!-- Actions -->
-            <div class="d-grid gap-2">
-                <input type="hidden" name="report_id"  id="current_report_id" value="<?php echo $report_id;?>">
-                <input type="hidden" name="affliate_id" id="affliate_id" value="<?php echo $affliate_id;?>">
-                <button class="btn btn-primary" type="button" data-report="<?php echo $report_id;?>" name="add" id="addCart">Add to Cart</button>
-                </form>
-                <button class="btn <?php echo $initialbtn; ?> addtowishlist" type="button" data-product-id="<?php echo $report_id; ?>"><i class="far fa-heart me-2"></i><?php echo $initialtext; ?></button>
-            </div>
 
+            <div class="d-flex justify-content-start align-items-center mt-3 mb-3">
+ 
+
+    <!-- Add to Cart Button -->
+    <input type="hidden" name="report_id"  id="current_report_id" value="<?php echo $report_id;?>">
+                <input type="hidden" name="affliate_id" id="affliate_id" value="<?php echo $affliate_id;?>">
+                <button class="btn btn-primary me-2" type="button" data-report="<?php echo $report_id;?>" name="add" id="addCart">Add to Cart</button>
+                </form>
+    
+
+    <!-- Add to Wishlist Button -->
+    <button class="btn <?php echo $initialbtn; ?> addtowishlist me-2" type="button" data-product-id="<?php echo $report_id; ?>"><i class="far fa-heart me-2"></i><?php echo $initialtext; ?></button>
+       <!-- Report Product Button -->
+   
+</div>
             <!-- Additional Info -->
-            <div class="mt-3">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-shield-alt text-primary me-2"></i>
-                    <span>Verified seller </span>
-                </div>
+          <!-- Seller Information -->
+<div class="mt-3">
+    <div class="card p-3">
+        <div class="d-flex align-items-center">
+            <!-- Seller's Photo -->
+            <img src="<?php echo $seller_photo; ?>" alt="Seller Photo" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
+            <div>
+                <!-- Seller's Name -->
+                <h5 class="mb-1"><?php echo $seller_name;  ?></h5>
+                <p class="mb-1 text-muted">
+                    About the Seller: 
+                    <span class="seller-bio-preview">
+                        <?php 
+                        $words = explode(' ', $seller_about);
+                        echo implode(' ', array_slice($words, 0, 4)); // Display first 4 words
+                        ?>
+                    </span>
+                    
+                    <span class="seller-bio-full" style="display: none;">
+                        <?php echo $seller_about; ?>
+                    </span>
+                    <?php if (str_word_count($seller_about) > 4) { ?>
+        <button class="btn btn-link btn-sm p-0 read-mores-btn" style="text-decoration: none;">Read More</button>
+    <?php } ?>
+                
+                </p>
+
+                <!-- Follow Seller Button
+                <button class="btn btn-outline-primary btn-sm follow-seller" data-seller-id="<?php echo $seller_id; ?>">Follow Seller</button>
+             -->
+            
             </div>
+        </div>
+        <div class="mt-3">
+            <!-- View Merchant Store Link -->
+            <a href="merchant-store.php?seller_id=<?php echo $seller_id; ?>" class="btn btn-primary btn-sm">View Merchant Store</a>
+            <!-- Number of Resources -->
+            <p class="mt-2 mb-0"><strong>Resources:</strong> <?php echo $seller_resources_count; ?> resources available</p>
+        </div>
+        <div class="mt-3">
+    <h6>Connect with the Seller:</h6>
+    <div class="d-flex">
+        <?php if (!empty($seller_facebook)) { ?>
+            <a href="https://www.facebook.com/<?php echo str_replace(' ', '-', $seller_facebook); ?>" target="_blank" class="text-decoration-none me-3">
+                <i class="fab fa-facebook text-primary" style="font-size: 1.5rem;"></i>
+            </a>
+        <?php } ?>
+        <?php if (!empty($seller_twitter)) { ?>
+            <a href="https://twitter.com/<?php echo str_replace(' ', '-', $seller_twitter); ?>" target="_blank" class="text-decoration-none me-3">
+                <i class="fab fa-twitter text-info" style="font-size: 1.5rem;"></i>
+            </a>
+        <?php } ?>
+        <?php if (!empty($seller_instagram)) { ?>
+            <a href="https://www.instagram.com/<?php echo str_replace(' ', '-', $seller_instagram); ?>" target="_blank" class="text-decoration-none me-3">
+                <i class="fab fa-instagram text-danger" style="font-size: 1.5rem;"></i>
+            </a>
+        <?php } ?>
+        <?php if (!empty($seller_linkedin)) { ?>
+            <a href="https://www.linkedin.com/in/<?php echo str_replace(' ', '-', $seller_linkedin); ?>" target="_blank" class="text-decoration-none">
+                <i class="fab fa-linkedin text-primary" style="font-size: 1.5rem;"></i>
+            </a>
+        <?php } ?>
+    </div>
+</div>
+    </div>
+</div>
            <!-- Social Share Icons -->
 <!-- Social Share Icons -->
 <div class="d-flex mt-3">
@@ -363,5 +499,29 @@ echo '<div class="alert alert-warning" role="alert">
             }
         });
     });
+</script>
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    const readMoreButtons = document.querySelectorAll(".read-mores-btn");
+
+    readMoreButtons.forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent the default behavior (e.g., page reload)
+
+            const bioPreview = this.previousElementSibling.previousElementSibling; // The preview text
+            const bioFull = this.previousElementSibling; // The full text
+
+            if (bioFull.style.display === "none") {
+                bioFull.style.display = "inline";
+                bioPreview.style.display = "none";
+                this.textContent = "Read Less";
+            } else {
+                bioFull.style.display = "none";
+                bioPreview.style.display = "inline";
+                this.textContent = "Read More";
+            }
+        });
+    });
+});
 </script>
 <?php include "footer.php"; ?>

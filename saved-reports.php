@@ -1,5 +1,5 @@
 <?php  include "header.php"; 
-
+checkActiveLog($active_log);
 
 $limit = 16; // Number of reports per page
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -50,7 +50,9 @@ $total_pages = ceil($total_reports / $limit);
                     </select>
                 </div>
             </div>
-            <p id="report-count">Found <?php echo $report_count; ?> report(s)</p>
+            <div class="product-count" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;">
+    Found <?php echo $report_count; ?> report(s)
+</div>
             <div class="row">
                 <?php
                 if ($result) {

@@ -8,11 +8,11 @@
             <div class="col-md-10">
                 <div class="banner_text">
                     <div class="banner_text_iner">
-                        <h4 class="text-orange"><?php echo $sitename; ?></h4>
+                        <h4 class="text-orange">Project Report Hub – Empowering Research, Fueling Success!</h4>
                      <!---   <h2 class="text-white">Your Go-To Hub for <span class="text-orange">Expert Project</span> Reports!</h2>---->                       <p class="text-white text-hero">
                         <p class="text-white">   Your go-to platform for premium project reports and research documentation in Nigeria—expertly crafted for students, entrepreneurs, and professionals.
                         </p>
-                        <a href="reports.php" class="btn_1">Explore Now</a>
+                        <a href="marketplace.php" class="btn_1">Explore Now</a>
                                 <!-- Trusted By Section -->
                                 <div class="trusted-by mt-4">
             <p class="text-white" style="font-size: 16px; font-weight: bold; line-height: 1.8;">
@@ -33,8 +33,10 @@
         <div class="container mt-5">
         <div class="row">
         <div class="col-lg-12">
-        <h3>Popular Products</h3>
-        <p>Explore a wide range of topics, gain valuable insights, and achieve your goals with ease. Simplify your research journey today!</p>
+        <h3>Popular Study Resources    </h3>
+        <p>Discover top-rated academic materials designed to help you excel! From project
+topics to research guides, simplify your study journey, save time, and achieve better
+results with ease — all in one place.</p>
         <div class="row mt-3">
            
         <div class="swiper mySwiper">
@@ -82,6 +84,60 @@
 <?php }else {  debug('No reports not found.'); }?>
 </div>
 </div></div></div>
+
+
+<!-- Last Purchased Reports Section -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>Last Purchased Reports</h3>
+            <p>Check out the most recently purchased reports by our users. Stay updated with trending academic materials!</p>
+            <div class="row mt-3">
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <?php
+                        // Query to fetch all last purchased reports
+                        $latestSalesQuery = "
+                            SELECT DISTINCT r.id AS report_id, r.title, r.description, r.price, ri.picture, u.display_name, u.profile_picture 
+                            FROM ".$siteprefix."orders o
+                            JOIN ".$siteprefix."order_items oi ON o.order_id = oi.order_id
+                            JOIN ".$siteprefix."reports r ON r.id = oi.report_id
+                            LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
+                            LEFT JOIN ".$siteprefix."users u ON r.user = u.s
+                            WHERE o.status = 'paid' AND r.status = 'approved'
+                            GROUP BY r.id
+                            ORDER BY o.date DESC
+                        ";
+                        $latestSalesResult = mysqli_query($con, $latestSalesQuery);
+
+                        if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
+                            while ($row = mysqli_fetch_assoc($latestSalesResult)) {
+                                $report_id = $row['report_id'];
+                                $title = $row['title'];
+                                $description = $row['description'];
+                                $price = $row['price'];
+                                $image_path = $imagePath . $row['picture'];
+                                $user = $row['display_name'];
+                                $user_picture = $imagePath . $row['profile_picture'];
+
+                                // Include the swiper card for each report
+                                include "swiper-card.php";
+                            }
+                        } else {
+                            echo "<p>No recent purchases found.</p>";
+                        }
+                        ?>
+                    </div>
+                    <!-- Add Arrows -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
  <!-- How It Works Section Start -->
  <div class="container mt-5">
@@ -134,9 +190,13 @@
             <img src="img/affiliate.jpg" alt="Become an Affiliate" class="img-fluid" style="border-radius: 15px;">
         </div>
         <div class="col-lg-6 order-lg-1">
-            <h2 class="text-white">Become an <span class="text-orange">Affiliate</span></h2>
-            <p class="text-white">Partner with us as an affiliate and earn commissions by promoting our platform. Share our reports and projects with your network and grow your income.</p>
-            <a href="become_an_affliate.php" class="btn-2 mt-3">Join as an Affiliate</a>
+            <h2 class="text-white">Become an <span class="text-orange">Affiliate Partner</span></h2>
+            <p class="text-white">Earn while you share! Join our affiliate program and start earning commissions by
+promoting ProjectReportHub.ng. Simply share our academic resources and project
+reports with your network—whether online or offline—and get rewarded for every
+successful referral.
+</p>
+            <a href="become_an_affliate.php" class="btn-2 mt-3">Start earning today — Join as an Affiliate</a>
         </div>
     </div>
 </div>
@@ -187,8 +247,10 @@ while ($row = mysqli_fetch_assoc($result)) {
     <div class="row align-items-center" style="background-color: #f8f9fa; border-radius: 15px; padding: 30px; padding-bottom:0px;">
         <div class="col-lg-6">
             <h2>Ready to Get Started?</h2>
-            <p>Join us today and take your business to the next level with our comprehensive reports and innovative projects.</p>
-            <a href="signup.php" class="btn_1">Sign Up Now</a>
+            <p>Join ProjectReportHub.ng today and elevate your academic or entrepreneurial 
+journey with access to expertly crafted reports, research materials, and innovative 
+project ideas. </p>
+            <a href="signup.php" class="btn_1">SIGN-UP NOW</a>
         </div>
         <div class="col-lg-6">
             <img src="img/get-started.png" alt="CTA Image" class="img-fluid" style="border-radius:2px;">
@@ -200,8 +262,10 @@ while ($row = mysqli_fetch_assoc($result)) {
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-12">
-            <h3>Categories</h3>
-            <p> View our diverse collection of verified reports and innovative projects.</p>
+            <h3>Resource Categories</h3>
+            <p> Discover our wide selection of verified reports and cutting-edge projects, carefully
+curated to meet your academic and research needs.
+</p>
             <div class="row">
                 <?php
                 $query = "SELECT * FROM ".$siteprefix."categories WHERE parent_id IS NULL";
@@ -242,24 +306,25 @@ while ($row = mysqli_fetch_assoc($result)) {
         <div class="col-lg-4">
             <div class="testimonial-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                 <p style="font-style: italic;">"I was able to find the perfect report for my project. The quality of the report was top-notch and the delivery was prompt."</p>
-                <h5 style="margin-top: 15px; font-weight: bold; color: #F57C00;">John Doe</h5>
-                <span style="color: #6c757d;">CEO, XYZ Company</span>
+                <h5 style="margin-top: 15px; font-weight: bold; color: #F57C00;">Chidera Obioma Okafor</h5>
+                <span style="color: #6c757d;">Undergraduate</span>
             </div>
         </div>
         <!-- Testimonial 2 -->
         <div class="col-lg-4">
             <div class="testimonial-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                 <p style="font-style: italic;">"The platform is user-friendly, and I was able to access high-quality reports that helped me complete my project successfully."</p>
-                <h5 style="margin-top: 15px; font-weight: bold; color: #F57C00;">Jane Doe</h5>
-                <span style="color: #6c757d;">Entrepreneur</span>
+                <h5 style="margin-top: 15px; font-weight: bold; color: #F57C00;">Ayodele Olumide Adebayo
+                </h5>
+                <span style="color: #6c757d;">Masters Student</span>
             </div>
         </div>
         <!-- Testimonial 3 -->
         <div class="col-lg-4">
             <div class="testimonial-card" style="background-color: #f8f9fa; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                 <p style="font-style: italic;">"This platform has been a game-changer for my business. The reports are detailed and well-researched."</p>
-                <h5 style="margin-top: 15px; font-weight: bold; color: #F57C00;">John Smith</h5>
-                <span style="color: #6c757d;">Business Owner</span>
+                <h5 style="margin-top: 15px; font-weight: bold; color: #F57C00;"> Aminu Idris Muhammad </h5>
+                <span style="color: #6c757d;">PHD Student</span>
             </div>
         </div>
     </div>
@@ -277,7 +342,10 @@ while ($row = mysqli_fetch_assoc($result)) {
         </div>
         <div class="col-lg-6">
             <h2>Become a <span class="text-orange">Seller</span></h2>
-            <p>Join our platform as a seller and showcase your reports to a wide audience. Earn money by sharing your expertise and helping others succeed.</p>
+            <p>Turn your knowledge into income. Join ProjectReportHub.ng as a seller and share
+your academic reports, research work, and study materials with thousands of
+students nationwide. Earn while empowering others to succeed.
+</p>
             <a href="become_a_seller.php" class="btn-kayd mt-3">Get Started as a Seller</a>
         </div>
     </div>

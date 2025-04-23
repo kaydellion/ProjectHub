@@ -1,3 +1,4 @@
+
 <?php include "header.php"; ?>
 
 
@@ -26,13 +27,15 @@
                   </tr>
                   </thead>
                   <tbody class="table-border-bottom-0">
-                  <?php
-$query = "SELECT r.*, u.display_name, l.category_name AS category, sc.category_name AS subcategory 
-          FROM ".$siteprefix."reports r 
-          LEFT JOIN ".$siteprefix."categories l ON r.category = l.id 
-          LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
-          LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id 
-          WHERE r.status = 'approved'";
+                <?php 
+              
+               $query = "SELECT r.*, u.display_name, l.category_name AS category, sc.category_name AS subcategory 
+                         FROM ".$siteprefix."reports r 
+                         LEFT JOIN ".$siteprefix."categories l ON r.category = l.id 
+                         LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
+                         LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id 
+                         WHERE r.user = '$id'";
+
                 $result = mysqli_query($con, $query);
                 if (!$result) {
                     die('Query Failed: ' . mysqli_error($con));

@@ -1,4 +1,11 @@
-<?php include "header.php"; ?>
+<?php include "header.php"; 
+
+ checkActiveLog($active_log);
+ if ($seller != 1) {
+  header("Location: index.php");
+  exit;
+}
+ ?>
 
 <style>
 table img {

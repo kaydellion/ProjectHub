@@ -1,5 +1,11 @@
 <?php include "header.php";
 
+
+checkActiveLog($active_log);
+if ($seller != 1) {
+ header("Location: index.php");
+
+}
 // Fetch sales where the report belongs to the seller
 $sql = "SELECT oi.order_id, o.date, oi.price, r.title, p.title AS file_type
         FROM ".$siteprefix."order_items oi
@@ -9,14 +15,47 @@ $sql = "SELECT oi.order_id, o.date, oi.price, r.title, p.title AS file_type
         WHERE r.user = ? 
         AND o.status = 'paid'
         ORDER BY o.date DESC";
-        
+
 $stmt = $con->prepare($sql);
 $stmt->bind_param("s", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-?>
+// Calculate total amount earned and number of resources sold
+$total_amount = 0;
+$total_resources_sold = 0;
 
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $total_amount += $row['price'];
+        $total_resources_sold++;
+    }
+    // Reset the result pointer for later use
+    $result->data_seek(0);
+}
+?>
+<div class="container mt-5">
+    <div class="row mb-4">
+        <!-- Total Amount Earned -->
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title text-white">Total Amount Earned</h5>
+                    <p class="card-text text-white"><?php echo $sitecurrency . number_format($total_amount, 2); ?></p>
+                </div>
+            </div>
+        </div>
+        <!-- Total Resources Sold -->
+        <div class="col-md-3">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title text-white">Resources Sold</h5>
+                    <p class="card-text text-white"><?php echo $total_resources_sold; ?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="container mt-5 mb-5">
     <h2 class="mb-4">My Sales</h2>
@@ -50,17 +89,5 @@ $result = $stmt->get_result();
         <div class="alert alert-info">You have no sales yet.</div>
     <?php } ?>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <?php include "footer.php"; ?>

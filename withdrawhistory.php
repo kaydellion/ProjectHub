@@ -1,7 +1,6 @@
 <?php include "header.php"; ?>
 
 
-
 <div class="container">
 <div class="row" style="margin-top:10%;">
 <div class="col-12">
@@ -9,6 +8,8 @@
 
 <div class="section-title">
 <h4 class="text-primary">Withdrawal History</h4>
+ <!-- View My Wallet Link -->
+ <a href="wallet.php" class="btn btn-primary">View My Wallet</a>
 </div>
 <div class="table-responsive pt-1 pb-5"> 
         <table class="table text-dark" id="dataTable" style='text-align:center;'>

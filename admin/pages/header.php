@@ -58,7 +58,10 @@ if (mysqli_affected_rows($con) == 0) {
 
 }}
 
-//if($active_log==0){header("location: ../index.php");}
+if ($active_log == 0 && $user_type != 'admin') {
+  header("location: ../..index.php");
+  exit;
+}
 include "actions.php"; ?>
 
 
@@ -178,6 +181,12 @@ include "actions.php"; ?>
                 <li class="menu-item">
                   <a href="reports.php" class="menu-link">
                     <div data-i18n="Without navbar">Manage Reports</div>
+                  </a>
+                </li>
+
+                <li class="menu-item">
+                  <a href="admin-report.php" class="menu-link">
+                    <div data-i18n="Without navbar">Admin Reports</div>
                   </a>
                 </li>
                 <li class="menu-item">

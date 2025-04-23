@@ -3,46 +3,57 @@
 <div class="container mt-4">
     <div class="row">
         <!-- Total Users Card -->
-        <div class="col-md-3"><a href="users.php">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-body">
-                    <h5 class="card-title text-white">Total Users</h5>
-                    <p class="card-text"><?php echo $totalUsers; ?></p>
+        <div class="col-md-3">
+            <a href="users.php">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title text-white">Total Users</h5>
+                        <p class="card-text counter" data-target="<?php echo $totalUsers; ?>">0</p>
+                    </div>
                 </div>
-            </div></a>
+            </a>
         </div>
 
         <!-- Total Sales Card -->
-        <div class="col-md-3"><a href="transactions.php">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">No of Orders</h5>
-                    <p class="card-text"><?php echo $totalSales; ?></p>
+        <div class="col-md-3">
+            <a href="transactions.php">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">No of Orders</h5>
+                        <p class="card-text counter" data-target="<?php echo $totalSales; ?>">0</p>
+                    </div>
                 </div>
-            </div></a>
+            </a>
         </div>
 
         <!-- Total Reports Card -->
-        <div class="col-md-3"><a href="reports.php">
-            <div class="card text-white bg-secondary mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Total Reports</h5>
-                    <p class="card-text"><?php echo $totalReports; ?></p>
+        <div class="col-md-3">
+            <a href="reports.php">
+                <div class="card text-white bg-secondary mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Reports</h5>
+                        <p class="card-text counter" data-target="<?php echo $totalReports; ?>">0</p>
+                    </div>
                 </div>
-            </div></a>
+            </a>
         </div>
 
         <!-- Total Profit Card -->
-        <div class="col-md-3"><a href="profits.php">
-            <div class="card text-white bg-danger mb-3">
-                <div class="card-body">
-                    <h5 class="card-title text-white">Total Profit</h5>
-                    <p class="card-text"><?php echo $sitecurrency; echo number_format($totalProfit, 2); ?></p>
+        <div class="col-md-3">
+            <a href="profits.php">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title text-white">Total Profit</h5>
+                        <p class="card-text counter" 
+                           data-target="<?php echo number_format($totalProfit, 2, '.', ''); ?>" 
+                           data-currency="<?php echo $sitecurrency; ?>">0</p>
+                    </div>
                 </div>
-            </div></a>
+            </a>
         </div>
     </div>
 </div>
+
 <?php
 $latestSalesQuery = "
     SELECT 
@@ -106,4 +117,32 @@ $latestSalesResult = mysqli_query($con, $latestSalesQuery);
         </table>
     </div>
 </div>
+
+<!-- Counter Animation Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const counters = document.querySelectorAll('.counter');
+
+    counters.forEach(counter => {
+        const target = parseFloat(counter.getAttribute('data-target'));
+        const currency = counter.getAttribute('data-currency') || '';
+        const isDecimal = target % 1 !== 0;
+        let count = 0;
+        const duration = 1000; // animation duration in ms
+        const increment = target / (duration / 10); // increment per step
+
+        const updateCount = () => {
+            count += increment;
+            if (count < target) {
+                counter.innerText = currency + (isDecimal ? count.toFixed(2) : Math.floor(count));
+                setTimeout(updateCount, 10);
+            } else {
+                counter.innerText = currency + (isDecimal ? target.toFixed(2) : Math.floor(target));
+            }
+        };
+
+        updateCount();
+    });
+});
+</script>
 <?php include "footer.php"; ?>

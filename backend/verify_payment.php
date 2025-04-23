@@ -16,7 +16,7 @@ if (!$con) {
 }
 
 // Retrieve plan details from the database
-$query = "SELECT duration, no_of_duration,price FROM pr_subscription_plans WHERE s = '$plan_id'";
+$query = "SELECT duration, no_of_duration,price,downloads FROM pr_subscription_plans WHERE s = '$plan_id'";
 $plan_result = mysqli_query($con, $query);
 
 if ($plan_result && mysqli_num_rows($plan_result) > 0) {
@@ -24,6 +24,7 @@ if ($plan_result && mysqli_num_rows($plan_result) > 0) {
     $duration = $plan['duration'];
     $no_of_duration = $plan['no_of_duration'];
     $amount = $plan['price'];
+    $downloads = $plan['downloads'];
     // Calculate subscription end date
     $start_date = date("Y-m-d H:i:s");
     if ($duration === "Monthly") {
@@ -35,8 +36,8 @@ if ($plan_result && mysqli_num_rows($plan_result) > 0) {
     }
 
     // Insert subscription into the database
-    $sql = "INSERT INTO pr_loyalty_purchases (user_id, loyalty_id, amount, start_date, end_date, payment_reference)
-            VALUES ('$user_id', '$plan_id','$amount', '$start_date', '$end_date', '$reference')";
+    $sql = "INSERT INTO pr_loyalty_purchases (user_id, loyalty_id, amount, start_date, end_date, payment_reference,downloads)
+            VALUES ('$user_id', '$plan_id','$amount', '$start_date', '$end_date', '$reference','$downloads')";
     if (mysqli_query($con, $sql)) {
         // Update user subscription
         $update_user = "UPDATE pr_users SET loyalty='$plan_id' WHERE s='$user_id'";

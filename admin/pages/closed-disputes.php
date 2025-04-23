@@ -1,8 +1,11 @@
 <?php include "header.php"; 
-$sql = "SELECT * FROM ".$siteprefix."disputes WHERE status='resolved' ORDER BY created_at DESC";
+$sql = "SELECT d.*, u.first_name, u.last_name 
+        FROM ".$siteprefix."disputes d 
+        LEFT JOIN ".$siteprefix."users u ON d.user_id = u.s 
+        WHERE d.status='resolved' 
+        ORDER BY d.created_at DESC";
 $result = mysqli_query($con, $sql);
 ?>
-
 
 <div class="container py-5">
 <div class="row">
@@ -14,6 +17,8 @@ $result = mysqli_query($con, $sql);
     <tr>
         <th>Ticket ID</th>
         <th>Category</th>
+        <th>Reporter</th>
+        <th>Reported Date</th>
         <th>Status</th>
         <th>Actions</th>
     </tr>
@@ -21,6 +26,8 @@ $result = mysqli_query($con, $sql);
         <tr>
             <td><?= $row['ticket_number']; ?></td>
             <td><?= $row['category']; ?></td>
+            <td><?= $row['first_name']." ".$row['last_name']; ?></td>
+            <td><?= $row['created_at']; ?></td>
             <td><span class="badge bg-<?php echo getBadgeColor($row['status']); ?>"><?= $row['status']; ?></span></td>
             <td><a href="ticket.php?ticket_number=<?= $row['ticket_number']; ?>">View Ticket</a></td>
         </tr>

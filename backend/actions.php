@@ -296,11 +296,27 @@ if(isset($_POST['register-user'])){
             exit();
         }
 
-        $emailSubject="Verify Your Email";
-        $emailMessage="<p>Thank you for registering on our website. To complete your registration, 
-        please click on the following link to verify your email address:<br>
-        <a href='$siteurl/verifymail.php?verify_status=$user_id'>Click here to verify</a></p>";
-        $adminmessage = "A new user has been registered($display_name - $account)";
+        $emailSubject="Confirm Your Email – Project Report Hub";
+        $emailMessage = "
+    <p>Dear $display_name,</p>
+
+    <p>Thank you for signing up on <strong>ProjectReportHub.ng</strong>! To complete your registration
+    and start exploring our platform, please verify your email address by clicking the link below:</p>
+
+    <p><a href='$siteurl/verifymail.php?verify_status=$user_id'>Click here to verify your email</a></p>
+
+    <p>Once verified, you can log in and start accessing premium reports, upload your content,
+    or manage your dashboard.</p>
+
+    <p>Thanks for joining us!</p>
+
+    <p>Warm Regards,<br>
+    Ikechukwu Anaekwe<br>
+    Project Report Hub<br>
+    <em>Customer Support Team</em></p>
+";
+
+        $adminmessage = "A new user has been registered($display_name)";
         $link="users.php";
         $msgtype='New User';
         $message_status=1;
@@ -788,8 +804,21 @@ if (isset($_POST['create_dispute'])){
             }
         }
 
-        $emailSubject="New Dispute ($ticket_number)";
-        $emailMessage="<p>Thank you for submitting a dispute. Your ticket number is: $ticket_number</p>";
+        $emailSubject="Dispute Submitted Successfully – Ticket No:$ticket_number";
+
+        $emailMessage = "
+        <p>Dear $display_name,</p>
+        
+        <p>Thank you for submitting your dispute. We’ve received your request and assigned it the following ticket number: <strong>$ticket_number</strong>.</p>
+        
+        <p>Our support team will review the details and get back to you as soon as possible.</p>
+        
+        <p>Visit <a href='https://www.projectreporthub.ng'>ProjectReportHub.ng</a> to track your dispute status or explore more resources.</p>
+        
+        <p>Warm regards,</p>
+        <p>The Project Report Hub Team</p>
+        <p><a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
+        ";
         $adminmessage = "A new dispute has been submitted ($ticket_number)";
         $link="ticket.php?ticket_number=$ticket_number";
         $msgtype='New Dispute';
@@ -1008,16 +1037,14 @@ if (isset($_POST['submit-review'])) {
     }
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
-  
-    // Sanitize and validate input
+    // Sanitize input
     $user_id = $_POST['user_id'];
     $first_name = mysqli_real_escape_string($con, $_POST['first_name']);
     $middle_name = mysqli_real_escape_string($con, $_POST['middle_name']);
     $last_name = mysqli_real_escape_string($con, $_POST['last_name']);
     $email = mysqli_real_escape_string($con, $_POST['email']);
-    $sex = mysqli_real_escape_string($con, $_POST['gender']);
+    $gender = mysqli_real_escape_string($con, $_POST['gender']);
     $mobile_number = mysqli_real_escape_string($con, $_POST['mobile_number']);
     $address = mysqli_real_escape_string($con, $_POST['address']);
     $bank_name = mysqli_real_escape_string($con, $_POST['bank_name']);
@@ -1032,57 +1059,84 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $kin_email = mysqli_real_escape_string($con, $_POST['kin_email']);
     $kin_relationship = mysqli_real_escape_string($con, $_POST['kin_relationship']);
     $biography = mysqli_real_escape_string($con, $_POST['biography']);
-    $gender=  mysqli_real_escape_string($con, $_POST['gender']);
 
+    $password = !empty($_POST['password']) ? trim($_POST['password']) : null;
+    $retypePassword = !empty($_POST['retypePassword']) ? trim($_POST['retypePassword']) : null;
+    $oldPassword = !empty($_POST['oldpassword']) ? trim($_POST['oldpassword']) : null;
+    $hashedPassword = null;
 
-    $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
-    $retypePassword = !empty($_POST['retypePassword']) ? $_POST['retypePassword'] : null;
-    $oldPassword = htmlspecialchars($_POST['oldpassword']);
-
-    // Validate passwords match
-    if ($password && $password !== $retypePassword) {
-        $message= "Passwords do not match.";
+    if (!empty($password) || !empty($retypePassword) || !empty($oldPassword)) {
+        if (empty($password) || empty($retypePassword) || empty($oldPassword)) {
+            echo "<script>
+            alert('All password fields (Password, Retype Password, and Old Password) must be filled out.');
+            window.history.back(); // Go back to previous form state
+        </script>";
+        exit;
     }
 
-    // Validate old password
-    $stmt = $con->prepare("SELECT password FROM ".$siteprefix."users WHERE s = ?");
-    if ($stmt === false) {
-        $message = "Error preparing statement: " . $con->error;
-    } else {
+      
+
+        if ($password !== $retypePassword) {
+            echo "<script>
+            alert('New password and retype password do not match.');
+            window.history.back();
+        </script>";
+        exit;
+        }
+
+        $stmt = $con->prepare("SELECT password FROM {$siteprefix}users WHERE s = ?");
+        if (!$stmt) {
+            echo "<script>
+            alert('Error preparing password check statement.');
+            window.history.back();
+        </script>";
+        exit;
+        }
+
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
-        if ($user === null || !checkPassword($oldPassword, $user['password'])) {
-            $message = "Old password is incorrect.";
+        $stmt->close();
+
+        if (!$user || !password_verify($oldPassword, $user['password'])) {
+            echo "<script>
+            alert('Old password is incorrect.');
+            window.history.back();
+        </script>";
+        exit;
         }
+
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     }
 
-
+    // Handle profile picture upload
     $uploadDir = 'uploads/';
-    $fileKey='profile_picture';
-    global $fileName;
-    $profilePicture = $_FILES['profile_picture']['name'];
+    $fileKey = 'profile_picture';
+    $profilePicture = $_FILES[$fileKey]['name'] ?? '';
 
-    // Update profile picture if a new one is uploaded
     if (!empty($profilePicture)) {
+        global $fileName;
         $profilePicture = handleFileUpload($fileKey, $uploadDir, $fileName);
     } else {
-        $profilePicture = $profile_picture; // Use the current profile picture if no new one is uploaded
+        $query = mysqli_query($con, "SELECT profile_picture FROM {$siteprefix}users WHERE s = '$user_id'");
+        $row = mysqli_fetch_assoc($query);
+        $profilePicture = $row['profile_picture'];
     }
 
-    // Update query
+    $passwordSql = $hashedPassword ? "password = '" . mysqli_real_escape_string($con, $hashedPassword) . "'," : "";
+
     $update_query = "
-        UPDATE ".$siteprefix."users 
+        UPDATE {$siteprefix}users 
         SET 
             first_name = '$first_name',
             middle_name = '$middle_name',
             last_name = '$last_name',
             email = '$email',
-            password = '$password',
+            $passwordSql
             mobile_number = '$mobile_number',
             address = '$address',
-            gender = '$sex',
+            gender = '$gender',
             bank_name = '$bank_name',
             bank_accname = '$bank_accname',
             bank_number = '$bank_number',
@@ -1095,24 +1149,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
             kin_email = '$kin_email',
             kin_relationship = '$kin_relationship',
             biography = '$biography',
-            profile_picture='$profilePicture'
+            profile_picture = '$profilePicture'
         WHERE s = '$user_id'
     ";
 
-    // Execute the query
+    // Execute query
     if (mysqli_query($con, $update_query)) {
-        // Success modal
-        $statusAction = "Success!";
-        $statusMessage = "Profile updated successfully! $message";
-        showSuccessModal($statusAction, $statusMessage);
+        showSuccessModal("Success!", "Profile updated successfully!");
         header("refresh:1; url=settings.php");
-        
+        exit;
     } else {
-        // Error modal
-        $statusAction = "Error!";
-        $statusMessage = "Failed to update profile: " . mysqli_error($con);
-        showErrorModal($statusAction, $statusMessage);
-       
+        showErrorModal("Error!", "Failed to update profile: " . mysqli_error($con));
+        exit;
     }
 }
 
