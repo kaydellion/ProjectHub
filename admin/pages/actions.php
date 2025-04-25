@@ -658,18 +658,25 @@ if (isset($_POST['update-dispute'])){
     $status=0;
     $date = date("Y-m-d H:i:s");
 
+if($status=="resolved"){
+$emailSubject="Your Issue Has Been Resolved ($ticket_number)";
+$emailMessage="<p>Thank you for bringing your concern to our attention.<br>
+We’re pleased to inform you that the issue (ticket number) you raised has now been successfully resolved. If you have any further questions or if there’s anything else we can assist you with, please don’t hesitate to reach out.
+We appreciate your continued trust in ProjectReportHub.ng and look forward to serving you better.</p>";
+}
+
     //notify sender and if recipient exists
     $sDetails = getUserDetails($con, $siteprefix, $sender_id);
     $s_email = $sDetails['email'];
     $s_name = $sDetails['display_name'];
-    //sendEmail($s_email, $s_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+    sendEmail($s_email, $s_name, $siteName, $siteMail, $emailMessage, $emailSubject);
     insertAlert($con, $sender_id, $message, $date, $status);
 
     if($recipient_id){
         $rDetails = getUserDetails($con, $siteprefix, $recipient_id);
         $r_email = $rDetails['email'];
         $r_name = $rDetails['display_name'];
-       //sendEmail($r_email, $r_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+       sendEmail($r_email, $r_name, $siteName, $siteMail, $emailMessage, $emailSubject);
        insertAlert($con, $recipient_id, $message, $date, $status);
     }
     $message="Dispute status updated successfully.";
