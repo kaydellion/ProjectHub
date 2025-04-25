@@ -27,7 +27,113 @@
     <p class="text-light"><?php echo htmlspecialchars($notification['message']); ?></p>
     <?php endforeach; ?>
     </div>
+    <?php
+if ($seller == 1): // Display only for sellers
+
+// Fetch all report IDs for the seller
+$reportsQuery = "SELECT id FROM ".$siteprefix."reports WHERE user = $user_id";
+$reportsResult = mysqli_query($con, $reportsQuery);
+$reportIds = [];
+while ($report = mysqli_fetch_assoc($reportsResult)) {
+    $reportIds[] = $report['id'];
+}
+
+$totalOrders = 0;
+$totalEarnings = 0;
+
+if (!empty($reportIds)) {
+    // Convert report IDs to a comma-separated string with quotes for the query
+    $reportIdsString = "'" . implode("','", $reportIds) . "'";
+
+    // Fetch all order IDs from order_items where report_id matches the seller's reports
+    $orderItemsQuery = "SELECT DISTINCT order_id FROM ".$siteprefix."order_items WHERE report_id IN ($reportIdsString)";
+    $orderItemsResult = mysqli_query($con, $orderItemsQuery);
+    $orderIds = [];
+    while ($orderItem = mysqli_fetch_assoc($orderItemsResult)) {
+        $orderIds[] = $orderItem['order_id'];
+    }
+
+    if (!empty($orderIds)) {
+        // Convert order IDs to a comma-separated string with quotes for the query
+        $orderIdsString = "'" . implode("','", $orderIds) . "'";
+
+        // Fetch total earnings and count orders from the orders table
+        $ordersQuery = "SELECT COUNT(order_id) AS total_orders, SUM(total_amount) AS total_earnings 
+                        FROM ".$siteprefix."orders 
+                        WHERE order_id IN ($orderIdsString) AND status = 'paid'";
+        $ordersResult = mysqli_query($con, $ordersQuery);
+        $ordersData = mysqli_fetch_assoc($ordersResult);
+
+        $totalOrders = $ordersData['total_orders'];
+        $totalEarnings = $ordersData['total_earnings'];
+    }
+}
+
+// Fetch the number of resources
+$resourcesQuery = "SELECT COUNT(*) AS total_resources FROM ".$siteprefix."reports WHERE user = $user_id";
+$resourcesResult = mysqli_query($con, $resourcesQuery);
+$totalResources = mysqli_fetch_assoc($resourcesResult)['total_resources'];
+
+// Fetch the number of followers
+$followersQuery = "SELECT COUNT(*) AS total_followers FROM ".$siteprefix."followers WHERE seller_id = $user_id";
+$followersResult = mysqli_query($con, $followersQuery);
+$totalFollowers = mysqli_fetch_assoc($followersResult)['total_followers'];
+
+// Fetch the number of users the seller is following
+$followingQuery = "SELECT COUNT(*) AS total_following FROM ".$siteprefix."followers WHERE user_id = $user_id";
+$followingResult = mysqli_query($con, $followingQuery);
+$totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
+?>
+<!-- Seller Statistics Section -->
+<div class="col-md-2">
+    <div class="card text-white bg-primary mb-3">
+        <div class="card-body">
+            <h5 class="card-title text-white">Resources</h5>
+            <p class="card-text text-white"><?php echo $totalResources; ?></p>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-2">
+    <div class="card text-white bg-secondary mb-3">
+        <div class="card-body">
+            <h5 class="card-title text-white">Orders</h5>
+            <p class="card-text text-white"><?php echo $totalOrders; ?></p>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-2">
+    <div class="card text-white bg-secondary mb-3">
+        <div class="card-body">
+            <h5 class="card-title text-white">Followers</h5>
+            <p class="card-text text-white"><?php echo $totalFollowers; ?></p>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-2">
+    <div class="card text-white bg-primary mb-3">
+        <div class="card-body">
+            <h5 class="card-title text-white">Following</h5>
+            <p class="card-text text-white"><?php echo $totalFollowing; ?></p>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-2">
+    <div class="card text-white bg-secondary mb-3">
+        <div class="card-body">
+            <h5 class="card-title text-white">Total Earnings</h5>
+            <p class="card-text text-white"><?php echo $sitecurrency . number_format($totalEarnings, 2); ?></p>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
   </div> 
+
+
 </div>
 
 

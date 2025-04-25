@@ -12,7 +12,16 @@
                             <h2>Welcome to ProjectHub!</h2>
                             <p>Become a Publisher on ProjectReportHub by Monetizing Your Academic Works &
                             Reach Thousands of Students Nationwide </p>
-                           
+                            <p  class="mb-3">A subsidiary of Kyneli Business Support Services, partners with students, researchers, and academic content creators to offer a rich collection of core study materials and business resources.</p>
+                    <h3>Why Publish With Us?</h3>
+                    <ul>
+                        <li><strong>Earn More:</strong> As a publisher, you’ll receive seventy percent (70%) of the sale price of each report or resource sold—more than the industry standard of fifty percent (50%), giving you better earnings on every sale.</li>
+                        <li><strong>Reliable Payouts:</strong> Get paid on every work day of each month. If it falls on a non-working day, your payment is processed the next business day—no delays.</li>
+                        <li><strong>Total Transparency:</strong> Monitor your sales, view your earnings history, and respond to buyer inquiries directly from your publisher dashboard.</li>
+                        <li><strong>We Handle the Marketing:</strong> You focus on creating great content—we take care of the marketing, promotion, and sales, helping you reach students all over Nigeria and beyond.</li>
+                    </ul>
+                    <p class="mb-3">Becoming a publisher is completely free. Just fill out the form below to get started and start reaching students across the country with your work.</p>
+                
 
                             <a href="signin.php" class="btn_3 mb-3 ">Already have an account? Sign In</a>
                         </div>

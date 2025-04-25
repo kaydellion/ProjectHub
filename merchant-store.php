@@ -57,16 +57,56 @@ $total_pages = ceil($total_reports / $limit);
 
 <div class="container mt-5">
     <!-- Seller Information -->
+  
     <div class="row mb-3">
         <div class="col-lg-12">
             <div class="d-flex align-items-center mb-3">
+                <!-- Seller Image -->
                 <img src="<?php echo $user_picture; ?>" alt="Seller Photo" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
                 <div>
+                    <!-- Seller Name -->
                     <h3><?php echo $user; ?></h3>
+                    <!-- Follow/Unfollow Button -->
+                     
+    <?php
+    // Check if the user is already following the seller
+    $followQuery = "SELECT * FROM {$siteprefix}followers WHERE user_id = ? AND seller_id = ?";
+    $stmt = $con->prepare($followQuery);
+    $stmt->bind_param("ii", $user_id, $seller_id);
+    $stmt->execute();
+    $followResult = $stmt->get_result();
+    $isFollowing = $followResult->num_rows > 0;
+    ?>
+                    <form method="POST" class="d-inline">
+        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+        <input type="hidden" name="seller_id" value="<?php echo $seller_id; ?>">
+        <input type="hidden" name="follow_seller_submit" value="1">
+
+        <?php if ($isFollowing): ?>
+            <!-- Following Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" id="followingDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Following
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="followingDropdown">
+                    <li>
+                        <button type="submit" name="action" value="unfollow" class="dropdown-item">
+                            Unfollow
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        <?php else: ?>
+            <!-- Follow Button -->
+            <button type="submit" name="action" value="follow" class="btn btn-outline-primary btn-sm">
+                Follow Seller
+            </button>
+        <?php endif; ?>
+    </form>
                 </div>
             </div>
         </div>
-    </div>
+   
 
     <!-- Products Section -->
     <div class="row mb-3">

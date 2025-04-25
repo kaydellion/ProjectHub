@@ -1,6 +1,57 @@
 <?php
 include "header.php";
 checkActiveLog($active_log);
+?>
+<?php
+// Fetch number of available downloads from the users table
+$userQuery = "SELECT downloads FROM ".$siteprefix."users WHERE s = '$user_id'";
+$userResult = mysqli_query($con, $userQuery);
+$userRow = mysqli_fetch_assoc($userResult);
+$totalDownloads = !empty($userRow['downloads']) ? (int)$userRow['downloads'] : 0;
+
+// Fetch number of downloads already done from the loyalty_purchases table
+$downloadsQuery = "SELECT SUM(downloads) AS total_downloads FROM ".$siteprefix."loyalty_purchases WHERE user_id = '$user_id'";
+$downloadsResult = mysqli_query($con, $downloadsQuery);
+$downloadsRow = mysqli_fetch_assoc($downloadsResult);
+$downloadsDone = !empty($downloadsRow['total_downloads']) ? (int)$downloadsRow['total_downloads'] : 0;
+
+// Calculate remaining downloads
+$availableDownloads = max(0, $totalDownloads - $downloadsDone);
+?>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12 text-right">
+            <a href="dashboard.php" class="btn btn-primary">Go to Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row mb-4">
+        <!-- Available Downloads -->
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title text-white">Available Downloads</h5>
+                    <p class="card-text text-white"><?php echo $totalDownloads; ?></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Downloads Already Done -->
+        <div class="col-md-3">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title text-white">Downloads Already Done</h5>
+                    <p class="card-text text-white"><?php echo $downloadsDone; ?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php
 
 // Fetch current loyalty status
 $query = "SELECT ".$siteprefix."loyalty_purchases.*, ".$siteprefix."subscription_plans.name AS plan_name, ".$siteprefix."subscription_plans.price AS plan_price  
@@ -51,7 +102,7 @@ $result = mysqli_query($con, $query);
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <?php if (strtotime($row['end_date']) <= time()): ?>
+                                    <?php if (strtotime($row['end_date']) <= time() && $totalDownloads < 1): ?>
                                             <button class="btn btn-primary btn-sm" onclick="resubscribe(<?= $row['loyalty_id'] ?>, <?= $row['plan_price'] ?>, '<?= $row['plan_name'] ?>', <?= $user_id ?>)">Resubscribe</button>
                                         <?php endif; ?>
                                     </td>

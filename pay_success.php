@@ -102,8 +102,30 @@ if (mysqli_affected_rows($con) > 0) {
                 // Notify seller
                 insertAlert($con, $seller_id, "You have received $sitecurrency$seller_amount from Order ID: $order_id", $date, 0);
                 
-                // Send email
-                sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, "You have received $sitecurrencyCode$seller_amount from Order ID: $order_id", "Payment Received");
+               // Enhanced email content
+$emailSubject = "New Sale on Project Report Hub – Let’s Keep the Momentum Going!";
+$emailMessage = "
+<p>Hello $vendorName,</p>
+<p>Great news! A new sale has just been made on ProjectReportHub.ng.</p>
+<p><strong>Title of Resource:</strong> $resourceTitle</p>
+<p><strong>Price:</strong> $sitecurrency$price</p>
+<p><strong>Earning:</strong> $sitecurrency$seller_amount</p>
+<p>This is a win for our community and a reminder that students and researchers are actively exploring and purchasing resources from our platform every day.</p>
+<p>If you haven’t updated your listings recently, now is a great time to:</p>
+<ol>
+    <li>Refresh your content and pricing</li>
+    <li>Promote your reports on social media</li>
+    <li>Add new documents that reflect trending industries</li>
+</ol>
+<p>The more visible and updated your resources are, the more sales opportunities you create.</p>
+<p>Let’s keep the momentum going and continue providing high-value insights to Nigeria and the world!</p>
+<p>Warm regards,</p>
+<p>The Project Report Hub Team<br>
+<a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
+";
+
+// Send email to seller
+sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject);
             }
         }
     }

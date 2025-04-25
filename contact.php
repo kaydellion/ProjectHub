@@ -4,8 +4,19 @@
   <section class="contact-section section_padding">
     <div class="container">
       <div class="d-none d-sm-block mb-5 pb-4">
-        <div id="map" style="height: 480px;"></div>
+        <div id="map" style="height: 480px;"><iframe 
+  src="https://www.google.com/maps?q=Iyana+ejigbo+shopping+arcade,+Block+A+SUITE+19,+Ejigbo,+Lagos,+Nigeria&output=embed" 
+  width="100%" 
+  height="480" 
+  frameborder="0" 
+  style="border:0;" 
+  allowfullscreen="" 
+  loading="lazy" 
+  referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+</div>
         <script>
+          /*
           function initMap() {
             var uluru = {
               lat: 6.465422,
@@ -38,10 +49,13 @@
               scrollwheel: false
             });
           }
+           */
         </script>
-        <script
-          src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_map; ?>&callback=initMap">
+        <script>
+        /*
+          src="https://maps.googleapis.com/maps/api/js?key=<?php // echo $google_map; ?>&callback=initMap">
         </script>
+        */
 
       </div>
 

@@ -24,6 +24,13 @@ $user_review = $existing_review_result->fetch_assoc();
 
 ?>
 
+<?php
+// Log the view of the resource
+if (isset($user_id) && isset($report_id)) {
+    $log_view_query = "INSERT INTO ".$siteprefix."product_views  (user_id, report_id) VALUES ('$user_id', '$report_id')";
+    mysqli_query($con, $log_view_query);
+}
+?>
 
 <div class="container py-5">
     <div class="row">
@@ -94,7 +101,7 @@ $user_review = $existing_review_result->fetch_assoc();
                 <span class="h4 me-2"><?php echo $sitecurrency; echo $price; ?></span><br>
                <?php if($loyalty==1){ ?> <span class="badge text-light bg-danger ms-2">Loyalty Material</span> <?php } ?>
             </div>
-
+            
             <div class="mb-1">
                 <div class="d-flex align-items-center">
                     <div class="text-warning me-2">
@@ -203,6 +210,29 @@ while ($row = mysqli_fetch_array($sql2)) {
        <!-- Report Product Button -->
    
 </div>
+          <!-- Social Share Icons -->
+<!-- Social Share Icons -->
+<div class="d-flex mt-3">
+    <?php
+    $share_url = urlencode("https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    $share_title = urlencode($title);
+    $share_text = urlencode("Check out this report: " . $title);
+    ?>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $share_url; ?>" target="_blank" class="text-decoration-none">
+        <i class="fab fa-facebook text-primary p-2" style="font-size: 1.5rem;"></i>
+    </a>
+    <a href="https://twitter.com/intent/tweet?text=<?php echo $share_text; ?>&url=<?php echo $share_url; ?>" target="_blank" class="text-decoration-none">
+        <i class="fab fa-twitter text-info p-2" style="font-size: 1.5rem;"></i> 
+    </a>
+    <a href="https://api.whatsapp.com/send?text=<?php echo $share_text . ' ' . $share_url; ?>" target="_blank" class="text-decoration-none">
+        <i class="fab fa-whatsapp text-success p-2" style="font-size: 1.5rem;"></i> 
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo $share_url; ?>" target="_blank" class="text-decoration-none">
+        <i class="fab fa-linkedin text-primary p-2" style="font-size: 1.5rem;"></i> 
+    </a>
+   
+</div>
+
             <!-- Additional Info -->
           <!-- Seller Information -->
 <div class="mt-3">
@@ -244,6 +274,47 @@ while ($row = mysqli_fetch_array($sql2)) {
             <p class="mt-2 mb-0"><strong>Resources:</strong> <?php echo $seller_resources_count; ?> resources available</p>
         </div>
         <div class="mt-3">
+    <?php checkActiveLog($active_log); // Ensure the user is logged in ?>
+
+    <?php
+    // Check if the user is already following the seller
+    $followQuery = "SELECT * FROM {$siteprefix}followers WHERE user_id = ? AND seller_id = ?";
+    $stmt = $con->prepare($followQuery);
+    $stmt->bind_param("ii", $user_id, $seller_id);
+    $stmt->execute();
+    $followResult = $stmt->get_result();
+    $isFollowing = $followResult->num_rows > 0;
+    ?>
+
+    <form method="POST" class="d-inline">
+        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+        <input type="hidden" name="seller_id" value="<?php echo $seller_id; ?>">
+        <input type="hidden" name="follow_seller_submit" value="1">
+
+        <?php if ($isFollowing): ?>
+            <!-- Following Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" id="followingDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Following
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="followingDropdown">
+                    <li>
+                        <button type="submit" name="action" value="unfollow" class="dropdown-item">
+                            Unfollow
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        <?php else: ?>
+            <!-- Follow Button -->
+            <button type="submit" name="action" value="follow" class="btn btn-outline-primary btn-sm">
+                Follow Seller
+            </button>
+        <?php endif; ?>
+    </form>
+</div>
+
+        <div class="mt-3">
     <h6>Connect with the Seller:</h6>
     <div class="d-flex">
         <?php if (!empty($seller_facebook)) { ?>
@@ -270,29 +341,7 @@ while ($row = mysqli_fetch_array($sql2)) {
 </div>
     </div>
 </div>
-           <!-- Social Share Icons -->
-<!-- Social Share Icons -->
-<div class="d-flex mt-3">
-    <?php
-    $share_url = urlencode("https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-    $share_title = urlencode($title);
-    $share_text = urlencode("Check out this report: " . $title);
-    ?>
-    <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $share_url; ?>" target="_blank" class="text-decoration-none">
-        <i class="fab fa-facebook text-primary p-2" style="font-size: 1.5rem;"></i>
-    </a>
-    <a href="https://twitter.com/intent/tweet?text=<?php echo $share_text; ?>&url=<?php echo $share_url; ?>" target="_blank" class="text-decoration-none">
-        <i class="fab fa-twitter text-info p-2" style="font-size: 1.5rem;"></i> 
-    </a>
-    <a href="https://api.whatsapp.com/send?text=<?php echo $share_text . ' ' . $share_url; ?>" target="_blank" class="text-decoration-none">
-        <i class="fab fa-whatsapp text-success p-2" style="font-size: 1.5rem;"></i> 
-    </a>
-    <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo $share_url; ?>" target="_blank" class="text-decoration-none">
-        <i class="fab fa-linkedin text-primary p-2" style="font-size: 1.5rem;"></i> 
-    </a>
-   
-</div>
-
+ 
 
 
 
@@ -413,11 +462,18 @@ while ($row = mysqli_fetch_array($sql2)) {
 <div class="container py-5">
     <h2 class="h4 mb-4">Related Products</h2>
     <div class="row">
-<?php
-$sql = "SELECT r.*, u.display_name, u.profile_picture ,ri.picture FROM ".$siteprefix."reports r
-LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
- LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
-WHERE r.category = '$category' AND r.subcategory = '$subcategory' AND r.id != '$report_id' AND r.status = 'approved' GROUP BY r.id LIMIT 4";
+    <?php
+$sql = "SELECT r.*, u.display_name, u.profile_picture, ri.picture, 
+        l.category_name AS category, sc.category_name AS subcategory 
+        FROM ".$siteprefix."reports r
+        LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
+        LEFT JOIN ".$siteprefix."users u ON r.user = u.s
+        LEFT JOIN ".$siteprefix."categories l ON r.category = l.id
+        LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id
+        WHERE r.category = '$category' AND r.subcategory = '$subcategory' 
+        AND r.id != '$report_id' AND r.status = 'approved' 
+        GROUP BY r.id 
+        LIMIT 4";
 $sql2 = mysqli_query($con, $sql);
 if (!$sql2) {die("Query failed: " . mysqli_error($con)); }
 if (mysqli_num_rows($sql2) > 0) {
@@ -437,12 +493,124 @@ while ($row = mysqli_fetch_array($sql2)) {
     $updated_date = $row['updated_date'];
     $status = $row['status'];
     $image_path = $imagePath.$row['picture'];
+    $selected_education_level = $row['education_level'] ?? '';
+    $selected_resource_type = $row['resource_type'] ?? '';
+    $year_of_study = $row['year_of_study'] ?? '';
 
     include "product-card.php";
 }} else {
 echo '<div class="alert alert-warning" role="alert">
     No related products found. <a href="marketplace.php" class="alert-link">View more reports in marketplace</a>
       </div>';
+}
+?>
+</div></div>  <!-- / .row -->
+
+</div>  
+<!-- / other resources -->  <!-- / .container -->
+<?php
+// Fetch other resources from the same seller with images
+$seller_resources_query = "
+    SELECT r.*, ri.picture 
+    FROM ".$siteprefix."reports r
+    LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
+    WHERE r.user = '$seller_id' AND r.id != '$report_id' AND r.status = 'approved'
+    GROUP BY r.id
+    LIMIT 4";
+
+$seller_resources_result = mysqli_query($con, $seller_resources_query);
+
+if (mysqli_num_rows($seller_resources_result) > 0) {
+?>
+<div class="container py-5">
+    <h2 class="h4 mb-4">Other Resources from This Seller</h2>
+    <div class="row">
+        <?php while ($row = mysqli_fetch_assoc($seller_resources_result)) { ?>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="<?php echo $imagePath . $row['picture']; ?>" class="card-img-top" alt="Product Image">
+                    <div class="card-body">
+                    <a href="product.php?id=<?php echo $row['id']; ?>"><h5 class="text-bold"><?php echo $row['title']; ?></h5></a>
+                        <p class="card-text"><?php echo $sitecurrency . $row['price']; ?></p>
+                        
+                       
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>
+<?php
+}
+?>
+<!---- Customers Who Viewed This Resource Also Viewed    --->
+<?php
+// Fetch resources viewed by customers who viewed this resource
+$viewed_also_query = "
+    SELECT r.*, ri.picture, COUNT(*) as view_count
+    FROM ".$siteprefix."product_views rv1
+    JOIN ".$siteprefix."product_views rv2 ON rv1.user_id = rv2.user_id
+    JOIN ".$siteprefix."reports r ON rv2.report_id = r.id
+    LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
+    WHERE rv1.report_id = ? AND rv2.report_id != ? AND r.status = 'approved'
+    GROUP BY r.id
+    ORDER BY view_count DESC
+    LIMIT 4";
+
+$stmt = $con->prepare($viewed_also_query);
+$stmt->bind_param("ii", $report_id, $report_id);
+$stmt->execute();
+$also_viewed_result = $stmt->get_result();
+
+if ($also_viewed_result->num_rows > 0) { // Check if there are results
+?>
+<div class="container py-5">
+    <h2 class="h4 mb-4">Customers Who Viewed This Resource Also Viewed</h2>
+    <div class="row">
+        <?php while ($row = $also_viewed_result->fetch_assoc()) { ?>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="<?php echo $imagePath . $row['picture']; ?>" class="card-img-top" alt="Product Image">
+                    <div class="card-body">
+                    <a href="product.php?id=<?php echo $row['id']; ?>"><h5 class="text-bold"><?php echo $row['title']; ?></h5></a>
+                        <p class="card-text"><?php echo $sitecurrency . $row['price']; ?></p>
+                     
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>
+<?php
+}
+?>
+<!-- Subscription plan -->
+<div class="container py-5">
+    <h2 class="h4 mb-4">Buy for Less – Sign Up as a Loyalty Member Today</h2>
+    <div class="row">
+    <?php
+$query = "SELECT * FROM ".$siteprefix."subscription_plans WHERE status = 'active' ORDER BY s DESC Limit 3";
+$result = mysqli_query($con, $query);
+
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $plan_id = $row['s'];
+        $name = $row['name'];
+        $description = $row['description'];
+        $price = $row['price'];
+        $discount = $row['discount'];
+        $downloads = $row['downloads'];
+        $duration = $row['duration'];
+        $benefits = explode(',', $row['benefits']); // Convert benefits into an array
+        $status = $row['status'];
+        $no_of_duration = $row['no_of_duration'];
+        $image_path = !empty($row['image']) ? $imagePath.$row['image'] : $imagePath."default4.jpg";
+        $created_at = $row['created_at'];
+
+        include "plan-card.php"; // Include your plan display template
+    }
+} else {
+    debug('No subscription plans found.');
 }
 ?>
 </div></div>  <!-- / .row -->

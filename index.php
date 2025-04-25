@@ -10,8 +10,7 @@
                     <div class="banner_text_iner">
                         <h4 class="text-orange">Project Report Hub – Empowering Research, Fueling Success!</h4>
                      <!---   <h2 class="text-white">Your Go-To Hub for <span class="text-orange">Expert Project</span> Reports!</h2>---->                       <p class="text-white text-hero">
-                        <p class="text-white">   Your go-to platform for premium project reports and research documentation in Nigeria—expertly crafted for students, entrepreneurs, and professionals.
-                        </p>
+                        <p class="text-white">  Access well-structured, plagiarism-free project reports across all levels and fields — from OND to Ph.D. Fast search, instant download, and everything you need to excel, all in one place.</p>
                         <a href="marketplace.php" class="btn_1">Explore Now</a>
                                 <!-- Trusted By Section -->
                                 <div class="trusted-by mt-4">
@@ -70,6 +69,9 @@ results with ease — all in one place.</p>
             $updated_date = $row['updated_date'];
             $status = $row['status'];
             $image_path = $imagePath.$row['picture'];
+            $selected_education_level = $row['education_level'] ?? '';
+                        $selected_resource_type = $row['resource_type'] ?? '';
+                        $year_of_study = $row['year_of_study'] ?? '';
     
             include "swiper-card.php";
             }?>

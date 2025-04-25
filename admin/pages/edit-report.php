@@ -32,6 +32,7 @@ if ($row) {
     $tags = $row['tags'];
     $loyalty = $row['loyalty'];
     $user = $row['display_name'];
+    $user_id= $row['user'];
     $created_date = $row['created_date'];
     $updated_date = $row['updated_date'];
     $status = $row['status'];
@@ -114,7 +115,7 @@ $yearsOfStudy = [
                           <textarea id="basic-default-message" name="table_content" class="form-control editor" placeholder="Write required information or details here...."><?php echo $table_content; ?></textarea>
                         </div>
 
-
+                           <input type="hidden" name="user" value="<?php echo $user_id; ?>">
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-message">Methodology</label>
                           <textarea id="basic-default-message" name="methodology" class="form-control editor" placeholder="Write required information or details here...."><?php echo $methodology; ?></textarea>

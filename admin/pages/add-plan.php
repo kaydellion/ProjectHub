@@ -3,7 +3,7 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="card">
         <div class="card-body">
-            <form method="POST" >
+            <form method="POST"  enctype="multipart/form-data" >
                 <p class="text-bold text-dark">Create a new subscription plan.</p>
 
                 <div class="form-row row">

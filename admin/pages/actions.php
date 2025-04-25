@@ -125,6 +125,81 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     header("refresh:2; url=reports.php");
   }
 
+// Suspend user
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['suspend_user'])) {
+    $user_id = $_POST['user_id'];
+    $duration_type = $_POST['duration_type']; // days, months, years
+    $duration_value = (int)$_POST['duration_value'];
+    $reason = mysqli_real_escape_string($con, $_POST['reason']);
+
+    // Calculate the suspension end date
+    $suspend_end_date = null;
+    if ($duration_type === 'days') {
+        $suspend_end_date = date('Y-m-d H:i:s', strtotime("+$duration_value days"));
+    } elseif ($duration_type === 'months') {
+        $suspend_end_date = date('Y-m-d H:i:s', strtotime("+$duration_value months"));
+    } elseif ($duration_type === 'years') {
+        $suspend_end_date = date('Y-m-d H:i:s', strtotime("+$duration_value years"));
+    }
+
+    // Update the user's status and suspension details
+    $update_query = "UPDATE ".$siteprefix."users 
+                     SET status = 'suspended' 
+                     WHERE s = '$user_id'";
+    if (mysqli_query($con, $update_query)) {
+        // Insert suspension details into the suspend table
+        $insert_query = "INSERT INTO " . $siteprefix . "suspend (user_id, suspend_date, suspend_reason, suspend_end) 
+                         VALUES ('$user_id', NOW(), '$reason', '$suspend_end_date')";
+        if (mysqli_query($con, $insert_query)) {
+            // Fetch user details for the email
+            $user_query = "SELECT email, display_name FROM ".$siteprefix."users WHERE s = '$user_id'";
+            $user_result = mysqli_query($con, $user_query);
+            if ($user_row = mysqli_fetch_assoc($user_result)) {
+                $user_email = $user_row['email'];
+                $user_name = $user_row['display_name'];
+
+                // Prepare the email
+                $emailSubject = "Account Suspension Notice – Project Report Hub";
+                $emailMessage = "
+                    <p>Dear $user_name,</p>
+                    <p>We regret to inform you that your account on <strong>ProjectReportHub.ng</strong> has been temporarily suspended due to a violation of our platform’s terms of use and seller guidelines.</p>
+                    <p>This action has been taken to maintain the integrity and quality of our marketplace for all users.</p>
+                    <p><strong>Reason for Suspension:</strong> $reason</p>
+                    <p><strong>Duration:</strong> $duration_value $duration_type</p>
+                    <p>We kindly request that you review your account and take the necessary corrective steps. If you believe this suspension was made in error or would like to appeal the decision, please contact us at <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> with relevant details.</p>
+                    <p>Your cooperation is appreciated, and we look forward to resolving this matter promptly.</p>
+                    <p>Warm regards,</p>
+                    <p><strong>The Project Report Hub Team</strong><br>
+                    <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
+                ";
+
+                // Send the email
+                if (sendEmail($user_email, $user_name, $sitename, $sitemail, $emailMessage, $emailSubject)) {
+                    // Display success message
+                    $message = "User suspended successfully, and an email notification has been sent.";
+                    showSuccessModal('Processed', $message);
+                    header("refresh:2; url=users.php");
+                } else {
+                    // Display error message for email failure
+                    $message = "User suspended successfully, but the email notification could not be sent.";
+                    showErrorModal('Email Error', $message);
+                    header("refresh:2; url=users.php");
+                }
+            }
+        } else {
+            // Display error message for suspension table insertion failure
+            $message = "An error occurred while saving suspension details. Please try again.";
+            showErrorModal('Oops', $message);
+            header("refresh:2; url=users.php");
+        }
+    } else {
+        // Display error message for user status update failure
+        $message = "An error occurred while updating the user's status. Please try again.";
+        showErrorModal('Oops', $message);
+        header("refresh:2; url=users.php");
+    }
+}
+
 
 
 
@@ -148,7 +223,96 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $education_level = $_POST['education_level'];
     $chapter = $_POST['chapter'];
     $answer = $_POST['answer'];
-  
+    $user_id = $_POST['user'];
+
+    $siteline = "https://projectreporthub.ng/"; // Replace with your site URL
+
+    // Check the current status of the report in the database
+    $currentStatusQuery = "SELECT status FROM ".$siteprefix."reports WHERE id = '$reportId'";
+    $currentStatusResult = mysqli_query($con, $currentStatusQuery);
+    $currentStatusRow = mysqli_fetch_assoc($currentStatusResult);
+    $currentStatus = $currentStatusRow['status'];
+
+    // Only proceed if the current status is not 'approved' and the new status is 'approved'
+    if ($currentStatus !== 'approved' && $status === 'approved') {
+
+        // Fetch seller_id from the users table
+$sellerQuery = "SELECT seller FROM ".$siteprefix."users WHERE s = '$user_id'";
+$sellerResult = mysqli_query($con, $sellerQuery);
+
+if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
+    $sellerRow = mysqli_fetch_assoc($sellerResult);
+    $seller_id = $sellerRow['seller'];
+
+    // Check if the seller_id is 1
+    if ($seller_id == 1) {
+        // Proceed with the rest of the logic
+        $sellerEmail = $sellerRow['email'];
+        $sellerName = $sellerRow['display_name'];
+
+        // Prepare the email
+        $emailSubject = "Your Document Is Now Live on Project Report Hub Marketplace!";
+        $emailMessage = "
+            <p>Dear $sellerName,</p>
+            <p>We hope this message finds you well.</p>
+            <p>We're excited to let you know that your product, <strong>“$title”</strong>, has been successfully reviewed and is now live on the Project Report Hub marketplace!</p>
+            <p>Access your document here: </p>
+            <p>To help you generate visibility and boost your initial sales, we highly recommend promoting your document on the following platforms:</p>
+            <ul>
+                <li><strong>LinkedIn:</strong> Publish a LinkedIn Pulse article (rather than a simple post) introducing your document. Be sure to tag friends and colleagues in the comments to maximize engagement and reach.</li>
+                <li><strong>Product Hunt:</strong> Share your document as a new product. Tag Project Report Hub as a collaborator to tap into our network.</li>
+                <li><strong>Reddit, Nairaland, Quora, and Medium:</strong> These platforms are great for engaging with niche communities interested in student and academic resources.</li>
+            </ul>
+            <p>Sharing your document across these channels will not only drive early sales but also improve your document’s SEO (search engine optimization), helping it gain long-term traction.</p>
+            <p>Thanks for being part of the Project Report Hub community!</p>
+            <p>Warm regards,</p>
+            <p>The Project Report Hub Team<br>
+            <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
+        ";
+
+        // Send the email
+        sendEmail($sellerEmail, $sellerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+    }
+}
+        // Check if the user_id matches the seller_id in the followers table
+        $followersQuery = "SELECT user_id FROM ".$siteprefix."followers WHERE seller_id = '$user_id'";
+        $followersResult = mysqli_query($con, $followersQuery);
+
+        if (mysqli_num_rows($followersResult) > 0) {
+            // Fetch the seller's name
+            $sellerQuery = "SELECT display_name FROM ".$siteprefix."users WHERE s = '$user_id'";
+            $sellerResult = mysqli_query($con, $sellerQuery);
+            $sellerRow = mysqli_fetch_assoc($sellerResult);
+            $sellerName = $sellerRow['display_name'];
+
+            // Notify all followers
+            while ($follower = mysqli_fetch_assoc($followersResult)) {
+                $followerId = $follower['user_id'];
+
+                // Fetch follower details
+                $followerDetailsQuery = "SELECT email, display_name FROM ".$siteprefix."users WHERE s = '$followerId'";
+                $followerDetailsResult = mysqli_query($con, $followerDetailsQuery);
+                $followerDetails = mysqli_fetch_assoc($followerDetailsResult);
+
+                $followerEmail = $followerDetails['email'];
+                $followerName = $followerDetails['display_name'];
+
+                // Prepare the email
+                $emailSubject = "New Resource Posted by $sellerName";
+                $emailMessage = "
+                    <p>Dear $followerName,</p>
+                    <p>We are excited to inform you that $sellerName has just posted a new resource titled <strong>$title</strong>.</p>
+                    <p>You can check it out here: <a href='$siteline/$sellerName'>$siteline/$sellerName</a></p>
+                    <p>Thank you for following $sellerName!</p>
+                    <p>Best regards,</p>
+                    <p>The Project Report Hub Team</p>
+                ";
+
+                // Send the email
+                sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+            }
+        }
+    }
     // Upload images
     $uploadDir = '../../uploads/';
     $fileuploadDir = '../../documents/';
@@ -237,28 +401,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
 }
 // add plan
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addPlan'])) {
-    $planName = $_POST['planName'];
-    $planPrice = $_POST['planPrice'];
+    // Sanitize inputs
+    $planName = mysqli_real_escape_string($con, $_POST['planName']);
+    $planPrice = mysqli_real_escape_string($con, $_POST['planPrice']);
     $description = mysqli_real_escape_string($con, $_POST['description']);
-    $discount = $_POST['discount'];
-    $downloads = $_POST['downloads'];
-    $durationCount= $_POST['durationCount'];
-    $planDuration = $_POST['planDuration'];
-    $planStatus = $_POST['planStatus'];
-    $benefits = isset($_POST['benefits']) ? implode(", ", $_POST['benefits']) : '';
+    $discount = mysqli_real_escape_string($con, $_POST['discount']);
+    $downloads = mysqli_real_escape_string($con, $_POST['downloads']);
+    $durationCount = mysqli_real_escape_string($con, $_POST['durationCount']);
+    $planDuration = mysqli_real_escape_string($con, $_POST['planDuration']);
+    $planStatus = mysqli_real_escape_string($con, $_POST['planStatus']);
+    $benefits = isset($_POST['benefits']) ? mysqli_real_escape_string($con, implode(", ", $_POST['benefits'])) : '';
 
-    // Upload Image
+    // File upload settings
     $uploadDir = '../../uploads/';
     $allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg', 'image/webp'];
     $fileKey = 'planImage';
-    global $fileName;
+    $uploadedImage = '';
     $message = "";
 
     if (!empty($_FILES[$fileKey]['name'])) {
         $fileType = mime_content_type($_FILES[$fileKey]['tmp_name']);
         if (in_array($fileType, $allowedImageTypes)) {
-            $fileName = uniqid() . '_' . $_FILES[$fileKey]['name'];
+            $fileBaseName = basename($_FILES[$fileKey]['name']);
+            $fileBaseName = preg_replace("/[^a-zA-Z0-9\._-]/", "", $fileBaseName);
+            $fileName = uniqid() . '_' . $fileBaseName;
             $filePath = $uploadDir . $fileName;
+
             if (move_uploaded_file($_FILES[$fileKey]['tmp_name'], $filePath)) {
                 $uploadedImage = $fileName;
             } else {
@@ -269,25 +437,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addPlan'])) {
         }
     }
 
-    // Assign a default image if none is uploaded
+    // Fallback image if none uploaded
     if (empty($uploadedImage)) {
         $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg'];
         $uploadedImage = array_rand(array_flip($defaultImages));
     }
 
-    // Insert subscription plan into the database
-    $sql = "INSERT INTO " . $siteprefix . "subscription_plans (name, price, description, discount, downloads, duration,no_of_duration, status, benefits, image, created_at) 
-            VALUES ('$planName', '$planPrice', '$description', '$discount', '$downloads', '$planDuration', '$durationCount','$planStatus', '$benefits', '$uploadedImage', current_timestamp())";
+    // Build the SQL query
+    $sql = "INSERT INTO " . $siteprefix . "subscription_plans 
+            (name, price, description, discount, downloads, duration, no_of_duration, status, benefits, image, created_at) 
+            VALUES (
+                '$planName', 
+                '$planPrice', 
+                '$description', 
+                '$discount', 
+                '$downloads', 
+                '$planDuration', 
+                '$durationCount', 
+                '$planStatus', 
+                '$benefits', 
+                '$uploadedImage', 
+                current_timestamp()
+            )";
 
+    // Execute and handle result
     if (mysqli_query($con, $sql)) {
         $message .= "Subscription plan added successfully!";
     } else {
         $message .= "Error: " . mysqli_error($con);
     }
 
-    // Show success message and redirect
+    // Show success modal and redirect
     showSuccessModal('Processed', $message);
     header("refresh:2; url=add-plan.php");
+    
 }
 // manual payment rejection
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reject_payment'])) {
@@ -796,7 +979,9 @@ if(isset($_POST['settings'])){
     $account_name= $_POST['account_name'];
     $account_number= $_POST['account_number'];
     $google= $_POST['google_map'];
-
+    $com_fee= $_POST['com_fee'];
+    $affiliate_percentage= $_POST['affiliate_percentage'];
+    
     $uploadDir = '../../img/';
     $fileKey='site_logo';
     global $fileName;
@@ -809,7 +994,7 @@ if(isset($_POST['settings'])){
     }
 
   
-    $update = mysqli_query($con,"UPDATE " . $siteprefix . "site_settings SET site_name='$name',site_bank='$site_bank', account_name='$account_name', account_number='$account_number', google_map='$google',  site_logo='$logo',  site_keywords='$keywords', site_url='$url', site_description='$description', site_mail='$email', site_number='$number' WHERE s=1");
+    $update = mysqli_query($con,"UPDATE " . $siteprefix . "site_settings SET site_name='$name',site_bank='$site_bank', account_name='$account_name', affliate_percentage='$affiliate_percentage', commision_fee='$com_fee', account_number='$account_number', google_map='$google',  site_logo='$logo',  site_keywords='$keywords', site_url='$url', site_description='$description', site_mail='$email', site_number='$number' WHERE s=1");
 
 
     if($update){

@@ -284,8 +284,8 @@ if(isset($_POST['register-user'])){
         $biography = mysqli_real_escape_string($con, $_POST['biography']);
         $kin_relationship = mysqli_real_escape_string($con, $_POST['kin_relationship']);
 
-        $query = "INSERT INTO ".$siteprefix."users (display_name, first_name, middle_name, last_name, profile_picture, mobile_number, email, password, gender, address, type, status, last_login, created_date, preference, bank_name, bank_accname, bank_number, loyalty, wallet, affliate, seller, facebook, twitter, instagram, linkedln, kin_name, kin_number, kin_email, biography, kin_relationship)
-         VALUES ('$display_name', '$first_name', '$middle_name', '$last_name', '$profile_picture', '$mobile_number', '$email', '$password', '$gender', '$address', '$type', '$status', '$last_login', '$created_date', '$preference', '$bank_name', '$bank_accname', '$bank_number', '$loyalty', '$wallet', '$affliate', '0', '$facebook', '$twitter', '$instagram', '$linkedln', '$kin_name', '$kin_number', '$kin_email', '$biography', '$kin_relationship')";
+        $query = "INSERT INTO ".$siteprefix."users (display_name, first_name, middle_name, last_name, profile_picture, mobile_number, email, password, gender, address, type, status, last_login, created_date, preference, bank_name, bank_accname, bank_number, loyalty, wallet, affliate, seller, facebook, twitter, instagram, linkedln, kin_name, kin_number, kin_email, biography, kin_relationship,downloads)
+         VALUES ('$display_name', '$first_name', '$middle_name', '$last_name', '$profile_picture', '$mobile_number', '$email', '$password', '$gender', '$address', '$type', '$status', '$last_login', '$created_date', '$preference', '$bank_name', '$bank_accname', '$bank_number', '$loyalty', '$wallet', '$affliate', '0', '$facebook', '$twitter', '$instagram', '$linkedln', '$kin_name', '$kin_number', '$kin_email', '$biography', '$kin_relationship','0')";
 
         if (mysqli_query($con, $query)) {
             $user_id = mysqli_insert_id($con);
@@ -335,8 +335,76 @@ if(isset($_POST['register-user'])){
 
 
 }}
+//folow category
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['follow_category_submit'])) {
+    $user_id = $_POST['user_id']; // Logged-in user ID
+    $category_id = $_POST['category_id']; // Category ID
+    $subcategory_id = $_POST['subcategory_id']; // Subcategory ID (can be empty)
+    $action = $_POST['action']; // Action: follow or unfollow
 
+    if (empty($user_id) || empty($category_id)) {
+        echo "<script>alert('Invalid request.');</script>";
+        exit();
+    }
 
+    if ($action === "follow_category") {
+        // Add a new follow record for the category
+        $insertQuery = "INSERT INTO ".$siteprefix."followers (user_id, seller_id, followed_at, category_id, subcategory_id) VALUES (?, '', NOW(), ?, ?)";
+        $stmt = $con->prepare($insertQuery);
+        $stmt->bind_param("iis", $user_id, $category_id, $subcategory_id);
+        if ($stmt->execute()) {
+            echo "<script>alert('You are now following this category.');</script>";
+        } else {
+            echo "<script>alert('Failed to follow the category.');</script>";
+        }
+    } elseif ($action === "unfollow_category") {
+        // Remove the follow record for the category
+        $deleteQuery = "DELETE FROM ".$siteprefix."followers WHERE user_id = ? AND category_id = ? AND subcategory_id = ?";
+        $stmt = $con->prepare($deleteQuery);
+        $stmt->bind_param("iis", $user_id, $category_id, $subcategory_id);
+        if ($stmt->execute()) {
+            echo "<script>alert('You have unfollowed this category.');</script>";
+        } else {
+            echo "<script>alert('Failed to unfollow the category.');</script>";
+        }
+    }
+}
+
+//follow seller
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['follow_seller_submit'])) {
+   
+
+    $user_id = $_POST['user_id']; // Replace with your session variable for user ID
+    $seller_id = $_POST['seller_id'];
+    $action = $_POST['action'];
+
+    if (empty($user_id) || empty($seller_id)) {
+        echo "<script>alert('Invalid request.');</script>";
+        exit();
+    }
+
+    if ($action === "follow") {
+        // Add a new follow record
+        $insertQuery = "INSERT INTO ".$siteprefix."followers (user_id, seller_id, followed_at, category_id, subcategory_id) VALUES (?, ?, NOW(), '', '')";
+        $stmt = $con->prepare($insertQuery);
+        $stmt->bind_param("ii", $user_id, $seller_id);
+        if ($stmt->execute()) {
+            echo "<script>alert('You are now following the seller.');</script>";
+        } else {
+            echo "<script>alert('Failed to follow the seller.');</script>";
+        }
+    } elseif ($action === "unfollow") {
+        // Remove the follow record
+        $deleteQuery = "DELETE FROM ".$siteprefix."followers WHERE user_id = ? AND seller_id = ?";
+        $stmt = $con->prepare($deleteQuery);
+        $stmt->bind_param("ii", $user_id, $seller_id);
+        if ($stmt->execute()) {
+            echo "<script>alert('You have unfollowed the seller.');</script>";
+        } else {
+            echo "<script>alert('Failed to unfollow the seller.');</script>";
+        }
+    }
+}
 
 // Affiliate Registration
 if (isset($_POST['register-affiliate'])) {
@@ -424,6 +492,27 @@ if (isset($_POST['register-affiliate'])) {
 
 if (mysqli_query($con, $query)) {
 $user_id = mysqli_insert_id($con);
+
+ // Send Welcome Email
+ $emailSubject = "Welcome to the Project Report Hub Affiliate Program!";
+ $emailMessage = "
+ <p>Dear $first_name,</p>
+ <p>Welcome aboard! We're excited to have you as part of the Project Report Hub Affiliate Program — where your network meets opportunity. By joining our platform, you now have the chance to earn commissions by simply sharing high-quality, ready-made academic resources with your audience.</p>
+ <p><strong>Here’s what to do next:</strong></p>
+ <ol>
+     <li>Log in to your affiliate dashboard to access your unique referral link and track your performance.</li>
+     <li>Promote any product on our website using your referral link.</li>
+     <li>Earn a commission of eight percent (8%) for every successful sale made through your link—easy, transparent, and rewarding!</li>
+ </ol>
+ <p>If you ever need help, tips, or content to promote, feel free to reach out to our team at <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a>. We're here to support your growth.</p>
+ <p>Thanks for partnering with us—we look forward to growing together!</p>
+ <p>Warm regards,</p>
+ <p>The Project Report Hub Team<br>
+ <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
+ ";
+
+ sendEmail($email, $first_name, $siteName, $siteMail, $emailMessage, $emailSubject);
+
 $statusAction = "Success!";
 $message = "Affiliate registration successful! A confirmation email has been sent to $email.";
 showSuccessModal($statusAction, $message); // Correctly pass the variable
@@ -540,27 +629,73 @@ if (isset( $_POST['signin'])){
         $statusMessage=' Email Address have not been verified. we have sent you a mail which contains verification link. kindly check your email and verify your email address.';
         showErrorModal($statusAction, $statusMessage);  
     }
-    
-    else if($status == "active"){
-    $date=date('Y-m-d H:i:s');
-    $insert = mysqli_query($con,"UPDATE ".$siteprefix."users SET last_login='$date' where s='$id'") or die ('Could not connect: ' .mysqli_error($con)); 
-                  
-    session_start(); 
-    $_SESSION['id']=$id;
-    setcookie("userID", $id, time() + (10 * 365 * 24 * 60 * 60));
-    $message = "Logged In Successfully";
-                 
-                 
-    showToast($message);          
-    //redirection
-    if (isset($_SESSION['previous_page'])) {
-      $previousPage = $_SESSION['previous_page'];
-      header("location: $previousPage");
-    } else {
-      header("location: dashboard.php");
-    }} 
-    }}
+    elseif ($status == "suspended") {
+        // Check suspension details
+        $suspend_query = "SELECT suspend_end FROM " . $siteprefix . "suspend WHERE user_id = '$id' ORDER BY suspend_end DESC LIMIT 1";
+        $suspend_result = mysqli_query($con, $suspend_query);
 
+        if ($suspend_result && mysqli_num_rows($suspend_result) > 0) {
+            $suspend_row = mysqli_fetch_assoc($suspend_result);
+            $suspend_end_date = $suspend_row['suspend_end'];
+
+            // Check if the suspension has ended
+            if (strtotime($suspend_end_date) <= time()) {
+                // Update user status to active
+                $update_status_query = "UPDATE " . $siteprefix . "users SET status = 'active' WHERE s = '$id'";
+                mysqli_query($con, $update_status_query);
+
+                // Proceed with login
+                $date = date('Y-m-d H:i:s');
+                $insert = mysqli_query($con, "UPDATE " . $siteprefix . "users SET last_login = '$date' WHERE s = '$id'") or die('Could not connect: ' . mysqli_error($con));
+
+                session_start();
+                $_SESSION['id'] = $id;
+                setcookie("userID", $id, time() + (10 * 365 * 24 * 60 * 60));
+                $message = "Logged In Successfully";
+
+                showToast($message);
+
+                // Redirection
+                if (isset($_SESSION['previous_page'])) {
+                    $previousPage = $_SESSION['previous_page'];
+                    header("location: $previousPage");
+                } else {
+                    header("location: dashboard.php");
+                }
+            } else {
+                // Suspension is still active
+                $statusAction = "Account Suspended!";
+                $statusMessage = "Your account is suspended until " . date('d M Y', strtotime($suspend_end_date)) . ". Please contact support for further assistance.";
+                showErrorModal($statusAction, $statusMessage);
+            }
+        } else {
+            // No suspension details found, fallback to error
+            $statusAction = "Error!";
+            $statusMessage = "Your account is suspended, but no suspension details were found. Please contact support.";
+            showErrorModal($statusAction, $statusMessage);
+        }
+    } elseif ($status == "active") {
+        // Proceed with login
+        $date = date('Y-m-d H:i:s');
+        $insert = mysqli_query($con, "UPDATE " . $siteprefix . "users SET last_login = '$date' WHERE s = '$id'") or die('Could not connect: ' . mysqli_error($con));
+
+        session_start();
+        $_SESSION['id'] = $id;
+        setcookie("userID", $id, time() + (10 * 365 * 24 * 60 * 60));
+        $message = "Logged In Successfully";
+
+        showToast($message);
+
+        // Redirection
+        if (isset($_SESSION['previous_page'])) {
+            $previousPage = $_SESSION['previous_page'];
+            header("location: $previousPage");
+        } else {
+            header("location: dashboard.php");
+        }
+    }
+}
+}
 
 
 //delete-record

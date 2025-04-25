@@ -49,6 +49,15 @@
                       <label class="form-label">Site Account Number</label>
                       <input type="text" name="account_number" class="form-control" value="<?php echo $siteaccno; ?>">
                     </div>
+                    <div class="mb-3">
+                      <label class="form-label">Affliate Percentage</label>
+                      <input type="number" name="affiliate_percentage" class="form-control" value="<?php echo $affliate_percentage; ?>">
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label class="form-label">Commission Fee</label>
+                      <input type="number" name="com_fee" class="form-control" value="<?php echo $escrowfee; ?>">
+                    </div>
 
                     <div class="mb-3">
                       <label class="form-label">Site Account Name</label>

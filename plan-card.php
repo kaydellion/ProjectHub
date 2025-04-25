@@ -29,34 +29,47 @@
                 </li>
             </ul>
             <?php
-
 $current_date = date("Y-m-d H:i:s");
 
 // Check if the user has an active subscription
 $subscription_query = "SELECT * FROM " . $siteprefix . "loyalty_purchases
     WHERE user_id = $user_id AND loyalty_id = $plan_id AND end_date > '$current_date' LIMIT 1";
 $subscription_result = mysqli_query($con, $subscription_query);
-$user_has_active_plan = mysqli_num_rows($subscription_result) > 0;
+$has_active_subscription = mysqli_num_rows($subscription_result) > 0;
+
+// Check if the downloads column in the users table is not empty and not equal to 0
+$user_query = "SELECT downloads FROM " . $siteprefix . "users WHERE s = $user_id LIMIT 1";
+$user_result = mysqli_query($con, $user_query);
+$user_row = mysqli_fetch_assoc($user_result);
+$has_downloads = !empty($user_row['downloads']) && (int)$user_row['downloads'] > 0;
+
+// Combine both conditions (AND logic)
+$user_has_active_plan = $has_active_subscription && $has_downloads;
 ?>
-          
+                <?
+                
+                
                 <?php if ($active_log == 1): ?>
-                <?php if ($user_has_active_plan): ?>
-                    <a href="loyalty-status.php" class="btn btn-primary">Manage Subscription</a>
+                    <?php if ($user_has_active_plan): ?>
+                        <!-- Manage Subscription Button -->
+                        <a href="loyalty-status.php" class="btn btn-primary">Manage Subscription</a>
+                        <!-- Disabled Subscribe Button -->
+                        <button class="btn btn-primary" disabled>Subscribe</button>
+                    <?php else: ?>
+                        <!-- Pay Button with Data Attributes -->
+                        <button class="btn btn-primary payButton"
+                            data-plan-id="<?= $plan_id ?>"
+                            data-amount="<?= $price ?>"
+                            data-plan-name="<?= htmlspecialchars($name, ENT_QUOTES) ?>"
+                            data-user-id="<?= $user_id ?>"
+                            data-email="<?= $email ?>">
+                            Subscribe
+                        </button>
+                    <?php endif; ?>
                 <?php else: ?>
-                   <!-- Pay Button with Data Attributes -->
-<button class="btn btn-primary payButton"
-    data-plan-id="<?= $plan_id ?>"
-    data-amount="<?= $price ?>"
-    data-plan-name="<?= htmlspecialchars($name, ENT_QUOTES) ?>"
-    data-user-id="<?= $user_id ?>"
-    data-email="<?= $email ?>">
-    Subscribe
-</button>
+                    <!-- If user is not logged in, show the modal trigger -->
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Subscribe</button>
                 <?php endif; ?>
-            <?php else: ?>
-                <!-- If user is not logged in, show the modal trigger -->
-                <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Subscribe</button>
-            <?php endif; ?>
         </div>
     </div>
 </div>

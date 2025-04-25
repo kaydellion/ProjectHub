@@ -95,7 +95,12 @@ $total_pages = ceil($total_reports / $limit);
                         $created_date = $row['created_date'];
                         $updated_date = $row['updated_date'];
                         $status = $row['status'];
+                        $selected_education_level = $row['education_level'] ?? '';
+                        $selected_resource_type = $row['resource_type'] ?? '';
+                        $year_of_study = $row['year_of_study'] ?? '';
                         $image_path = $imagePath.$row['picture'];
+
+                        
 
                         include "product-card.php";
                     }

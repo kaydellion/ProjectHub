@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <?php 
                     if($active_log== 0) {
-                        $message="You need to login to view your cart. <a href='login.php'>Login here</a>";
+                        $message="You need to login to view your cart. <a href='signin.php'>Login here</a>";
                         displayMessage($message);
                     } else if (getCartCount($con, $siteprefix, $order_id) == 0) {
                         $message="Your cart is empty. <a href='marketplace.php'>Start shopping here</a>";

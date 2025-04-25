@@ -59,7 +59,7 @@ if (mysqli_affected_rows($con) == 0) {
 }}
 
 if ($active_log == 0 && $user_type != 'admin') {
-  header("location: ../..index.php");
+  header("location: ../../index.php");
   exit;
 }
 include "actions.php"; ?>

@@ -21,6 +21,7 @@ $show="none"; $textshow="none";
                     <div class="login_part_text text-center">
                         <div class="login_part_text_iner">
                       
+                        
 
                             <h2>New to Project Report Hub?
                             </h2>
