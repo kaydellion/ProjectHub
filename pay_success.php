@@ -32,7 +32,17 @@ if (mysqli_affected_rows($con) > 0) {
         $loyalty_id = $row_item['loyalty_id']; 
         $affiliate_id = $row_item['affiliate_id']; 
         $order_id = $row_item['order_id']; 
-        $date = $row_item['date'];   
+        $date = $row_item['date']; 
+
+
+$sql_file = "SELECT * FROM ".$siteprefix."reports_files WHERE id = '$item_id'";
+$sql2_file = mysqli_query($con, $sql);
+if (!$sql2_file) {die("Query failed: " . mysqli_error($con)); }
+while ($row_file = mysqli_fetch_array($sql2_file)) {
+$file_id = $row_file['id'];
+$file_title = $row_file['title'];}
+
+$attachments[] = $siteurl.$documentPath.$file_title;
 
         // Check if the item has an affiliate
         if ($affiliate_id != 0) {

@@ -99,13 +99,7 @@ if ($discount == "") {
     ];
 
     // Check if the user has reached the maximum number of downloads for their loyalty plan
-    $query = "
-    SELECT COUNT(*) AS count 
-    FROM pr_order_items r
-    LEFT JOIN pr_orders o ON o.order_id = r.order_id
-    WHERE o.user = '$user_id' 
-      AND o.status != 'cancelled' 
-      AND r.original_price != $price";
+    $query = "SELECT downloads AS count FROM pr_users WHERE s = '$user_id'";
     $result = mysqli_query($con, $query);
     $row = mysqli_fetch_assoc($result);
     $count = $row['count'];
@@ -158,6 +152,9 @@ if ($discount == "") {
                 $price = $original_price;
             }
         }
+    } else {
+    //deduct from downloads
+    decreaseDownloads($con, $user_id);
     }
 }
 
