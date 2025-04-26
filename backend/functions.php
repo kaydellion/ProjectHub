@@ -575,6 +575,20 @@ $insert = mysqli_query($con, "UPDATE pr_users SET wallet = CAST(wallet AS DECIMA
     else { die('Could not connect: ' . mysqli_error($con)); }}
 
 
+    function decreaseDownloads($con, $user_id) {
+        // Decrease downloads by 1
+        $update = mysqli_query($con, "UPDATE pr_users SET downloads = downloads - 1 WHERE s = '$user_id'") 
+        or die('Could not connect: ' . mysqli_error($con));
+    }
+
+
+    function increaseDownloads($con, $user_id) {
+        // Increase downloads by 1
+        $update = mysqli_query($con, "UPDATE pr_users SET downloads = downloads + 1 WHERE s = '$user_id'") 
+        or die('Could not connect: ' . mysqli_error($con));
+    }
+    
+    
 
 
 function showSuccessModal2($statusAction,$statusMessage) {
