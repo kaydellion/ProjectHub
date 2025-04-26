@@ -21,85 +21,99 @@
               <input type="hidden" id="amount" value="<?php echo $order_total; ?>"/>
               <input type="hidden" id="ref"   value="<?php echo  $order_id; ?>  "  />
               <input type="hidden" id="refer" value="<?php echo $siteurl; ?>/pay_success.php?ref=<?php echo $order_id; ?> " />
+          
           </div>
-          <div class="col-lg-4">
-            <div class="order_box">
-              <h2>Your Order</h2>
-              <ul class="list">
-                <li>
-                  <a href="#">Product
-                    <span>Total</span>
-                  </a>
-                </li>
-                <?php 
-                    // Assuming database connection exists
-                    $sql = "SELECT oi.*, rf.title as file, r.title as report_title, oi.price, ri.picture 
-                        FROM ".$siteprefix."order_items oi
-                        JOIN ".$siteprefix."reports r ON oi.report_id = r.id
-                        LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
-                        LEFT JOIN ".$siteprefix."reports_files rf ON r.id = rf.report_id
-                        WHERE oi.order_id = ? 
-                        GROUP BY oi.s";
+         <div class="col-lg-4">
+  <div class="order_box">
+    <h2>Your Order</h2>
+    <ul class="list">
+      <li>
+        <a href="#">Product
+          <span>Total</span>
+        </a>
+      </li>
+      <?php 
+        // Initialize
+        $is_free_order = false;
+        $item_count = 0;
 
-                    $stmt = mysqli_prepare($con, $sql);
-                    mysqli_stmt_bind_param($stmt, 's', $order_id);
-                    mysqli_stmt_execute($stmt);
-                    $result = mysqli_stmt_get_result($stmt);
+        $sql = "SELECT oi.*, rf.title as file, r.title as report_title, r.pricing, oi.price, ri.picture 
+                FROM ".$siteprefix."order_items oi
+                JOIN ".$siteprefix."reports r ON oi.report_id = r.id
+                LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
+                LEFT JOIN ".$siteprefix."reports_files rf ON r.id = rf.report_id
+                WHERE oi.order_id = ? 
+                GROUP BY oi.s";
 
-                    while ($item = mysqli_fetch_assoc($result)): ?>
-                <li>
-                  <a href="#"><?php echo htmlspecialchars($item['report_title']); ?>
-                    <span class="middle">(<?php echo htmlspecialchars(getFileExtension($item['file'])); ?>) </span>
-                    <span class="last"><?php echo $sitecurrency; echo number_format($item['price'], 2); ?></span>
-                  </a>
-                </li>
-                <?php endwhile; mysqli_stmt_close($stmt); ?>
-              </ul>
-              <ul class="list list_2">
-                <li>
-                  <a href="#">Subtotal
-                    <span><?php echo $sitecurrency; echo $order_total; ?></span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">Total
-                    <span><?php echo $sitecurrency; echo $order_total; ?></span>
-                  </a>
-                </li>
-              </ul>
-              <!---<div class="creat_account">
-                <input type="checkbox" id="f-option4" name="selector" />
-                <label for="f-option4">I’ve read and accept the </label>
-                <a href="terms.php">terms & conditions*</a>
-              </div> -->
-              <?php if ($order_total > 0) { ?>
+        $stmt = mysqli_prepare($con, $sql);
+        mysqli_stmt_bind_param($stmt, 's', $order_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
-                <div class="payment_methods">
-    <h4>Select Payment Method</h4>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="payment_method" id="paystack" value="paystack" checked>
-        <label class="form-check-label" for="paystack">
-            Pay with Paystack
-        </label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="payment_method" id="manual" value="manual">
-        <label class="form-check-label" for="manual">
-            Manual Bank Transfer
-        </label>
-    </div>
+        while ($item = mysqli_fetch_assoc($result)):
+          $item_count++;
+          if ($item['pricing'] == 'free') {
+            $is_free_order = true;
+          }
+      ?>
+      <li>
+        <a href="#"><?php echo htmlspecialchars($item['report_title']); ?>
+          <span class="middle">(<?php echo htmlspecialchars(getFileExtension($item['file'])); ?>)</span>
+          <span class="last"><?php echo $sitecurrency; echo number_format($item['price'], 2); ?></span>
+        </a>
+      </li>
+      <?php endwhile; mysqli_stmt_close($stmt); ?>
+    </ul>
+
+    <ul class="list list_2">
+      <li>
+        <a href="#">Subtotal
+          <span><?php echo $sitecurrency; echo $order_total; ?></span>
+        </a>
+      </li>
+      <li>
+        <a href="#">Total
+          <span><?php echo $sitecurrency; echo $order_total; ?></span>
+        </a>
+      </li>
+    </ul>
+
+    <?php if ($order_total > 0) { ?>
+ 
+      <div class="payment_methods">
+        <h4>Select Payment Method</h4>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="payment_method" id="paystack" value="paystack" checked>
+          <label class="form-check-label" for="paystack">Pay with Paystack</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="payment_method" id="manual" value="manual">
+          <label class="form-check-label" for="manual">Manual Bank Transfer</label>
+        </div>
+      </div>
+
+      <!-- Paystack Button -->
+      <button class="btn_1 w-100 text-center paystack-button" onClick="payWithPaystack()">Proceed to Payment</button>
+ 
+      <!-- Manual Payment Button -->
+      <button type="button" class="btn_1 w-100 text-center manual-button" data-toggle="modal" data-target="#manualPaymentModal" style="display: none;">
+        Proceed with Manual Payment
+      </button>
+    
+    <?php } elseif ($order_total == 0 && $is_free_order && $item_count > 0) { ?>
+      <!-- Place order for free product -->
+      </form>
+      <form method="post" >
+        <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
+        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+        <button type="submit" name="place_order" class="btn_1 w-100 text-center">Place Order</button>
+      </form>
+    <?php } else { 
+        displayMessage('<a href="marketplace.php">Shop More</a>'); 
+      } ?>
+  </div>
 </div>
-                  <!-- Paystack Button -->
-    <button class="btn_1 w-100 text-center paystack-button" onClick="payWithPaystack()">Proceed to Payment</button>
 
-<!-- Manual Payment Button -->
-<button type="button" class="btn_1 w-100 text-center manual-button" data-toggle="modal" data-target="#manualPaymentModal" style="display: none;">
-    Proceed with Manual Payment
-</button>
-</form>
-              <?php } else {  displayMessage('<a href="marketplace.php">Shop More </a>'); } ?>
-            </div>
-          </div>
         </div>
       </div>
     </div>

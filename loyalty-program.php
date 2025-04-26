@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }]
                 },
                 callback: function (response) {
-                    window.location.href = `backend/verify_payment.php?action=verify_payment&reference=${response.reference}&plan_id=${planId}&user_id=${userId}`;
+                    window.location.href = `https://projectreporthub.ng/backend/verify_payment.php?action=verify_payment&reference=${response.reference}&plan_id=${planId}&user_id=${userId}`;
                 },
                 onClose: function () {
                     alert('Payment was canceled.');

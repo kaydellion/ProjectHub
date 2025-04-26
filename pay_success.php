@@ -17,11 +17,28 @@ if (mysqli_affected_rows($con) > 0) {
         $total_amount = $row_order['total_amount']; 
         $date = $row_order['date']; 
     }
+
+}
+
+
+// Fetch buyer's details
+$sql_buyer = "SELECT email, display_name FROM ".$siteprefix."users WHERE s = '$user_id'";
+$result_buyer = mysqli_query($con, $sql_buyer);
+
+if ($result_buyer && mysqli_num_rows($result_buyer) > 0) {
+    $buyer = mysqli_fetch_assoc($result_buyer);
+    $email = $buyer['email']; // Buyer's email
+    $username = $buyer['display_name']; // Buyer's name
 }
 
 // Get order items
-$sql_items = "SELECT * FROM ".$siteprefix."order_items WHERE order_id = '$ref'";   
+$sql_items = "SELECT oi.*, r.title as resource_title, rf.title as file_path 
+              FROM ".$siteprefix."order_items oi
+              JOIN ".$siteprefix."reports r ON oi.report_id = r.id
+              LEFT JOIN ".$siteprefix."reports_files rf ON r.id = rf.report_id
+              WHERE oi.order_id = '$ref'";   
 $sql_items_result = mysqli_query($con, $sql_items);
+
 if (mysqli_affected_rows($con) > 0) {
     while ($row_item = mysqli_fetch_array($sql_items_result)) {
         $s = $row_item['s']; 
@@ -33,6 +50,14 @@ if (mysqli_affected_rows($con) > 0) {
         $affiliate_id = $row_item['affiliate_id']; 
         $order_id = $row_item['order_id']; 
         $date = $row_item['date'];   
+        $resourceTitle = $row_item['resource_title']; // Fetch the resource title
+        $file_path = $row_item['file_path']; // Fetch the file path
+
+        // Add file to attachments array
+        if (!empty($file_path) && file_exists($file_path)) {
+            $attachments[] = $file_path;
+        }
+ 
 
         // Check if the item has an affiliate
         if ($affiliate_id != 0) {
@@ -103,7 +128,7 @@ if (mysqli_affected_rows($con) > 0) {
                 insertAlert($con, $seller_id, "You have received $sitecurrency$seller_amount from Order ID: $order_id", $date, 0);
                 
                // Enhanced email content
-$emailSubject = "New Sale on Project Report Hub – Let’s Keep the Momentum Going!";
+$emailSubject = "New Sale on Project Report Hub â€“ Letâ€™s Keep the Momentum Going!";
 $emailMessage = "
 <p>Hello $vendorName,</p>
 <p>Great news! A new sale has just been made on ProjectReportHub.ng.</p>
@@ -111,14 +136,14 @@ $emailMessage = "
 <p><strong>Price:</strong> $sitecurrency$price</p>
 <p><strong>Earning:</strong> $sitecurrency$seller_amount</p>
 <p>This is a win for our community and a reminder that students and researchers are actively exploring and purchasing resources from our platform every day.</p>
-<p>If you haven’t updated your listings recently, now is a great time to:</p>
+<p>If you havenâ€™t updated your listings recently, now is a great time to:</p>
 <ol>
     <li>Refresh your content and pricing</li>
     <li>Promote your reports on social media</li>
     <li>Add new documents that reflect trending industries</li>
 </ol>
 <p>The more visible and updated your resources are, the more sales opportunities you create.</p>
-<p>Let’s keep the momentum going and continue providing high-value insights to Nigeria and the world!</p>
+<p>Letâ€™s keep the momentum going and continue providing high-value insights to Nigeria and the world!</p>
 <p>Warm regards,</p>
 <p>The Project Report Hub Team<br>
 <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
@@ -137,9 +162,49 @@ mysqli_query($con, $sql_update_order);
 
 // Send order confirmation email
 $subject = "Order Confirmation";
-$emailMessage="<p>Thank you for your order. We appreciate your business!<br>
-The resources have been sent to your email address and it is also available on your profile.<br>
-Feel free to visit our website for more information, updates, or to explore additional services.</p>";
+// Email content with the table
+// Generate the table for purchased reports
+$tableRows = "";
+$sql_items = "SELECT oi.*, r.title as resource_title, rf.title as file_path 
+              FROM ".$siteprefix."order_items oi
+              JOIN ".$siteprefix."reports r ON oi.report_id = r.id
+              LEFT JOIN ".$siteprefix."reports_files rf ON r.id = rf.report_id
+              WHERE oi.order_id = '$ref'";
+$sql_items_result = mysqli_query($con, $sql_items);
+
+if (mysqli_affected_rows($con) > 0) {
+    while ($row_item = mysqli_fetch_array($sql_items_result)) {
+        $resourceTitle = $row_item['resource_title'];
+        $file_path = $row_item['file_path'];
+
+        // Add a row to the table
+        $tableRows .= "
+            <tr>
+                <td>$resourceTitle</td>
+                <td><a href='$siteurl/uploads/$file_path' style='color: #fff;  padding: 5px 10px; text-decoration: none; border-radius: 5px;'><button class='bg-primary'>Download</button></a></td>
+            </tr>";
+    }
+}
+$emailMessage = "
+<p>Dear $username,</p>
+<p>Thank you for your order. Below are the resources you purchased:</p>
+<table border='1' cellpadding='10' cellspacing='0' style='border-collapse: collapse; width: 100%;'>
+    <thead>
+        <tr>
+            <th style='color: #f8f9fa; text-align: left;'>Report Title</th>
+            <th style='color: #f8f9fa; text-align: left;'>Download Link</th>
+        </tr>
+    </thead>
+    <tbody>
+        $tableRows
+    </tbody>
+</table>
+<p>You can also access your purchased reports from your profile on our website.</p>
+<p>Feel free to visit our website for more information, updates, or to explore additional services.</p>
+<p>Warm regards,</p>
+<p><strong>The Project Report Hub Team</strong><br>
+<a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
+";
 
 sendEmail($email, $username, $siteName, $siteMail,$emailMessage, $subject, $attachments);
 ?>
@@ -152,12 +217,48 @@ sendEmail($email, $username, $siteName, $siteMail,$emailMessage, $subject, $atta
         <p class="mb-0">Thank you for your order.</p>
     </div>
     <div class="card text-center">
-        <div class="card-header bg-success text-white">🎉 Thank You for Your Purchase!</div>
+        <div class="card-header bg-success text-white">ðŸŽ‰ Thank You for Your Purchase!</div>
         <div class="card-body">
             <h5 class="card-title">Order processed successfully.</h5>
-            <a href="my_orders.php" class="btn btn-primary mt-4"> 🔙 Back to My Orders</a>
+            <a href="my_orders.php" class="btn btn-primary mt-4"> ðŸ”™ Back to My Orders</a>
         </div>
-        <div class="card-footer text-muted">We appreciate your business! 💖</div>
+        <div class="card-footer text-muted">We appreciate your business! ðŸ’–</div>
+    </div>
+    <!-- Table of Purchased Reports -->
+    <div class="mt-5">
+        <h3>Your Purchased Reports</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Report Title</th>
+                    <th>Download Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Fetch purchased items again to display in the table
+                $sql_items = "SELECT oi.*, rf.title, r.title as report_title 
+                              FROM ".$siteprefix."order_items oi
+                              JOIN ".$siteprefix."reports r ON oi.report_id = r.id
+                              LEFT JOIN ".$siteprefix."reports_files rf ON r.id = rf.report_id
+                              WHERE oi.order_id = '$ref'";
+                $sql_items_result = mysqli_query($con, $sql_items);
+
+                if (mysqli_affected_rows($con) > 0) {
+                    while ($row_item = mysqli_fetch_array($sql_items_result)) {
+                        $report_title = $row_item['report_title'];
+                        $file_path = $row_item['title'];
+                        echo "<tr>";
+                        echo "<td>$report_title</td>";
+                        echo "<td><a href='https://www.projectreporthub.ng/uploads/$file_path' class='btn btn-success' download>Download</a></td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='2'>No reports found.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
 </div>
 

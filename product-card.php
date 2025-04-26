@@ -67,7 +67,7 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
 
 <div class="col-lg-3 col-6 product <?php echo removeAllWhitespace($subcategory); ?>">
                     <div class="single_product_item">
-                    <div class="single_product_img" style="background: url('<?php echo $image_path; ?>')">
+                    <div class="single_product_img" style="background: url('<?php echo "https://projectreporthub.ng/".$image_path; ?>')">
                     <div class="wishlist_icon"><a class="add-to-wishlist <?php echo $theinitialicon; ?>" data-product-id="<?php echo $report_id; ?>"><i class="ti-heart"></i></a></div>
                     <div class="category-overlay">
                 <span class="category-btn bg-primary"><?php echo $category; ?></span>
@@ -76,7 +76,9 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
               
                 </div>
                             <div class="single_product_text">
-                            <a href="product.php?id=<?php echo $report_id; ?>"><h5 class="text-bold"><?php echo $title; ?></h5></a>
+                                                <a href="https://projectreporthub.ng/product/<?php echo $slug; ?>">
+    <h5 class="text-bold"><?php echo htmlspecialchars($title); ?></h5>
+</a>
                             <a class="text-muted">
     <?php if (!empty($education_level)) { ?>
         <strong>Level:</strong> <?php echo $education_level; ?><br>
@@ -89,7 +91,7 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
     <?php } ?>
 </a>
                             <div class="user_info">
-                            <img src="<?php echo $user_picture; ?>" alt="<?php echo $user; ?>" class="img-fluid user-image">
+                            <img src="<?php echo "https://projectreporthub.ng/".$user_picture; ?>" alt="<?php echo $user; ?>" class="img-fluid user-image">
                             <span><?php echo $user; ?></span>
                             </div>
                             <div class="d-flex justify-content-between mt-3">

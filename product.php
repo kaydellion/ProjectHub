@@ -38,7 +38,7 @@ if (isset($user_id) && isset($report_id)) {
         <div class="col-md-6 mb-4">
     <div class="card">
         <!-- Main image stays untouched -->
-        <img src="<?php echo $image_path; ?>" class="card-img-top" alt="Product Image">
+        <img src="<?php echo "https://projectreporthub.ng/".$image_path; ?>" class="card-img-top" alt="Product Image">
 
         <div class="card-body">
             <div class="row g-2">
@@ -55,7 +55,7 @@ if (isset($user_id) && isset($report_id)) {
                 foreach ($allImages as $index => $img) {
                 ?>
                 <div class="col-3">
-                    <img src="<?php echo $img; ?>" class="img-thumbnail" alt="Thumbnail <?php echo $index + 1; ?>"
+                    <img src="<?php echo "https://projectreporthub.ng/".$img; ?>" class="img-thumbnail" alt="Thumbnail <?php echo $index + 1; ?>"
                          data-toggle="modal" data-target="#imageModal"
                          data-slide-to="<?php echo $index; ?>">
                 </div>
@@ -74,7 +74,7 @@ if (isset($user_id) && isset($report_id)) {
           <div class="carousel-inner">
             <?php foreach ($allImages as $index => $img) { ?>
               <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
-                <img src="<?php echo $img; ?>" style="max-height: 80vh; object-fit: contain;"  class="d-block w-100" alt="Preview <?php echo $index + 1; ?>">
+                <img src="<?php echo "https://projectreporthub.ng/".$img; ?>" style="max-height: 80vh; object-fit: contain;"  class="d-block w-100" alt="Preview <?php echo $index + 1; ?>">
               </div>
             <?php } ?>
           </div>
@@ -239,7 +239,7 @@ while ($row = mysqli_fetch_array($sql2)) {
     <div class="card p-3">
         <div class="d-flex align-items-center">
             <!-- Seller's Photo -->
-            <img src="<?php echo $seller_photo; ?>" alt="Seller Photo" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
+            <img src="<?php echo "https://projectreporthub.ng/".$seller_photo; ?>" alt="Seller Photo" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
             <div>
                 <!-- Seller's Name -->
                 <h5 class="mb-1"><?php echo $seller_name;  ?></h5>
@@ -269,7 +269,7 @@ while ($row = mysqli_fetch_array($sql2)) {
         </div>
         <div class="mt-3">
             <!-- View Merchant Store Link -->
-            <a href="merchant-store.php?seller_id=<?php echo $seller_id; ?>" class="btn btn-primary btn-sm">View Merchant Store</a>
+            <a href="https://projectreporthub.ng/merchant-store.php?seller_id=<?php echo $seller_id; ?>" class="btn btn-primary btn-sm">View Merchant Store</a>
             <!-- Number of Resources -->
             <p class="mt-2 mb-0"><strong>Resources:</strong> <?php echo $seller_resources_count; ?> resources available</p>
         </div>
@@ -347,7 +347,8 @@ while ($row = mysqli_fetch_array($sql2)) {
 
         </div>
     </div>
-</div>
+
+<div class="col-12">
 
 <!-- Report Product Button -->
 <?php if ($active_log == 1): ?>
@@ -453,7 +454,7 @@ while ($row = mysqli_fetch_array($sql2)) {
 </div></div>
 </div>
 </div>
-
+</div></div>
 
 
 
@@ -462,6 +463,7 @@ while ($row = mysqli_fetch_array($sql2)) {
 <div class="container py-5">
     <h2 class="h4 mb-4">Related Products</h2>
     <div class="row">
+        
     <?php
 $sql = "SELECT r.*, u.display_name, u.profile_picture, ri.picture, 
         l.category_name AS category, sc.category_name AS subcategory 
@@ -497,93 +499,164 @@ while ($row = mysqli_fetch_array($sql2)) {
     $selected_resource_type = $row['resource_type'] ?? '';
     $year_of_study = $row['year_of_study'] ?? '';
 
+    $slug = strtolower(str_replace(' ', '-', $title));
     include "product-card.php";
 }} else {
 echo '<div class="alert alert-warning" role="alert">
-    No related products found. <a href="marketplace.php" class="alert-link">View more reports in marketplace</a>
+    No related products found. <a href="https://projectreporthub.ng/marketplace.php" class="alert-link">View more reports in marketplace</a>
       </div>';
 }
 ?>
-</div></div>  <!-- / .row -->
+</div></div>  
+  
+<!-- other resources --> 
 
-</div>  
-<!-- / other resources -->  <!-- / .container -->
-<?php
-// Fetch other resources from the same seller with images
+<div class="container py-5">
+    <h2 class="h4 mb-4">Other Resources from This Seller</h2>
+    <div class="row">
+        <div class="col-lg-12">
+    <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+    <?php
 $seller_resources_query = "
-    SELECT r.*, ri.picture 
-    FROM ".$siteprefix."reports r
-    LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
-    WHERE r.user = '$seller_id' AND r.id != '$report_id' AND r.status = 'approved'
+    SELECT 
+        r.*, 
+        u.display_name, 
+        u.profile_picture, 
+        l.category_name AS category, 
+        sc.category_name AS subcategory, 
+        ri.picture 
+    FROM {$siteprefix}reports r
+    LEFT JOIN {$siteprefix}categories l ON r.category = l.id
+    LEFT JOIN {$siteprefix}users u ON r.user = u.s
+    LEFT JOIN {$siteprefix}categories sc ON r.subcategory = sc.id
+    LEFT JOIN {$siteprefix}reports_images ri ON r.id = ri.report_id
+    WHERE r.user = '$seller_id' 
+        AND r.id != '$report_id' 
+        AND r.status = 'approved'
     GROUP BY r.id
-    LIMIT 4";
+    LIMIT 10
+";
 
 $seller_resources_result = mysqli_query($con, $seller_resources_query);
 
 if (mysqli_num_rows($seller_resources_result) > 0) {
-?>
-<div class="container py-5">
-    <h2 class="h4 mb-4">Other Resources from This Seller</h2>
-    <div class="row">
-        <?php while ($row = mysqli_fetch_assoc($seller_resources_result)) { ?>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="<?php echo $imagePath . $row['picture']; ?>" class="card-img-top" alt="Product Image">
-                    <div class="card-body">
-                    <a href="product.php?id=<?php echo $row['id']; ?>"><h5 class="text-bold"><?php echo $row['title']; ?></h5></a>
-                        <p class="card-text"><?php echo $sitecurrency . $row['price']; ?></p>
-                        
-                       
-                    </div>
-                </div>
-            </div>
-        <?php } ?>
-    </div>
+    while ($row = mysqli_fetch_assoc($seller_resources_result)) {
+        $report_id = $row['id'];
+        $title = $row['title'];
+        $description = $row['description'];
+        $category = $row['category'];
+        $subcategory = $row['subcategory'];
+        $pricing = $row['pricing'];
+        $price = $row['price'];
+        $tags = $row['tags'];
+        $loyalty = $row['loyalty'];
+        $user = $row['display_name'];
+        $user_picture = $imagePath . $row['profile_picture'];
+        $created_date = $row['created_date'];
+        $updated_date = $row['updated_date'];
+        $status = $row['status'];
+        $image_path = $imagePath . $row['picture'];
+        $selected_education_level = $row['education_level'] ?? '';
+        $selected_resource_type = $row['resource_type'] ?? '';
+        $year_of_study = $row['year_of_study'] ?? '';
+        
+        $slug = strtolower(str_replace(' ', '-', $title));
+        include "swiper-card.php";
+    }?>
+</div>
+<!-- Add Arrows -->
+<div class="swiper-button-next"></div>
+<div class="swiper-button-prev"></div>
+<!-- Add Pagination -->
+<div class="swiper-pagination"></div>
 </div>
 <?php
+} else {
+echo '<div class="alert alert-warning" role="alert">
+No related products found. <a href="https://projectreporthub.ng/marketplace.php" class="alert-link">View more reports in marketplace</a>
+  </div>';
 }
 ?>
-<!---- Customers Who Viewed This Resource Also Viewed    --->
-<?php
-// Fetch resources viewed by customers who viewed this resource
-$viewed_also_query = "
-    SELECT r.*, ri.picture, COUNT(*) as view_count
-    FROM ".$siteprefix."product_views rv1
-    JOIN ".$siteprefix."product_views rv2 ON rv1.user_id = rv2.user_id
-    JOIN ".$siteprefix."reports r ON rv2.report_id = r.id
-    LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
-    WHERE rv1.report_id = ? AND rv2.report_id != ? AND r.status = 'approved'
-    GROUP BY r.id
-    ORDER BY view_count DESC
-    LIMIT 4";
+</div></div></div>
 
-$stmt = $con->prepare($viewed_also_query);
-$stmt->bind_param("ii", $report_id, $report_id);
-$stmt->execute();
-$also_viewed_result = $stmt->get_result();
 
-if ($also_viewed_result->num_rows > 0) { // Check if there are results
-?>
+<!-- Customers Who Viewed This Resource Also Viewed --> 
+
 <div class="container py-5">
     <h2 class="h4 mb-4">Customers Who Viewed This Resource Also Viewed</h2>
     <div class="row">
-        <?php while ($row = $also_viewed_result->fetch_assoc()) { ?>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="<?php echo $imagePath . $row['picture']; ?>" class="card-img-top" alt="Product Image">
-                    <div class="card-body">
-                    <a href="product.php?id=<?php echo $row['id']; ?>"><h5 class="text-bold"><?php echo $row['title']; ?></h5></a>
-                        <p class="card-text"><?php echo $sitecurrency . $row['price']; ?></p>
-                     
-                    </div>
-                </div>
-            </div>
-        <?php } ?>
-    </div>
+        <div class="col-lg-12">
+    <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+    <?php
+$viewed_also_query = "
+SELECT 
+    r.*, 
+    u.display_name, 
+    u.profile_picture, 
+    l.category_name AS category, 
+    sc.category_name AS subcategory, 
+    ri.picture, 
+    COUNT(*) as view_count
+FROM {$siteprefix}product_views rv1
+JOIN {$siteprefix}product_views rv2 ON rv1.user_id = rv2.user_id
+JOIN {$siteprefix}reports r ON rv2.report_id = r.id
+LEFT JOIN {$siteprefix}users u ON r.user = u.s
+LEFT JOIN {$siteprefix}categories l ON r.category = l.id
+LEFT JOIN {$siteprefix}categories sc ON r.subcategory = sc.id
+LEFT JOIN {$siteprefix}reports_images ri ON r.id = ri.report_id
+WHERE rv1.report_id = '$report_id' 
+    AND rv2.report_id != '$report_id' 
+    AND r.status = 'approved'
+GROUP BY r.id
+ORDER BY view_count DESC
+LIMIT 10
+";
+$also_viewed_result = mysqli_query($con, $viewed_also_query);
+
+if (mysqli_num_rows($also_viewed_result) > 0) {
+    while ($row = mysqli_fetch_assoc($also_viewed_result)) {
+        $report_id = $row['id'];
+        $title = $row['title'];
+        $description = $row['description'];
+        $category = $row['category'];
+        $subcategory = $row['subcategory'];
+        $pricing = $row['pricing'];
+        $price = $row['price'];
+        $tags = $row['tags'];
+        $loyalty = $row['loyalty'];
+        $user = $row['display_name'];
+        $user_picture = $imagePath . $row['profile_picture'];
+        $created_date = $row['created_date'];
+        $updated_date = $row['updated_date'];
+        $status = $row['status'];
+        $image_path = $imagePath . $row['picture'];
+        $selected_education_level = $row['education_level'] ?? '';
+        $selected_resource_type = $row['resource_type'] ?? '';
+        $year_of_study = $row['year_of_study'] ?? '';
+        
+        $slug = strtolower(str_replace(' ', '-', $title));
+        include "swiper-card.php";
+    }?>
+</div>
+<!-- Add Arrows -->
+<div class="swiper-button-next"></div>
+<div class="swiper-button-prev"></div>
+<!-- Add Pagination -->
+<div class="swiper-pagination"></div>
 </div>
 <?php
+} else {
+echo '<div class="alert alert-warning" role="alert">
+No related products found. <a href="https://projectreporthub.ng/marketplace.php" class="alert-link">View more reports in marketplace</a>
+  </div>';
 }
 ?>
+</div></div></div>
+
+
+
 <!-- Subscription plan -->
 <div class="container py-5">
     <h2 class="h4 mb-4">Buy for Less – Sign Up as a Loyalty Member Today</h2>
@@ -613,9 +686,9 @@ if ($result) {
     debug('No subscription plans found.');
 }
 ?>
-</div></div>  <!-- / .row -->
+</div></div> 
 
-</div>  <!-- / .container -->
+
 
 
 <!-- Report Product Modal -->
@@ -692,4 +765,49 @@ if ($result) {
     });
 });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let payButtons = document.querySelectorAll(".payButton");
+
+    payButtons.forEach(function(button) {
+        button.addEventListener("click", function () {
+            let planId = button.dataset.planId;
+            let amount = parseFloat(button.dataset.amount) * 100; // Convert to kobo
+            let planName = button.dataset.planName;
+            let userId = button.dataset.userId;
+            let email = button.dataset.email;
+
+            if (!email || isNaN(amount)) {
+                alert("Invalid payment details. Please try again.");
+                return;
+            }
+
+            var handler = PaystackPop.setup({
+                key: '<?php echo $apikey; ?>', // Replace with live key in production
+                email: email,
+                amount: amount,
+                currency: 'NGN',
+                ref: 'PH-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+                metadata: {
+                    custom_fields: [{
+                        display_name: "Plan Name",
+                        variable_name: "plan_name",
+                        value: planName
+                    }]
+                },
+                callback: function (response) {
+                    window.location.href = `https://projectreporthub.ng/backend/verify_payment.php?action=verify_payment&reference=${response.reference}&plan_id=${planId}&user_id=${userId}`;
+                },
+                onClose: function () {
+                    alert('Payment was canceled.');
+                }
+            });
+            handler.openIframe();
+        });
+    });
+});
+
+</script>
+
+
 <?php include "footer.php"; ?>

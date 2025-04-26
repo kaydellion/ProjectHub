@@ -1,7 +1,7 @@
 <div class="col-md-4 mb-4">
     <div class="plan-card shadow-lg border-0 text-center">
         <div class="plan-card-body">
-            <img src="<?= $image_path ?>" alt="<?= $name ?>" class="plan-card-img">
+            <img src="<?= "https://projectreporthub.ng/".$image_path ?>" alt="<?= $name ?>" class="plan-card-img">
             <h5 class="plan-card-title"><?= $name ?></h5>
             <p class="plan-card-text p-3"><?= $description ?></p>
             <h4 class="plan-card-price">₦<?= number_format($price) ?></h4>
@@ -46,7 +46,7 @@ $has_downloads = !empty($user_row['downloads']) && (int)$user_row['downloads'] >
 // Combine both conditions (AND logic)
 $user_has_active_plan = $has_active_subscription && $has_downloads;
 ?>
-                <?
+              
                 
                 
                 <?php if ($active_log == 1): ?>

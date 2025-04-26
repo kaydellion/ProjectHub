@@ -1,17 +1,27 @@
 <?php include "header.php"; 
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $sql = "SELECT * FROM " . $siteprefix . "categories WHERE id = " . $id;
+if (isset($_GET['slugs'])) {
+    $raw_slug = $_GET['slugs'];
+    $title_like = str_replace('-', ' ', $raw_slug);
+    $category_name = mysqli_real_escape_string($con, strtolower($title_like)); // convert to lowercase for match
+
+    // Prepare SQL: match using LOWER to handle case insensitivity
+    $sql = "SELECT * FROM " . $siteprefix . "categories WHERE LOWER(category_name) = '$category_name'";
     $sql2 = mysqli_query($con, $sql);
+
+    if (!$sql2) {
+        die("Query failed: " . mysqli_error($con));
+    }
+
     $count = 0;
     while ($row = mysqli_fetch_array($sql2)) {
-        $category_name = $row['category_name'];
+        $id = $row['id'];
+        // You can use other fields here too if needed
     }
 } else {
-    header("Location: index.php");
+    header("Location: https://projectreporthub.ng/index.php");
+    exit();
 }
-
 $limit = 16; // Number of reports per page
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
@@ -147,6 +157,7 @@ $total_pages = ceil($total_reports / $limit);
                         $selected_education_level = $row['education_level'] ?? '';
                         $selected_resource_type = $row['resource_type'] ?? '';
                         $year_of_study = $row['year_of_study'] ?? '';
+                        $slug = strtolower(str_replace(' ', '-', $title));
                         include "product-card.php";
                     }
                 } else {
@@ -175,65 +186,79 @@ $total_pages = ceil($total_reports / $limit);
 
 
 <!-- Last Purchased Reports Section -->
-<div class="container mt-5 mb-3">
+<div class="container py-5">
+    <h2 class="h4 mb-4">Last Purchased Reports</h2>
+    <p>Check out the most recently purchased reports in this category. Stay updated with trending academic materials!</p>
     <div class="row">
-        <div class="col-lg-12">
-            <h3>Last Purchased Reports</h3>
-            <p>Check out the most recently purchased reports in this category. Stay updated with trending academic materials!</p>
-            <div class="row mt-3">
-                <div class="swiper mySwiper">
-                    <div class="swiper-wrapper">
-                        <?php
-                        // Query to fetch last purchased reports for the specified category
-                        $latestSalesQuery = "
-                            SELECT DISTINCT r.id AS report_id, r.title, r.description, r.price, ri.picture, u.display_name, u.profile_picture 
-                            FROM ".$siteprefix."orders o
-                            JOIN ".$siteprefix."order_items oi ON o.order_id = oi.order_id
-                            JOIN ".$siteprefix."reports r ON r.id = oi.report_id
-                            LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
-                            LEFT JOIN ".$siteprefix."users u ON r.user = u.s
-                            WHERE o.status = 'paid' AND r.status = 'approved' AND r.category = '$id'
-                            GROUP BY r.id
-                            ORDER BY o.date DESC
-                            LIMIT 10"; // Limit to 10 reports for display
-                        
-                        $latestSalesResult = mysqli_query($con, $latestSalesQuery);
+    <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+    <?php
+$latestSalesQuery = "
+    SELECT 
+        r.*, 
+        u.display_name, 
+        u.profile_picture, 
+        l.category_name AS category, 
+        sc.category_name AS subcategory, 
+        ri.picture
+    FROM {$siteprefix}orders o
+    JOIN {$siteprefix}order_items oi ON o.order_id = oi.order_id
+    JOIN {$siteprefix}reports r ON r.id = oi.report_id
+    LEFT JOIN {$siteprefix}reports_images ri ON r.id = ri.report_id
+    LEFT JOIN {$siteprefix}users u ON r.user = u.s
+    LEFT JOIN {$siteprefix}categories l ON r.category = l.id
+    LEFT JOIN {$siteprefix}categories sc ON r.subcategory = sc.id
+    WHERE o.status = 'paid' 
+        AND r.status = 'approved' 
+        AND r.category = '$id'
+    GROUP BY r.id
+    ORDER BY o.date DESC
+    LIMIT 10
+";
 
-                        if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
-                            while ($row = mysqli_fetch_assoc($latestSalesResult)) {
-                                $report_id = $row['report_id'];
-                                $title = $row['title'];
-                                $description = $row['description'];
-                                $price = $row['price'];
-                                $image_path = $imagePath . $row['picture'];
-                                $user = $row['display_name'];
-                                $user_picture = $imagePath . $row['profile_picture'];
-                                ?>
-                                <div class="swiper-slide">
-                                    <div class="card">
-                                        <img src="<?php echo $image_path; ?>" class="card-img-top" alt="Product Image">
-                                        <div class="card-body">
-                                        <a href="product.php?id=<?php echo $report_id; ?>"><h5 class="text-bold"><?php echo $title; ?></h5></a>
-                                            <p class="card-text"><?php echo $sitecurrency . $price; ?></p>
-                                          
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php
-                            }
-                        }
-                        ?>
-                    </div>
-                    <!-- Add Swiper Navigation -->
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                    <!-- Add Swiper Pagination -->
-                    <div class="swiper-pagination"></div>
-                </div>
-            </div>
-        </div>
+$latestSalesResult = mysqli_query($con, $latestSalesQuery);
+
+if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
+    while ($row = mysqli_fetch_assoc($latestSalesResult)) {
+        $report_id = $row['id'];
+        $title = $row['title'];
+        $description = $row['description'];
+        $category = $row['category'];
+        $subcategory = $row['subcategory'];
+        $pricing = $row['pricing'];
+        $price = $row['price'];
+        $tags = $row['tags'];
+        $loyalty = $row['loyalty'];
+        $user = $row['display_name'];
+        $user_picture = $imagePath . $row['profile_picture'];
+        $created_date = $row['created_date'];
+        $updated_date = $row['updated_date'];
+        $status = $row['status'];
+        $image_path = $imagePath . $row['picture'];
+        $selected_education_level = $row['education_level'] ?? '';
+        $selected_resource_type = $row['resource_type'] ?? '';
+        $year_of_study = $row['year_of_study'] ?? '';
+
+        $slug = strtolower(str_replace(' ', '-', $title));
+
+        include "swiper-card.php";
+    } ?>
     </div>
-</div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    </div>
+<?php
+} else {
+    echo '<div class="alert alert-warning" role="alert">
+    No recently purchased reports found. <a href="https://projectreporthub.ng/marketplace.php" class="alert-link">View more reports in marketplace</a>
+    </div>';
+}
+?>
+</div></div>
+
 
 <script>
     function sortReports(sortValue) {
