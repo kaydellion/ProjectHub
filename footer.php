@@ -1,5 +1,5 @@
-  <!--::footer_part start::-->
-  <footer class="footer_part">
+ <!--::footer_part start::-->
+ <footer class="footer_part">
         <div class="footer_iner bg-dark">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
@@ -48,16 +48,16 @@
     <h4 class="d-none d-sm-block">Resources</h4>
     <div class="footer_menu_item">
         <?php
-        $sql = "SELECT * FROM " . $siteprefix . "reports WHERE status='approved' LIMIT 6";
+        $sql = "SELECT * FROM " . $siteprefix . "resource_types WHERE parent_id IS NULL  LIMIT 6";
         $sql2 = mysqli_query($con, $sql);
         while ($row = mysqli_fetch_array($sql2)) {
-            $title = $row['title'];
-            $slugs = strtolower(str_replace(' ', '-', $title));
-            echo '<a  href="https://projectreporthub.ng/report/' . $slugs . '">' .$title . '</a>';
+            $title = $row['name'];
+            $id = $row['id'];
+            echo '<a  href="https://projectreporthub.ng/resource.php?resources=' .$id .'">' .$title . '</a>';
         }
         ?>
     </div>
-</div>
+</div>`
 
                 </div>
             </div>
