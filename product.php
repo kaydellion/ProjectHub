@@ -38,7 +38,7 @@ if (isset($user_id) && isset($report_id)) {
         <div class="col-md-6 mb-4">
     <div class="card">
         <!-- Main image stays untouched -->
-        <img src="<?php echo "https://projectreporthub.ng/".$image_path; ?>" class="card-img-top" alt="Product Image">
+        <img src="<?php echo $siteurl.$image_path; ?>" class="card-img-top" alt="Product Image">
 
         <div class="card-body">
             <div class="row g-2">
@@ -55,7 +55,7 @@ if (isset($user_id) && isset($report_id)) {
                 foreach ($allImages as $index => $img) {
                 ?>
                 <div class="col-3">
-                    <img src="<?php echo "https://projectreporthub.ng/".$img; ?>" class="img-thumbnail" alt="Thumbnail <?php echo $index + 1; ?>"
+                    <img src="<?php echo $siteurl.$img; ?>" class="img-thumbnail" alt="Thumbnail <?php echo $index + 1; ?>"
                          data-toggle="modal" data-target="#imageModal"
                          data-slide-to="<?php echo $index; ?>">
                 </div>
@@ -74,7 +74,7 @@ if (isset($user_id) && isset($report_id)) {
           <div class="carousel-inner">
             <?php foreach ($allImages as $index => $img) { ?>
               <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
-                <img src="<?php echo "https://projectreporthub.ng/".$img; ?>" style="max-height: 80vh; object-fit: contain;"  class="d-block w-100" alt="Preview <?php echo $index + 1; ?>">
+                <img src="<?php echo $siteurl.$img; ?>" style="max-height: 80vh; object-fit: contain;"  class="d-block w-100" alt="Preview <?php echo $index + 1; ?>">
               </div>
             <?php } ?>
           </div>
@@ -239,7 +239,7 @@ while ($row = mysqli_fetch_array($sql2)) {
     <div class="card p-3">
         <div class="d-flex align-items-center">
             <!-- Seller's Photo -->
-            <img src="<?php echo "https://projectreporthub.ng/".$seller_photo; ?>" alt="Seller Photo" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
+            <img src="<?php echo $siteurl.$seller_photo; ?>" alt="Seller Photo" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
             <div>
                 <!-- Seller's Name -->
                 <h5 class="mb-1"><?php echo $seller_name;  ?></h5>
@@ -269,7 +269,7 @@ while ($row = mysqli_fetch_array($sql2)) {
         </div>
         <div class="mt-3">
             <!-- View Merchant Store Link -->
-            <a href="https://projectreporthub.ng/merchant-store.php?seller_id=<?php echo $seller_id; ?>" class="btn btn-primary btn-sm">View Merchant Store</a>
+            <a href="<?php echo $siteurl;?>merchant-store.php?seller_id=<?php echo $seller_id; ?>" class="btn btn-primary btn-sm">View Merchant Store</a>
             <!-- Number of Resources -->
             <p class="mt-2 mb-0"><strong>Resources:</strong> <?php echo $seller_resources_count; ?> resources available</p>
         </div>
@@ -503,7 +503,7 @@ while ($row = mysqli_fetch_array($sql2)) {
     include "product-card.php";
 }} else {
 echo '<div class="alert alert-warning" role="alert">
-    No related products found. <a href="https://projectreporthub.ng/marketplace.php" class="alert-link">View more reports in marketplace</a>
+    No related products found. <a href="'.$siteurl.'.marketplace.php" class="alert-link">View more reports in marketplace</a>
       </div>';
 }
 ?>
@@ -574,7 +574,7 @@ if (mysqli_num_rows($seller_resources_result) > 0) {
 <?php
 } else {
 echo '<div class="alert alert-warning" role="alert">
-No related products found. <a href="https://projectreporthub.ng/marketplace.php" class="alert-link">View more reports in marketplace</a>
+No related products found. <a href="'.$siteurl.'marketplace.php" class="alert-link">View more reports in marketplace</a>
   </div>';
 }
 ?>
@@ -649,7 +649,7 @@ if (mysqli_num_rows($also_viewed_result) > 0) {
 <?php
 } else {
 echo '<div class="alert alert-warning" role="alert">
-No related products found. <a href="https://projectreporthub.ng/marketplace.php" class="alert-link">View more reports in marketplace</a>
+No related products found. <a href="'.$siteurl.'marketplace.php" class="alert-link">View more reports in marketplace</a>
   </div>';
 }
 ?>
@@ -796,7 +796,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }]
                 },
                 callback: function (response) {
-                    window.location.href = `https://projectreporthub.ng/backend/verify_payment.php?action=verify_payment&reference=${response.reference}&plan_id=${planId}&user_id=${userId}`;
+                    window.location.href = `<?php echo $siteurl;?>backend/verify_payment.php?action=verify_payment&reference=${response.reference}&plan_id=${planId}&user_id=${userId}`;
                 },
                 onClose: function () {
                     alert('Payment was canceled.');

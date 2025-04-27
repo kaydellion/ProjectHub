@@ -19,7 +19,7 @@ if (isset($_GET['slugs'])) {
         // You can use other fields here too if needed
     }
 } else {
-    header("Location: https://projectreporthub.ng/index.php");
+    header("Location: $siteurl.index.php");
     exit();
 }
 $limit = 16; // Number of reports per page
@@ -217,7 +217,6 @@ $latestSalesQuery = "
 ";
 
 $latestSalesResult = mysqli_query($con, $latestSalesQuery);
-
 if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
     while ($row = mysqli_fetch_assoc($latestSalesResult)) {
         $report_id = $row['id'];
@@ -253,7 +252,7 @@ if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
 <?php
 } else {
     echo '<div class="alert alert-warning" role="alert">
-    No recently purchased reports found. <a href="https://projectreporthub.ng/marketplace.php" class="alert-link">View more reports in marketplace</a>
+    No recently purchased reports found. <a href="'.$siteurl.'marketplace.php" class="alert-link">View more reports in marketplace</a>
     </div>';
 }
 ?>
@@ -278,5 +277,5 @@ if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
         window.location.search = urlParams.toString(); // Reload the page with updated query parameters
     }
 </script>
-
+</div></div>
 <?php include "footer.php"; ?>
