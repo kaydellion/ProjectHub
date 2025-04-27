@@ -82,7 +82,7 @@ $total_pages = ceil($total_reports / $limit);
                     debug('No reports found.');
                 }
                 ?>
-            </div>
+            </div>   
 
 
 
