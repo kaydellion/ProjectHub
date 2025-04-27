@@ -73,11 +73,11 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
             </div>
               
                 </div>
-                            <div class="single_product_text">
-                                                <a href="https://projectreporthub.ng/product/<?php echo $slug; ?>">
-    <h5 class="text-bold"><?php echo htmlspecialchars($title); ?></h5>
+   <div class="single_product_text">
+   <a href="https://projectreporthub.ng/product/<?php echo $slug; ?>">
+   <h5 class="text-bold"><?php echo htmlspecialchars($title); ?></h5>
 </a>
-<a class="text-muted">
+<a class="text-muted text-small text-sm">
     <?php if (!empty($education_level)) { ?>
         <strong>Level:</strong> <?php echo $education_level; ?><br>
     <?php } ?>
@@ -89,7 +89,7 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
     <?php } ?>
 </a>
                             <div class="user_info">
-                            <img src="<?php echo "https://projectreporthub.ng/".$user_picture; ?>" alt="<?php echo $user; ?>" class="img-fluid user-image">
+                            <img src="<?php echo $siteurl.$user_picture; ?>" alt="<?php echo $user; ?>" class="img-fluid user-image">
                             <span><?php echo $user; ?></span>
                             </div>
                             <div class="d-flex justify-content-between mt-3">
