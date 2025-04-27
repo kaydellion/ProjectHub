@@ -13,6 +13,40 @@ html, body {
   width: 100%;
 }
 
+
+/* Overlay container for category and subcategory */
+.category-overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Space between category and subcategory buttons */
+  z-index: 2;
+}
+
+/* Category button styling */
+.category-btn {
+ 
+  color: #fff; /* White text */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Subcategory button styling */
+.subcategory-btn {
+
+  color: #fff; /* White text */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
 .swiper {
   width: 100%;
   padding: 50px 0;
