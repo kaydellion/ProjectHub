@@ -64,7 +64,7 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
 
 <div class="col-lg-3 col-6 product <?php echo removeAllWhitespace($subcategory); ?>">
                     <div class="single_product_item">
-                    <div class="single_product_img" style="background: url('<?php echo "https://projectreporthub.ng/".$image_path; ?>')">
+                    <div class="single_product_img" style="background: url('<?php echo $siteurl.$image_path; ?>')">
                     <div class="wishlist_icon"><a class="add-to-wishlist <?php echo $theinitialicon; ?>" data-product-id="<?php echo $report_id; ?>"><i class="ti-heart"></i></a></div>
                     <div class="category-overlay">
                 <span class="category-btn bg-primary"><?php echo $category; ?></span>
@@ -72,8 +72,8 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
             </div>
               
                 </div>
-                            <div class="single_product_text">
-    <a href='<?php echo $siteurl; ?>product/<?php echo $slug; ?>">
+    <div class="single_product_text">
+    <a href="<?php echo $siteurl;?>product/<?php echo $slug; ?>">
     <h5 class="text-bold"><?php echo htmlspecialchars($title); ?></h5>
 </a>
                             <a class="text-muted">
