@@ -217,7 +217,6 @@ $latestSalesQuery = "
 ";
 
 $latestSalesResult = mysqli_query($con, $latestSalesQuery);
-
 if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
     while ($row = mysqli_fetch_assoc($latestSalesResult)) {
         $report_id = $row['id'];
@@ -257,7 +256,7 @@ if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
     </div>';
 }
 ?>
-</div></div></div>
+</div></div>
 
 
 <script>
@@ -278,5 +277,5 @@ if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
         window.location.search = urlParams.toString(); // Reload the page with updated query parameters
     }
 </script>
-
+</div></div>
 <?php include "footer.php"; ?>

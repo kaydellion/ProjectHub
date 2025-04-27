@@ -157,7 +157,7 @@ include "backend/actions.php";
                                                     if ($count % 2 == 0 && $count != 0) {
                                                         echo '</div><div class="row">';
                                                     }
-                                                   echo '<div class="col-12"><a class="dropdown-item" href="<?php echo $siteurl; ?>category/' . $slugs . '">' . $row['category_name'] . '</a></div>';
+                                                   echo '<div class="col-12"><a class="dropdown-item" href="'.$siteurl.'category/' . $slugs . '">' . $row['category_name'] . '</a></div>';
                                                     $count++;
                                                 }
                                             ?>
