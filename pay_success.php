@@ -129,9 +129,7 @@ if (mysqli_affected_rows($con) > 0) {
                 
                // Enhanced email content
 $emailSubject = "New Sale on Project Report Hub â€“ Letâ€™s Keep the Momentum Going!";
-$emailMessage = "
-<p>Hello $vendorName,</p>
-<p>Great news! A new sale has just been made on ProjectReportHub.ng.</p>
+$emailMessage = "<p>Great news! A new sale has just been made on ProjectReportHub.ng.</p>
 <p><strong>Title of Resource:</strong> $resourceTitle</p>
 <p><strong>Price:</strong> $sitecurrency$price</p>
 <p><strong>Earning:</strong> $sitecurrency$seller_amount</p>
@@ -143,11 +141,7 @@ $emailMessage = "
     <li>Add new documents that reflect trending industries</li>
 </ol>
 <p>The more visible and updated your resources are, the more sales opportunities you create.</p>
-<p>Letâ€™s keep the momentum going and continue providing high-value insights to Nigeria and the world!</p>
-<p>Warm regards,</p>
-<p>The Project Report Hub Team<br>
-<a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
-";
+<p>Letâ€™s keep the momentum going and continue providing high-value insights to Nigeria and the world!</p>";
 
 // Send email to seller
 sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject);
@@ -181,12 +175,11 @@ if (mysqli_affected_rows($con) > 0) {
         $tableRows .= "
             <tr>
                 <td>$resourceTitle</td>
-                <td><a href='$siteurl/uploads/$file_path' style='color: #fff;  padding: 5px 10px; text-decoration: none; border-radius: 5px;'><button class='bg-primary'>Download</button></a></td>
+                <td><a href='$siteurl$documentPath$file_path' style='color: #fff;  padding: 5px 10px; text-decoration: none; border-radius: 5px;'><button class='bg-primary'>Download</button></a></td>
             </tr>";
     }
 }
 $emailMessage = "
-<p>Dear $username,</p>
 <p>Thank you for your order. Below are the resources you purchased:</p>
 <table border='1' cellpadding='10' cellspacing='0' style='border-collapse: collapse; width: 100%;'>
     <thead>
@@ -200,11 +193,7 @@ $emailMessage = "
     </tbody>
 </table>
 <p>You can also access your purchased reports from your profile on our website.</p>
-<p>Feel free to visit our website for more information, updates, or to explore additional services.</p>
-<p>Warm regards,</p>
-<p><strong>The Project Report Hub Team</strong><br>
-<a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
-";
+<p>Feel free to visit our website for more information, updates, or to explore additional services.</p>";
 
 sendEmail($email, $username, $siteName, $siteMail,$emailMessage, $subject, $attachments);
 ?>
