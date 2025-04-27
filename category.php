@@ -19,7 +19,7 @@ if (isset($_GET['slugs'])) {
         // You can use other fields here too if needed
     }
 } else {
-    header("Location: https://projectreporthub.ng/index.php");
+    header("Location: $siteurl.index.php");
     exit();
 }
 $limit = 16; // Number of reports per page
@@ -253,11 +253,11 @@ if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
 <?php
 } else {
     echo '<div class="alert alert-warning" role="alert">
-    No recently purchased reports found. <a href="https://projectreporthub.ng/marketplace.php" class="alert-link">View more reports in marketplace</a>
+    No recently purchased reports found. <a href="'.$siteurl.'marketplace.php" class="alert-link">View more reports in marketplace</a>
     </div>';
 }
 ?>
-</div></div>
+</div></div></div>
 
 
 <script>
