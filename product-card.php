@@ -11,7 +11,41 @@
 //rating
 $rating_data = calculateRating($report_id, $con, $siteprefix);
 $average_rating = $rating_data['average_rating'];
+?>
+<style>
+/* Overlay container for category and subcategory */
+.category-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Space between category and subcategory buttons */
+    z-index: 2;
+}
 
+/* Category button styling */
+.category-btn {
+    color: #fff; /* White text */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+/* Subcategory button styling */
+.subcategory-btn {
+ 
+    color: #fff; /* White text */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+</style>
+<?php
 // Fetch Resource Type and Education Level for each report
 $sql_resource_type = "SELECT name FROM ".$siteprefix."resource_types WHERE id = '$selected_resource_type' ORDER BY is_new DESC, name ASC";
 $result_resource_type = $con->query($sql_resource_type);
@@ -27,41 +61,7 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
     $education_level = $row_education_level['name'];
 }
 ?>
-<style>
-/* Overlay container for category and subcategory */
-.category-overlay {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px; /* Space between category and subcategory buttons */
-  z-index: 2;
-}
 
-/* Category button styling */
-.category-btn {
- 
-  color: #fff; /* White text */
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: capitalize;
-}
-
-/* Subcategory button styling */
-.subcategory-btn {
-
-  color: #fff; /* White text */
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: capitalize;
-}
-
-</style>
 <div class="col-lg-3 col-6 product <?php echo removeAllWhitespace($subcategory); ?>">
                     <div class="single_product_item">
                     <div class="single_product_img" style="background: url('<?php echo "https://projectreporthub.ng/".$image_path; ?>')">
@@ -76,7 +76,7 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
                                                 <a href="https://projectreporthub.ng/product/<?php echo $slug; ?>">
     <h5 class="text-bold"><?php echo htmlspecialchars($title); ?></h5>
 </a>
-<a class="text-muted">
+                            <a class="text-muted">
     <?php if (!empty($education_level)) { ?>
         <strong>Level:</strong> <?php echo $education_level; ?><br>
     <?php } ?>
