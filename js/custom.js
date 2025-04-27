@@ -440,7 +440,7 @@ $(document).ready(function(){
           return;
       }   
       $.ajax({
-          url: 'https://projectreporthub.ng/add_to_cart',
+          url: 'https://www.projectreporthub.ng/add_to_cart',
           type: 'POST',
           data: {
               reportId: report_id,
@@ -688,7 +688,7 @@ $(document).ready(function() {
           return; // Stop further execution
       }
       $.ajax({
-          url: 'https://projectreporthub.ng/addwishlist', // Replace with your server URL
+          url: 'https://www.projectreporthub.ng/addwishlist', // Replace with your server URL
           type: 'POST',
           data: {
               productId: productId,

@@ -207,7 +207,21 @@ while ($row = mysqli_fetch_array($sql2)) {
 
     <!-- Add to Wishlist Button -->
     <button class="btn <?php echo $initialbtn; ?> addtowishlist me-2" type="button" data-product-id="<?php echo $report_id; ?>"><i class="far fa-heart me-2"></i><?php echo $initialtext; ?></button>
-       <!-- Report Product Button -->
+    <!-- Report Product Button -->
+    <!-- Report Product Button -->
+<?php if ($active_log == 1): ?>
+    <div class="d-flex justify-content-left mt-3 mb-3">
+        <button class="btn btn-danger" data-toggle="modal" data-target="#reportProductModal">
+            <i class="fas fa-flag"></i> Report Product
+        </button>
+    </div>
+<?php else: ?>
+    <div class="d-flex justify-content-left mt-3 mb-3">
+        <button class="btn btn-secondary" disabled>
+            <i class="fas fa-flag"></i> Report Product
+        </button>
+    </div>
+<?php endif; ?>
    
 </div>
           <!-- Social Share Icons -->
@@ -349,22 +363,6 @@ while ($row = mysqli_fetch_array($sql2)) {
     </div>
 
 <div class="col-12">
-
-<!-- Report Product Button -->
-<?php if ($active_log == 1): ?>
-    <div class="d-flex justify-content-left mt-3 mb-3">
-        <button class="btn btn-danger" data-toggle="modal" data-target="#reportProductModal">
-            <i class="fas fa-flag"></i> Report Product
-        </button>
-    </div>
-<?php else: ?>
-    <div class="d-flex justify-content-left mt-3 mb-3">
-        <button class="btn btn-secondary" disabled>
-            <i class="fas fa-flag"></i> Report Product
-        </button>
-    </div>
-<?php endif; ?>
-
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">

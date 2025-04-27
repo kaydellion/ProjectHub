@@ -112,8 +112,9 @@ include "backend/actions.php";
                 </div>
                 <div class="col-md-6 col-12 d-flex justify-content-end align-items-center">
                 <ul class="top-bar-links d-flex">
-                <li class="bg-dark-orange p-2 me-2"><a class="" href="<?php echo $siteurl; ?>loyalty-program.php">Loyalty Program</a>
-                | <a class="" href="<?php echo $siteurl; ?>become_an_affliate.php">Affliate Program</a> | <a class="" href="<?php echo $siteurl; ?>marketplace.php">Marketplace</a></li>
+                <li class="bg-secondary text-light p-2 me-2"><a class="" href="<?php echo $siteurl; ?>loyalty-program.php">Loyalty Program</a></li>
+                <li class="bg-secondary text-light p-2 me-2"><a class="" href="<?php echo $siteurl; ?>become_an_affliate.php">Affliate Program</a></li>
+                <li class="bg-secondary text-light p-2 me-2"><a class="" href="<?php echo $siteurl; ?>marketplace.php">Marketplace</a></li>
                     <?php if($active_log==0){ ?>
                     <li class="bg-dark-orange p-2"><a class="" href="<?php echo $siteurl; ?>become_a_seller.php">Become a Seller</a></li>
                     <?php } else {?>
@@ -188,7 +189,7 @@ include "backend/actions.php";
                                    Seller Portal
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="<?php echo $siteurl; ?>models.php">Manage Models</a>
+                                        <a class="dropdown-item" href="<?php echo $siteurl; ?>models.php">Manage Resources</a>
                                         <a class="dropdown-item" href="<?php echo $siteurl; ?>sales.php">Sales Analytics</a>
                                         <a class="dropdown-item" href="<?php echo $siteurl; ?>wallet.php">Revenue Management</a>
                                         <a class="dropdown-item" href="<?php echo $siteurl; ?>reviews.php">Customer Feedback</a>
