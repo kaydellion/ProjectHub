@@ -127,7 +127,7 @@ if (mysqli_affected_rows($con) > 0) {
                 // Notify seller
                 insertAlert($con, $seller_id, "You have received $sitecurrency$seller_amount from Order ID: $order_id", $date, 0);
                 
-               // Enhanced email content
+// Enhanced email content
 $emailSubject = "New Sale on Project Report Hub â€“ Letâ€™s Keep the Momentum Going!";
 $emailMessage = "<p>Great news! A new sale has just been made on ProjectReportHub.ng.</p>
 <p><strong>Title of Resource:</strong> $resourceTitle</p>
