@@ -79,13 +79,13 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
 </a>
 <a class="text-muted text-small text-sm">
     <?php if (!empty($education_level)) { ?>
-        <strong>Level:</strong> <?php echo $education_level; ?><br>
+        Level: <?php echo $education_level; ?><br>
     <?php } ?>
     <?php if (!empty($resource_type)) { ?>
-        <strong>Type:</strong> <?php echo $resource_type; ?><br>
+        Type: <?php echo $resource_type; ?><br>
     <?php } ?>
     <?php if (!empty($year_of_study)) { ?>
-        <strong>Year:</strong> <?php echo $year_of_study; ?>
+        Year: <?php echo $year_of_study; ?>
     <?php } ?>
 </a>
                             <div class="user_info">
