@@ -6,7 +6,7 @@
   <div class="col-lg-2 col-12">
     <img src="<?php echo $imagePath.'/'; echo $profile_picture; ?>" alt="Avatar" class="img-fluid rounded-circle">
   </div>
-  <div class="col-lg-10 col-12 d-flex align-items-center pt-3 mb-5">
+  <div class="col-lg-10 col-12 align-items-center pt-3 mb-5">
   <h2 class="title text-primary text-bold mt-3">Hi, <?php echo htmlspecialchars($username); ?></h2>
   <div class="d-flex flex-wrap">
     <?php include "links.php"; ?>
