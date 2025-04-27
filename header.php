@@ -110,7 +110,7 @@ include "backend/actions.php";
                     <li class="m-1"><i class="fa fa-envelope"></i><?php echo $sitemail; ?></li>
                 </ul>
                 </div>
-                <div class="col-md-6 col-4 d-flex justify-content-end align-items-center">
+                <div class="col-md-6 col-12 d-flex justify-content-end align-items-center">
                 <ul class="top-bar-links d-flex">
                 <li class="bg-dark-orange p-2 me-2"><a class="" href="<?php echo $siteurl; ?>loyalty-program.php">Loyalty Program</a>
                 | <a class="" href="<?php echo $siteurl; ?>become_an_affliate.php">Affliate Program</a> | <a class="" href="<?php echo $siteurl; ?>marketplace.php">Marketplace</a></li>
