@@ -189,7 +189,7 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
    $email_subject = "$emailSubject - $siteName";
    $email_message = "<div style='width:600px; padding:100px 60px; background-color:#000000; color:#fff;'>
    <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
-   <p style='font-size:14px; color:#fff;'> <span style='font-size:14px; color:#F57C00;'>Hello there, $vendorName,</span>
+   <p style='font-size:14px; color:#fff;'> <span style='font-size:14px; color:#F57C00;'>Dear $vendorName,</span>
    $emailMessage</p>
 
 <p>
@@ -234,7 +234,7 @@ function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessa
     $email_body .= "<div style='width:600px; padding:40px; background-color:#000080; color:#fff;'>
                         <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
                         <p style='font-size:14px; color:#fff;'>
-                            <span style='font-size:14px; color:#F57C00;'>Hello, $vendorName,</span><br>
+                            <span style='font-size:14px; color:#F57C00;'>Dear $vendorName,</span><br>
                             $emailMessage
                         </p>
 

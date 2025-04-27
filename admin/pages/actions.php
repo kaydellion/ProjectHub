@@ -494,16 +494,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reject_payment'])) {
             // Send email to the user
             $emailSubject = "Payment Rejected for Order ID  $order_id";
             $emailMessage = "
-                <p>Dear $user_name,</p>
                 <p>We hope this message finds you well.</p>
                 <p>Unfortunately, your payment for Order ID: <strong>$order_id</strong> has been rejected for the following reason:</p>
                 <p><em>\"$rejection_reason\"</em></p>
                 <p>To proceed with your order, kindly resubmit a valid payment proof at your earliest convenience.</p>
-                <p>Thank you for your understanding. If you have any questions, feel free to contact our support team.</p>
-                <p>Warm regards,</p>
-                <p>The Project Report Hub Team</p>
-                <p><a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
-            ";
+                <p>Thank you for your understanding. If you have any questions, feel free to contact our support team.</p> ";
 
             sendEmail($user_email, $user_name, $siteName, $siteMail, $emailMessage, $emailSubject);
         }
@@ -661,14 +656,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
                 $tableRows .= "
                     <tr>
                         <td>$resourceTitle</td>
-                        <td><a href='$siteurl/uploads/$file_path' style='color: #fff; padding: 5px 10px; text-decoration: none; border-radius: 5px;'><button class='bg-primary'>Download</button></a></td>
+                        <td><a href='$siteurl$documentPath$file_path' style='color: #fff; padding: 5px 10px; text-decoration: none; border-radius: 5px;'><button class='bg-primary'>Download</button></a></td>
                     </tr>";
             }
 
             // Send order confirmation email to the buyer
             $subject = "Order Confirmation";
             $emailMessage = "
-            <p>Dear $username,</p>
             <p>Thank you for your order. Below are the resources you purchased:</p>
             <table border='1' cellpadding='10' cellspacing='0' style='border-collapse: collapse; width: 100%;'>
                 <thead>
@@ -682,11 +676,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
                 </tbody>
             </table>
             <p>You can also access your purchased reports from your profile on our website.</p>
-            <p>Feel free to visit our website for more information, updates, or to explore additional services.</p>
-            <p>Warm regards,</p>
-            <p><strong>The Project Report Hub Team</strong><br>
-            <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
-            ";
+            <p>Feel free to visit our website for more information, updates, or to explore additional services.</p>";
             sendEmail($email, $username, $siteName, $siteMail, $emailMessage, $subject, $attachments);
 
             // Display success message
