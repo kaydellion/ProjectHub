@@ -60,7 +60,7 @@ results with ease — all in one place.</p>
             $category = $row['category'];
             $subcategory = $row['subcategory'];
             $pricing = $row['pricing'];
-            $price = $row['price'];
+            $price = $row['price'];  
             $tags = $row['tags'];
             $loyalty = $row['loyalty'];
             $user = $row['display_name'];
@@ -72,6 +72,8 @@ results with ease — all in one place.</p>
             $selected_education_level = $row['education_level'] ?? '';
                         $selected_resource_type = $row['resource_type'] ?? '';
                         $year_of_study = $row['year_of_study'] ?? '';
+                        
+                        $slug = strtolower(str_replace(' ', '-', $title));
     
             include "swiper-card.php";
             }?>
@@ -85,7 +87,7 @@ results with ease — all in one place.</p>
 </div>
 <?php }else {  debug('No reports not found.'); }?>
 </div>
-</div></div></div>
+</div></div>
 
 
 <!-- Last Purchased Reports Section -->
@@ -235,7 +237,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         $updated_date = $row['updated_date'];
         $status = $row['status'];
         $image_path = $imagePath.$row['picture'];
-
+        $slug = strtolower(str_replace(' ', '-', $title));
         include "product-card.php";
 }
 ?>
@@ -244,7 +246,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 <div class="text-right"> <a href="marketplace.php" class="btn-kayd">View More</a></div>
 <?php } else {  debug('No reports not found.'); }?>
 
-</div></div></div>
+</div></div></div></div>
 <div class="container mt-5">
     <div class="row align-items-center" style="background-color: #f8f9fa; border-radius: 15px; padding: 30px; padding-bottom:0px;">
         <div class="col-lg-6">
@@ -276,9 +278,14 @@ curated to meet your academic and research needs.
                     while ($row = mysqli_fetch_assoc($result)) {
                         $category_id = $row['id'];
                         $category_name = $row['category_name'];
+                        $slugs = strtolower(str_replace(' ', '-', $category_name));
+                        
                         ?>
                         <div class="col-md-3 mb-3">
-                            <a href="category.php?id=<?php echo $category_id; ?>" class="btn btn-dark btn-block w-100"><?php echo $category_name; ?></a>
+                                <a href="category/<?php echo $slugs; ?>" class="btn btn-dark btn-block w-100">
+                                <?php echo $category_name; ?>
+                            </a>
+                           
                         </div>
                         <?php
                     }
@@ -337,7 +344,7 @@ curated to meet your academic and research needs.
 
 
 <!-- Become a Seller Section -->
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <div class="row align-items-center" style="background-color: #f8f9fa; border-radius: 15px; padding: 30px;">
         <div class="col-lg-6">
             <img src="img/seller.png" alt="Become a Seller" class="img-fluid" style="border-radius: 15px;">

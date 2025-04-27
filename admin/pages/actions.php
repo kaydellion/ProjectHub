@@ -602,7 +602,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'deleteplans') {
 }
 
 
-//approve payment
+// Approve payment
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
     $order_id = mysqli_real_escape_string($con, $_POST['order_id']);
     $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
@@ -617,27 +617,95 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
         $insert_query = "INSERT INTO " . $siteprefix . "orders (order_id, user, status, total_amount, date) 
                          VALUES ('$order_id', '$user_id', 'paid', '$amount', '$date')";
         if (mysqli_query($con, $insert_query)) {
+            // Perform additional actions after approving payment
+            global $ref;
+            $ref = $order_id; // Use the approved order ID as the reference
+
+            // Get order details and buyer's details
+            $sql_order = "SELECT * FROM " . $siteprefix . "orders WHERE order_id = '$ref'";
+            $sql_order_result = mysqli_query($con, $sql_order);
+            if ($row_order = mysqli_fetch_assoc($sql_order_result)) {
+                $user_id = $row_order['user'];
+                $total_amount = $row_order['total_amount'];
+                $date = $row_order['date'];
+            }
+
+            // Fetch buyer's details
+            $sql_buyer = "SELECT email, display_name FROM " . $siteprefix . "users WHERE s = '$user_id'";
+            $result_buyer = mysqli_query($con, $sql_buyer);
+            if ($buyer = mysqli_fetch_assoc($result_buyer)) {
+                $email = $buyer['email'];
+                $username = $buyer['display_name'];
+            }
+
+            // Get order items
+            $sql_items = "SELECT oi.*, r.title as resource_title, rf.title as file_path 
+                          FROM " . $siteprefix . "order_items oi
+                          JOIN " . $siteprefix . "reports r ON oi.report_id = r.id
+                          LEFT JOIN " . $siteprefix . "reports_files rf ON r.id = rf.report_id
+                          WHERE oi.order_id = '$ref'";
+            $sql_items_result = mysqli_query($con, $sql_items);
+
+            $attachments = [];
+            $tableRows = "";
+            while ($row_item = mysqli_fetch_assoc($sql_items_result)) {
+                $resourceTitle = $row_item['resource_title'];
+                $file_path = $row_item['file_path'];
+
+                // Add file to attachments array
+                if (!empty($file_path) && file_exists($file_path)) {
+                    $attachments[] = $file_path;
+                }
+
+                // Add a row to the email table
+                $tableRows .= "
+                    <tr>
+                        <td>$resourceTitle</td>
+                        <td><a href='$siteurl/uploads/$file_path' style='color: #fff; padding: 5px 10px; text-decoration: none; border-radius: 5px;'><button class='bg-primary'>Download</button></a></td>
+                    </tr>";
+            }
+
+            // Send order confirmation email to the buyer
+            $subject = "Order Confirmation";
+            $emailMessage = "
+            <p>Dear $username,</p>
+            <p>Thank you for your order. Below are the resources you purchased:</p>
+            <table border='1' cellpadding='10' cellspacing='0' style='border-collapse: collapse; width: 100%;'>
+                <thead>
+                    <tr>
+                        <th style='color: #f8f9fa; text-align: left;'>Report Title</th>
+                        <th style='color: #f8f9fa; text-align: left;'>Download Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    $tableRows
+                </tbody>
+            </table>
+            <p>You can also access your purchased reports from your profile on our website.</p>
+            <p>Feel free to visit our website for more information, updates, or to explore additional services.</p>
+            <p>Warm regards,</p>
+            <p><strong>The Project Report Hub Team</strong><br>
+            <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
+            ";
+            sendEmail($email, $username, $siteName, $siteMail, $emailMessage, $subject, $attachments);
+
             // Display success message
             $message = "Payment for Order ID $order_id has been approved successfully.";
             showSuccessModal('Processed', $message);
             header("refresh:2;");
-           
         } else {
             // Display error message for order insertion failure
             $message = "An error occurred while inserting the order. Please try again.";
             showErrorModal('Oops', $message);
             header("refresh:2;");
-         
         }
     } else {
         // Display error message for payment status update failure
         $message = "An error occurred while updating the payment status. Please try again.";
         showErrorModal('Oops', $message);
         header("refresh:2;");
-       
     }
 }
-
 //update dispute status
 if (isset($_POST['update-dispute'])){
     $dispute_id = $_POST['ticket_id'];

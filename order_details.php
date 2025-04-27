@@ -24,7 +24,7 @@ if ($order_result->num_rows == 0) {
 $order = $order_result->fetch_assoc();
 
 // Fetch ordered items
-$sql = "SELECT r.title, ri.picture, oi.price, oi.original_price
+$sql = "SELECT r.title, ri.picture, oi.price, oi.original_price, p.title as file_path
         FROM ".$siteprefix."order_items oi 
         JOIN ".$siteprefix."reports_files p ON oi.item_id = p.id 
         LEFT JOIN ".$siteprefix."reports r  ON  oi.report_id = r.id 
@@ -43,7 +43,7 @@ $items_result = $stmt->get_result();
     
     <div class="card mb-4">
         <div class="card-body">
-            <h5 class="card-title">Order ID: #<?php echo $order['order_id']; ?></h5>
+            <h5 class="card-title">Order ID: #<?php echo $order['order_id']; ?></h5>  
             <p><strong>Date:</strong> <?php echo formatDateTime($order['date']); ?></p>
             <p><strong>Status:</strong> 
                 <span class="badge bg-<?php echo ($order['status'] == 'Completed') ? 'success' : 'warning'; ?>">
@@ -64,16 +64,26 @@ $items_result = $stmt->get_result();
                     <th>Original Price</th>
                     <th>Discounted Price</th>
                     <th>Quantity</th>
+                    <th>Review</th>
+                    <th>download</th>
                 </tr>
             </thead>
             <tbody>
-                <?php while ($item = $items_result->fetch_assoc()) { ?>
+                <?php while ($item = $items_result->fetch_assoc()) {
+                    $title= $item['title'];
+                $slug = strtolower(str_replace(' ', '-', $title));
+                $file_path= $item['file_path'];
+                
+                
+                ?>
                     <tr>
                         <td><?php echo $item['title']; ?></td>
                         <td><img src="<?php echo $imagePath.'/'; echo $item['picture']; ?>" alt="Product Image" style="width:50px; height:auto;"></td>
                         <td>₦<?php echo number_format($item['original_price'], 2); ?></td>
                         <td>₦<?php echo number_format($item['price'], 2); ?></td>
                         <td>1</td>
+                        <td><a href="https://projectreporthub.ng/product/<?php echo $slug; ?>">  Give Review </a></td>
+                        <td><a href='https://www.projectreporthub.ng/uploads/<?php echo $file_path;?>' class='btn btn-success' download>Download</a>
                     </tr>
                 <?php } ?>
             </tbody>

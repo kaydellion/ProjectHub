@@ -440,7 +440,7 @@ $(document).ready(function(){
           return;
       }   
       $.ajax({
-          url: 'add_to_cart',
+          url: 'https://projectreporthub.ng/add_to_cart',
           type: 'POST',
           data: {
               reportId: report_id,
@@ -471,7 +471,7 @@ $('.delete-cart-item').click(function() {
   var itemId = $(this).data('item-id');
   if(confirm('Are you sure you want to remove this item?')) {
     $.ajax({
-      url: 'delete_cart_item',
+      url: 'https://projectreporthub.ng/delete_cart_item',
       type: 'POST',
       data: {item_id: itemId},
       success: function(response) {
@@ -684,11 +684,11 @@ $(document).ready(function() {
 
       // Redirect if the user is not logged in
       if (!userId) {
-          window.location.href = '/signin'; // Replace with your login page URL
+          window.location.href = 'https://projectreporthub.ng/signin'; // Replace with your login page URL
           return; // Stop further execution
       }
       $.ajax({
-          url: '../addwishlist', // Replace with your server URL
+          url: 'https://projectreporthub.ng/addwishlist', // Replace with your server URL
           type: 'POST',
           data: {
               productId: productId,

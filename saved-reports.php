@@ -72,7 +72,10 @@ $total_pages = ceil($total_reports / $limit);
                         $updated_date = $row['updated_date'];
                         $status = $row['status'];
                         $image_path = $imagePath.$row['picture'];
-
+                        $selected_education_level = $row['education_level'] ?? '';
+                        $selected_resource_type = $row['resource_type'] ?? '';
+                        $year_of_study = $row['year_of_study'] ?? '';
+                        $slug = strtolower(str_replace(' ', '-', $title));
                         include "product-card.php";
                     }
                 } else {
