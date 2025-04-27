@@ -77,17 +77,17 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
    <a href="https://projectreporthub.ng/product/<?php echo $slug; ?>">
    <h5 class="text-bold"><?php echo htmlspecialchars($title); ?></h5>
 </a>
-<a class="text-muted text-small text-sm">
+<p class="text-muted text-small">
     <?php if (!empty($education_level)) { ?>
-        Level: <?php echo $education_level; ?><br>
+        <strong>Level:</strong> <?php echo $education_level; ?><br>
     <?php } ?>
     <?php if (!empty($resource_type)) { ?>
-        Type: <?php echo $resource_type; ?><br>
+        <strong>Type:</strong> <?php echo $resource_type; ?><br>
     <?php } ?>
     <?php if (!empty($year_of_study)) { ?>
-        Year: <?php echo $year_of_study; ?>
+        <strong>Year:</strong> <?php echo $year_of_study; ?>
     <?php } ?>
-</a>
+    </p>
                             <div class="user_info">
                             <img src="<?php echo $siteurl.$user_picture; ?>" alt="<?php echo $user; ?>" class="img-fluid user-image">
                             <span><?php echo $user; ?></span>
