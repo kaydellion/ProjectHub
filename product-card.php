@@ -73,7 +73,7 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
               
                 </div>
                             <div class="single_product_text">
-                                                <a href="https://projectreporthub.ng/product/<?php echo $slug; ?>">
+    <a href='<?php echo $siteurl; ?>product/<?php echo $slug; ?>">
     <h5 class="text-bold"><?php echo htmlspecialchars($title); ?></h5>
 </a>
                             <a class="text-muted">

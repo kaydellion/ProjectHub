@@ -13,6 +13,9 @@ html, body {
   width: 100%;
 }
 
+.capitalize{
+text-transform: capitalize !important;
+}
 
 /* Overlay container for category and subcategory */
 .category-overlay {

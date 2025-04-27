@@ -38,7 +38,7 @@ if (isset($user_id) && isset($report_id)) {
         <div class="col-md-6 mb-4">
     <div class="card">
         <!-- Main image stays untouched -->
-        <img src="<?php $siteurl.$image_path; ?>" class="card-img-top" alt="Product Image">
+        <img src="<?php echo $siteurl.$image_path; ?>" class="card-img-top" alt="Product Image">
 
         <div class="card-body">
             <div class="row g-2">
@@ -55,7 +55,7 @@ if (isset($user_id) && isset($report_id)) {
                 foreach ($allImages as $index => $img) {
                 ?>
                 <div class="col-3">
-                    <img src="<?php $siteurl.$img; ?>" class="img-thumbnail" alt="Thumbnail <?php echo $index + 1; ?>"
+                    <img src="<?php echo $siteurl.$img; ?>" class="img-thumbnail" alt="Thumbnail <?php echo $index + 1; ?>"
                          data-toggle="modal" data-target="#imageModal"
                          data-slide-to="<?php echo $index; ?>">
                 </div>
@@ -74,7 +74,7 @@ if (isset($user_id) && isset($report_id)) {
           <div class="carousel-inner">
             <?php foreach ($allImages as $index => $img) { ?>
               <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
-                <img src="<?php $siteurl.$img; ?>" style="max-height: 80vh; object-fit: contain;"  class="d-block w-100" alt="Preview <?php echo $index + 1; ?>">
+                <img src="<?php echo $siteurl.$img; ?>" style="max-height: 80vh; object-fit: contain;"  class="d-block w-100" alt="Preview <?php echo $index + 1; ?>">
               </div>
             <?php } ?>
           </div>
@@ -239,7 +239,7 @@ while ($row = mysqli_fetch_array($sql2)) {
     <div class="card p-3">
         <div class="d-flex align-items-center">
             <!-- Seller's Photo -->
-            <img src="<?php $siteurl.$seller_photo; ?>" alt="Seller Photo" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
+            <img src="<?php echo $siteurl.$seller_photo; ?>" alt="Seller Photo" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
             <div>
                 <!-- Seller's Name -->
                 <h5 class="mb-1"><?php echo $seller_name;  ?></h5>
