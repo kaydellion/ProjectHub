@@ -656,7 +656,7 @@ function getReadonlyAttribute() {
 
 function getDisplayClass() {
     $role = getUserRole();
-    return ($role === 'admin') ? 'd-none' : '';
+    return ($role === 'admin') ? '' : 'd-none';
 }
 
 function redirectToDashboardIfSubAdmin() {

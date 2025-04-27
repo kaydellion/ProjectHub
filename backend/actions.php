@@ -312,25 +312,19 @@ if(isset($_POST['register-user'])){
             exit();
         }
 
-        $emailSubject="Confirm Your Email – Project Report Hub";
-        $emailMessage = "
+    $emailSubject="Confirm Your Email – Project Report Hub";
+    $emailMessage = "
     <p>Dear $display_name,</p>
-
     <p>Thank you for signing up on <strong>ProjectReportHub.ng</strong>! To complete your registration
     and start exploring our platform, please verify your email address by clicking the link below:</p>
-
     <p><a href='$siteurl/verifymail.php?verify_status=$user_id'>Click here to verify your email</a></p>
-
     <p>Once verified, you can log in and start accessing premium reports, upload your content,
     or manage your dashboard.</p>
-
     <p>Thanks for joining us!</p>
-
     <p>Warm Regards,<br>
     Ikechukwu Anaekwe<br>
     Project Report Hub<br>
-    <em>Customer Support Team</em></p>
-";
+    <em>Customer Support Team</em></p>";
 
         $adminmessage = "A new user has been registered($display_name)";
         $link="users.php";
@@ -550,14 +544,14 @@ if(isset($_POST['update-profile'])){
     $profilePicture = $_FILES['profilePicture']['name'];
 
     // Validate passwords match
-    if ($password && $password !== $retypePassword) {
-        $message= "Passwords do not match.";
+    if ($password && $password !== $retypePassword){
+        $message= "Passwords do not match";
     }
 
     // Validate old password
     $stmt = $con->prepare("SELECT password FROM ".$siteprefix."users WHERE s = ?");
     if ($stmt === false) {
-        $message = "Error preparing statement: " . $con->error;
+    $message = "Error preparing statement: " . $con->error;
     } else {
         $stmt->bind_param("i", $user_id);
         $stmt->execute();

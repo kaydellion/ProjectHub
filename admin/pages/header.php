@@ -298,11 +298,6 @@ include "actions.php"; ?>
 
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="add-affliate.php" class="menu-link">
-                    <div data-i18n="Without menu">Add New</div>
-                  </a>
-                </li>
-                <li class="menu-item">
                   <a href="manage.php" class="menu-link">
                     <div data-i18n="Without navbar">Manage Affliates</div>
                   </a>
