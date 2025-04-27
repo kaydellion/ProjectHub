@@ -11,7 +11,7 @@ function getCartCount($con, $siteprefix, $order_id) {
 
 function checkActiveLog($active_log) {
     if ($active_log == "0") {
-        header("location: $siteurl.signin.php");
+        header("Location: {$siteurl}signin.php");
         exit(); // Make sure to exit after the redirect
     }
 }
