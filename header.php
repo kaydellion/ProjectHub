@@ -112,7 +112,8 @@ include "backend/actions.php";
                 </div>
                 <div class="col-md-6 col-4 d-flex justify-content-end align-items-center">
                 <ul class="top-bar-links d-flex">
-                <li class="bg-dark-orange p-2 me-2"><a class="" href="loyalty-program.php">Loyalty Program</a></li>
+                <li class="bg-dark-orange p-2 me-2"><a class="" href="loyalty-program.php">Loyalty Program</a>
+              | <a class="" href="become_an_affliate.php">Affliate Program</a> | <a class="" href="marketplace.php">Marketplace</a></li>
                     <?php if($active_log==0){ ?>
                     <li class="bg-dark-orange p-2"><a class="" href="become_a_seller.php">Become a Seller</a></li>
                     <?php } else {?>
