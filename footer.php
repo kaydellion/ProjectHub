@@ -53,7 +53,7 @@
         while ($row = mysqli_fetch_array($sql2)) {
             $title = $row['name'];
             $id = $row['id'];
-            echo '<a  href="resource.php?resources=' .$id .'">' .$title . '</a>';
+            echo '<a  href="https://projectreporthub.ng/resource.php?resources=' .$id .'">' .$title . '</a>';
         }
         ?>
     </div>
