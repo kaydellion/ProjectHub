@@ -61,6 +61,9 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
   text-transform: capitalize;
 }
 
+p .text-muted{
+line-height: normal !important;
+}
 </style>
 
 <div class="swiper-slide col-lg-3 col-6 product <?php echo removeAllWhitespace($subcategory); ?>">
