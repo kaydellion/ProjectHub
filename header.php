@@ -75,24 +75,24 @@ include "backend/actions.php";
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><?php echo $sitename; ?></title>
-    <link rel="icon" href="img/<?php echo $siteimg; ?>">
+    <link rel="icon" href="https://projectreporthub.ng/img/<?php echo $siteimg; ?>">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://projectreporthub.ng/css/bootstrap.min.css">
     <!-- animate CSS -->
-    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="https://projectreporthub.ng/css/animate.css">
     <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://projectreporthub.ng/css/owl.carousel.min.css">
     <!-- font awesome CSS -->
-    <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="https://projectreporthub.ng/css/all.css">
     <!-- flaticon CSS -->
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="https://projectreporthub.ng/css/flaticon.css">
+    <link rel="stylesheet" href="https://projectreporthub.ng/css/themify-icons.css">
     <!-- font awesome CSS -->
-    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="https://projectreporthub.ng/css/magnific-popup.css">
     <!-- swiper CSS -->
-    <link rel="stylesheet" href="css/slick.css">
+    <link rel="stylesheet" href="https://projectreporthub.ng/css/slick.css">
     <!-- style CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://projectreporthub.ng/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -112,12 +112,11 @@ include "backend/actions.php";
                 </div>
                 <div class="col-md-6 col-4 d-flex justify-content-end align-items-center">
                 <ul class="top-bar-links d-flex">
-                <li class="bg-dark-orange p-2 me-2"><a class="" href="loyalty-program.php">Loyalty Program</a>
-              | <a class="" href="become_an_affliate.php">Affliate Program</a> | <a class="" href="marketplace.php">Marketplace</a></li>
+                <li class="bg-dark-orange p-2 me-2"><a class="" href="https://projectreporthub.ng/loyalty-program.php">Loyalty Program</a></li>
                     <?php if($active_log==0){ ?>
-                    <li class="bg-dark-orange p-2"><a class="" href="become_a_seller.php">Become a Seller</a></li>
+                    <li class="bg-dark-orange p-2"><a class="" href="https://projectreporthub.ng/become_a_seller.php">Become a Seller</a></li>
                     <?php } else {?>
-                    <li class="bg-dark-orange p-2"><a class="" href="logout.php">Logout</a></li>
+                    <li class="bg-dark-orange p-2"><a class="" href="https://projectreporthub.ng/logout.php">Logout</a></li>
                     <?php } ?>
                 </ul>
                 </div>
@@ -129,7 +128,7 @@ include "backend/actions.php";
             <div class="row align-items-center justify-content-center">
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="index.php"> <img class="logo" src="img/<?php echo $siteimg; ?>" alt="logo"> </a>
+                        <a class="navbar-brand" href="https://projectreporthub.ng/index.php"> <img class="logo" src="https://projectreporthub.ng/img/<?php echo $siteimg; ?>" alt="logo"> </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -138,10 +137,10 @@ include "backend/actions.php";
 
                         <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
                             <ul class="navbar-nav">
-                                <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="about-us.php">About</a></li>
+                                <li class="nav-item"><a class="nav-link" href="https://projectreporthub.ng/index.php">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="https://projectreporthub.ng/about-us.php">About</a></li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.php" id="navbarDropdown_1"
+                                    <a class="nav-link dropdown-toggle" href="https://projectreporthub.ng/blog.php" id="navbarDropdown_1"
                                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                      Marketplace
                                     </a>
@@ -152,41 +151,46 @@ include "backend/actions.php";
                                                 $sql2 = mysqli_query($con, $sql);
                                                 $count = 0;
                                                 while ($row = mysqli_fetch_array($sql2)) {
+                                                $category_name = $row['category_name'];
+                                                $slugs = strtolower(str_replace(' ', '-', $category_name));
                                                     if ($count % 2 == 0 && $count != 0) {
                                                         echo '</div><div class="row">';
                                                     }
-                                                    echo '<div class="col-12"><a class="dropdown-item" href="category.php?id=' . $row['id'] . '">' . $row['category_name'] . '</a></div>';
+                                                   echo '<div class="col-12"><a class="dropdown-item" href="https://projectreporthub.ng/category/' . $slugs . '">' . $row['category_name'] . '</a></div>';
                                                     $count++;
                                                 }
                                             ?>
-                                            <div class="col-12"><a class="dropdown-item" href="marketplace.php">View Marketplace</a></div>
+                                            
+                                            
+                                
+                                            <div class="col-12"><a class="dropdown-item" href="https://projectreporthub.ng/marketplace.php">View Marketplace</a></div>
                                         </div>
                                     </div>
                                 </li>
                                 <?php if($active_log==1){ ?>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.php" id="navbarDropdown_1"
+                                    <a class="nav-link dropdown-toggle" href="https://projectreporthub.ng/blog.php" id="navbarDropdown_1"
                                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                    Client Portal
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="saved-reports.php">Saved Reports</a>
-                                        <a class="dropdown-item" href="my_orders.php">My Purchases</a>
-                                        <a class="dropdown-item" href="manual_orders.php">Manual Purchases</a>
-                                        <a class="dropdown-item" href="wallet.php">My Wallet</a>
+                                        <a class="dropdown-item" href="https://projectreporthub.ng/saved-reports.php">Saved Reports</a>
+                                        <a class="dropdown-item" href="https://projectreporthub.ng/my_orders.php">My Purchases</a>
+                                        <a class="dropdown-item" href="https://projectreporthub.ng/manual_orders.php">Manual Purchases</a>
+                                        <a class="dropdown-item" href="https://projectreporthub.ng/wallet.php">My Wallet</a>
                                     </div>
                                 </li>
                                <?php if($seller==1){ ?>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.php" id="navbarDropdown_1"
+                                    <a class="nav-link dropdown-toggle" href="https://projectreporthub.ng/blog.php" id="navbarDropdown_1"
                                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                    Seller Portal
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="models.php">Manage Models</a>
-                                        <a class="dropdown-item" href="sales.php">Sales Analytics</a>
-                                        <a class="dropdown-item" href="wallet.php">Revenue Management</a>
-                                        <a class="dropdown-item" href="reviews.php">Customer Feedback</a>
+                                        <a class="dropdown-item" href="https://projectreporthub.ng/models.php">Manage Models</a>
+                                        <a class="dropdown-item" href="https://projectreporthub.ng/sales.php">Sales Analytics</a>
+                                        <a class="dropdown-item" href="https://projectreporthub.ng/wallet.php">Revenue Management</a>
+                                        <a class="dropdown-item" href="https://projectreporthub.ng/reviews.php">Customer Feedback</a>
                                     </div>
                                 </li>
                                 <?php }} ?>
@@ -195,14 +199,14 @@ include "backend/actions.php";
 
                                 
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.php" id="navbarDropdown_2"
+                                    <a class="nav-link dropdown-toggle" href="https://projectreporthub.ng/blog.php" id="navbarDropdown_2"
                                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                        Support
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                         <a class="dropdown-item" href="tickets.php">Support Tickets</a>
-                                        <a class="dropdown-item" href="contact.php">Contact Us</a>
-                                        <a class="dropdown-item" href="faq.php">FAQ</a>
+                                         <a class="dropdown-item" href="https://projectreporthub.ng/tickets.php">Support Tickets</a>
+                                        <a class="dropdown-item" href="https://projectreporthub.ng/contact.php">Contact Us</a>
+                                        <a class="dropdown-item" href="https://projectreporthub.ng/faq.php">FAQ</a>
                                      <!---   <a class="dropdown-item" href="loyalty-program.php">Loyalty System</a> ---->
                                     </div>
                                 </li>
@@ -211,7 +215,7 @@ include "backend/actions.php";
                         </div>
                         <div class="hearer_icon d-flex align-items-center">
                             <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <a href="cart.php">
+                            <a href="https://projectreporthub.ng/cart.php">
                                 <?php
                                 $cart_count = getCartCount($con, $siteprefix, $order_id);
                                 ?>
@@ -231,14 +235,14 @@ include "backend/actions.php";
                                 </a>
                                 <?php if($active_log==1){ ?>
                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="dashboard.php">My Account</a>
-                                    <a class="dropdown-item" href="notifications.php">Notifications</a>
-                                    <a class="dropdown-item" href="logout.php">Logout</a>
+                                    <a class="dropdown-item" href="https://projectreporthub.ng/dashboard.php">My Account</a>
+                                    <a class="dropdown-item" href="https://projectreporthub.ng/notifications.php">Notifications</a>
+                                    <a class="dropdown-item" href="https://projectreporthub.ng/logout.php">Logout</a>
                                 </div>
                                 <?php }else{ ?>
                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="signin.php">Sign In</a>
-                                    <a class="dropdown-item" href="signup.php">Register</a>
+                                    <a class="dropdown-item" href="https://projectreporthub.ng/signin.php">Sign In</a>
+                                    <a class="dropdown-item" href="https://projectreporthub.ng/signup.php">Register</a>
                                 </div>
                                 <?php } ?>
                             </div>
