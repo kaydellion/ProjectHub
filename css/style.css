@@ -2901,14 +2901,16 @@ ul {
   position: relative;
   height: 782px;
   display: flex;
+
   align-items: center;
 }
 
 @media (max-width: 991px) {
   /* line 2, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_banner.scss */
   .banner_part {
-    height: 550px;
-  
+    height: 690px;
+    padding:50px 0px;
+    
    
   }
 }
@@ -2916,7 +2918,7 @@ ul {
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   /* line 2, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_banner.scss */
   .banner_part {
-    height: 420px;
+    height: 480px;
   }
 }
 

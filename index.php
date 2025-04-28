@@ -1,7 +1,7 @@
 <?php include "header.php"; ?>
 
  <!-- banner part start-->
- <section class="banner_part" style="margin:30px; border-radius:30px; position: relative; background: url('img/hero-image.jpg') no-repeat center center/cover; overflow: hidden;">
+ <section class="banner_part" style="margin:30px; height:690px; border-radius:30px; position: relative; background: url('img/hero-image.jpg') no-repeat center center/cover; overflow: hidden;">
     <div style="border-radius:30px; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(80deg, rgba(0, 0, 0, 0.8), rgba(255, 165, 0, 0.3));"></div>
     <div class="container" style="position: relative; z-index: 1;">
         <div class="row align-items-center">
