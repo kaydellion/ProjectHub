@@ -7,32 +7,44 @@ if ($seller != 1) {
 
 }
 // Fetch sales where the report belongs to the seller
-$sql = "SELECT oi.order_id, o.date, oi.price, r.title, p.title AS file_type
-        FROM ".$siteprefix."order_items oi
-        JOIN ".$siteprefix."orders o ON oi.order_id = o.order_id
-        JOIN  ".$siteprefix."reports_files p ON oi.item_id = p.id
-        LEFT JOIN ".$siteprefix."reports r ON r.id = oi.report_id
-        WHERE r.user = ? 
-        AND o.status = 'paid'
-        ORDER BY o.date DESC";
+$sql = "
+    SELECT 
+        wh.amount,
+        oi.order_id,
+        o.date,
+        r.title,
+        p.title AS file_type
+    FROM {$siteprefix}order_items oi
+    JOIN {$siteprefix}orders o ON oi.order_id = o.order_id
+    JOIN {$siteprefix}reports_files p ON oi.item_id = p.id
+    LEFT JOIN {$siteprefix}reports r ON r.id = oi.report_id
+    LEFT JOIN {$siteprefix}wallet_history wh 
+      ON wh.reason = CONCAT('Payment from Order ID: ', oi.order_id) 
+      AND wh.status = 'credit'
+    WHERE r.user = ? 
+      AND o.status = 'paid'
+    ORDER BY o.date DESC
+";
 
+// ✅ Prepare & Bind
 $stmt = $con->prepare($sql);
-$stmt->bind_param("s", $user_id);
+$stmt->bind_param("s", $user_id); // If user_id is integer use "i"
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Calculate total amount earned and number of resources sold
+// ✅ Initialize counters
 $total_amount = 0;
 $total_resources_sold = 0;
 
-if ($result->num_rows > 0) {
+// ✅ Loop through results
+if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $total_amount += $row['price'];
+        $total_amount += (float)$row['amount']; // Use wallet_history.amount
         $total_resources_sold++;
     }
-    // Reset the result pointer for later use
-    $result->data_seek(0);
+    $result->data_seek(0); // Reset pointer if needed later
 }
+
 ?>
 <div class="container mt-5">
     <div class="row mb-4">
