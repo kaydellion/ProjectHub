@@ -76,7 +76,13 @@ $total_pages = ceil($total_reports / $limit);
                     </form>
                 </div>
             </div>
-            <p id="report-count">Found <?php echo $report_count; ?> report(s)</p>
+</div>
+            <div class="col-lg-3">
+            <div class="product-count" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">
+                Found <?php echo $report_count; ?> report(s)
+            </div>
+        </div>
+</div>
             <div class="row mb-3">
                 <?php
                 if ($report_count > 0) {

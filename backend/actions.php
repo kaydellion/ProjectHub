@@ -321,7 +321,6 @@ if(isset($_POST['register-user'])){
     <p>Once verified, you can log in and start accessing premium reports, upload your content,
     or manage your dashboard.</p>
     <p>Thanks for joining us!</p>
-    <p>Warm Regards,<br>
     Ikechukwu Anaekwe<br>
     Project Report Hub<br>
     <em>Customer Support Team</em></p>";
@@ -444,7 +443,7 @@ if (isset($_POST['register-affiliate'])) {
         $statusAction = "Ooops!";
         $statusMessage = "This email has already been registered. Please try registering with another email.";
         showErrorModal($statusAction, $statusMessage);
-        exit();
+       
     }
 
     // Validate password length
@@ -452,7 +451,7 @@ if (isset($_POST['register-affiliate'])) {
         $statusAction = "Try Again";
         $statusMessage = "Password must have 6 or more characters.";
         showErrorModal($statusAction, $statusMessage);
-        exit();
+        
     }
 
     // Validate password match
@@ -460,7 +459,7 @@ if (isset($_POST['register-affiliate'])) {
         $statusAction = "Ooops!";
         $statusMessage = "Passwords do not match!";
         showErrorModal($statusAction, $statusMessage);
-        exit();
+        
     }
 
     // Hash the password
@@ -1153,40 +1152,45 @@ header("Refresh: 4; url=wallet.php");
 }
 
 
-//add review
+
+// Add review
 if (isset($_POST['submit-review'])) {
-    $user_id = $_POST['user_id'];
-    $report_id = $_POST['report_id'];
-    $rating = $_POST['rating'];
-    $review = trim($_POST['review']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+    $report_id = mysqli_real_escape_string($con, $_POST['report_id']);
+    $rating = mysqli_real_escape_string($con, $_POST['rating']);
+    $review = mysqli_real_escape_string($con, trim($_POST['review']));
 
     // Check if user already has a review
-    $check_query = "SELECT * FROM ".$siteprefix."reviews WHERE user = ? AND report_id = ?";
-    $stmt = $con->prepare($check_query);
-    $stmt->bind_param("si", $user_id, $report_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $check_query = "SELECT * FROM " . $siteprefix . "reviews WHERE user = '$user_id' AND report_id = '$report_id'";
+    $result = mysqli_query($con, $check_query);
 
-    if ($result->num_rows > 0) {
+    if (mysqli_num_rows($result) > 0) {
         // Update existing review
-        $update_query = "UPDATE ".$siteprefix."reviews SET rating = ?, review = ?, date = NOW() WHERE user = ? AND report_id = ?";
-        $stmt = $con->prepare($update_query);
-        $stmt->bind_param("issi", $rating, $review, $user_id, $report_id);
+        $update_query = "UPDATE " . $siteprefix . "reviews 
+                         SET rating = '$rating', review = '$review', date = NOW() 
+                         WHERE user = '$user_id' AND report_id = '$report_id'";
+        if (mysqli_query($con, $update_query)) {
+            $statusAction = "Successful";
+            $statusMessage = "Your review has been updated successfully!";
+            showSuccessModal($statusAction, $statusMessage);
+        } else {
+            $statusAction = "Error";
+            $statusMessage = "An error occurred while updating your review. Please try again.";
+            showErrorModal($statusAction, $statusMessage);
+        }
     } else {
         // Insert new review
-        $insert_query = "INSERT INTO ".$siteprefix."reviews (report_id, user, rating, review, date) VALUES (?, ?, ?, ?, NOW())";
-        $stmt = $con->prepare($insert_query);
-        $stmt->bind_param("isis", $report_id, $user_id, $rating, $review);
-    }
-
-    if ($stmt->execute()) {
-        $statusAction="Successful";
-        $statusMessage="Your review has been submitted successfully!";
-        showSuccessModal($statusAction,$statusMessage);
-    } else {
-        $statusAction="Error";
-        $statusMessage="An error occurred while submitting your review. Please try again.";
-        showSuccessModal($statusAction,$statusMessage);
+        $insert_query = "INSERT INTO " . $siteprefix . "reviews (report_id, user, rating, review, date) 
+                         VALUES ('$report_id', '$user_id', '$rating', '$review', NOW())";
+        if (mysqli_query($con, $insert_query)) {
+            $statusAction = "Successful";
+            $statusMessage = "Your review has been submitted successfully!";
+            showSuccessModal($statusAction, $statusMessage);
+        } else {
+            $statusAction = "Error";
+            $statusMessage = "An error occurred while submitting your review. Please try again.";
+            showErrorModal($statusAction, $statusMessage);
+        }
     }
 }
 

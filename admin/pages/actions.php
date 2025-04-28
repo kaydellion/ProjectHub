@@ -35,55 +35,58 @@ if (isset($_GET['action']) && $_GET['action'] == 'read-message') {
 
 
 //upload-report
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
-    $reportId = $_POST['id'];
-    $title =  mysqli_real_escape_string($con,$_POST['title']);
+    $reportId = mysqli_real_escape_string($con, $_POST['id']);
+    $title = mysqli_real_escape_string($con, $_POST['title']);
     $description = mysqli_real_escape_string($con, $_POST['description']);
     $preview = mysqli_real_escape_string($con, $_POST['preview']);
     $tableContent = mysqli_real_escape_string($con, $_POST['table_content']);
-    $category = $_POST['category'];
-    $subcategory = isset($_POST['subcategory']) ? $_POST['subcategory'] : null;
-    $pricing = $_POST['pricing'];
-    $price = !empty($_POST['price']) ? $_POST['price'] : '0';
-    $tags = mysqli_real_escape_string($con,$_POST['tags']);
+    $category = mysqli_real_escape_string($con, $_POST['category']);
+    $subcategory = isset($_POST['subcategory']) ? mysqli_real_escape_string($con, $_POST['subcategory']) : null;
+    $pricing = mysqli_real_escape_string($con, $_POST['pricing']);
+    $price = !empty($_POST['price']) ? mysqli_real_escape_string($con, $_POST['price']) : '0';
+    $tags = mysqli_real_escape_string($con, $_POST['tags']);
     $loyalty = isset($_POST['loyalty']) ? 1 : 0;
     $documentTypes = isset($_POST['documentSelect']) ? $_POST['documentSelect'] : [];
-    $status = $_POST['status'];
-    $methodology =  mysqli_real_escape_string($con, $_POST['methodology']);
-    $year_of_study = implode(',',$_POST['year_of_study']); 
-    $resource_type = implode(',',$_POST['resource_type']);
-    $education_level = $_POST['education_level'];
-    $chapter = $_POST['chapter'];
-    $answer = $_POST['answer'];
-  
-    // Upload images
+    $status = mysqli_real_escape_string($con, $_POST['status']);
+    $methodology = mysqli_real_escape_string($con, $_POST['methodology']);
+    $year_of_study = implode(',', $_POST['year_of_study']);
+    $resource_type = implode(',', $_POST['resource_type']);
+    $education_level = mysqli_real_escape_string($con, $_POST['education_level']);
+    $chapter = mysqli_real_escape_string($con, $_POST['chapter']);
+    $answer = mysqli_real_escape_string($con, $_POST['answer']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+
+    // Directories for uploads
     $uploadDir = '../../uploads/';
     $fileuploadDir = '../../documents/';
-    $fileKey='images';
-    global $fileName;
-    $message="";
+    $fileKey = 'images';
+    $message = "";
 
+    // Handle image uploads
     $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
     if (empty($_FILES[$fileKey]['name'][0])) {
-        // Array of default images
+        // Use default images if no images are uploaded
         $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
-        // Pick a random default image
         $randomImage = $defaultImages[array_rand($defaultImages)];
         $reportImages = [$randomImage];
     }
-    
+
+    // Insert images into the database
     $uploadedFiles = [];
     foreach ($reportImages as $image) {
-        $stmt = $con->prepare("INSERT INTO  ".$siteprefix."reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
+        $stmt = $con->prepare("INSERT INTO " . $siteprefix . "reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
         $stmt->bind_param("ss", $reportId, $image);
         if ($stmt->execute()) {
             $uploadedFiles[] = $image;
         } else {
-            $message.="Error: " . $stmt->error;
+            $message .= "Error inserting image: " . $stmt->error . "<br>";
         }
         $stmt->close();
     }
-    // Handle file uploads
+
+    // Handle file uploads for different document types
     $fileFields = [
         'file_word' => 'word',
         'file_excel' => 'excel',
@@ -96,34 +99,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
         if (isset($_FILES[$fileField]) && $_FILES[$fileField]['error'] == UPLOAD_ERR_OK) {
             $filePath = handleFileUpload($fileField, $fileuploadDir);
             $pagesField = 'pages_' . $docType;
-            $pages = isset($_POST[$pagesField]) ? $_POST[$pagesField] : 0;
+            $pages = isset($_POST[$pagesField]) ? (int)$_POST[$pagesField] : 0;
 
-            $stmt = $con->prepare("INSERT INTO  ".$siteprefix."reports_files (report_id, title, pages, updated_at) VALUES (?, ?, ?, current_timestamp())");
+            $stmt = $con->prepare("INSERT INTO " . $siteprefix . "reports_files (report_id, title, pages, updated_at) VALUES (?, ?, ?, current_timestamp())");
             $stmt->bind_param("ssi", $reportId, $filePath, $pages);
 
             if ($stmt->execute()) {
-                $message.="File uploaded and record added successfully!";
+                $message .= ucfirst($docType) . " file uploaded and record added successfully!<br>";
             } else {
-                $message.="Error: " . $stmt->error;
+                $message .= "Error uploading $docType file: " . $stmt->error . "<br>";
             }
 
             $stmt->close();
         }
     }
 
+    // Insert report data into the database
+    $sql = "INSERT INTO " . $siteprefix . "reports 
+            (s, id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) 
+            VALUES 
+            (NULL, '$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
 
-  
-    // Insert data into the database
-    $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, preview, table_content,methodology,chapter,year_of_study,resource_type,education_level,answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) VALUES (NULL, '$reportId', '$title', '$description','$preview','$tableContent','$methodology','$chapter','$year_of_study','$resource_type','$education_level','$answer','$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
     if (mysqli_query($con, $sql)) {
-        $message .= "Report added successfully!";
+        $message .= "Report added successfully!<br>";
     } else {
-        $message .= "Error: " . mysqli_error($con);
+        $message .= "Error adding report: " . mysqli_error($con) . "<br>";
     }
 
-    showSuccessModal('Processed',$message);
+    // Display success or error message
+    showSuccessModal('Processed', $message);
     header("refresh:2; url=reports.php");
-  }
+}
 
 // Suspend user
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['suspend_user'])) {
@@ -168,9 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['suspend_user'])) {
                     <p><strong>Duration:</strong> $duration_value $duration_type</p>
                     <p>We kindly request that you review your account and take the necessary corrective steps. If you believe this suspension was made in error or would like to appeal the decision, please contact us at <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> with relevant details.</p>
                     <p>Your cooperation is appreciated, and we look forward to resolving this matter promptly.</p>
-                    <p>Warm regards,</p>
-                    <p><strong>The Project Report Hub Team</strong><br>
-                    <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
+                   
                 ";
 
                 // Send the email
@@ -253,7 +257,7 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
         // Prepare the email
         $emailSubject = "Your Document Is Now Live on Project Report Hub Marketplace!";
         $emailMessage = "
-            <p>Dear $sellerName,</p>
+          
             <p>We hope this message finds you well.</p>
             <p>We're excited to let you know that your product, <strong>“$title”</strong>, has been successfully reviewed and is now live on the Project Report Hub marketplace!</p>
             <p>Access your document here: </p>
@@ -265,9 +269,7 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
             </ul>
             <p>Sharing your document across these channels will not only drive early sales but also improve your document’s SEO (search engine optimization), helping it gain long-term traction.</p>
             <p>Thanks for being part of the Project Report Hub community!</p>
-            <p>Warm regards,</p>
-            <p>The Project Report Hub Team<br>
-            <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
+           
         ";
 
         // Send the email
@@ -302,10 +304,9 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
                 $emailMessage = "
                     <p>Dear $followerName,</p>
                     <p>We are excited to inform you that $sellerName has just posted a new resource titled <strong>$title</strong>.</p>
-                    <p>You can check it out here: <a href='$siteline/$sellerName'>$siteline/$sellerName</a></p>
+                    <p>You can check it out here: <a href='$siteurl.merchant-store.php?seller_id=$user_id'>$sellerName</a></p>
                     <p>Thank you for following $sellerName!</p>
-                    <p>Best regards,</p>
-                    <p>The Project Report Hub Team</p>
+                    
                 ";
 
                 // Send the email

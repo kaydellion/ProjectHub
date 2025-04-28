@@ -37,13 +37,19 @@ if ($sort === 'price_high') {
 }
 
 // Fetch seller's products
-$query = "SELECT r.*, ri.picture 
-          FROM ".$siteprefix."reports r 
-          LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id 
-          WHERE r.user = '$seller_id' AND r.status = 'approved' 
-          GROUP BY r.id 
-          ORDER BY $order_by 
-          LIMIT $limit OFFSET $offset";
+$query = "SELECT r.*, 
+       ri.picture, 
+       l.category_name AS category, 
+       sc.category_name AS subcategory
+FROM {$siteprefix}reports r
+LEFT JOIN {$siteprefix}reports_images ri ON r.id = ri.report_id
+LEFT JOIN {$siteprefix}categories l ON r.category = l.id
+LEFT JOIN {$siteprefix}categories sc ON r.subcategory = sc.id
+WHERE r.user = '$seller_id' 
+  AND r.status = 'approved'
+GROUP BY r.id
+ORDER BY $order_by
+LIMIT $limit OFFSET $offset";
 $result = mysqli_query($con, $query);
 $report_count = mysqli_num_rows($result);
 
@@ -77,56 +83,54 @@ $total_pages = ceil($total_reports / $limit);
     $followResult = $stmt->get_result();
     $isFollowing = $followResult->num_rows > 0;
     ?>
-                    <form method="POST" class="d-inline">
-        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-        <input type="hidden" name="seller_id" value="<?php echo $seller_id; ?>">
-        <input type="hidden" name="follow_seller_submit" value="1">
+  <!-- Follow and Sort Controls -->
+  <div class="d-flex align-items-center">
+                    <!-- Follow Seller -->
+                    <form method="POST" class="d-inline me-3">
+                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                        <input type="hidden" name="seller_id" value="<?php echo $seller_id; ?>">
+                        <input type="hidden" name="follow_seller_submit" value="1">
 
-        <?php if ($isFollowing): ?>
-            <!-- Following Dropdown -->
-            <div class="dropdown">
-                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" id="followingDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Following
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="followingDropdown">
-                    <li>
-                        <button type="submit" name="action" value="unfollow" class="dropdown-item">
-                            Unfollow
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        <?php else: ?>
-            <!-- Follow Button -->
-            <button type="submit" name="action" value="follow" class="btn btn-outline-primary btn-sm">
-                Follow Seller
-            </button>
-        <?php endif; ?>
-    </form>
+                        <?php if ($isFollowing): ?>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" id="followingDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Following
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="followingDropdown">
+                                    <li>
+                                        <button type="submit" name="action" value="unfollow" class="dropdown-item">
+                                            Unfollow
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        <?php else: ?>
+                            <button type="submit" name="action" value="follow" class="btn btn-outline-primary btn-sm">
+                                Follow Seller
+                            </button>
+                        <?php endif; ?>
+                    </form>
+
+                   
+                    <!-- Sort Dropdown -->
+                    <div class="d-flex align-items-center me-2">
+                        <label for="sort-select" class="me-2 mb-0">Sort By:</label>
+                        <select id="sort-select" class="form-select form-select-sm" onchange="sortReports(this.value)" style="width: auto;">
+                            <option value="relevance" <?php if ($sort === 'relevance') echo 'selected'; ?>>Relevance</option>
+                            <option value="price_high" <?php if ($sort === 'price_high') echo 'selected'; ?>>Price - High To Low</option>
+                            <option value="price_low" <?php if ($sort === 'price_low') echo 'selected'; ?>>Price - Low To High</option>
+                        </select>
+                    </div>
+                    <div class="product-count me-2" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">
+                        Found <?php echo $report_count; ?> product(s)
+                        </div>
                 </div>
             </div>
         </div>
+    </div>
    
-
-    <!-- Products Section -->
-    <div class="row mb-3">
-        <div class="col-lg-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <!-- Product Count -->
-                <div class="product-count" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">
-                    Found <?php echo $report_count; ?> product(s)
-                </div>
-
-                <!-- Sort By Dropdown -->
-                <div class="sort-by">
-                    <label for="sort-select" class="me-2">Sort By:</label>
-                    <select id="sort-select" class="form-select" onchange="sortReports(this.value)">
-                        <option value="relevance" <?php if ($sort === 'relevance') echo 'selected'; ?>>Relevance</option>
-                        <option value="price_high" <?php if ($sort === 'price_high') echo 'selected'; ?>>Price - High To Low</option>
-                        <option value="price_low" <?php if ($sort === 'price_low') echo 'selected'; ?>>Price - Low To High</option>
-                    </select>
-                </div>
-            </div>
+            
+    
             <div class="row mt-3">
                 <?php
                 if ($result) {
@@ -145,7 +149,10 @@ $total_pages = ceil($total_reports / $limit);
                         $updated_date = $row['updated_date'];
                         $status = $row['status'];
                         $image_path = $imagePath.$row['picture'];
-
+                        $slug = strtolower(str_replace(' ', '-', $title));
+                        $selected_education_level = $row['education_level'] ?? '';
+                        $selected_resource_type = $row['resource_type'] ?? '';
+                        $year_of_study = $row['year_of_study'] ?? '';
                         include "product-card.php";
                     }
                 } else {

@@ -69,72 +69,79 @@ $total_pages = ceil($total_reports / $limit);
 ?>
 
 <div class="container mt-5">
+    <!-- CATEGORY NAME (on its own line) -->
     <div class="row mb-3">
         <div class="col-lg-12">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3><?php echo $category_name; ?></h3>
-    <?php if ($active_log != "0"): // Only display the button if the user is logged in ?>
-        <form method="POST" class="d-inline">
-            <?php
-            // Check if the user is already following the category
-            $followCategoryQuery = "SELECT * FROM ".$siteprefix."followers WHERE user_id = '$user_id' AND category_id = '$id'";
-            $followCategoryResult = mysqli_query($con, $followCategoryQuery);
-            $isFollowingCategory = mysqli_num_rows($followCategoryResult) > 0;
-            ?>
-            <?php if ($isFollowingCategory): ?>
-                <!-- Unfollow Button -->
-                <button type="submit" name="action" value="unfollow_category" class="btn btn-outline-danger btn-sm">
-                    Unfollow Category
-                </button>
-            <?php else: ?>
-                <!-- Follow Button -->
-                <button type="submit" name="action" value="follow_category" class="btn btn-outline-primary btn-sm">
-                    Follow Category
-                </button>
-            <?php endif; ?>
-            <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-         
-            <input type="hidden" name="category_id" value="<?php echo $id; ?>">
-            <input type="hidden" name="subcategory_id" value="">
-            <input type="hidden" name="follow_category_submit" value="1">
-        </form>
-    <?php endif; ?>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="subcategories">
-    <select id="subcategory-select" class="form-select" onchange="filterBySubcategory(this.value)">
-        <option value="">Filter by Subcategory</option>
-        <option value="all" <?php if (!isset($_GET['subcategory']) || $_GET['subcategory'] === 'all') echo 'selected'; ?>>Show All</option>
-        <?php
-        $subcat_query = "SELECT DISTINCT category_name AS subcategory 
-                         FROM ".$siteprefix."categories 
-                         WHERE parent_id = $id";
-        $subcat_result = mysqli_query($con, $subcat_query);
-        while ($subcat_row = mysqli_fetch_assoc($subcat_result)) {
-            $subcategoryValue = removeAllWhitespace($subcat_row['subcategory']);
-            $selected = (isset($_GET['subcategory']) && $_GET['subcategory'] === $subcategoryValue) ? 'selected' : '';
-            echo '<option value="'.$subcategoryValue.'" '.$selected.'>'.$subcat_row['subcategory'].'</option>';
-        }
-        ?>
-    </select>
-</div>
-            </div>
-            <div class="d-flex justify-content-between align-items-center">
-                <!-- Product Count -->
-                <div class="product-count" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">
-                    Found <?php echo $report_count; ?> report(s)
-                </div>
+            <h3><?php echo $category_name; ?></h3>
+        </div>
+    </div>
 
-                <!-- Sort By Dropdown -->
-                <div class="sort-by">
-                    <label for="sort-select" class="me-2">Sort By:</label>
-                    <select id="sort-select" class="form-select" onchange="sortReports(this.value)">
-                        <option value="relevance" <?php if ($sort === 'relevance') echo 'selected'; ?>>Relevance</option>
-                        <option value="price_high" <?php if ($sort === 'price_high') echo 'selected'; ?>>Price - High To Low</option>
-                        <option value="price_low" <?php if ($sort === 'price_low') echo 'selected'; ?>>Price - Low To High</option>
-                    </select>
-                </div>
+    <!-- FOLLOW BUTTON, SUBCATEGORY FILTER, SORTING (all in one row) -->
+    <div class="row mb-3">
+        <div class="col-md-2 d-flex align-items-center">
+            <?php if ($active_log != "0"): ?>
+                <form method="POST" class="d-inline">
+                    <?php
+                    $followCategoryQuery = "SELECT * FROM ".$siteprefix."followers WHERE user_id = '$user_id' AND category_id = '$id'";
+                    $followCategoryResult = mysqli_query($con, $followCategoryQuery);
+                    $isFollowingCategory = mysqli_num_rows($followCategoryResult) > 0;
+                    ?>
+                    <?php if ($isFollowingCategory): ?>
+                        <button type="submit" name="action" value="unfollow_category" class="btn btn-outline-danger btn-sm">
+                            Unfollow Category
+                        </button>
+                    <?php else: ?>
+                        <button type="submit" name="action" value="follow_category" class="btn btn-outline-primary btn-sm">
+                            Follow Category
+                        </button>
+                    <?php endif; ?>
+                    <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                    <input type="hidden" name="category_id" value="<?php echo $id; ?>">
+                    <input type="hidden" name="subcategory_id" value="">
+                    <input type="hidden" name="follow_category_submit" value="1">
+                </form>
+            <?php endif; ?>
+        </div>
+
+        <div class="col-md-4">
+            <select id="subcategory-select" class="form-select" onchange="filterBySubcategory(this.value)">
+                <option value="">Filter by Subcategory</option>
+                <option value="all" <?php if (!isset($_GET['subcategory']) || $_GET['subcategory'] === 'all') echo 'selected'; ?>>Show All</option>
+                <?php
+                $subcat_query = "SELECT DISTINCT category_name AS subcategory 
+                                 FROM ".$siteprefix."categories 
+                                 WHERE parent_id = $id";
+                $subcat_result = mysqli_query($con, $subcat_query);
+                while ($subcat_row = mysqli_fetch_assoc($subcat_result)) {
+                    $subcategoryValue = removeAllWhitespace($subcat_row['subcategory']);
+                    $selected = (isset($_GET['subcategory']) && $_GET['subcategory'] === $subcategoryValue) ? 'selected' : '';
+                    echo '<option value="'.$subcategoryValue.'" '.$selected.'>'.$subcat_row['subcategory'].'</option>';
+                }
+                ?>
+            </select>
+        </div>
+
+        <div class="col-md-6 d-flex align-items-center">
+            <label for="sort-select" class="me-2 mb-0">Sort By:</label>
+            <select id="sort-select" class="form-select" onchange="sortReports(this.value)">
+                <option value="relevance" <?php if ($sort === 'relevance') echo 'selected'; ?>>Relevance</option>
+                <option value="price_high" <?php if ($sort === 'price_high') echo 'selected'; ?>>Price - High To Low</option>
+                <option value="price_low" <?php if ($sort === 'price_low') echo 'selected'; ?>>Price - Low To High</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- FOUND REPORTS -->
+    <div class="row mb-3">
+        <div class="col-lg-3">
+            <div class="product-count" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">
+                Found <?php echo $report_count; ?> report(s)
             </div>
+        </div>
+    </div>
+
+    
+
             <div class="row mt-3">
                 <?php
                 if ($result) {
