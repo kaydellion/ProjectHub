@@ -99,10 +99,10 @@
       <button type="button" class="btn_1 w-100 text-center manual-button" data-toggle="modal" data-target="#manualPaymentModal" style="display: none;">
         Proceed with Manual Payment
       </button>
-    
+      </form>
     <?php } elseif ($order_total == 0 && $is_free_order && $item_count > 0) { ?>
       <!-- Place order for free product -->
-      </form>
+     
       <form method="post" >
         <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
