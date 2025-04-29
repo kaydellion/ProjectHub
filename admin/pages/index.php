@@ -31,7 +31,7 @@
             <a href="reports.php">
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-body">
-                        <h5 class="card-title text-white ">Total Reports</h5>
+                        <h5 class="card-title text-white">Total Reports</h5>
                         <p class="card-text counter" data-target="<?php echo $totalReports; ?>">0</p>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
 <!-- Pending Payments Card -->
 <div class="col-md-3">
     <a href="transactions.php?status=pending">
-        <div class="card text-white bg-info mb-3">
+        <div class="card text-white bg-primary mb-3">
             <div class="card-body">
                 <h5 class="card-title text-white">Pending Payments</h5>
                 <p class="card-text counter" data-target="<?php echo $pendingPaymentsCount; ?>">0</p>
