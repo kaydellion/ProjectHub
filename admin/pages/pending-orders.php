@@ -10,6 +10,32 @@ $query = "SELECT mp.s, mp.order_id, mp.user_id, mp.amount, mp.proof, mp.date_cre
 $result = mysqli_query($con, $query);
 ?>
 <div class="container-xxl flex-grow-1 container-p-y">
+
+<div class="row mb-4">
+    <!-- Pending Manual Orders Card -->
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Pending Manual Orders</h5>
+                <p class="card-text">
+                    <span class="h4"><?php echo $pendingPaymentsCount; ?></span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cleared Manual Orders Card -->
+    <div class="col-md-3">
+        <div class="card text-white bg-secondary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Cleared Manual Orders</h5>
+                <p class="card-text">
+                    <span class="h4"><?php echo $clearedOrdersCount; ?></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="card">
         <h5 class="card-header">Manage Manual Payments</h5>
         <div class="table-responsive ">

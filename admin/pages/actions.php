@@ -20,6 +20,31 @@ $totalSalesQuery = "SELECT COUNT(order_id) AS total_sales FROM ".$siteprefix."or
 $totalSalesResult = mysqli_query($con, $totalSalesQuery);
 $totalSales = mysqli_fetch_assoc($totalSalesResult)['total_sales'];
 
+// Query to fetch pending reports count
+$pendingReportsQuery = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE status = 'pending'";
+$pendingReportsResult = mysqli_query($con, $pendingReportsQuery);
+$pendingReportsCount = mysqli_fetch_assoc($pendingReportsResult)['count'];
+
+// Query to fetch pending payments count
+$pendingPaymentsQuery = "SELECT COUNT(*) AS count FROM " . $siteprefix . "manual_payments WHERE status = 'pending'";
+$pendingPaymentsResult = mysqli_query($con, $pendingPaymentsQuery);
+$pendingPaymentsCount = mysqli_fetch_assoc($pendingPaymentsResult)['count'];
+
+// Query to fetch pending payments count
+$approvedPaymentsQuery = "SELECT COUNT(*) AS count FROM " . $siteprefix . "manual_payments WHERE status = 'approved'";
+$approvedPaymentsResult = mysqli_query($con, $approvedPaymentsQuery);
+$clearedOrdersCount = mysqli_fetch_assoc($approvedPaymentsResult)['count'];
+
+// Query to fetch pending withdrawals count
+$pendingWithdrawalsQuery = "SELECT COUNT(*) AS count FROM " . $siteprefix . "withdrawal WHERE status = 'pending'";
+$pendingWithdrawalsResult = mysqli_query($con, $pendingWithdrawalsQuery);
+$pendingWithdrawalsCount = mysqli_fetch_assoc($pendingWithdrawalsResult)['count'];
+
+// Query to fetch pending disputes count
+$pendingDisputesQuery = "SELECT COUNT(*) AS count FROM " . $siteprefix . "disputes WHERE status = 'pending'";
+$pendingDisputesResult = mysqli_query($con, $pendingDisputesQuery);
+$pendingDisputesCount = mysqli_fetch_assoc($pendingDisputesResult)['count'];
+
 
 $sql = "SELECT * FROM  ".$siteprefix."alerts WHERE status='0' ORDER BY s DESC LIMIT 5";
 $sql2 = mysqli_query($con,$sql);
@@ -122,6 +147,84 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
 
     if (mysqli_query($con, $sql)) {
         $message .= "Report added successfully!<br>";
+
+        if ($status === 'approved') {
+            // Notify followers of the seller
+            $followersQuery = "SELECT user_id FROM " . $siteprefix . "followers WHERE seller_id = '$user_id'";
+            $followersResult = mysqli_query($con, $followersQuery);
+    
+            if ($followersResult && mysqli_num_rows($followersResult) > 0) {
+                // Fetch the seller's name
+                $sellerQuery = "SELECT display_name FROM " . $siteprefix . "users WHERE s = '$user_id'";
+                $sellerResult = mysqli_query($con, $sellerQuery);
+                $sellerRow = mysqli_fetch_assoc($sellerResult);
+                $sellerName = $sellerRow['display_name'];
+    
+                // Notify all followers of the seller
+                while ($follower = mysqli_fetch_assoc($followersResult)) {
+                    $followerId = $follower['user_id'];
+    
+                    // Fetch follower details
+                    $followerDetailsQuery = "SELECT email, display_name FROM " . $siteprefix . "users WHERE s = '$followerId'";
+                    $followerDetailsResult = mysqli_query($con, $followerDetailsQuery);
+                    $followerDetails = mysqli_fetch_assoc($followerDetailsResult);
+    
+                    $followerEmail = $followerDetails['email'];
+                    $followerName = $followerDetails['display_name'];
+    
+                    // Prepare the email
+                    $emailSubject = "New Resource Posted by $sellerName";
+                    $emailMessage = "
+                        <p>Dear $followerName,</p>
+                        <p>We are excited to inform you that $sellerName has just posted a new resource titled <strong>$title</strong>.</p>
+                        <p>You can check it out here: <a href='$siteurl/merchant-store.php?seller_id=$user_id'>$sellerName</a></p>
+                        <p>Thank you for following $sellerName!</p>
+                    ";
+    
+                    // Send the email
+                    sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+                }
+            }
+    
+            // Notify followers of the category
+            $categoryFollowersQuery = "SELECT user_id FROM " . $siteprefix . "followers WHERE category_id = '$category'";
+            $categoryFollowersResult = mysqli_query($con, $categoryFollowersQuery);
+    
+            if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
+                // Fetch category name for the email
+                $categoryQuery = "SELECT category_name FROM " . $siteprefix . "categories WHERE id = '$category'";
+                $categoryResult = mysqli_query($con, $categoryQuery);
+                $categoryRow = mysqli_fetch_assoc($categoryResult);
+                $categoryName = $categoryRow['category_name'];
+                $slugs = strtolower(str_replace(' ', '-', $categoryName));
+    
+                // Notify all users following the category
+                while ($follower = mysqli_fetch_assoc($categoryFollowersResult)) {
+                    $followerId = $follower['user_id'];
+    
+                    // Fetch follower details
+                    $followerDetailsQuery = "SELECT email, display_name FROM " . $siteprefix . "users WHERE s = '$followerId'";
+                    $followerDetailsResult = mysqli_query($con, $followerDetailsQuery);
+                    $followerDetails = mysqli_fetch_assoc($followerDetailsResult);
+    
+                    $followerEmail = $followerDetails['email'];
+                    $followerName = $followerDetails['display_name'];
+    
+                    // Prepare the email
+                    $emailSubject = "New Resource in $categoryName";
+                    $emailMessage = "
+                        <p>Dear $followerName,</p>
+                        <p>We are excited to inform you that a new resource titled <strong>$title</strong> has been added to the <strong>$categoryName</strong> category.</p>
+                        <p>You can check it out here: <a href='$siteurl/category.php/$slugs'>$categoryName</a></p>
+                        <p>Thank you for following the $categoryName category!</p>
+                    ";
+    
+                    // Send the email
+                    sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+                }
+            }
+        }
+    
     } else {
         $message .= "Error adding report: " . mysqli_error($con) . "<br>";
     }
@@ -248,7 +351,7 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
     $seller_id = $sellerRow['seller'];
 
     // Check if the seller_id is 1
-    if ($seller_id == 1) {
+    if ($seller_id > 0) {
         // Proceed with the rest of the logic
         $sellerEmail = $sellerRow['email'];
         $sellerName = $sellerRow['display_name'];
@@ -259,7 +362,7 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
           
             <p>We hope this message finds you well.</p>
             <p>We're excited to let you know that your product, <strong>“$title”</strong>, has been successfully reviewed and is now live on the Project Report Hub marketplace!</p>
-            <p>Access your document here: </p>
+            <p>Access your document here: <a href='$siteurl/merchant-store.php?seller_id=$seller_id'>$title</a></p>
             <p>To help you generate visibility and boost your initial sales, we highly recommend promoting your document on the following platforms:</p>
             <ul>
                 <li><strong>LinkedIn:</strong> Publish a LinkedIn Pulse article (rather than a simple post) introducing your document. Be sure to tag friends and colleagues in the comments to maximize engagement and reach.</li>
@@ -312,6 +415,47 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
                 sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
             }
         }
+
+     
+      
+// Query to get users following the category
+$categoryFollowersQuery = "SELECT user_id FROM " . $siteprefix . "followers WHERE category_id = '$category'";
+$categoryFollowersResult = mysqli_query($con, $categoryFollowersQuery);
+
+if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
+    // Fetch category name for the email
+    $categoryQuery = "SELECT category_name FROM " . $siteprefix . "categories WHERE id = '$category'";
+    $categoryResult = mysqli_query($con, $categoryQuery);
+    $categoryRow = mysqli_fetch_assoc($categoryResult);
+    $categoryName = $categoryRow['category_name'];
+    $slugs = strtolower(str_replace(' ', '-', $category));
+
+    // Notify all users following the category
+    while ($follower = mysqli_fetch_assoc($categoryFollowersResult)) {
+        $followerId = $follower['user_id'];
+
+        // Fetch follower details
+        $followerDetailsQuery = "SELECT email, display_name FROM " . $siteprefix . "users WHERE s = '$followerId'";
+        $followerDetailsResult = mysqli_query($con, $followerDetailsQuery);
+        $followerDetails = mysqli_fetch_assoc($followerDetailsResult);
+
+        $followerEmail = $followerDetails['email'];
+        $followerName = $followerDetails['display_name'];
+
+        // Prepare the email
+        $emailSubject = "New Resource in $categoryName";
+        $emailMessage = "
+            <p>Dear $followerName,</p>
+            <p>We are excited to inform you that a new resource titled <strong>$title</strong> has been added to the <strong>$categoryName</strong> category.</p>
+            <p>You can check it out here: <a href='$siteurl/category.php/$slugs'>$categoryName</a></p>
+            <p>Thank you for following the $categoryName category!</p>
+        ";
+
+        // Send the email
+        sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+    }
+}
+
     }
     // Upload images
     $uploadDir = '../../uploads/';

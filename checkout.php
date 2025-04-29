@@ -103,7 +103,7 @@
     <?php } elseif ($order_total == 0 && $is_free_order && $item_count > 0) { ?>
       <!-- Place order for free product -->
      
-      <form method="post" >
+      <form method="post" action="free_order_handler.php">
         <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <button type="submit" name="place_order" class="btn_1 w-100 text-center">Place Order</button>

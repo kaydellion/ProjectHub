@@ -51,6 +51,11 @@
               <p class="mb-4 text-center"><?php include "login.php"; ?></p>
               <h4 class="mb-2">Welcome to Projecthub! 👋</h4>
               <p class="mb-4">Please sign-in to your account and start the adventure</p>
+              <?php
+                  if (isset($_GET['message'])) {
+                      echo "<p class='mb-4' style='color: red;'>" . htmlspecialchars($_GET['message']) . "</p>";
+                  }
+                  ?>
 
               <form class="mb-3" action="" method="POST">
                 <div class="mb-3">
