@@ -15,7 +15,7 @@ showErrorModal($statusAction,$statusMessage);
     $sql= "SELECT * FROM ".$siteprefix."users WHERE email= '$email'";
     $sql2 = mysqli_query($con, $sql);
     while ($row = mysqli_fetch_array($sql2)) {
-        $user_name = $row['name'];
+        $user_name = $row['display_name'];
         $user_email = $row['email'];}
         
 $randomPassword = generateRandomHardPassword();
