@@ -53,9 +53,6 @@ if ($result) {
     $row = mysqli_fetch_assoc($result);
     $totalDisputeAmount = $row['total_dispute_amount'] ?? 0;
     $totalEarnedAmount = $row['total_earned_amount'] ?? 0;
-
-    echo "Dispute Total: $totalDisputeAmount<br>";
-    echo "Earned Total: $totalEarnedAmount<br>";
 } else {
     echo "Error: " . mysqli_error($con);
 }
