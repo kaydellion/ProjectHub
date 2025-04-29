@@ -165,9 +165,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['suspend_user'])) {
                 $user_name = $user_row['display_name'];
 
                 // Prepare the email
-                $emailSubject = "Account Suspension Notice – Project Report Hub";
+                $emailSubject = "Account Suspension Notice ";
                 $emailMessage = "
-                    <p>Dear $user_name,</p>
                     <p>We regret to inform you that your account on <strong>ProjectReportHub.ng</strong> has been temporarily suspended due to a violation of our platform’s terms of use and seller guidelines.</p>
                     <p>This action has been taken to maintain the integrity and quality of our marketplace for all users.</p>
                     <p><strong>Reason for Suspension:</strong> $reason</p>
@@ -178,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['suspend_user'])) {
                 ";
 
                 // Send the email
-                if (sendEmail($user_email, $user_name, $sitename, $sitemail, $emailMessage, $emailSubject)) {
+                if (sendEmail($user_email, $user_name, $siteName, $siteMail, $emailMessage, $emailSubject)) {
                     // Display success message
                     $message = "User suspended successfully, and an email notification has been sent.";
                     showSuccessModal('Processed', $message);

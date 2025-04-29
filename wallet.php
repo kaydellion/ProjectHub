@@ -48,21 +48,6 @@
 
 <!-- ======= Services Section ======= -->
 <section id="services" class="services mt-5">
-<?php
-// Fetch data for the cards
-$withdrawal_query = "SELECT SUM(amount) AS total_withdrawal FROM ".$siteprefix."withdrawal WHERE user='$user_id' AND status='pending'";
-$withdrawal_result = mysqli_query($con, $withdrawal_query);
-$withdrawal_row = mysqli_fetch_assoc($withdrawal_result);
-$total_withdrawal = $withdrawal_row['total_withdrawal'] ?? 0;
-
-// Fetch Cleared Transactions
-$cleared_query = "SELECT SUM(amount) AS total_cleared FROM ".$siteprefix."withdrawal WHERE status='paid'";
-$cleared_result = mysqli_query($con, $cleared_query);
-$cleared_row = mysqli_fetch_assoc($cleared_result);
-$total_cleared = $cleared_row['total_cleared'] ?? 0;
-
-
-?>
 <div class="container mt-3">
     <div class="row">
         <div class="col-12 text-right">
@@ -82,13 +67,34 @@ $total_cleared = $cleared_row['total_cleared'] ?? 0;
             </div>
         </div>
 
-                <!-- Cleared Transactions -->
-                <div class="col-md-3">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-body">
-                    <h5 class="card-title text-white">Cleared Transactions</h5>
-                    <p class="card-text text-white"><?php echo $sitecurrency . number_format($total_cleared, 2); ?></p>
+         <!-- Dispute Refunds -->
+         <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+        <div class="card-body">
+                    <h5 class="card-title text-white">Dispute Refunds</h5>
+                    <p class="card-text text-white"><?php echo $sitecurrency . number_format($total_withdrawal, 2); ?></p>
                 </div>
+            </div>
+        </div>
+
+
+         <!-- Total Amount Earned -->
+         <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+        <div class="card-body">
+                    <h5 class="card-title text-white">Total Amount Earned</h5>
+                    <p class="card-text text-white"><?php echo $sitecurrency . number_format($total_withdrawal, 2); ?></p>
+                </div>
+            </div>
+        </div>
+
+            <!-- Cleared Transactions -->
+            <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+            <h5 class="card-title text-white">Cleared Transactions</h5>
+            <p class="card-text text-white"><?php echo $sitecurrency . number_format($total_cleared, 2); ?></p>
+            </div>
             </div>
         </div>
         </div>

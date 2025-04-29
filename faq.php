@@ -89,22 +89,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="card">
-                    <div class="card-header" id="heading6">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
-                                Can I request a custom project or report?
-                            </button>
-                        </h5>
-                    </div>
-                    <div id="collapse6" class="collapse" aria-labelledby="heading6" data-parent="#faqAccordion">
-                        <div class="card-body">
-                            Yes, we offer custom writing services. You can request tailor-made academic work based on your topic, department, or research objective.
-                        </div>
-                    </div>
-                </div>
-
                 <div class="card">
                     <div class="card-header" id="heading7">
                         <h5 class="mb-0">

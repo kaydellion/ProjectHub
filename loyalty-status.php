@@ -114,7 +114,7 @@ $result = mysqli_query($con, $query);
             </div>
         </div>
     <?php else: ?>
-        <div class="row mt-5">
+        <div class="row mt-5 mb-3">
             <div class="col-lg-12 text-center">
                 <p class="text-muted">You have no purchase history.</p>
             </div>
