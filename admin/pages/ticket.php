@@ -54,7 +54,7 @@ while ($evidence = mysqli_fetch_assoc($evidence_result)) {
         echo '<div class="mt-2">';
         foreach ($evidenceFiles as $file) {
             $filename = basename(trim($file));
-            echo '<a href="'.$adminimagePath.htmlspecialchars($file).'" target="_blank" 
+            echo '<a href="'.$siteurl.$imagePath.htmlspecialchars($file).'" target="_blank" 
                     class="btn btn-sm btn-outline-primary me-2 mb-2">
                     View Evidence: '.htmlspecialchars($filename).'
                 </a>';
@@ -83,7 +83,7 @@ while ($evidence = mysqli_fetch_assoc($evidence_result)) {
         echo '<p>No messages found</p>';
     }  
        while ($message = mysqli_fetch_assoc($msg_result)) {
-        $image=  $adminimagePath.$message['profile_image'];
+        $image=  $siteurl.$imagePath.$message['profile_image'];
         $files = $message['file'] ? explode(',', $message['file']) : [];
         ?>
         <div class="d-flex mb-3">
@@ -103,7 +103,7 @@ while ($evidence = mysqli_fetch_assoc($evidence_result)) {
               echo '<div class="mt-2">';
               foreach ($files as $file) {
               $filename = basename(trim($file));
-              echo '<a href=" '.$adminimagePath.htmlspecialchars($file) . '" target="_blank" 
+              echo '<a href=" '.$siteurl.$imagePath.htmlspecialchars($file) . '" target="_blank" 
                         class="btn btn-sm btn-outline-primary me-2 mb-2">
                         View ' . htmlspecialchars($filename) . '
                     </a>';
