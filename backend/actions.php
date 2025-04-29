@@ -33,7 +33,8 @@ $cleared_row = mysqli_fetch_assoc($cleared_result);
 $total_cleared = $cleared_row['total_cleared'] ?? 0;
 $userId = $user_id; 
 
-$stmt = $pdo->prepare("
+
+$sql = "
     SELECT
         SUM(CASE
             WHEN reason LIKE '%Dispute Resolution:%' AND status = 'credit' THEN amount
@@ -44,15 +45,21 @@ $stmt = $pdo->prepare("
             WHEN reason LIKE '%Payment from Order ID%' AND status = 'credit' THEN amount
             ELSE 0
         END) AS total_earned_amount
-    FROM ".$siteprefix."wallet_history
-    WHERE user = :user_id
-");
-$stmt->execute(['user_id' => $userId]);
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
+    FROM {$siteprefix}wallet_history
+    WHERE user = '$userId'
+";
+$result = mysqli_query($cnn, $sql);
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $totalDisputeAmount = $row['total_dispute_amount'] ?? 0;
+    $totalEarnedAmount = $row['total_earned_amount'] ?? 0;
 
-// Assign to variables
-$totalDisputeAmount = $row['total_dispute_amount'] ?? 0;
-$totalEarnedAmount = $row['total_earned_amount'] ?? 0;
+    echo "Dispute Total: $totalDisputeAmount<br>";
+    echo "Earned Total: $totalEarnedAmount<br>";
+} else {
+    echo "Error: " . mysqli_error($cnn);
+}
+
 
 
 } else ($order_total = 0);
