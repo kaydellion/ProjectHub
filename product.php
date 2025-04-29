@@ -96,7 +96,7 @@ if (isset($user_id) && isset($report_id)) {
 
         <!-- Product Details -->
         <div class="col-md-6">
-            <h1 class="h2 mb-3"><?php echo $title; ?></h1>
+            <h1 class="h2 mb-3 capitalize"><?php echo $title; ?></h1>
             <div class="mb-3">
     <span class="h4 me-2"><?php echo $sitecurrency; echo number_format($price, 2); ?></span><br>
     <?php if ($loyalty == 1): ?>
