@@ -48,7 +48,7 @@ $sql = "
     FROM {$siteprefix}wallet_history
     WHERE user = '$userId'
 ";
-$result = mysqli_query($cnn, $sql);
+$result = mysqli_query($con, $sql);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
     $totalDisputeAmount = $row['total_dispute_amount'] ?? 0;
@@ -57,7 +57,7 @@ if ($result) {
     echo "Dispute Total: $totalDisputeAmount<br>";
     echo "Earned Total: $totalEarnedAmount<br>";
 } else {
-    echo "Error: " . mysqli_error($cnn);
+    echo "Error: " . mysqli_error($con);
 }
 
 
