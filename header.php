@@ -74,7 +74,7 @@ include "backend/actions.php";
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?php echo $sitename; ?></title>
+    <title><?= isset($page_title) ? htmlspecialchars($page_title) : $sitename ?></title>
     <link rel="icon" href="<?php echo $siteurl; ?>img/<?php echo $siteimg; ?>">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?php echo $siteurl; ?>css/bootstrap.min.css">

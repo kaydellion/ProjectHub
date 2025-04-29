@@ -1,4 +1,12 @@
-<?php include "header.php"; 
+<?php 
+if (isset($_GET['slugs'])) {
+    $raw_slug = $_GET['slugs'];
+    $title_like = str_replace('-', ' ', $raw_slug);
+    $category_name = mysqli_real_escape_string($con, strtolower($title_like));
+}
+include "category-seo.php";
+
+include "header.php"; 
 
 if (isset($_GET['slugs'])) {
     $raw_slug = $_GET['slugs'];
