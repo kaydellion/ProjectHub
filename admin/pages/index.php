@@ -17,9 +17,9 @@
         <!-- Total Sales Card -->
         <div class="col-md-3">
             <a href="transactions.php">
-                <div class="card text-white bg-success mb-3">
+                <div class="card text-white bg-dark mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">No of Orders</h5>
+                        <h5 class="card-title text-white">No of Orders</h5>
                         <p class="card-text counter" data-target="<?php echo $totalSales; ?>">0</p>
                     </div>
                 </div>
@@ -29,9 +29,9 @@
         <!-- Total Reports Card -->
         <div class="col-md-3">
             <a href="reports.php">
-                <div class="card text-white bg-secondary mb-3">
+                <div class="card text-white bg-dark mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">Total Reports</h5>
+                        <h5 class="card-title text-white ">Total Reports</h5>
                         <p class="card-text counter" data-target="<?php echo $totalReports; ?>">0</p>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
         <!-- Total Profit Card -->
         <div class="col-md-3">
             <a href="profits.php">
-                <div class="card text-white bg-danger mb-3">
+                <div class="card text-white bg-dark mb-3">
                     <div class="card-body">
                         <h5 class="card-title text-white">Total Profit</h5>
                         <p class="card-text counter" 
@@ -55,7 +55,7 @@
         <!-- Pending Reports Card -->
 <div class="col-md-3">
     <a href="reports.php">
-        <div class="card text-white bg-warning mb-3">
+        <div class="card text-white bg-dark mb-3">
             <div class="card-body">
                 <h5 class="card-title text-white">Pending Reports</h5>
                 <p class="card-text counter" data-target="<?php echo $pendingReportsCount; ?>">0</p>
@@ -79,7 +79,7 @@
 <!-- Pending Withdrawals Card -->
 <div class="col-md-3">
     <a href="withdrawals.php?status=pending">
-        <div class="card text-white bg-secondary mb-3">
+        <div class="card text-white bg-primary mb-3">
             <div class="card-body">
                 <h5 class="card-title text-white">Pending Withdrawals</h5>
                 <p class="card-text counter" data-target="<?php echo $pendingWithdrawalsCount; ?>">0</p>
@@ -91,7 +91,7 @@
 <!-- Pending Disputes Card -->
 <div class="col-md-3">
     <a href="disputes.php?status=pending">
-        <div class="card text-white bg-danger mb-3">
+        <div class="card text-white bg-dark mb-3">
             <div class="card-body">
                 <h5 class="card-title text-white">Pending Disputes</h5>
                 <p class="card-text counter" data-target="<?php echo $pendingDisputesCount; ?>">0</p>
