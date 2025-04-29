@@ -123,7 +123,7 @@ if ($row) {
                         <div class="mb-3">
                             <label class="form-label">Current Image</label><br>
                             <?php if (!empty($image)): ?>
-                                <img src="../../uploads/<?php echo $image; ?>" class="img-fluid" width="150">
+                                <img src="<?php echo $siteurl.$imagePath.$image; ?>" class="img-fluid" width="150">
                             <?php else: ?>
                                 <p>No image available</p>
                             <?php endif; ?>

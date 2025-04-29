@@ -35,7 +35,7 @@ $result = mysqli_query($con, $query);
                             <td><?php echo $sitecurrency . number_format($row['amount'], 2); ?></td>
                             <td><?php echo date('Y-m-d H:i:s', strtotime($row['date_created'])); ?></td>
                             <td>
-                                <a href="../../uploads/<?php echo $row['proof']; ?>" target="_blank" class="btn btn-info btn-sm">View Proof</a>
+                                <a href="<?php echo $siteurl.$imagePath.$row['proof']; ?>" target="_blank" class="btn btn-info btn-sm">View Proof</a>
                             </td>
                             <td>
                                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#orderDetailsModal<?php echo $row['s']; ?>">View Details</button>
@@ -64,7 +64,7 @@ $result = mysqli_query($con, $query);
                                         <p><strong>User:</strong> <?php echo $row['display_name'] . " (" . $row['email'] . ")"; ?></p>
                                         <p><strong>Amount:</strong> <?php echo $sitecurrency . number_format($row['amount'], 2); ?></p>
                                         <p><strong>Date Submitted:</strong> <?php echo date('Y-m-d H:i:s', strtotime($row['date_created'])); ?></p>
-                                        <p><strong>Proof of Payment:</strong> <a href="../../uploads/<?php echo $row['proof']; ?>" target="_blank">View Proof</a></p>
+                                        <p><strong>Proof of Payment:</strong> <a href="<?php echo $siteurl.$imagePath.$row['proof']; ?>" target="_blank">View Proof</a></p>
                                     </div>
                                     <div class="modal-footer">
                                    <form method="post" onsubmit="return confirmApprove();">

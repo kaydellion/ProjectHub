@@ -61,7 +61,7 @@
                     <tr>
                         <td><strong><?php echo $i; ?></strong></td>
                         <td>
-                            <img src="../../uploads/<?php echo htmlspecialchars($product_image); ?>" alt="Product Image" style="width: 50px; height: 50px; object-fit: cover;">
+                            <img src="<?php echo $siteurl.$imagePath.htmlspecialchars($product_image); ?>" alt="Product Image" style="width: 50px; height: 50px; object-fit: cover;">
                         </td>
                         <td><?php echo htmlspecialchars($product_name); ?></td>
                         <td><?php echo $sales_count; ?></td>
@@ -131,7 +131,7 @@
                                                     <td>'.htmlspecialchars($order_id).'</td>
                                                     <td>'.htmlspecialchars($customer_name).'</td>
                                                     <td>
-                                                        <img src="../../uploads/'.htmlspecialchars($profile_picture).'" alt="Profile Picture" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                                                        <img src="'$siteurl.$imagePath.htmlspecialchars($profile_picture).'" alt="Profile Picture" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
                                                     </td>
                                                     <td>'.$sitecurrency.number_format($price, 2).'</td>
                                                     <td>'.htmlspecialchars($date).'</td>

@@ -56,7 +56,7 @@
                             <td><span class="badge bg-label-<?php echo getBadgeColor($plan_status); ?> me-1"><?php echo $plan_status; ?></span></td>
                             <td><?php echo $plan_benefits; ?></td>
                             <td>
-                                <img src="../../uploads/<?php echo $plan_image; ?>" alt="Plan Image" width="50">
+                                <img src="<?php echo $siteurl.$imagePath.$plan_image; ?>" alt="Plan Image" width="50">
                             </td>
                             <td><?php echo $created_at; ?></td>
                             <td>
