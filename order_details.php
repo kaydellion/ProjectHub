@@ -23,18 +23,6 @@ if ($order_result->num_rows == 0) {
 
 $order = $order_result->fetch_assoc();
 
-// Fetch ordered items
-$sql = "SELECT r.title, ri.picture, oi.price, oi.original_price, p.title as file_path
-        FROM ".$siteprefix."order_items oi 
-        JOIN ".$siteprefix."reports_files p ON oi.item_id = p.id 
-        LEFT JOIN ".$siteprefix."reports r  ON  oi.report_id = r.id 
-        LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id 
-        WHERE oi.order_id = ? GROUP BY p.id";
-$stmt = $con->prepare($sql);
-$stmt->bind_param("s", $order_id);
-$stmt->execute();
-$items_result = $stmt->get_result();
-
 ?>
 
 
@@ -69,7 +57,18 @@ $items_result = $stmt->get_result();
                 </tr>
             </thead>
             <tbody>
-                <?php while ($item = $items_result->fetch_assoc()) {
+                <?php // Fetch ordered items
+$sql = "SELECT r.title, ri.picture, oi.price, oi.original_price, p.title as file_path
+        FROM ".$siteprefix."order_items oi 
+        JOIN ".$siteprefix."reports_files p ON oi.item_id = p.id 
+        LEFT JOIN ".$siteprefix."reports r  ON  oi.report_id = r.id 
+        LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id 
+        WHERE oi.order_id = ? GROUP BY p.id";
+$stmt = $con->prepare($sql);
+$stmt->bind_param("s", $order_id);
+$stmt->execute();
+$items_result = $stmt->get_result();
+while ($item = $items_result->fetch_assoc()) {
                     $title= $item['title'];
                 $slug = strtolower(str_replace(' ', '-', $title));
                 $file_path= $item['file_path'];
