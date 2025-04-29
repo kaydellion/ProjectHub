@@ -5,6 +5,7 @@ global $ref;
 $ref = $_GET['ref'];
 $date = date('Y-m-d H:i:s');
 $attachments = array();
+$attachment = array();
 
 // Get order details and order items
 $sql_order = "SELECT * FROM ".$siteprefix."orders WHERE order_id = '$ref' AND status = 'unpaid'";
@@ -56,6 +57,7 @@ if (mysqli_affected_rows($con) > 0) {
         // Add file to attachments array
         if (!empty($file_path) && file_exists($file_path)) {
             $attachments[] = $file_path;
+            $attachment[] = $siteurl.$documentPath.$file_path;
         }
  
 
@@ -144,7 +146,7 @@ $emailMessage = "<p>Great news! A new sale has just been made on ProjectReportHu
 <p>Letâ€™s keep the momentum going and continue providing high-value insights to Nigeria and the world!</p>";
 
 // Send email to seller
-sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject);
+sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject,$attachment);
             }
         }
     }

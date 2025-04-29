@@ -747,6 +747,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
     $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
     $amount = mysqli_real_escape_string($con, $_POST['amount']);
     $date = date('Y-m-d H:i:s');
+    $attachments = [];
+    $attachment = [];
 
     // Update the payment status to "approved"
     $update_query = "UPDATE " . $siteprefix . "manual_payments 
@@ -785,7 +787,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
                           WHERE oi.order_id = '$ref'";
             $sql_items_result = mysqli_query($con, $sql_items);
 
-            $attachments = [];
+           
             $tableRows = "";
             while ($row_item = mysqli_fetch_assoc($sql_items_result)) {
                 $resourceTitle = $row_item['resource_title'];
@@ -794,6 +796,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
                 // Add file to attachments array
                 if (!empty($file_path) && file_exists($file_path)) {
                     $attachments[] = $file_path;
+                    $attachment[] = $siteurl.$documentPath.$file_path;
                 }
 
                 // Add a row to the email table
@@ -821,7 +824,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
             </table>
             <p>You can also access your purchased reports from your profile on our website.</p>
             <p>Feel free to visit our website for more information, updates, or to explore additional services.</p>";
-            sendEmail($email, $username, $siteName, $siteMail, $emailMessage, $subject, $attachments);
+            sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject,$attachment);
 
             // Display success message
             $message = "Payment for Order ID $order_id has been approved successfully.";
