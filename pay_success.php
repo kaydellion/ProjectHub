@@ -146,7 +146,7 @@ $emailMessage = "<p>Great news! A new sale has just been made on ProjectReportHu
 <p>Letâ€™s keep the momentum going and continue providing high-value insights to Nigeria and the world!</p>";
 
 // Send email to seller
-sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject,$attachment);
+sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject);
             }
         }
     }
@@ -197,7 +197,7 @@ $emailMessage = "
 <p>You can also access your purchased reports from your profile on our website.</p>
 <p>Feel free to visit our website for more information, updates, or to explore additional services.</p>";
 
-sendEmail($email, $username, $siteName, $siteMail,$emailMessage, $subject, $attachments);
+sendEmail2($email, $username, $siteName, $siteMail,$emailMessage, $subject, $attachment);
 ?>
 
 <div class="container mt-5 mb-5">
