@@ -164,10 +164,7 @@ if (isset($user_id) && isset($report_id)) {
             <td><strong>Chapter Count</strong></td>
             <td><?php echo $chapter_count; ?></td>
         </tr>
-        <tr>
-            <td><strong>Tags</strong></td>
-            <td><?php echo $tags; ?></td>
-        </tr>
+        
     </tbody>
 </table>
     </p>
@@ -201,7 +198,7 @@ while ($row = mysqli_fetch_array($sql2)) {
     <!-- Add to Cart Button -->
     <input type="hidden" name="report_id"  id="current_report_id" value="<?php echo $report_id;?>">
                 <input type="hidden" name="affliate_id" id="affliate_id" value="<?php echo $affliate_id;?>">
-                <button class="btn btn-primary me-2" type="button" data-report="<?php echo $report_id;?>" name="add" id="addCart">Add to Cart</button>
+                <button class="btn btn-primary me-2 px-4 py-3" type="button" data-report="<?php echo $report_id;?>" name="add" id="addCart">Add to Cart</button>
                 </form>
     
 
@@ -274,6 +271,8 @@ while ($row = mysqli_fetch_array($sql2)) {
     <?php } ?>
                 
                 </p>
+                <!-- Resources Count -->
+                <p class="mt-2 mb-0"><strong>Resources:</strong> <?php echo $seller_resources_count; ?> resources available</p>
 
                 <!-- Follow Seller Button
                 <button class="btn btn-outline-primary btn-sm follow-seller" data-seller-id="<?php echo $seller_id; ?>">Follow Seller</button>
@@ -281,13 +280,13 @@ while ($row = mysqli_fetch_array($sql2)) {
             
             </div>
         </div>
-        <div class="mt-3">
-            <!-- View Merchant Store Link -->
-            <a href="<?php echo $siteurl;?>merchant-store.php?seller_id=<?php echo $seller_id; ?>" class="btn btn-primary btn-sm">View Merchant Store</a>
-            <!-- Number of Resources -->
-            <p class="mt-2 mb-0"><strong>Resources:</strong> <?php echo $seller_resources_count; ?> resources available</p>
-        </div>
-        <div class="mt-3">
+        <div class="d-flex align-items-center mt-3 gap-2">
+    <!-- View Merchant Store Link -->
+    <a href="<?php echo $siteurl;?>merchant-store.php?seller_id=<?php echo $seller_id; ?>" class="btn btn-primary btn-sm">
+        View Merchant Store
+    </a>
+
+    <!-- Follow / Following Button -->
     <?php checkActiveLog($active_log); // Ensure the user is logged in ?>
 
     <?php
@@ -328,6 +327,7 @@ while ($row = mysqli_fetch_array($sql2)) {
     </form>
 </div>
 
+
         <div class="mt-3">
     <h6>Connect with the Seller:</h6>
     <div class="d-flex">
@@ -362,93 +362,129 @@ while ($row = mysqli_fetch_array($sql2)) {
         </div>
     </div>
 
-<div class="col-12">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <?php if (!empty($preview)) { ?>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Content Preview</button>
+    </li>
+  <?php } ?>
 
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Content Preview</button>
-  </li>
-  <?php if ($table_content) { ?>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Table of Contents</button>
-  </li><?php } elseif($methodology) { ?>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#method" type="button" role="tab" aria-controls="profile" aria-selected="false">Methodology</button>
-  </li><?php } ?>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Reviews</button>
-  </li>
+  <?php if (!empty($table_content)) { ?>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link <?php echo empty($preview) ? 'active' : ''; ?>" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Table of Contents</button>
+    </li>
+  <?php } ?>
+
+  <?php if (!empty($methodology)) { ?>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link <?php echo (empty($preview) && empty($table_content)) ? 'active' : ''; ?>" id="method-tab" data-toggle="tab" data-target="#method" type="button" role="tab" aria-controls="method" aria-selected="false">Methodology</button>
+    </li>
+  <?php } ?>
+
+  <?php if ($user_purchased) { ?>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link <?php echo (empty($preview) && empty($table_content) && empty($methodology)) ? 'active' : ''; ?>" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Reviews</button>
+    </li>
+  <?php } ?>
 </ul>
+
 <div class="tab-content" id="myTabContent">
 
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"><!--preview -->
-  <?php echo $preview; ?></div>
+  <?php if (!empty($preview)) { ?>
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <?php echo $preview; ?>
+    </div>
+  <?php } ?>
 
-  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"><!--table-->
-  <?php echo $table_content; ?></div>
+  <?php if (!empty($table_content)) { ?>
+    <div class="tab-pane fade <?php echo empty($preview) ? 'show active' : ''; ?>" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <?php echo $table_content; ?>
+    </div>
+  <?php } ?>
 
-  <div class="tab-pane fade" id="method" role="tabpanel" aria-labelledby="profile-tab"><!--table-->
-  <?php echo $methodology; ?></div>
+  <?php if (!empty($methodology)) { ?>
+    <div class="tab-pane fade <?php echo (empty($preview) && empty($table_content)) ? 'show active' : ''; ?>" id="method" role="tabpanel" aria-labelledby="method-tab">
+      <?php echo $methodology; ?>
+    </div>
+  <?php } ?>
 
-  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-    <!-- Reviews -->
-<div class="container py-5">
-    <h2 class="h4 mb-4">Reviews</h2>
+  <?php if ($user_purchased) { ?>
+  <div class="tab-pane fade <?php echo (empty($preview) && empty($table_content) && empty($methodology)) ? 'show active' : ''; ?>" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+    <div class="container py-5">
+      <h2 class="h4 mb-4">Reviews</h2>
 
-    <!-- Allow user to leave a review if they purchased the product -->
-    <?php if ($user_purchased) { ?>
-        <div class="card p-3 mb-4">
-            <h5 class="mb-3"><?php echo $user_review ? "Edit Your Review" : "Leave a Review"; ?></h5>
-            <form action="" method="post">
-                <input type="hidden" name="report_id" value="<?php echo $report_id; ?>">
-                <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+      <!-- Review Form -->
+      <div class="card p-3 mb-4">
+        <h5 class="mb-3"><?php echo $user_review ? "Edit Your Review" : "Leave a Review"; ?></h5>
+        <form action="" method="post">
+          <input type="hidden" name="report_id" value="<?php echo $report_id; ?>">
+          <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
 
-                <div class="mb-3">
-                    <label for="rating" class="form-label">Rating</label>
-                    <select class="form-select" name="rating" required>
-                        <option value="5" <?php if ($user_review && $user_review['rating'] == 5) echo "selected"; ?>>⭐️⭐️⭐️⭐️⭐️</option>
-                        <option value="4" <?php if ($user_review && $user_review['rating'] == 4) echo "selected"; ?>>⭐️⭐️⭐️⭐️</option>
-                        <option value="3" <?php if ($user_review && $user_review['rating'] == 3) echo "selected"; ?>>⭐️⭐️⭐️</option>
-                        <option value="2" <?php if ($user_review && $user_review['rating'] == 2) echo "selected"; ?>>⭐️⭐️</option>
-                        <option value="1" <?php if ($user_review && $user_review['rating'] == 1) echo "selected"; ?>>⭐️</option>
-                    </select>
+          <div class="mb-3">
+            <label for="rating" class="form-label">Rating</label>
+            <select class="form-select" name="rating" required>
+              <option value="5" <?php if ($user_review && $user_review['rating'] == 5) echo "selected"; ?>>⭐️⭐️⭐️⭐️⭐️</option>
+              <option value="4" <?php if ($user_review && $user_review['rating'] == 4) echo "selected"; ?>>⭐️⭐️⭐️⭐️</option>
+              <option value="3" <?php if ($user_review && $user_review['rating'] == 3) echo "selected"; ?>>⭐️⭐️⭐️</option>
+              <option value="2" <?php if ($user_review && $user_review['rating'] == 2) echo "selected"; ?>>⭐️⭐️</option>
+              <option value="1" <?php if ($user_review && $user_review['rating'] == 1) echo "selected"; ?>>⭐️</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="review" class="form-label">Your Review</label>
+            <textarea class="form-control" name="review" rows="3" required></textarea>
+          </div>
+
+          <button type="submit" name="submit-review" value="review" class="btn btn-primary">
+            <?php echo $user_review ? "Update Review" : "Submit Review"; ?>
+          </button>
+        </form>
+      </div>
+
+      <!-- Display All User Reviews -->
+      <?php
+// Fetch all reviews for the product
+$all_reviews_query = "SELECT r.*, u.display_name AS user_name 
+                      FROM {$siteprefix}reviews r
+                      JOIN {$siteprefix}users u ON r.user = u.s
+                      WHERE r.report_id = ?
+                      ORDER BY r.date DESC";
+
+$stmt = $con->prepare($all_reviews_query);
+$stmt->bind_param("i", $report_id);
+$stmt->execute();
+$all_reviews_result = $stmt->get_result();
+$all_reviews = $all_reviews_result->fetch_all(MYSQLI_ASSOC);
+?>
+
+<!-- Display All User Reviews -->
+<?php if (!empty($all_reviews)) { ?>
+    <div class="mt-5">
+        <h4 class="mb-4">What others are saying:</h4>
+        <?php foreach ($all_reviews as $review) { ?>
+            <div class="card mb-3 p-3">
+                <div class="d-flex align-items-center mb-2">
+                    <strong><?php echo htmlspecialchars($review['user_name']); ?></strong>
+                    <span class="ms-3">
+                        <?php for ($i = 0; $i < $review['rating']; $i++) {
+                            echo '⭐️';
+                        } ?>
+                    </span>
                 </div>
+                <p class="mb-0"><?php echo nl2br(htmlspecialchars($review['review'])); ?></p>
+            </div>
+        <?php } ?>
+    </div>
+<?php } else { ?>
+    <p class="mt-4">No reviews yet. Be the first to review!</p>
+<?php } }?>
 
-                <div class="mb-3">
-                    <label for="review" class="form-label">Your Review</label>
-                    <textarea class="form-control" name="review" rows="3" required><?php echo $user_review ? htmlspecialchars($user_review['review']) : ''; ?></textarea>
-                </div>
 
-                <button type="submit" name="submit-review" value="review" class="btn btn-primary"><?php echo $user_review ? "Update Review" : "Submit Review"; ?></button>
-            </form>
-        </div>
-    <?php } ?>
-
-    <div class="row">
-    <div class="mt-3 mb-3">
-                  <?php
-                      $review_query = "SELECT r.*, u.display_name FROM ".$siteprefix."reviews r 
-                              LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
-                              WHERE r.report_id = '$report_id' 
-                              ORDER BY r.date DESC LIMIT 10";
-                      $review_result = mysqli_query($con, $review_query);
-
-                      while ($review = mysqli_fetch_assoc($review_result)) {
-                        echo '<div class="mb-3">';
-                        echo '<div class="d-flex align-items-center">';
-                        echo '<strong>' . htmlspecialchars($review['display_name']) . '</strong>';
-                        echo '<div class="ms-3">';
-                        for ($i = 1; $i <= $review['rating']; $i++) {
-                          echo '<i class="bi bi-star-fill text-warning"></i>';
-                        }
-                        echo '</div></div>';
-                        echo '<p class="mt-2">' . htmlspecialchars($review['review']) . '</p>';
-                        echo '<small class="text-muted">' . date('M d, Y', strtotime($review['date'])) . '</small>';
-                        echo '</div>';
-                      }
-                      ?>
-                  </div>
 </div>
+
+
+
 </div></div>
 </div>
 </div>

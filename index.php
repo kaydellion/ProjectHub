@@ -1,31 +1,37 @@
 <?php include "header.php"; ?>
 
  <!-- banner part start-->
- <section class="banner_part" style="margin:30px; border-radius:30px; position: relative; background: url('img/hero-image.jpg') no-repeat center center/cover;">
+ <section class="banner_part" style="margin:30px; height:690px; border-radius:30px; position: relative; background: url('img/hero-image.jpg') no-repeat center center/cover; overflow: hidden;">
     <div style="border-radius:30px; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(80deg, rgba(0, 0, 0, 0.8), rgba(255, 165, 0, 0.3));"></div>
     <div class="container" style="position: relative; z-index: 1;">
         <div class="row align-items-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="banner_text">
-                    <div class="banner_text_iner">
-                        <h4 class="text-orange">Project Report Hub – Empowering Research, Fueling Success!</h4>
-                     <!---   <h2 class="text-white">Your Go-To Hub for <span class="text-orange">Expert Project</span> Reports!</h2>---->                       <p class="text-white text-hero">
-                        <p class="text-white">  Access well-structured, plagiarism-free project reports across all levels and fields — from OND to Ph.D. Fast search, instant download, and everything you need to excel, all in one place.</p>
+                    <div class="banner_text_iner" style="max-width: 800px;">
+                        <h6 class="text-orange">Project Report Hub – Empowering Research, Fueling Success!</h6>
+                        <p class="text-white text-hero" style="font-size: 1rem; line-height: 1.5;">
+                            ProjectReportHub is Nigeria’s premier digital platform designed exclusively for university students — from undergraduates to postgraduate (Master's and PhD) scholars.
+                            Whether you're working on coursework, exam prep, or advanced research, ProjectReportHub provides everything you need to excel, all in one place.
+                            Join thousands of smart users who trust ProjectReportHub for academic success and professional growth.
+                            <br><br>
+                            | OND | HND | Bsc | PGD | Masters | Ph.D |
+                        </p>
                         <a href="marketplace.php" class="btn_1">Explore Now</a>
-                                <!-- Trusted By Section -->
-                                <div class="trusted-by mt-4">
-            <p class="text-white" style="font-size: 16px; font-weight: bold; line-height: 1.8;">
-                <i class="fas fa-users" style="color: #FFA500; font-size: 16px;"></i> 
-                Trusted by <br><span style="font-size: 2rem;">500+</span>
-                <span style="font-size: 1rem; margin-left:20px;">professionals</span>
-            </p>
-        </div>
+                        <!-- Trusted By Section -->
+                        <div class="trusted-by mt-4">
+                            <p class="text-white" style="font-size: 14px; font-weight: bold; line-height: 1.5;">
+                                <i class="fas fa-users" style="color: #FFA500; font-size: 16px;"></i> 
+                                Trusted by <br><span style="font-size: 1.5rem;">500+</span>
+                                <span style="font-size: 1rem; margin-left:20px;">professionals</span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 <!-- banner part start-->
 
    <!-- recent reports start-->

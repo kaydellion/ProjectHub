@@ -1,67 +1,70 @@
  <!--::footer_part start::-->
  <footer class="footer_part">
         <div class="footer_iner bg-dark">
-            <div class="container">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col-lg-3">
-                            <div class="footer_logo">
-                                <a href="https://projectreporthub.ng/index.php"><img class="logo" src="https://projectreporthub.ng/img/<?php echo $siteimg; ?>" alt="#"/></a>
-                            </div>
-                            <p class="mt-3 mb-3 text-light"><?php echo $sitedescription; ?></p>
-                            <div class="social_icon">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                    <div class="footer_menu_item">
-                    <h4>Company </h4>
-                                <a href="https://projectreporthub.ng/index.php">Home</a>
-                                <a href="https://projectreporthub.ng/about-us.php">About Us</a>
-                                <a href="https://projectreporthub.ng/privacy_policy.php">Privacy Policy</a>
-                                <a href="https://projectreporthub.ng/cookies.php">Cookie Policy</a>
-                                <a href="https://projectreporthub.ng/terms.php">Terms & Conditions</a>
-                                <a href="https://projectreporthub.ng/disclaimer.php">Disclaimer and Phishing Claims</a>
-                            </div>
-                           
-                    </div>
-                   <div class="col-lg-3">
-    <h4 class="mt-3 d-sm-none">Market Place</h4>
-    <h4 class="d-none d-sm-block">Market Place</h4>
-    <div class="footer_menu_item">
-        <?php
-        $sql = "SELECT * FROM " . $siteprefix . "categories WHERE parent_id IS NULL LIMIT 6";
-        $sql2 = mysqli_query($con, $sql);
-        while ($row = mysqli_fetch_array($sql2)) {
-            $category_name = $row['category_name'];
-            $slugs = strtolower(str_replace(' ', '-', $category_name));
-            echo '<a  href="https://projectreporthub.ng/category/' . $slugs . '">' .$category_name . '</a>';
-        }
-        ?>
-    </div>
-</div>
-
-<div class="col-lg-3">
-    <h4 class="mt-3 d-sm-none">Resources</h4>
-    <h4 class="d-none d-sm-block">Resources</h4>
-    <div class="footer_menu_item">
-        <?php
-        $sql = "SELECT * FROM " . $siteprefix . "resource_types WHERE parent_id IS NULL  LIMIT 6";
-        $sql2 = mysqli_query($con, $sql);
-        while ($row = mysqli_fetch_array($sql2)) {
-            $title = $row['name'];
-            $id = $row['id'];
-            echo '<a  href="https://projectreporthub.ng/resource.php?resources=' .$id .'">' .$title . '</a>';
-        }
-        ?>
-    </div>
-</div>`
-
-                </div>
+        <div class="container">
+    <div class="row justify-content-between align-items-start">
+        <!-- Footer Logo and Description -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="footer_logo">
+                <a href="https://projectreporthub.ng/index.php">
+                    <img class="logo" src="https://projectreporthub.ng/img/<?php echo $siteimg; ?>" alt="Logo" />
+                </a>
+            </div>
+            <p class="mt-3 mb-3 text-light"><?php echo $sitedescription; ?></p>
+            <div class="social_icon">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
+
+        <!-- Company Links -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="footer_menu_item">
+                <h4>Company</h4>
+                <a href="https://projectreporthub.ng/index.php">Home</a>
+                <a href="https://projectreporthub.ng/about-us.php">About Us</a>
+                <a href="https://projectreporthub.ng/privacy_policy.php">Privacy Policy</a>
+                <a href="https://projectreporthub.ng/cookies.php">Cookie Policy</a>
+                <a href="https://projectreporthub.ng/terms.php">Terms & Conditions</a>
+                <a href="https://projectreporthub.ng/disclaimer.php">Disclaimer and Phishing Claims</a>
+            </div>
+        </div>
+
+        <!-- Market Place Links -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <h4>Market Place</h4>
+            <div class="footer_menu_item">
+                <?php
+                $sql = "SELECT * FROM " . $siteprefix . "categories WHERE parent_id IS NULL LIMIT 6";
+                $sql2 = mysqli_query($con, $sql);
+                while ($row = mysqli_fetch_array($sql2)) {
+                    $category_name = $row['category_name'];
+                    $slugs = strtolower(str_replace(' ', '-', $category_name));
+                    echo '<a href="https://projectreporthub.ng/category/' . $slugs . '">' . $category_name . '</a>';
+                }
+                ?>
+            </div>
+        </div>
+
+        <!-- Resources Links -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <h4>Resources</h4>
+            <div class="footer_menu_item">
+                <?php
+                $sql = "SELECT * FROM " . $siteprefix . "resource_types WHERE parent_id IS NULL LIMIT 6";
+                $sql2 = mysqli_query($con, $sql);
+                while ($row = mysqli_fetch_array($sql2)) {
+                    $title = $row['name'];
+                    $id = $row['id'];
+                    echo '<a href="https://projectreporthub.ng/resource.php?resources=' . $id . '">' . $title . '</a>';
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
         
         <div class="copyright_part">
             <div class="container">
