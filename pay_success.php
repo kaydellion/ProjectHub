@@ -241,7 +241,7 @@ sendEmail($email, $username, $siteName, $siteMail,$emailMessage, $subject, $atta
                         $file_path = $row_item['title'];
                         echo "<tr>";
                         echo "<td>$report_title</td>";
-                        echo "<td><a href='https://www.projectreporthub.ng/uploads/$file_path' class='btn btn-success' download>Download</a></td>";
+                        echo "<td><a href='$siteurl$documentPath$file_path' class='btn btn-success' download>Download</a></td>";
                         echo "</tr>";
                     }
                 } else {
