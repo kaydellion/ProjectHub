@@ -2,7 +2,7 @@
 $sql = "SELECT d.*, u.first_name,u.last_name
         FROM ".$siteprefix."disputes d 
         LEFT JOIN ".$siteprefix."users u ON d.user_id = u.s 
-        WHERE d.status='pending' 
+        WHERE d.status='under-review' 
         ORDER BY d.created_at DESC";
 $result = mysqli_query($con, $sql);
 ?>

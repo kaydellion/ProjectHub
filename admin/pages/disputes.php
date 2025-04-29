@@ -2,7 +2,7 @@
 $sql = "SELECT d.*, u.first_name, u.last_name 
 FROM ".$siteprefix."disputes d 
 LEFT JOIN ".$siteprefix."users u ON d.user_id = u.s 
-WHERE d.status='pending' 
+WHERE d.status='pending' OR d.status='awaiting-response'
 ORDER BY d.created_at DESC";
 $result = mysqli_query($con, $sql);
 ?>
@@ -12,7 +12,7 @@ $result = mysqli_query($con, $sql);
 <div class="row">
 <div class="col-md-12">
 <div class="d-flex justify-content-between align-items-center mb-4">
-<h3>Dispute Resolution Center</h3>>
+<h3>Dispute Resolution Center</h3>
 </div>
 <table class="table table-bordered border-primary">
     <tr>

@@ -1,5 +1,8 @@
 <?php
 
+$total_amount = $total_withdrawal = $total_cleared =0;
+$total_resources_sold = 0;
+
 //get total order amount
 if($active_log==1){
     $sql = "SELECT SUM(price) as total FROM pr_order_items WHERE order_id = ?";
@@ -16,12 +19,22 @@ if($active_log==1){
     $stmt->bind_param("ds", $order_total, $order_id);
     $stmt->execute();
     $stmt->close();
+
+    // Fetch data for the cards
+$withdrawal_query = "SELECT SUM(amount) AS total_withdrawal FROM ".$siteprefix."withdrawal WHERE user='$user_id' AND status='pending'";
+$withdrawal_result = mysqli_query($con, $withdrawal_query);
+$withdrawal_row = mysqli_fetch_assoc($withdrawal_result);
+$total_withdrawal = $withdrawal_row['total_withdrawal'] ?? 0;
+
+// Fetch Cleared Transactions
+$cleared_query = "SELECT SUM(amount) AS total_cleared FROM ".$siteprefix."withdrawal WHERE status='paid'";
+$cleared_result = mysqli_query($con, $cleared_query);
+$cleared_row = mysqli_fetch_assoc($cleared_result);
+$total_cleared = $cleared_row['total_cleared'] ?? 0;
 } else ($order_total = 0);
 
 
 // place order
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     // Get the order ID and user ID from the form
     $order_id = $_POST['order_id'];
@@ -312,19 +325,13 @@ if(isset($_POST['register-user'])){
             exit();
         }
 
-    $emailSubject="Confirm Your Email – Project Report Hub";
+    $emailSubject="Confirm Your Email";
     $emailMessage = "
-    <p>Dear $display_name,</p>
     <p>Thank you for signing up on <strong>ProjectReportHub.ng</strong>! To complete your registration
     and start exploring our platform, please verify your email address by clicking the link below:</p>
     <p><a href='$siteurl/verifymail.php?verify_status=$user_id'>Click here to verify your email</a></p>
     <p>Once verified, you can log in and start accessing premium reports, upload your content,
-    or manage your dashboard.</p>
-    <p>Thanks for joining us!</p>
-    <p>Warm Regards,<br>
-    Ikechukwu Anaekwe<br>
-    Project Report Hub<br>
-    <em>Customer Support Team</em></p>";
+    or manage your dashboard.</p>";
 
         $adminmessage = "A new user has been registered($display_name)";
         $link="users.php";
@@ -952,17 +959,9 @@ if (isset($_POST['create_dispute'])){
         $emailSubject="Dispute Submitted Successfully – Ticket No:$ticket_number";
 
         $emailMessage = "
-        <p>Dear $display_name,</p>
-        
         <p>Thank you for submitting your dispute. We’ve received your request and assigned it the following ticket number: <strong>$ticket_number</strong>.</p>
-        
         <p>Our support team will review the details and get back to you as soon as possible.</p>
-        
-        <p>Visit <a href='https://www.projectreporthub.ng'>ProjectReportHub.ng</a> to track your dispute status or explore more resources.</p>
-        
-        <p>Warm regards,</p>
-        <p>The Project Report Hub Team</p>
-        <p><a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
+        <p>Visit <a href='$siteurl'>ProjectReportHub.ng</a> to track your dispute status or explore more resources.</p>
         ";
         $adminmessage = "A new dispute has been submitted ($ticket_number)";
         $link="ticket.php?ticket_number=$ticket_number";

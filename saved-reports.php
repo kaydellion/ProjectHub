@@ -5,8 +5,14 @@ $limit = 16; // Number of reports per page
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
-$query = "SELECT DISTINCT category_name AS subcategory 
-ROM ".$siteprefix."categories WHERE parent_id = $id";
+$query = "SELECT r.*, u.display_name, u.profile_picture, l.category_name AS category, sc.category_name AS subcategory, ri.picture 
+FROM ".$siteprefix."reports r 
+LEFT JOIN ".$siteprefix."wishlist w ON w.product = r.id 
+LEFT JOIN ".$siteprefix."categories l ON r.category = l.id 
+LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
+LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id 
+LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id 
+WHERE r.status = 'approved' AND w.user='$user_id' GROUP BY r.id ORDER BY r.id DESC LIMIT $limit OFFSET $offset";
 $result = mysqli_query($con, $query);
 $report_count = mysqli_num_rows($result);
 

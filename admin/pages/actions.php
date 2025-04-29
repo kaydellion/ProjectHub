@@ -159,22 +159,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['suspend_user'])) {
                 $user_name = $user_row['display_name'];
 
                 // Prepare the email
-                $emailSubject = "Account Suspension Notice – Project Report Hub";
+                $emailSubject = "Account Suspension Notice ";
                 $emailMessage = "
-                    <p>Dear $user_name,</p>
                     <p>We regret to inform you that your account on <strong>ProjectReportHub.ng</strong> has been temporarily suspended due to a violation of our platform’s terms of use and seller guidelines.</p>
                     <p>This action has been taken to maintain the integrity and quality of our marketplace for all users.</p>
                     <p><strong>Reason for Suspension:</strong> $reason</p>
                     <p><strong>Duration:</strong> $duration_value $duration_type</p>
                     <p>We kindly request that you review your account and take the necessary corrective steps. If you believe this suspension was made in error or would like to appeal the decision, please contact us at <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> with relevant details.</p>
-                    <p>Your cooperation is appreciated, and we look forward to resolving this matter promptly.</p>
-                    <p>Warm regards,</p>
-                    <p><strong>The Project Report Hub Team</strong><br>
-                    <a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
-                ";
+                    <p>Your cooperation is appreciated, and we look forward to resolving this matter promptly.</p>";
 
                 // Send the email
-                if (sendEmail($user_email, $user_name, $sitename, $sitemail, $emailMessage, $emailSubject)) {
+                if (sendEmail($user_email, $user_name, $siteName, $siteMail, $emailMessage, $emailSubject)) {
                     // Display success message
                     $message = "User suspended successfully, and an email notification has been sent.";
                     showSuccessModal('Processed', $message);

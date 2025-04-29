@@ -30,18 +30,12 @@
                             $name = $row["display_name"];
                             $email = $row["email"];
                         }
-                        $subject = "Welcome to Project Report Hub";
+$subject = "Welcome to Project Report Hub";
 $emailMessage = "
-    <p>Dear $name,</p>
     <p>Your email has been successfully verified — welcome aboard!</p>
     <p>You can now access your dashboard, explore premium academic resources, and start uploading or downloading reports.</p>
     <p><a href='https://www.projectreporthub.ng'>Visit ProjectReportHub.ng</a> to get started.</p>
-    <p>We're excited to have you on the platform!</p>
-    <br>
-    <p>Warm regards,</p>
-    <p>The Project Report Hub Team</p>
-    <p><a href='mailto:hello@projectreporthub.ng'>hello@projectreporthub.ng</a> | 🌐 <a href='https://www.projectreporthub.ng'>www.projectreporthub.ng</a></p>
-";
+    <p>We're excited to have you on the platform!</p>";
                         if(mysqli_query($con, "UPDATE ".$siteprefix."users SET status='active' where s='$user_log'")) {
                             if(sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $subject)) {
                                 $message = 'Email Verified Successfully!';
