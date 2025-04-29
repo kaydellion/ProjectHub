@@ -98,9 +98,36 @@ if (isset($user_id) && isset($report_id)) {
         <div class="col-md-6">
             <h1 class="h2 mb-3"><?php echo $title; ?></h1>
             <div class="mb-3">
-                <span class="h4 me-2"><?php echo $sitecurrency; echo $price; ?></span><br>
-               <?php if($loyalty==1){ ?> <span class="badge text-light bg-danger ms-2">Loyalty Material</span> <?php } ?>
-            </div>
+    <span class="h4 me-2"><?php echo $sitecurrency; echo number_format($price, 2); ?></span><br>
+    <?php if ($loyalty == 1): ?>
+        <span class="badge text-light bg-danger ms-2">Loyalty Material</span>
+        <h6>Buy for Less – <a href="loyalty-program.php">Sign up</a> as a loyalty member today!</h6>
+        <p>
+        <?php
+    // Fetch all loyalty plans
+    $loyalty_query = "SELECT name, discount FROM {$siteprefix}subscription_plans WHERE status = 'active'";
+    $loyalty_result = mysqli_query($con, $loyalty_query);
+
+    if ($loyalty_result && mysqli_num_rows($loyalty_result) > 0) {
+        while ($row = mysqli_fetch_assoc($loyalty_result)) {
+            $plan_name = $row['name'];
+            $discount = $row['discount']; // Discount percentage
+            $discounted_price = $price - ($price * ($discount / 100)); // Calculate discounted price
+            ?>
+           <span class="badge bg-primary me-2">
+    <a href="loyalty-program.php" class="text-white text-decoration-none">
+        <?php echo "{$plan_name} - ₦ " . number_format($discounted_price, 2); ?>
+    </a>
+</span>
+            <?php
+        }
+    } 
+    ?>
+           
+        </p>
+    <?php endif; ?>
+</div>
+        
             
             <div class="mb-1">
                 <div class="d-flex align-items-center">
@@ -192,34 +219,29 @@ while ($row = mysqli_fetch_array($sql2)) {
 
             <!-- Actions -->
 
-            <div class="d-flex justify-content-start align-items-center mt-3 mb-3">
- 
-
+            <div class="d-flex align-items-center mt-3 mb-3 gap-2">
     <!-- Add to Cart Button -->
-    <input type="hidden" name="report_id"  id="current_report_id" value="<?php echo $report_id;?>">
-                <input type="hidden" name="affliate_id" id="affliate_id" value="<?php echo $affliate_id;?>">
-                <button class="btn btn-primary me-2 px-4 py-3" type="button" data-report="<?php echo $report_id;?>" name="add" id="addCart">Add to Cart</button>
-                </form>
-    
+    <input type="hidden" name="report_id" id="current_report_id" value="<?php echo $report_id; ?>">
+    <input type="hidden" name="affliate_id" id="affliate_id" value="<?php echo $affliate_id; ?>">
+    <button class="btn btn-primary add-to-cart" type="button" data-report="<?php echo $report_id; ?>" name="add" id="addCart">
+        Add to Cart
+    </button>
 
     <!-- Add to Wishlist Button -->
-    <button class="btn <?php echo $initialbtn; ?> addtowishlist me-2" type="button" data-product-id="<?php echo $report_id; ?>"><i class="far fa-heart me-2"></i><?php echo $initialtext; ?></button>
+    <button class="btn <?php echo $initialbtn; ?> addtowishlist" type="button" data-product-id="<?php echo $report_id; ?>">
+        <i class="far fa-heart me-2"></i><?php echo $initialtext; ?>
+    </button>
+
     <!-- Report Product Button -->
-    <!-- Report Product Button -->
-<?php if ($active_log == 1): ?>
-    <div class="d-flex justify-content-left mt-3 mb-3">
+    <?php if ($active_log == 1): ?>
         <button class="btn btn-danger" data-toggle="modal" data-target="#reportProductModal">
             <i class="fas fa-flag"></i> Report Product
         </button>
-    </div>
-<?php else: ?>
-    <div class="d-flex justify-content-left mt-3 mb-3">
+    <?php else: ?>
         <button class="btn btn-secondary" disabled>
             <i class="fas fa-flag"></i> Report Product
         </button>
-    </div>
-<?php endif; ?>
-   
+    <?php endif; ?>
 </div>
           <!-- Social Share Icons -->
 <!-- Social Share Icons -->

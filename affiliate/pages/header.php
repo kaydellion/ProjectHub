@@ -256,7 +256,7 @@ include "actions.php"; ?>
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                      <img src="../../uploads/<?php echo htmlspecialchars($profile_picture); ?>" alt class="w-px-40 h-auto rounded-circle" />
+                      <img src="<?php echo $siteurl.$imagePath.$profile_picture; ?>" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -265,7 +265,7 @@ include "actions.php"; ?>
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
-                              <img src="../../uploads/<?php echo htmlspecialchars($profile_picture); ?>" alt="" style="object-fit:contain;" class="w-px-40 h-auto rounded-circle" />
+                              <img src="<?php echo $siteurl.$imagePath.$profile_picture; ?>" alt="" style="object-fit:contain;" class="w-px-40 h-auto rounded-circle" />
                             </div>
                           </div>
                           <div class="flex-grow-1">

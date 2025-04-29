@@ -210,7 +210,7 @@ include "actions.php"; ?>
 
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="manual_orders.php" class="menu-link">
+                  <a href="pending-orders.php" class="menu-link">
                     <div data-i18n="Without menu">Pending Payment</div>
                   </a>
                 </li>
@@ -220,7 +220,7 @@ include "actions.php"; ?>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="approved_payment.php" class="menu-link">
+                  <a href="approve_payment.php" class="menu-link">
                     <div data-i18n="Container">Approved</div>
                   </a>
                 </li>

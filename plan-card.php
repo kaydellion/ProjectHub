@@ -32,6 +32,7 @@
 $current_date = date("Y-m-d H:i:s");
 
 // Check if the user has an active subscription
+/*
 $subscription_query = "SELECT * FROM " . $siteprefix . "loyalty_purchases
     WHERE user_id = $user_id AND loyalty_id = $plan_id AND end_date > '$current_date' LIMIT 1";
 $subscription_result = mysqli_query($con, $subscription_query);
@@ -45,12 +46,14 @@ $has_downloads = !empty($user_row['downloads']) && (int)$user_row['downloads'] >
 
 // Combine both conditions (AND logic)
 $user_has_active_plan = $has_active_subscription && $has_downloads;
+
+*/
 ?>
               
                 
                 
                 <?php if ($active_log == 1): ?>
-                    <?php if ($user_has_active_plan): ?>
+                    <?php if ($loyalty > 0): ?>
                         <!-- Manage Subscription Button -->
                         <a href="loyalty-status.php" class="btn btn-primary">Manage Subscription</a>
                         <!-- Disabled Subscribe Button -->
