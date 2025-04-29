@@ -434,6 +434,13 @@ body {
   font-size: 14px;
 }
 
+.text-white{
+ color: #fff !important;
+}
+
+.capitalize{
+  text-transform: capitalize !important; 
+}
 /* line 10, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_common.scss */
 .message_submit_form:focus {
   outline: none;
