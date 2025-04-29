@@ -72,7 +72,7 @@
         <div class="card text-white bg-primary mb-3">
         <div class="card-body">
                     <h5 class="card-title text-white">Dispute Refunds</h5>
-                    <p class="card-text text-white"><?php echo $sitecurrency . number_format($total_withdrawal, 2); ?></p>
+                    <p class="card-text text-white"><?php echo $sitecurrency . number_format($totalDisputeAmount, 2); ?></p>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
         <div class="card text-white bg-primary mb-3">
         <div class="card-body">
                     <h5 class="card-title text-white">Total Amount Earned</h5>
-                    <p class="card-text text-white"><?php echo $sitecurrency . number_format($total_withdrawal, 2); ?></p>
+                    <p class="card-text text-white"><?php echo $sitecurrency . number_format($totalEarnedAmount, 2); ?></p>
                 </div>
             </div>
         </div>

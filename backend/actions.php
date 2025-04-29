@@ -1,6 +1,6 @@
 <?php
 
-$total_amount = $total_withdrawal = $total_cleared =0;
+$total_amount = $total_withdrawal = $total_cleared = $totalDisputeAmount= $totalEarnedAmount = 0;
 $total_resources_sold = 0;
 
 //get total order amount
@@ -31,6 +31,30 @@ $cleared_query = "SELECT SUM(amount) AS total_cleared FROM ".$siteprefix."withdr
 $cleared_result = mysqli_query($con, $cleared_query);
 $cleared_row = mysqli_fetch_assoc($cleared_result);
 $total_cleared = $cleared_row['total_cleared'] ?? 0;
+$userId = $user_id; 
+
+$stmt = $pdo->prepare("
+    SELECT
+        SUM(CASE
+            WHEN reason LIKE '%Dispute Resolution:%' AND status = 'credit' THEN amount
+            ELSE 0
+        END) AS total_dispute_amount,
+        
+        SUM(CASE
+            WHEN reason LIKE '%Payment from Order ID%' AND status = 'credit' THEN amount
+            ELSE 0
+        END) AS total_earned_amount
+    FROM ".$siteprefix."wallet_history
+    WHERE user = :user_id
+");
+$stmt->execute(['user_id' => $userId]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Assign to variables
+$totalDisputeAmount = $row['total_dispute_amount'] ?? 0;
+$totalEarnedAmount = $row['total_earned_amount'] ?? 0;
+
+
 } else ($order_total = 0);
 
 
@@ -1120,7 +1144,6 @@ $amount=$_POST['amount'];
 $status="pending";
 
 
-
 $emailMessage="<p>We are writing to confirm that we have successfully received your withdrawal request in the amount of $sitecurrency$amount.<br>
 Please note that your request is currently being processed and is expected to be completed within the next twenty-four (24) hours. Once the transaction has been finalized, you will receive a confirmation notification.<br>
 Should you have any questions or require further assistance, please do not hesitate to contact our support team.<br>
@@ -1137,7 +1160,7 @@ $link="withdrawals.php";
 $msgtype='New Withdrawal';
 $message_status=1;
 insertadminAlert($con, $adminmessage, $link, $date, $msgtype, $message_status); 
-sendEmail($email, $name, $siteName, $siteMail, $emailMessage, $emailSubject);
+sendEmail($email, $display_name, $siteName, $siteMail, $emailMessage, $emailSubject);
 sendEmail($siteMail, $adminName, $siteName, $siteMail, $emailMessage_admin, $emailSubject);
     
    
