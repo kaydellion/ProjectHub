@@ -95,7 +95,11 @@ $total_pages = ceil($total_reports / $limit);
                         $updated_date = $row['updated_date'];
                         $status = $row['status'];
                         $image_path = $imagePath.$row['picture'];
-
+                        $methodology = $row['methodology'];
+                        $selected_education_level = $row['education_level'] ?? '';
+                        $selected_resource_type = $row['resource_type'] ?? '';
+                        $selected_resource_type_array = explode(',', $selected_resource_type);
+                        $slug = strtolower(str_replace(' ', '-', $title));
                         include "product-card.php";
                     }
                 } else {

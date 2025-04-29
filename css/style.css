@@ -16,6 +16,9 @@ html, body {
 .capitalize{
 text-transform: capitalize !important;
 }
+.text-white {
+  color: #FFF !important;
+}
 
 /* Overlay container for category and subcategory */
 .category-overlay {
@@ -3159,11 +3162,15 @@ ul {
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1200px) {
+
+
   /* line 1, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_single_product.scss */
   .single_product_list {
     padding: 100px 0 100px;
   }
 }
+
+
 
 /* line 9, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_single_product.scss */
 .single_product_list .single_product_img {
