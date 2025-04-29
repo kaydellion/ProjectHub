@@ -1,7 +1,7 @@
 <?php
 include "backend/connect.php";
 $category_titles = [];
-$sql = "SELECT * FROM " . $siteprefix . "resource_types WHERE parent_id IS NULL LIMIT 6";
+$sql = "SELECT * FROM pr_resource_types WHERE parent_id IS NULL";
 $sql2 = mysqli_query($con, $sql);
 
 while ($row = mysqli_fetch_array($sql2)) {
