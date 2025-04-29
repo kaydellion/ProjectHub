@@ -7,9 +7,7 @@ if (isset($_COOKIE['userID'])) {
 }
 
 unset($_SESSION['id']);
-unset($_SESSION['email']);
-unset($_SESSION['password']);
-unset($_SESSION['name']);
+
 
 $message = "Logged Out Successfully";
 
