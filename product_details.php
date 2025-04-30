@@ -83,7 +83,7 @@ $rating_data = calculateRating($report_id, $con, $siteprefix);
 $average_rating = $rating_data['average_rating'];
 $review_count = $rating_data['review_count'];
 
-
+$loyalty_id=0;
 $initialtext = "Add to Wishlist";
 $initialbtn = "btn-outline-secondary";
 if($active_log==1){
