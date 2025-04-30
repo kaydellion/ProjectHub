@@ -8999,13 +8999,13 @@ h6 {
 /**********************footer part css*******************/
 /* line 3, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_footer.scss */
 .footer_part .footer_iner {
-  padding: 120px 0;
+  padding-top: 120px;
 }
 
 @media (max-width: 991px) {
   /* line 3, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_footer.scss */
   .footer_part .footer_iner {
-    padding: 70px 0;
+    padding-top: 70px;
   }
 }
 
