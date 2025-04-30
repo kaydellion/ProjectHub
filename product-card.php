@@ -71,12 +71,15 @@ if ($row_education_level = $result_education_level->fetch_assoc()) {
                 <span class="subcategory-btn bg-secondary"><?php echo $subcategory; ?></span>
             </div>
               
-                </div>
+            </div>
     <div class="single_product_text">
+    <?php if ($loyalty == 1): ?>
+   <span class="badge text-light bg-danger ms-2">Loyalty Material</span>
+   <?php endif; ?>
     <a href="<?php echo $siteurl;?>product/<?php echo $slug; ?>">
     <h5 class="text-bold capitalize"><?php echo htmlspecialchars($title); ?></h5>
 </a>
-                            <a class="text-muted">
+   <a class="text-muted">
     <?php if (!empty($education_level)) { ?>
         <strong>Level:</strong> <?php echo $education_level; ?><br>
     <?php } ?>
