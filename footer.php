@@ -53,7 +53,7 @@
             <h4>Resources</h4>
             <div class="footer_menu_item">
                 <?php
-                $sql = "SELECT * FROM " . $siteprefix . "resource_types WHERE parent_id IS NULL LIMIT 6";
+                $sql = "SELECT * FROM " . $siteprefix . "resource_types WHERE parent_id IS NULL LIMIT 8";
                 $sql2 = mysqli_query($con, $sql);
                 while ($row = mysqli_fetch_array($sql2)) {
                     $title = $row['name'];
