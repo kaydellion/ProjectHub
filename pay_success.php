@@ -114,6 +114,18 @@ if (mysqli_affected_rows($con) > 0) {
         $link = "profits.php";
         $msgtype = "profits";
         insertadminAlert($con, $message, $link, $date, $msgtype, 0);
+        } 
+        else if($sellertype=="admin"||$sellertype=="sub-admin"){
+        // Admin commission deduction
+        $admin_commission = $price;
+        $sql_insert_commission = "INSERT INTO ".$siteprefix."profits (amount, report_id, order_id, date) VALUES ('$admin_commission', '$report_id', '$order_id', '$date')";
+        mysqli_query($con, $sql_insert_commission);
+            
+        // Notify admin
+        $message = "Admin Commission of $sitecurrency$admin_commission from Order ID: $order_id";
+        $link = "profits.php";
+        $msgtype = "profits";
+        insertadminAlert($con, $message, $link, $date, $msgtype, 0);
         }
                 
                 // Credit seller
