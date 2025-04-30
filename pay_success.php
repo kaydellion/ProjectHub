@@ -208,10 +208,10 @@ sendEmail2($email, $username, $siteName, $siteMail,$emailMessage, $subject, $att
         <p class="mb-0">Thank you for your order.</p>
     </div>
     <div class="card text-center">
-        <div class="card-header bg-success text-white">ðŸŽ‰ Thank You for Your Purchase!</div>
+        <div class="card-header bg-success text-white">Thank You for Your Purchase!</div>
         <div class="card-body">
             <h5 class="card-title">Order processed successfully.</h5>
-            <a href="my_orders.php" class="btn btn-primary mt-4"> ðŸ”™ Back to My Orders</a>
+            <a href="my_orders.php" class="btn btn-primary mt-4"> Back to My Orders</a>
         </div>
         <div class="card-footer text-muted">We appreciate your business! ðŸ’–</div>
     </div>
