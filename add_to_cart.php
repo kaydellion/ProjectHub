@@ -69,7 +69,9 @@ if ($price == "") {
     exit();
 }
 
-
+$sql_count = "SELECT COUNT(*) as count FROM pr_order_items WHERE item_id = '$file_id' AND report_id = '$report_id' AND order_id = '$order_id'";
+$result_count = mysqli_query($con, $sql_count);
+$row_count = mysqli_fetch_assoc($result_count);
 
 // Apply loyalty discount if applicable
 if ($loyalty > 0) {
@@ -117,7 +119,7 @@ if ($discount == "") {
     // Debugging: Log downloads limit
     $debug['results']['downloads_limit'] = $downloads;
 
-    if ($count >= $downloads) {
+    if ($count < 1) {
         // Notify user and set loyalty to 0
         $query = "UPDATE pr_users SET loyalty = 0 WHERE s = '$user_id'";
         mysqli_query($con, $query);
@@ -153,8 +155,8 @@ if ($discount == "") {
             }
         }
     } else {
-    //deduct from downloads
-    decreaseDownloads($con, $user_id);
+    //deduct from downloads if item has not been added
+    if ($row_count['count'] < 1) { decreaseDownloads($con, $user_id);}
     }
 }
 
@@ -162,10 +164,7 @@ if ($discount == "") {
 $debug['results']['final_price'] = $price;
 
 // Check if item already exists in order
-$sql = "SELECT COUNT(*) as count FROM pr_order_items WHERE item_id = '$file_id' AND report_id = '$report_id' AND order_id = '$order_id'";
-$result = mysqli_query($con, $sql);
-$row = mysqli_fetch_assoc($result);
-if ($row['count'] > 0) {
+if ($row_count['count'] > 0) {
     $sql = "UPDATE pr_order_items SET price = $price, original_price = $original_price, loyalty_id = '$loyalty' WHERE item_id = '$file_id' AND report_id = '$report_id' AND order_id = '$order_id'";
     mysqli_query($con, $sql);
     
