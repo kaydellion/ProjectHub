@@ -16,6 +16,7 @@ showErrorModal($statusAction,$statusMessage);
     $sql2 = mysqli_query($con, $sql);
     while ($row = mysqli_fetch_array($sql2)) {
         $user_name = $row['display_name'];
+        $user_id = $row['id'];
         $user_email = $row['email'];}
         
 $randomPassword = generateRandomHardPassword();
@@ -24,7 +25,7 @@ $emailSubject="Password Reset";
 $statusAction="Successful";
 $statusMessage="Password reset successfully. Please check your email!";
 $randomPassword=hashPassword($randomPassword);
-$submit = mysqli_query($con, "UPDATE " . $siteprefix . "users SET password ='$randomPassword' WHERE email = '$email'") or die('Could not connect: ' . mysqli_error($con));
+$submit = mysqli_query($con, "UPDATE " . $siteprefix . "users SET password ='$randomPassword' WHERE id = '$user_id'") or die('Could not connect: ' . mysqli_error($con));
 sendEmail($user_email, $user_name, $siteName, $siteMail, $emailMessage, $emailSubject);
 showSuccessModal($statusAction,$statusMessage);
 }}
