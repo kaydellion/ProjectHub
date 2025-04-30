@@ -130,11 +130,11 @@ if (mysqli_affected_rows($con) > 0) {
                 insertAlert($con, $seller_id, "You have received $sitecurrency$seller_amount from Order ID: $order_id", $date, 0);
                 
 // Enhanced email content
-$emailSubject = "New Sale on Project Report Hub â€“ Letâ€™s Keep the Momentum Going!";
-$emailMessage = "<p>Great news! A new sale has just been made on ProjectReportHub.ng.</p>
+$emailSubject = "New Sale on Project Report Hub. Let's Keep the Momentum Going!";
+$emailMessage = "<p>Great news! A new sale has just been made on $siteurl.</p>
 <p><strong>Title of Resource:</strong> $resourceTitle</p>
-<p><strong>Price:</strong> $sitecurrency$price</p>
-<p><strong>Earning:</strong> $sitecurrency$seller_amount</p>
+<p><strong>Price:</strong> $sitecurrencycode$price</p>
+<p><strong>Earning:</strong> $sitecurrencycode$seller_amount</p>
 <p>This is a win for our community and a reminder that students and researchers are actively exploring and purchasing resources from our platform every day.</p>
 <p>If you havenâ€™t updated your listings recently, now is a great time to:</p>
 <ol>
@@ -143,7 +143,7 @@ $emailMessage = "<p>Great news! A new sale has just been made on ProjectReportHu
     <li>Add new documents that reflect trending industries</li>
 </ol>
 <p>The more visible and updated your resources are, the more sales opportunities you create.</p>
-<p>Letâ€™s keep the momentum going and continue providing high-value insights to Nigeria and the world!</p>";
+<p>Let's keep the momentum going and continue providing high-value insights to Nigeria and the world!</p>";
 
 // Send email to seller
 sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject);
