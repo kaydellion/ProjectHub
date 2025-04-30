@@ -13,46 +13,47 @@ $result = $stmt->get_result();
 
 ?>
 
-<div class="container mt-5 mb-5">
-    <h2 class="mb-4">My Orders</h2>
+<div class="container mt-5 mb-5 d-flex justify-content-center">
+    <div class="col-lg-10">
+        <h2 class="mb-4 text-center">My Orders</h2>
 
-    <?php if ($result->num_rows > 0) { ?>
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Date</th>
-                        <th>Total Amount</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $result->fetch_assoc()) { ?>
+        <?php if ($result->num_rows > 0) { ?>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped text-justify">
+                    <thead class="table-dark">
                         <tr>
-                            <td>#<?php echo $row['order_id']; ?></td>
-                            <td><?php echo formatDateTime($row['date']); ?></td>
-                            <td>₦<?php echo number_format($row['total_amount'], 2); ?></td>
-                            <td>
-                                <span class="badge bg-<?php echo ($row['status'] == 'paid') ? 'success' : 'warning'; ?>">
-                                    <?php echo ucfirst($row['status']); ?>
-                                </span>
-                            </td>
-                            <td>
-                                <a href="order_details.php?order_id=<?php echo $row['order_id']; ?>" class="text-small btn btn-kayd btn-sm">
-                                    View Details
-                                </a>
-                            </td>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
-    <?php } else { ?>
-        <div class="alert alert-info">You have no orders yet.</div>
-    <?php } ?>
-
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $result->fetch_assoc()) { ?>
+                            <tr>
+                                <td>#<?php echo $row['order_id']; ?></td>
+                                <td><?php echo formatDateTime($row['date']); ?></td>
+                                <td>₦<?php echo number_format($row['total_amount'], 2); ?></td>
+                                <td>
+                                    <span class="badge bg-<?php echo ($row['status'] == 'paid') ? 'success' : 'warning'; ?>">
+                                        <?php echo ucfirst($row['status']); ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="order_details.php?order_id=<?php echo $row['order_id']; ?>" class="text-small btn btn-kayd btn-sm">
+                                        View Details
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php } else { ?>
+            <div class="alert alert-info text-center">You have no orders yet.</div>
+        <?php } ?>
+    </div>
 </div>
 
 <?php include "footer.php"; ?>

@@ -17,7 +17,8 @@
 
 
 <section class="signup_part mt-5 mb-5">
-    <div class="container">
+    <div class="container d-flex justify-content-center">
+    <div class="col-lg-10"> 
         <div class="row align-items-center">
             <div class="col-lg-12 col-md-12">
                 <div class="signup_part_text">
@@ -140,8 +141,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
     </div>
+        </div>
+  
 </section>
 
 

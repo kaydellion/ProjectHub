@@ -150,7 +150,7 @@ while ($row = $result->fetch_assoc()) {
                           <select id="pricing-type" name="pricing" class="form-control" onchange="togglePrice()" required>
                             <option value="free">Free</option>
                             <option value="paid">Paid</option>
-                            <option value="donation">Donation</option>
+                           
                           </select>
                         </div>
 
