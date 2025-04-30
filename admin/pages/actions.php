@@ -415,7 +415,7 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
                     <p>Thank you for following $sellerName!</p>";
 
                 // Send the email
-                sendEmail($followerEmail, $followerName, $sitenNme, $siteMail, $emailMessage, $emailSubject);
+                sendEmail($followerEmail, $followerName, $siteName, $siteMail, $emailMessage, $emailSubject);
 
                 // Notify user
                 insertAlert($con, $followerId, "New resource titled $title has been posted by $sellerName", $currentdatetime, 0);
@@ -769,13 +769,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
         
     }
 
-    // Insert order
-    $insert_query = "INSERT INTO {$siteprefix}orders (order_id, user, status, total_amount, date) 
-                     VALUES ('$order_id', '$user_id', 'paid', '$amount', '$date')";
-    if (!mysqli_query($con, $insert_query)) {
-        showErrorModal('Oops', "Error inserting order.");
-     
-    }
+   
+   // Update order status
+$updates_query = "UPDATE {$siteprefix}orders 
+SET status = 'paid', total_amount = '$amount', date = '$date' 
+WHERE order_id = '$order_id'";
+
+if (!mysqli_query($con, $updates_query)) {
+    showErrorModal('Oops', "Error updating order status: " . mysqli_error($con));
+    exit;
+}
 
     // Fetch buyer details
     $buyer_result = mysqli_query($con, "SELECT email, display_name FROM {$siteprefix}users WHERE s = '$user_id'");
