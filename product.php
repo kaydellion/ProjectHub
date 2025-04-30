@@ -326,7 +326,7 @@ while ($row = mysqli_fetch_array($sql2)) {
         View Merchant Store
     </a>
 
-
+    <?php if ($active_log == 1): ?>
 
     <?php
     // Check if the user is already following the seller
@@ -364,6 +364,7 @@ while ($row = mysqli_fetch_array($sql2)) {
             </button>
         <?php endif; ?>
     </form>
+    <?php endif; ?>
 </div>
 
 
