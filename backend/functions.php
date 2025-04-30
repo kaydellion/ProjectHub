@@ -210,7 +210,7 @@ $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F5
    }
 }
 
-function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachments = []) {
+function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
     global $siteimg, $adminlink, $siteurl;
 
     $email_from = $siteMail;
@@ -245,7 +245,7 @@ $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F5
 </div>\r\n";
 
     // Attach files
-    foreach ($attachments as $file) {
+    foreach ($attachment as $file) {
         if (file_exists($file)) {
             $filename = basename($file);
             $filedata = chunk_split(base64_encode(file_get_contents($file)));
