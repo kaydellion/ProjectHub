@@ -54,7 +54,7 @@
 
         <!-- Pending Reports Card -->
 <div class="col-md-3">
-    <a href="reports.php">
+    <a href="pending-reports.php">
         <div class="card text-white bg-dark mb-3">
             <div class="card-body">
                 <h5 class="card-title text-white">Pending Reports</h5>
@@ -66,7 +66,7 @@
 
 <!-- Pending Payments Card -->
 <div class="col-md-3">
-    <a href="transactions.php?status=pending">
+    <a href="pending-orders.php">
         <div class="card text-white bg-primary mb-3">
             <div class="card-body">
                 <h5 class="card-title text-white">Pending Payments</h5>
@@ -78,7 +78,7 @@
 
 <!-- Pending Withdrawals Card -->
 <div class="col-md-3">
-    <a href="withdrawals.php?status=pending">
+    <a href="pending-withdrawals.php">
         <div class="card text-white bg-primary mb-3">
             <div class="card-body">
                 <h5 class="card-title text-white">Pending Withdrawals</h5>
@@ -90,7 +90,7 @@
 
 <!-- Pending Disputes Card -->
 <div class="col-md-3">
-    <a href="disputes.php?status=pending">
+    <a href="new-disputes.php">
         <div class="card text-white bg-dark mb-3">
             <div class="card-body">
                 <h5 class="card-title text-white">Pending Disputes</h5>

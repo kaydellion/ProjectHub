@@ -23,6 +23,7 @@ $emailMessage="<p>Your password has been reset successfully to $randomPassword <
 $emailSubject="Password Reset";
 $statusAction="Successful";
 $statusMessage="Password reset successfully. Please check your email!";
+$randomPassword=hashPassword($randomPassword);
 $submit = mysqli_query($con, "UPDATE " . $siteprefix . "users SET password ='$randomPassword' WHERE email = '$email'") or die('Could not connect: ' . mysqli_error($con));
 sendEmail($user_email, $user_name, $siteName, $siteMail, $emailMessage, $emailSubject);
 showSuccessModal($statusAction,$statusMessage);
