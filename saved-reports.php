@@ -17,7 +17,7 @@ $result = mysqli_query($con, $query);
 $report_count = mysqli_num_rows($result);
 
 // Get total number of reports
-$total_query = "SELECT COUNT(r.*) as total FROM 
+$total_query = "SELECT COUNT(DISTINCT r.id) as total FROM 
 ".$siteprefix."reports r 
 LEFT JOIN ".$siteprefix."wishlist w ON w.product = r.id 
 LEFT JOIN ".$siteprefix."categories l ON r.category = l.id 
