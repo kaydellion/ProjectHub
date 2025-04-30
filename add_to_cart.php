@@ -159,6 +159,8 @@ if ($discount == "") {
     //deduct from downloads if item has not been added
     if ($row_count['count'] < 1) { decreaseDownloads($con, $user_id);}
     }
+} else {
+$loyalty=0;
 }
 
 // Debugging: Log price after loyalty check
