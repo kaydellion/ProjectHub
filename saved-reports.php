@@ -27,7 +27,7 @@ LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
 WHERE r.status = 'approved' AND w.user='$user_id' GROUP BY r.id";
 $total_result = mysqli_query($con, $total_query);
 $total_row = mysqli_fetch_assoc($total_result);
-$total_reports = $total_row['total'];
+$total_reports = $total_row['total'] ?? 0;
 $total_pages = ceil($total_reports / $limit);
 ?>
 
