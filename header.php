@@ -36,7 +36,7 @@ if (mysqli_affected_rows($con) == 0) {
         $bank_name = $row['bank_name'];
         $bank_accname = $row['bank_accname'];
         $bank_number = $row['bank_number'];
-        $loyalty = $row['loyalty'];
+        $loyalty_id = $row['loyalty'];
         $wallet = $row['wallet'];
         $affliate = $row['affliate'];
         $facebook = $row['facebook'];

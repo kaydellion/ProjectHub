@@ -31,6 +31,21 @@ if (isset($user_id) && isset($report_id)) {
     mysqli_query($con, $log_view_query);
 }
 ?>
+<style>
+
+@media (max-width: 576px) {
+  .add-to-cart,
+  .addtowishlist,
+  .btn-danger,
+  .btn-secondary {
+      font-size: 0.6rem; /* Reduce font size for smaller screens */
+      padding: 6px 12px; /* Adjust padding for smaller buttons */
+  }
+
+ 
+}
+
+</style>
 
 <div class="container py-5">
     <div class="row">
@@ -101,6 +116,10 @@ if (isset($user_id) && isset($report_id)) {
     <span class="h4 me-2"><?php echo $sitecurrency; echo number_format($price, 2); ?></span><br>
     <?php if ($loyalty == 1): ?>
         <span class="badge text-light bg-danger ms-2">Loyalty Material</span>
+        <?php endif; ?>
+
+        <?php if ($loyalty_id > 1 && $price > 0 ): ?>
+       
         <h6>Buy for Less – <a href="loyalty-program.php">Sign up</a> as a loyalty member today!</h6>
         <p>
         <?php
@@ -219,7 +238,7 @@ while ($row = mysqli_fetch_array($sql2)) {
 
             <!-- Actions -->
 
-            <div class="d-flex align-items-center mt-3 mb-3 gap-2">
+            <div class="d-flex flex-wrap align-items-center mt-3 mb-3 gap-2">
     <!-- Add to Cart Button -->
     <input type="hidden" name="report_id" id="current_report_id" value="<?php echo $report_id; ?>">
     <input type="hidden" name="affliate_id" id="affliate_id" value="<?php echo $affliate_id; ?>">
@@ -235,11 +254,11 @@ while ($row = mysqli_fetch_array($sql2)) {
     <!-- Report Product Button -->
     <?php if ($active_log == 1): ?>
         <button class="btn btn-danger" data-toggle="modal" data-target="#reportProductModal">
-            <i class="fas fa-flag"></i> Report Product
+            <i class="fas fa-flag"></i> Report 
         </button>
     <?php else: ?>
         <button class="btn btn-secondary" disabled>
-            <i class="fas fa-flag"></i> Report Product
+            <i class="fas fa-flag"></i> Report
         </button>
     <?php endif; ?>
 </div>
@@ -334,7 +353,7 @@ while ($row = mysqli_fetch_array($sql2)) {
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="followingDropdown">
                     <li>
-                        <button type="submit" name="action" value="unfollow" class="dropdown-item">
+                        <button type="submit" name="actioning" value="unfollow" class="dropdown-item">
                             Unfollow
                         </button>
                     </li>
@@ -342,7 +361,7 @@ while ($row = mysqli_fetch_array($sql2)) {
             </div>
         <?php else: ?>
             <!-- Follow Button -->
-            <button type="submit" name="action" value="follow" class="btn btn-outline-primary btn-sm">
+            <button type="submit" name="actioning" value="follow" class="btn btn-outline-primary btn-sm">
                 Follow Seller
             </button>
         <?php endif; ?>
@@ -752,7 +771,7 @@ if ($result) {
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="reportProductModalLabel">Report Product</h5>
+                <h5 class="modal-title" id="reportProductModalLabel">Report <?php echo $title; ?></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

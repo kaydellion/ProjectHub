@@ -4,19 +4,32 @@ checkActiveLog($active_log);
 ?>
 <?php
 // Fetch number of available downloads from the users table
-$userQuery = "SELECT downloads FROM ".$siteprefix."users WHERE s = '$user_id'";
+$userQuery = "SELECT downloads FROM {$siteprefix}users WHERE s = '$user_id'";
 $userResult = mysqli_query($con, $userQuery);
-$userRow = mysqli_fetch_assoc($userResult);
-$totalDownloads = !empty($userRow['downloads']) ? (int)$userRow['downloads'] : 0;
 
-// Fetch number of downloads already done from the loyalty_purchases table
-$downloadsQuery = "SELECT SUM(downloads) AS total_downloads FROM ".$siteprefix."loyalty_purchases WHERE user_id = '$user_id'";
+// Step 1: Fetch number of allowed downloads
+$totalDownloads = 0;
+$userQuery = "SELECT downloads FROM {$siteprefix}users WHERE s = '$user_id'";
+$userResult = mysqli_query($con, $userQuery);
+if ($userResult) {
+    $userRow = mysqli_fetch_assoc($userResult);
+    if ($userRow && isset($userRow['downloads'])) {
+        $totalDownloads = (int)$userRow['downloads'];
+    }
+}
+  
+// Step 2: Fetch total number of downloads already made
+$downloadsDone = 0;
+$downloadsQuery = "SELECT SUM(downloads) AS total_downloads FROM {$siteprefix}loyalty_purchases WHERE user_id = '$user_id'";
 $downloadsResult = mysqli_query($con, $downloadsQuery);
-$downloadsRow = mysqli_fetch_assoc($downloadsResult);
-$downloadsDone = !empty($downloadsRow['total_downloads']) ? (int)$downloadsRow['total_downloads'] : 0;
+if ($downloadsResult) {
+    $downloadsRow = mysqli_fetch_assoc($downloadsResult);
+    // Even if SUM() returns NULL, default it to 0
+    $downloadsDone = isset($downloadsRow['total_downloads']) ? (int)$downloadsRow['total_downloads'] : 0;
+}
 
-// Calculate remaining downloads
-$availableDownloads = max(0, $totalDownloads - $downloadsDone);
+// Step 3: Calculate remaining downloads (never negative)
+$availableDownloads = max($totalDownloads - $downloadsDone, 0);
 ?>
 
 <div class="container mt-3">
@@ -34,7 +47,7 @@ $availableDownloads = max(0, $totalDownloads - $downloadsDone);
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
                     <h5 class="card-title text-white">Available Downloads</h5>
-                    <p class="card-text text-white"><?php echo $totalDownloads; ?></p>
+                    <p class="card-text text-white"><?php echo $availableDownloads; ?></p>
                 </div>
             </div>
         </div>

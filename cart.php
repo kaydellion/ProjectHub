@@ -39,7 +39,7 @@
                             <img src="<?php echo htmlspecialchars($picture); ?>"  alt="<?php echo htmlspecialchars($item['report_title']); ?>" class="img-fluid img-small rounded">
                         </div>
                         <div class="col-md-5">
-                            <a href="product?slug=<?php echo $slug; ?>"><h5 class="card-title"><?php echo htmlspecialchars($item['report_title']); ?></h5></a>
+                            <a href="<?php echo $siteurl; ?>product/<?php echo $slug; ?>"><h5 class="card-title"><?php echo htmlspecialchars($item['report_title']); ?></h5></a>
                             <p class="text-muted">Type: <?php echo htmlspecialchars(getFileExtension($item['file'])); ?></p>
                         </div>
                         <div class="col-md-2">

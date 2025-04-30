@@ -53,7 +53,7 @@ $user_has_active_plan = $has_active_subscription && $has_downloads;
                 
                 
                 <?php if ($active_log == 1): ?>
-                    <?php if ($loyalty > 0): ?>
+                    <?php if ($loyalty_id > 0): ?>
                         <!-- Manage Subscription Button -->
                         <a href="loyalty-status.php" class="btn btn-primary">Manage Subscription</a>
                         <!-- Disabled Subscribe Button -->
