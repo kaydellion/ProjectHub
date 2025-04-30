@@ -103,7 +103,7 @@ table th {
                   <td><span class="badge bg-<?php echo getBadgeColor($status); ?> me-1"><?php echo $status; ?></span></td>
                   <td>
                     <div class="dropdown">
-                    <button type="button" class="btn btn-primary text-small dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                    <button type="button" class="btn btn-primary text-small dropdown-toggle hide-arrow" data-bs-toggle="dropdown"  data-bs-display="dynamic">
                     <i class="bx bx-dots-vertical-rounded"></i>Manage
                     </button>
                     <div class="dropdown-menu">
