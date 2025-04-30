@@ -250,16 +250,18 @@ while ($row = mysqli_fetch_array($sql2)) {
     <button class="btn <?php echo $initialbtn; ?> addtowishlist" type="button" data-product-id="<?php echo $report_id; ?>">
         <i class="far fa-heart me-2"></i><?php echo $initialtext; ?>
     </button>
+    
 
     <!-- Report Product Button -->
     <?php if ($active_log == 1): ?>
-        <button class="btn btn-danger" data-toggle="modal" data-target="#reportProductModal">
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#reportProductModal">
             <i class="fas fa-flag"></i> Report 
         </button>
     <?php else: ?>
         <button class="btn btn-secondary" disabled>
             <i class="fas fa-flag"></i> Report
         </button>
+    </form>
     <?php endif; ?>
 </div>
           <!-- Social Share Icons -->
@@ -776,7 +778,7 @@ if ($result) {
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST">
+            <form id="reportForm" method="POST">
                 <div class="modal-body">
                     <input type="hidden" name="product_id" value="<?php echo $report_id; ?>">
                     <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
