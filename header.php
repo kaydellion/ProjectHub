@@ -112,9 +112,9 @@ include "backend/actions.php";
                 </div>
                 <div class="col-md-6 col-12 d-flex justify-content-end align-items-center">
                 <ul class="top-bar-links d-flex">
-                <li class="bg-secondary text-white p-2 me-2"><a class="text-white" href="<?php echo $siteurl; ?>loyalty-program.php">Loyalty Program</a></li>
-                <li class="bg-secondary text-white p-2 me-2"><a class="text-white" href="<?php echo $siteurl; ?>become_an_affliate.php">Affliate Program</a></li>
-                <li class="bg-secondary text-white p-2 me-2"><a class="text-white" href="<?php echo $siteurl; ?>marketplace.php">Marketplace</a></li>
+                <li class="bg-secondary text-white p-2 me-2"><a class="text-white text-small" href="<?php echo $siteurl; ?>loyalty-program.php">Loyalty Program</a></li>
+                <li class="bg-secondary text-white p-2 me-2"><a class="text-white text-small" href="<?php echo $siteurl; ?>become_an_affliate.php">Affliate Program</a></li>
+                <li class="bg-secondary text-white p-2 me-2"><a class="text-white text-small" href="<?php echo $siteurl; ?>marketplace.php">Marketplace</a></li>
                     <?php if($active_log==0){ ?>
                     <li class="bg-dark-orange p-2"><a class="" href="<?php echo $siteurl; ?>become_a_seller.php">Become a Seller</a></li>
                     <?php } else {?>
