@@ -142,7 +142,7 @@ include "backend/actions.php";
                                 <li class="nav-item"><a class="nav-link" href="<?php echo $siteurl; ?>index.php">Home</a></li>
                                 <li class="nav-item"><a class="nav-link" href="<?php echo $siteurl; ?>about-us.php">About</a></li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="<?php echo $siteurl; ?>blog.php" id="navbarDropdown_1"
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1"
                                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                      Marketplace
                                     </a>
