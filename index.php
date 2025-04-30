@@ -129,6 +129,7 @@ results with ease — all in one place.</p>
                                 $image_path = $imagePath . $row['picture'];
                                 $user = $row['display_name'];
                                 $user_picture = $imagePath . $row['profile_picture'];
+                                $slug = strtolower(str_replace(' ', '-', $title));
 
                                 // Include the swiper card for each report
                                 include "swiper-card.php";

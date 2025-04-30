@@ -38,6 +38,7 @@ if ($row) {
     $status = $row['status'];
     $methodology = $row['methodology'];
     $answer = $row['answer'] ?? '';
+    $slug = strtolower(str_replace(' ', '-', $title));
 
 $selected_education_level = $row['education_level'] ?? '';
 $selected_resource_type = explode(',', $row['resource_type'] ?? ''); // assuming stored as comma-separated
