@@ -46,7 +46,7 @@ showSuccessModal($statusAction,$statusMessage);
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6">
+                <div class="col-lg-6 col-md-6 p-3">
                     <div class="login_part_form">
                         <div class="login_part_form_iner">
                             <h4>Reset Password</h4>
@@ -63,6 +63,7 @@ showSuccessModal($statusAction,$statusMessage);
                 </div>
             </div>
         </div>
+</div>
     </section>
     <!--================login_part end =================-->
 

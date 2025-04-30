@@ -17,27 +17,23 @@ $show="none"; $textshow="none";
     <section class="login_part mt-5">
         <div class="container">
             <div class="row align-items-center">
+
                 <div class="col-lg-6 col-md-6 order-2 order-md-1">
                     <div class="login_part_text text-center">
                         <div class="login_part_text_iner">
-                      
-                        
-
                             <h2>New to Project Report Hub?
                             </h2>
-                            <p>Join ProjectReportHub.ng today and unlock instant access to quality project reports,
-academic resources, and student-friendly tools. Stay ahead with the latest research
-trends and innovations across all fields of study!</p>
-                            <a href="signup.php" class="btn_3">Create an Account</a>
+                            <p>Join ProjectReportHub.ng today and unlock instant access to quality project reports,academic resources, and student-friendly tools. Stay ahead with the latest researchtrends and innovations across all fields of study!</p>
+                           <p> <a href="signup.php" class="btn_3">Create an Account</a></p>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-6 col-md-6">
                     <div class="login_part_form">
                         <div class="login_part_form_iner">
                         <div class="alert alert-success alert-dismissible mb-3 fade show" id="myAlert" role="alert" style="display:<?php echo $show; ?>">
-            Congratulations! Your account has been successfully created. Thank you for registering! <span style="display: <?php echo $textshow;?>"> your email to verify your account.</span>
-            </div>
+                        Congratulations! Your account has been successfully created. Thank you for registering! <span style="display: <?php echo $textshow;?>"> your email to verify your account.</span></div>
                             <h3>Welcome Back ! <br>
                                 Please Sign in now</h3>
                             <form class="row contact_form" action="#" method="post" novalidate="novalidate">
