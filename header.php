@@ -36,7 +36,7 @@ if (mysqli_affected_rows($con) == 0) {
         $bank_name = $row['bank_name'];
         $bank_accname = $row['bank_accname'];
         $bank_number = $row['bank_number'];
-        $loyalty = $row['loyalty'];
+        $loyalty_id = $row['loyalty'];
         $wallet = $row['wallet'];
         $affliate = $row['affliate'];
         $facebook = $row['facebook'];
@@ -74,7 +74,7 @@ include "backend/actions.php";
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?php echo $sitename; ?></title>
+    <title><?= isset($page_title) ? htmlspecialchars($page_title) : $sitename ?></title>
     <link rel="icon" href="<?php echo $siteurl; ?>img/<?php echo $siteimg; ?>">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?php echo $siteurl; ?>css/bootstrap.min.css">
@@ -112,9 +112,9 @@ include "backend/actions.php";
                 </div>
                 <div class="col-md-6 col-12 d-flex justify-content-end align-items-center">
                 <ul class="top-bar-links d-flex">
-                <li class="bg-secondary text-white p-2 me-2"><a class="" href="<?php echo $siteurl; ?>loyalty-program.php">Loyalty Program</a></li>
-                <li class="bg-secondary text-white p-2 me-2"><a class="" href="<?php echo $siteurl; ?>become_an_affliate.php">Affliate Program</a></li>
-                <li class="bg-secondary text-white p-2 me-2"><a class="" href="<?php echo $siteurl; ?>marketplace.php">Marketplace</a></li>
+                <li class="bg-secondary text-white p-2 me-2"><a class="text-white text-small" href="<?php echo $siteurl; ?>loyalty-program.php">Loyalty Program</a></li>
+                <li class="bg-secondary text-white p-2 me-2"><a class="text-white text-small" href="<?php echo $siteurl; ?>become_an_affliate.php">Affliate Program</a></li>
+                <li class="bg-secondary text-white p-2 me-2"><a class="text-white text-small" href="<?php echo $siteurl; ?>marketplace.php">Marketplace</a></li>
                     <?php if($active_log==0){ ?>
                     <li class="bg-dark-orange p-2"><a class="" href="<?php echo $siteurl; ?>become_a_seller.php">Become a Seller</a></li>
                     <?php } else {?>
@@ -142,7 +142,7 @@ include "backend/actions.php";
                                 <li class="nav-item"><a class="nav-link" href="<?php echo $siteurl; ?>index.php">Home</a></li>
                                 <li class="nav-item"><a class="nav-link" href="<?php echo $siteurl; ?>about-us.php">About</a></li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="<?php echo $siteurl; ?>blog.php" id="navbarDropdown_1"
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1"
                                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                      Marketplace
                                     </a>

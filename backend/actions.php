@@ -372,14 +372,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['follow_category_submi
     $user_id = $_POST['user_id']; // Logged-in user ID
     $category_id = $_POST['category_id']; // Category ID
     $subcategory_id = $_POST['subcategory_id']; // Subcategory ID (can be empty)
-    $action = $_POST['action']; // Action: follow or unfollow
+    $actioning = isset($_POST['actioning']) ? $_POST['actioning'] : null; // Action: follow or unfollow
 
     if (empty($user_id) || empty($category_id)) {
         echo "<script>alert('Invalid request.');</script>";
         exit();
     }
 
-    if ($action === "follow_category") {
+    if ($actioning === "follow_category") {
         // Add a new follow record for the category
         $insertQuery = "INSERT INTO ".$siteprefix."followers (user_id, seller_id, followed_at, category_id, subcategory_id) VALUES (?, '', NOW(), ?, ?)";
         $stmt = $con->prepare($insertQuery);
@@ -389,7 +389,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['follow_category_submi
         } else {
             echo "<script>alert('Failed to follow the category.');</script>";
         }
-    } elseif ($action === "unfollow_category") {
+    } elseif ($actioning === "unfollow_category") {
         // Remove the follow record for the category
         $deleteQuery = "DELETE FROM ".$siteprefix."followers WHERE user_id = ? AND category_id = ? AND subcategory_id = ?";
         $stmt = $con->prepare($deleteQuery);
@@ -408,14 +408,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['follow_seller_submit'
 
     $user_id = $_POST['user_id']; // Replace with your session variable for user ID
     $seller_id = $_POST['seller_id'];
-    $action = $_POST['action'];
+    $actioning = isset($_POST['actioning']) ? $_POST['actioning'] : null;
 
     if (empty($user_id) || empty($seller_id)) {
         echo "<script>alert('Invalid request.');</script>";
         exit();
     }
 
-    if ($action === "follow") {
+    if ($actioning === "follow") {
         // Add a new follow record
         $insertQuery = "INSERT INTO ".$siteprefix."followers (user_id, seller_id, followed_at, category_id, subcategory_id) VALUES (?, ?, NOW(), '', '')";
         $stmt = $con->prepare($insertQuery);
@@ -425,7 +425,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['follow_seller_submit'
         } else {
             echo "<script>alert('Failed to follow the seller.');</script>";
         }
-    } elseif ($action === "unfollow") {
+    } elseif ($actioning === "unfollow") {
         // Remove the follow record
         $deleteQuery = "DELETE FROM ".$siteprefix."followers WHERE user_id = ? AND seller_id = ?";
         $stmt = $con->prepare($deleteQuery);

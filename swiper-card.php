@@ -77,7 +77,7 @@ line-height: normal !important;
               
                 </div>
    <div class="single_product_text">
-   <a href="product?slug=<?php echo $slug; ?>">
+   <a href="<?php echo $siteurl; ?>product/<?php echo $slug; ?>">
    <h5 class="text-bold"><?php echo htmlspecialchars($title); ?></h5>
 </a>
 <p class="text-muted text-small">
