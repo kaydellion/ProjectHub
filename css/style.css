@@ -19,7 +19,9 @@ text-transform: capitalize !important;
 .text-white {
   color: #FFF !important;
 }
-
+.text-sm{
+  font-size: 8px !important;
+}
 .btn{
   font-size: 13px !important;
 }

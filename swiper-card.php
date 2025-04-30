@@ -78,7 +78,7 @@ line-height: normal !important;
                 </div>
    <div class="single_product_text">
    <?php if ($loyalty == 1): ?>
-   <span class="badge text-light bg-danger ms-2">Loyalty Material</span>
+   <span class="badge text-light bg-danger text-sm">Loyalty Material</span>
    <?php endif; ?>
    <a href="<?php echo $siteurl; ?>product/<?php echo $slug; ?>">
    <h5 class="text-bold capitalize"><?php echo htmlspecialchars($title); ?></h5>
