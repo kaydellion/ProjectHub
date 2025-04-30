@@ -9,7 +9,7 @@ $userResult = mysqli_query($con, $userQuery);
 
 // Step 1: Fetch number of allowed downloads
 $totalDownloads = 0;
-$userQuery = "SELECT downloads FROM {$siteprefix}users WHERE s = '$escaped_user_id'";
+$userQuery = "SELECT downloads FROM {$siteprefix}users WHERE s = '$user_id'";
 $userResult = mysqli_query($con, $userQuery);
 if ($userResult) {
     $userRow = mysqli_fetch_assoc($userResult);
@@ -20,7 +20,7 @@ if ($userResult) {
 
 // Step 2: Fetch total number of downloads already made
 $downloadsDone = 0;
-$downloadsQuery = "SELECT SUM(downloads) AS total_downloads FROM {$siteprefix}loyalty_purchases WHERE user_id = '$escaped_user_id'";
+$downloadsQuery = "SELECT SUM(downloads) AS total_downloads FROM {$siteprefix}loyalty_purchases WHERE user_id = '$user_id'";
 $downloadsResult = mysqli_query($con, $downloadsQuery);
 if ($downloadsResult) {
     $downloadsRow = mysqli_fetch_assoc($downloadsResult);
