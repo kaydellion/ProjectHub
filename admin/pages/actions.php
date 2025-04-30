@@ -346,7 +346,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['suspend_user'])) {
     if ($currentStatus !== 'approved' && $status === 'approved') {
 
         // Fetch seller_id from the users table
-$sellerQuery = "SELECT seller FROM ".$siteprefix."users WHERE s = '$user_id'";
+$sellerQuery = "SELECT * FROM ".$siteprefix."users WHERE s = '$user_id'";
 $sellerResult = mysqli_query($con, $sellerQuery);
 
 if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
