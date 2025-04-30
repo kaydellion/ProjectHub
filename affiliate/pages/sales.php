@@ -131,7 +131,7 @@
                                                     <td>'.htmlspecialchars($order_id).'</td>
                                                     <td>'.htmlspecialchars($customer_name).'</td>
                                                     <td>
-                                                        <img src="'$siteurl.$imagePath.htmlspecialchars($profile_picture).'" alt="Profile Picture" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                                                        <img src="'.$siteurl.$imagePath.htmlspecialchars($profile_picture).'" alt="Profile Picture" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
                                                     </td>
                                                     <td>'.$sitecurrency.number_format($price, 2).'</td>
                                                     <td>'.htmlspecialchars($date).'</td>
