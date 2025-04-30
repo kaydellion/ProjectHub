@@ -346,6 +346,15 @@ function insertadminAlert($con, $message, $link, $date, $msgtype, $status) {
      if ($submit) { echo "";} 
      else { die('Could not connect: ' . mysqli_error($con)); }}
 
+     
+     function insertaffiliateAlert($con,$user, $message, $link, $date, $msgtype, $status) {
+        $escapedMessage = mysqli_real_escape_string($con, $message);
+    
+         $query = "INSERT INTO pr_aff_alerts(message,user,link, date,type, status) VALUES ('$escapedMessage','$user','$link',  '$date', '$msgtype', '$status')";
+         $submit = mysqli_query($con, $query);
+         if ($submit) { echo "";} 
+         else { die('Could not connect: ' . mysqli_error($con)); }}
+
 
 function checkPassword($password, $hashedPassword) {
     // Use password_verify() function to check if the password matches the hashed password

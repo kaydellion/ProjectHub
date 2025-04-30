@@ -819,7 +819,7 @@ if (!mysqli_query($con, $updates_query)) {
 
                 mysqli_query($con, "UPDATE {$siteprefix}users SET wallet = wallet + $affiliate_amount WHERE affiliate = '$affiliate_id'");
                 insertWallet($con, $affiliate_user_id, $affiliate_amount, 'credit', "Affiliate Earnings from Order ID: $order_id", $date);
-                insertadminAlert($con, "You have earned $sitecurrency$affiliate_amount from Order ID: $order_id", "wallet.php", $date, "wallet", 0);
+                insertadminAlert($con, $affiliate_user_id, "You have earned $sitecurrency$affiliate_amount from Order ID: $order_id", "wallet.php", $date, "wallet", 0);
             }
         }
 
