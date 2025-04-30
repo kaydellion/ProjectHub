@@ -27,7 +27,7 @@ table th {
   min-height: 50vh !important;
 }
 </style>
-<div class="container-xxl py-5">
+<div class="container-xxl">
 <p><a href="add-report.php" class="btn-kayd m-3">Add New Report</a> </p>
               <!-- Hoverable Table rows -->
                 <h5 class="card-header"> Manage Resources </h5>
