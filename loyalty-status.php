@@ -63,7 +63,7 @@ $query = "SELECT ".$siteprefix."loyalty_purchases.*, ".$siteprefix."subscription
 $result = mysqli_query($con, $query);
 ?>
 
-<div class="container mt-5 mb-3">
+<div class="container mt-5 mb-5">
     <div class="row">
         <div class="col-lg-12 text-center">
             <h1 class="text-primary">Loyalty Status</h1>
@@ -116,12 +116,12 @@ $result = mysqli_query($con, $query);
     <?php else: ?>
         <div class="row mt-5 mb-3">
             <div class="col-lg-12 text-center">
-                <p class="text-muted">You have no purchase history.</p>
+                <?php debug('You have no purchase history.'); ?>
             </div>
         </div>
     <?php endif; ?>
 </div>
-
+<div class="mt-5"></div>
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <script>
     function resubscribe(planId, amount, planName, userId) {
