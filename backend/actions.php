@@ -465,8 +465,7 @@ if (isset($_POST['register-affiliate'])) {
     if (mysqli_num_rows($checkEmail) >= 1) {
         $statusAction = "Ooops!";
         $statusMessage = "This email has already been registered. Please try registering with another email.";
-        showErrorModal($statusAction, $statusMessage);
-       
+        showErrorModal($statusAction, $statusMessage); 
     }
 
     // Validate password length
