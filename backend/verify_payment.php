@@ -44,7 +44,7 @@ if ($plan_result && mysqli_num_rows($plan_result) > 0) {
 
          // Admin commission deduction
          $admin_commission = $amount;
-         $sql_insert_commission = "INSERT INTO ".$siteprefix."profits (amount, report_id, order_id, type, date) VALUES ('$admin_commission', '$plan_id', '$plan_id','Subscription Payment','$date')";
+         $sql_insert_commission = "INSERT INTO ".$siteprefix."profits (amount, report_id, order_id, type, date) VALUES ('$admin_commission', '$plan_id', '$plan_id','Subscription Payment','$currentdatetime')";
          mysqli_query($con, $sql_insert_commission);
          $message = "Admin Commission of $sitecurrency$admin_commission from Subscription Plan";
          $link = "profits.php";
