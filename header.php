@@ -176,6 +176,7 @@ include "backend/actions.php";
                                    Client Portal
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+                                    <a class="dropdown-item" href="<?php echo $siteurl; ?>loyalty-status.php">Subscriptions</a>
                                         <a class="dropdown-item" href="<?php echo $siteurl; ?>saved-reports.php">Saved Reports</a>
                                         <a class="dropdown-item" href="<?php echo $siteurl; ?>my_orders.php">My Purchases</a>
                                         <a class="dropdown-item" href="<?php echo $siteurl; ?>manual_orders.php">Manual Purchases</a>
