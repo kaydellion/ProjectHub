@@ -178,11 +178,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
                         <p>Dear $followerName,</p>
                         <p>We are excited to inform you that $sellerName has just posted a new resource titled <strong>$title</strong>.</p>
                         <p>You can check it out here: <a href='$siteurl/merchant-store.php?seller_id=$user_id'>$sellerName</a></p>
-                        <p>Thank you for following $sellerName!</p>
-                    ";
+                        <p>Thank you for following $sellerName!</p>";
     
                     // Send the email
-                    sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+                    sendEmail($followerEmail, $followerName, $siteName, $siteMail, $emailMessage, $emailSubject);
+                   
+                    // Notify user
+                   insertAlert($con, $followerId, "New resource titled $title has been posted by $sellerName", $currentdatetime, 0);
                 }
             }
     
@@ -220,7 +222,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
                     ";
     
                     // Send the email
-                    sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+                    sendEmail($followerEmail, $followerName, $siteName, $siteMail, $emailMessage, $emailSubject);
+
+                     // Notify user
+                   insertAlert($con, $followerId, "New resource titled $title  under category $categoryName  has been posted", $currentdatetime, 0);
                 }
             }
         }
@@ -331,7 +336,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['suspend_user'])) {
     $answer = $_POST['answer'];
     $user_id = $_POST['user'];
 
-    $siteline = "https://projectreporthub.ng/"; // Replace with your site URL
+    $siteline = $siteurl; // Replace with your site URL
 
     // Check the current status of the report in the database
     $currentStatusQuery = "SELECT status FROM ".$siteprefix."reports WHERE id = '$reportId'";
@@ -375,7 +380,7 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
         ";
 
         // Send the email
-        sendEmail($sellerEmail, $sellerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+        sendEmail($sellerEmail, $sellerName, $siteName, $siteMail, $emailMessage, $emailSubject);
     }
 }
         // Check if the user_id matches the seller_id in the followers table
@@ -407,12 +412,13 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
                     <p>Dear $followerName,</p>
                     <p>We are excited to inform you that $sellerName has just posted a new resource titled <strong>$title</strong>.</p>
                     <p>You can check it out here: <a href='$siteurl.merchant-store.php?seller_id=$user_id'>$sellerName</a></p>
-                    <p>Thank you for following $sellerName!</p>
-                    
-                ";
+                    <p>Thank you for following $sellerName!</p>";
 
                 // Send the email
-                sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+                sendEmail($followerEmail, $followerName, $sitenNme, $siteMail, $emailMessage, $emailSubject);
+
+                // Notify user
+                insertAlert($con, $followerId, "New resource titled $title has been posted by $sellerName", $currentdatetime, 0);
             }
         }
 
@@ -452,7 +458,10 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
         ";
 
         // Send the email
-        sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+        sendEmail($followerEmail, $followerName, $siteName, $siteMail, $emailMessage, $emailSubject);
+        
+         // Notify user
+         insertAlert($con, $followerId, "New resource titled $title  under category $categoryName  has been posted", $currentdatetime, 0);
     }
 }
 
@@ -741,108 +750,135 @@ if (isset($_GET['action']) && $_GET['action'] == 'deleteplans') {
 }
 
 
-/* Approve payment
+// Approve payment
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
     $order_id = mysqli_real_escape_string($con, $_POST['order_id']);
     $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
     $amount = mysqli_real_escape_string($con, $_POST['amount']);
     $date = date('Y-m-d H:i:s');
+
     $attachments = [];
-    $attachment = [];
+    $attachmentLinks = [];
 
-    // Update the payment status to "approved"
-    $update_query = "UPDATE " . $siteprefix . "manual_payments 
-                     SET status = 'approved', rejection_reason = '' WHERE order_id = '$order_id'";
-    if (mysqli_query($con, $update_query)) {
-        // Insert into orders table
-        $insert_query = "INSERT INTO " . $siteprefix . "orders (order_id, user, status, total_amount, date) 
-                         VALUES ('$order_id', '$user_id', 'paid', '$amount', '$date')";
-        if (mysqli_query($con, $insert_query)) {
-            // Perform additional actions after approving payment
-            global $ref;
-            $ref = $order_id; // Use the approved order ID as the reference
-
-            // Get order details and buyer's details
-            $sql_order = "SELECT * FROM " . $siteprefix . "orders WHERE order_id = '$ref'";
-            $sql_order_result = mysqli_query($con, $sql_order);
-            if ($row_order = mysqli_fetch_assoc($sql_order_result)) {
-                $user_id = $row_order['user'];
-                $total_amount = $row_order['total_amount'];
-                $date = $row_order['date'];
-            }
-
-            // Fetch buyer's details
-            $sql_buyer = "SELECT email, display_name FROM " . $siteprefix . "users WHERE s = '$user_id'";
-            $result_buyer = mysqli_query($con, $sql_buyer);
-            if ($buyer = mysqli_fetch_assoc($result_buyer)) {
-                $email = $buyer['email'];
-                $username = $buyer['display_name'];
-            }
-
-            // Get order items
-            $sql_items = "SELECT oi.*, r.title as resource_title, rf.title as file_path 
-                          FROM " . $siteprefix . "order_items oi
-                          JOIN " . $siteprefix . "reports r ON oi.report_id = r.id
-                          LEFT JOIN " . $siteprefix . "reports_files rf ON r.id = rf.report_id
-                          WHERE oi.order_id = '$ref'";
-            $sql_items_result = mysqli_query($con, $sql_items);
-
-           
-            $tableRows = "";
-            while ($row_item = mysqli_fetch_assoc($sql_items_result)) {
-                $resourceTitle = $row_item['resource_title'];
-                $file_path = $row_item['file_path'];
-
-                // Add file to attachments array
-                if (!empty($file_path) && file_exists($file_path)) {
-                    $attachments[] = $file_path;
-                    $attachment[] = $siteurl.$documentPath.$file_path;
-                }
-
-                // Add a row to the email table
-                $tableRows .= "
-                    <tr>
-                        <td>$resourceTitle</td>
-                        <td><a href='$siteurl$documentPath$file_path' style='color: #fff; padding: 5px 10px; text-decoration: none; border-radius: 5px;'><button class='bg-primary'>Download</button></a></td>
-                    </tr>";
-            }
-
-            // Send order confirmation email to the buyer
-            $subject = "Order Confirmation";
-            $emailMessage = "
-            <p>Thank you for your order. Below are the resources you purchased:</p>
-            <table border='1' cellpadding='10' cellspacing='0' style='border-collapse: collapse; width: 100%;'>
-                <thead>
-                    <tr>
-                        <th style='color: #f8f9fa; text-align: left;'>Report Title</th>
-                        <th style='color: #f8f9fa; text-align: left;'>Download Link</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    $tableRows
-                </tbody>
-            </table>
-            <p>You can also access your purchased reports from your profile on our website.</p>
-            <p>Feel free to visit our website for more information, updates, or to explore additional services.</p>";
-            sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject,$attachment);
-
-            // Display success message
-            $message = "Payment for Order ID $order_id has been approved successfully.";
-            showSuccessModal('Processed', $message);
-            header("refresh:2;");
-        } else {
-            // Display error message for order insertion failure
-            $message = "An error occurred while inserting the order. Please try again.";
-            showErrorModal('Oops', $message);
-            header("refresh:2;");
-        }
-    } else {
-        // Display error message for payment status update failure
-        $message = "An error occurred while updating the payment status. Please try again.";
-        showErrorModal('Oops', $message);
-        header("refresh:2;");
+    // Approve manual payment
+    $update_query = "UPDATE {$siteprefix}manual_payments 
+                     SET status = 'approved', rejection_reason = '' 
+                     WHERE order_id = '$order_id'";
+    if (!mysqli_query($con, $update_query)) {
+        showErrorModal('Oops', "Error updating payment status.");
+        
     }
-}*/
+
+    // Insert order
+    $insert_query = "INSERT INTO {$siteprefix}orders (order_id, user, status, total_amount, date) 
+                     VALUES ('$order_id', '$user_id', 'paid', '$amount', '$date')";
+    if (!mysqli_query($con, $insert_query)) {
+        showErrorModal('Oops', "Error inserting order.");
+     
+    }
+
+    // Fetch buyer details
+    $buyer_result = mysqli_query($con, "SELECT email, display_name FROM {$siteprefix}users WHERE s = '$user_id'");
+    $buyer = mysqli_fetch_assoc($buyer_result);
+    $email = $buyer['email'];
+    $username = $buyer['display_name'];
+
+    // Fetch order items
+    $items_result = mysqli_query($con, "
+        SELECT oi.*, r.title AS resource_title, rf.title AS file_path 
+        FROM {$siteprefix}order_items oi
+        JOIN {$siteprefix}reports r ON oi.report_id = r.id
+        LEFT JOIN {$siteprefix}reports_files rf ON r.id = rf.report_id
+        WHERE oi.order_id = '$order_id'
+    ");
+
+    $tableRows = "";
+
+    while ($item = mysqli_fetch_assoc($items_result)) {
+        $report_id = $item['report_id'];
+        $resourceTitle = $item['resource_title'];
+        $file_path = $item['file_path'];
+        $affiliate_id = $item['affiliate_id'];
+        $price = $item['price'];
+
+        // Prepare download attachment
+        if (!empty($file_path) && file_exists($file_path)) {
+            $attachments[] = $file_path;
+            $attachmentLinks[] = $siteurl . $documentPath . $file_path;
+        }
+
+        // Handle affiliate
+        if ($affiliate_id != 0) {
+            $aff_result = mysqli_query($con, "SELECT * FROM {$siteprefix}users WHERE affiliate = '$affiliate_id'");
+            while ($row_aff = mysqli_fetch_assoc($aff_result)) {
+                $affiliate_user_id = $row_aff['user_id'];
+                $affiliate_amount = $price * ($affiliate_percentage / 100);
+
+                mysqli_query($con, "UPDATE {$siteprefix}users SET wallet = wallet + $affiliate_amount WHERE affiliate = '$affiliate_id'");
+                insertWallet($con, $affiliate_user_id, $affiliate_amount, 'credit', "Affiliate Earnings from Order ID: $order_id", $date);
+                insertadminAlert($con, "You have earned $sitecurrency$affiliate_amount from Order ID: $order_id", "wallet.php", $date, "wallet", 0);
+            }
+        }
+
+        // Handle seller
+        $seller_result = mysqli_query($con, "
+            SELECT u.s AS user, u.*, r.title AS report_title 
+            FROM {$siteprefix}users u 
+            JOIN {$siteprefix}reports r ON r.user = u.s 
+            WHERE r.id = '$report_id'
+        ");
+
+        while ($row_seller = mysqli_fetch_assoc($seller_result)) {
+            $seller_id = $row_seller['user'];
+            $vendorEmail = $row_seller['email'];
+            $vendorName = $row_seller['display_name'];
+            $sellertype = $row_seller['type'];
+
+            $admin_commission = ($sellertype === "user") ? $price * ($escrowfee / 100) : $price;
+            $seller_amount = $price - $admin_commission;
+
+            mysqli_query($con, "INSERT INTO {$siteprefix}profits (amount, report_id, order_id, type, date)
+                                VALUES ('$admin_commission', '$report_id', '$order_id', 'Order Payment', '$date')");
+            insertadminAlert($con, "Admin Commission of $sitecurrency$admin_commission from Order ID: $order_id", "profits.php", $date, "profits", 0);
+
+            mysqli_query($con, "UPDATE {$siteprefix}users SET wallet = wallet + $seller_amount WHERE s = '$seller_id'");
+            insertWallet($con, $seller_id, $seller_amount, 'credit', "Payment from Order ID: $order_id", $date);
+            insertAlert($con, $seller_id, "You have received $sitecurrency$seller_amount from Order ID: $order_id", $date, 0);
+
+            // Email seller
+            $emailSubject = "New Sale on Project Report Hub. Let's Keep the Momentum Going!";
+            $emailMessage = "
+                <p>Great news! A new sale has just been made on $siteurl.</p>
+                <p><strong>Title of Resource:</strong> $resourceTitle</p>
+                <p><strong>Price:</strong> $sitecurrencycode$price</p>
+                <p><strong>Earning:</strong> $sitecurrencycode$seller_amount</p>
+                <p>If you haven’t updated your listings recently, now is a great time to refresh, promote, or add more resources.</p>";
+            sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject);
+        }
+
+        // Add to buyer email table
+        $tableRows .= "
+            <tr>
+                <td>$resourceTitle</td>
+                <td><a href='{$siteurl}{$documentPath}{$file_path}'><button class='bg-primary'>Download</button></a></td>
+            </tr>";
+    }
+
+    // Send confirmation email to buyer
+    $emailSubject = "Order Confirmation";
+    $emailMessage = "
+        <p>Thank you for your order. Below are the resources you purchased:</p>
+        <table border='1' cellpadding='10' cellspacing='0' style='width: 100%; border-collapse: collapse;'>
+            <thead><tr><th>Report Title</th><th>Download Link</th></tr></thead>
+            <tbody>$tableRows</tbody>
+        </table>
+        <p>You can also access your purchased reports from your profile on our website.</p>";
+
+    sendEmail2($email, $username, $siteName, $siteMail, $emailMessage, $emailSubject, $attachmentLinks);
+
+    showSuccessModal('Processed', "Payment for Order ID $order_id has been approved successfully.");
+    header("refresh:2;");
+}
 
 //update dispute status
 if (isset($_POST['update-dispute'])){
@@ -1304,12 +1340,6 @@ if (isset($_POST['sendmessage'])) {
 }
 
 ?>
-
-
-
-
-
-
 
 
 
