@@ -163,7 +163,7 @@ td{
 
 }
 .text-hero{
-  font-size: 13px !important;
+  font-size: 16px !important;
 
 }
 .crafted-text {
@@ -3045,7 +3045,7 @@ ul {
 
 /* line 74, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_banner.scss */
 .banner_part .banner_text p {
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
