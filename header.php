@@ -4,7 +4,7 @@
 //previous page
 $_SESSION['previous_page'] = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $previousPage=$_SESSION['previous_page'];
-$current_page = urlencode(basename($_SERVER['PHP_SELF']) . '?' . $_SERVER['QUERY_STRING']);
+$current_page = urlencode(pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) . '?' . $_SERVER['QUERY_STRING']);;
 
 $code = "";
 if (isset($_COOKIE['userID'])) {$code = $_COOKIE['userID'];}
@@ -104,13 +104,13 @@ include "backend/actions.php";
     <div class="top-bar bg-kayd">
             <div class="container p-1">
             <div class="row justify-content-between">
-                <div class="col-md-6 col-8 d-flex align-items-center">
-                <ul class="top-bar-info d-flex flex-column flex-md-row text-white">
-                    <li class="m-1"><i class="fa fa-phone"></i> <?php echo $sitenumber;?></li>
+                <div class="col-md-6 col-8 d-flex flex-wrap align-items-center">
+                <ul class="top-bar-info d-flex flex-wrap flex-column flex-md-row text-white">
+                    <li class="m-1"><i class="fa fa-phone"></i><?php echo $sitenumber;?></li>
                     <li class="m-1"><i class="fa fa-envelope"></i><?php echo $sitemail; ?></li>
                 </ul>
                 </div>
-                <div class="col-md-6 col-12 d-flex justify-content-end align-items-center">
+                <div class="col-md-6 col-12 d-flex justify-content-lg-end align-items-center">
                 <ul class="top-bar-links d-flex">
                 <li class="bg-secondary text-white p-2 me-2"><a class="text-white text-small" href="<?php echo $siteurl; ?>loyalty-program.php">Loyalty Program</a></li>
                 <li class="bg-secondary text-white p-2 me-2"><a class="text-white text-small" href="<?php echo $siteurl; ?>become_an_affliate.php">Affliate Program</a></li>

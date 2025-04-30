@@ -1,6 +1,6 @@
 /*Color Variables*/
 /**************** extend css start ****************/
-@import url('https://fonts.cdnfonts.com/css/DM Sans');
+@import url('https://fonts.cdnfonts.com/css/Poppins');
 @import url('https://fonts.cdnfonts.com/css/dm-sans');
 /* line 2, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_extends.scss 
 Grey (Neutral Base) –#6E6E6E (Medium Grey)
@@ -20,6 +20,9 @@ text-transform: capitalize !important;
   color: #FFF !important;
 }
 
+.btn{
+  font-size: 13px !important;
+}
 /* Overlay container for category and subcategory */
 .category-overlay {
   position: absolute;
@@ -33,7 +36,6 @@ text-transform: capitalize !important;
 
 /* Category button styling */
 .category-btn {
- 
   color: #fff; /* White text */
   padding: 5px 10px;
   border-radius: 5px;
@@ -68,7 +70,7 @@ text-transform: capitalize !important;
   color: #F57C00 !important
 }
 .swiper-button-next:after, .swiper-button-prev:after {
-  font-size: 14px !important;
+  font-size: 13px !important;
   color: #F57C00 !important;
 }
 .swiper-pagination-bullet-active {
@@ -161,7 +163,7 @@ td{
 
 }
 .text-hero{
-  font-size: 18px;
+  font-size: 16px !important;
 
 }
 .crafted-text {
@@ -239,7 +241,7 @@ margin-bottom: 10px;
 }
 
 .plan-card-text {
-  font-size: 14px;
+  font-size: 13px;
   color: #555;
  /* min-height: 10px; /* Ensures text doesn’t shift card heights */
 }
@@ -256,7 +258,7 @@ margin-bottom: 10px;
 .plan-features {
   list-style: none;
   padding: 0;
-  font-size: 14px;
+  font-size: 13px;
   color: #444;
   margin-bottom: 15px;
 }
@@ -273,7 +275,7 @@ margin-bottom: 10px;
   padding: 12px;
   border-radius: 6px;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   transition: background 0.3s ease-in-out;
   margin-top: auto; 
@@ -296,7 +298,7 @@ margin-bottom: 10px;
 
 @media (max-width: 676px) {
   .single_product_item {
-    min-height: 420px !important;
+    min-height: 500px !important;
   }
 }
 
@@ -304,7 +306,7 @@ margin-bottom: 10px;
   margin-bottom: 30px;
   border: 1px solid #f1f1f1;
   padding: 5px;
-  min-height: 300px;
+  min-height: 450px;
   border-radius: 10px;
 }
 .single_product_text h4 {
@@ -318,7 +320,7 @@ margin-bottom: 10px;
   margin-top: 10px;
 }
 .single_product_text .user_info span {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
 }
 .single_product_text .rating {
@@ -327,10 +329,10 @@ margin-bottom: 10px;
 }
 .single_product_text .rating i {
   color: #ff005a;
-  font-size: 16px;
+  font-size: 14px;
 }
 .single_product_text .rating span {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   margin-left: 5px;
 }
@@ -390,7 +392,7 @@ height: auto;
   padding: 10px 0px;
 }
 
-.text-small{font-size: 14px !important;}
+.text-small{font-size: 11px !important;}
 .modal#statusSuccessModal .modal-content, 
 .modal#statusErrorsModal .modal-content {
 	border-radius: 20px;
@@ -428,12 +430,19 @@ height: auto;
 /**************** common css start ****************/
 /* line 4, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_common.scss */
 body {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   padding: 0;
   margin: 0;
-  font-size: 14px;
+  font-size: 12px;
 }
 
+.text-white{
+ color: #fff !important;
+}
+
+.capitalize{
+  text-transform: capitalize !important; 
+}
 /* line 10, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_common.scss */
 .message_submit_form:focus {
   outline: none;
@@ -604,16 +613,16 @@ h4,
 h5,
 h6 {
   color: #000000;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
 /* line 117, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_common.scss */
 p {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   line-height: 2;
-  font-size: 15px;
+  font-size: 12px;;
   margin-bottom: 0px;
   color: #6E6E6E;
   font-weight: 400;
@@ -749,7 +758,7 @@ button:focus,
   color: #556172;
   text-transform: capitalize;
   line-height: 30px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 @media (max-width: 576px) {
@@ -956,7 +965,7 @@ ul {
   border-radius: 5px;
   background-color: #F57C00;
   border: 2px solid #F57C00;
-  font-size: 15px;
+  font-size: 12px;;
   font-weight: 500;
   -webkit-transition: 0.5s;
   transition: 0.5s;
@@ -977,7 +986,7 @@ ul {
   border-radius: 5px;
   background-color: #F57C00;
   border: 2px solid #F57C00;
-  font-size: 15px;
+  font-size: 12px;;
   font-weight: 500;
   -webkit-transition: 0.5s;
   transition: 0.5s;
@@ -1009,7 +1018,7 @@ ul {
   border-radius: 5px;
   background-color: transparent;
   border: 1px solid #F57C00;
-  font-size: 15px;
+  font-size: 12px;;
   font-weight: 700;
   color: #F57C00;
   text-transform: uppercase;
@@ -1039,8 +1048,8 @@ ul {
   line-height: 60px;
   text-align: center;
   background-color: #fff;
-  font-size: 15px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 12px;;
+  font-family: "Poppins", sans-serif;
   font-weight: 500;
   color: #1e1e1e;
   -o-transition: all .4s ease-in-out;
@@ -1067,7 +1076,7 @@ ul {
 /* line 94, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_button.scss */
 .btn_4 {
   color: #F57C00;
-  font-size: 15px;
+  font-size: 12px;;
   font-weight: 700;
   margin-top: 53px;
   display: inline-block;
@@ -1094,7 +1103,7 @@ ul {
 .button {
   display: inline-block;
   border: 1px solid transparent;
-  font-size: 15px;
+  font-size: 12px;;
   font-weight: 500;
   padding: 12px 54px;
   border-radius: 4px;
@@ -1478,7 +1487,7 @@ ul {
 
 /* line 332, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .causes_item .causes_text p {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 24px;
   font-weight: 300;
   margin-bottom: 0px;
@@ -1492,7 +1501,7 @@ ul {
   float: left;
   line-height: 50px;
   color: #fff;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
 }
 
@@ -1500,7 +1509,7 @@ ul {
 .causes_item .causes_bottom a + a {
   border-color: #eeeeee;
   background: #fff;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* End Causes Area css
@@ -1540,7 +1549,7 @@ ul {
 
 /* line 399, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .single-recent-blog-post .date {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 24px;
   font-weight: 400;
 }
@@ -1629,7 +1638,7 @@ ul {
 /* line 490, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .categories_post .categories_details p {
   font-weight: 300;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 26px;
   margin-bottom: 0px;
 }
@@ -1699,7 +1708,7 @@ ul {
 /* line 559, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .blog-info-link li {
   float: left;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* line 563, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
@@ -1846,7 +1855,7 @@ ul {
 /* line 694, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .blog_right_sidebar .search_widget .input-group button i,
 .blog_right_sidebar .search_widget .input-group button span {
-  font-size: 14px;
+  font-size: 13px;
   color: #999999;
 }
 
@@ -1884,7 +1893,7 @@ ul {
 /* line 735, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .blog_right_sidebar .newsletter_widget .input-group button i,
 .blog_right_sidebar .newsletter_widget .input-group button span {
-  font-size: 14px;
+  font-size: 13px;
   color: #999999;
 }
 
@@ -1902,7 +1911,7 @@ ul {
 
 /* line 757, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .blog_right_sidebar .post_category_widget .cat-list li a {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 20px;
   color: #888888;
 }
@@ -1926,7 +1935,7 @@ ul {
 
 /* line 789, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .blog_right_sidebar .popular_post_widget .post_item .media-body h3 {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 20px;
   margin-bottom: 6px;
   transition: all 0.3s linear;
@@ -1939,7 +1948,7 @@ ul {
 
 /* line 806, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .blog_right_sidebar .popular_post_widget .post_item .media-body p {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 21px;
   margin-bottom: 0px;
 }
@@ -2008,7 +2017,7 @@ ul {
 
 /* line 981, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .blog-pagination .page-link {
-  font-size: 14px;
+  font-size: 13px;
   position: relative;
   display: block;
   padding: 0;
@@ -2063,7 +2072,7 @@ ul {
 .single-post-area .social-links li a {
   color: #cccccc;
   padding: 7px;
-  font-size: 14px;
+  font-size: 13px;
   transition: all 0.2s linear;
 }
 
@@ -2075,7 +2084,7 @@ ul {
 /* line 1070, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .single-post-area .blog_details p {
   margin-bottom: 20px;
-  font-size: 15px;
+  font-size: 12px;;
 }
 
 /* line 1080, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
@@ -2139,25 +2148,25 @@ ul {
 
 /* line 1127, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .single-post-area .navigation-top .like-info {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* line 1130, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .single-post-area .navigation-top .like-info i,
 .single-post-area .navigation-top .like-info span {
-  font-size: 16px;
+  font-size: 14px;
   margin-right: 5px;
 }
 
 /* line 1137, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .single-post-area .navigation-top .comment-count {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* line 1140, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .single-post-area .navigation-top .comment-count i,
 .single-post-area .navigation-top .comment-count span {
-  font-size: 16px;
+  font-size: 14px;
   margin-right: 5px;
 }
 
@@ -2175,7 +2184,7 @@ ul {
 /* line 1157, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .single-post-area .navigation-top .social-icons li i,
 .single-post-area .navigation-top .social-icons li span {
-  font-size: 14px;
+  font-size: 13px;
   color: #999999;
 }
 
@@ -2223,12 +2232,12 @@ ul {
 /* line 1206, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .single-post-area .blog-author p {
   margin-bottom: 0;
-  font-size: 15px;
+  font-size: 12px;;
 }
 
 /* line 1211, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .single-post-area .blog-author h4 {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 /* line 1218, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
@@ -2356,7 +2365,7 @@ ul {
 
 /* line 1325, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .comments-area h5 {
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 0px;
 }
 
@@ -2403,7 +2412,7 @@ ul {
 
 /* line 1371, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
 .comments-area .date {
-  font-size: 14px;
+  font-size: 13px;
   color: #999999;
   margin-bottom: 0;
   margin-left: 20px;
@@ -2413,7 +2422,7 @@ ul {
 .comments-area .comment {
   margin-bottom: 10px;
   color: #777777;
-  font-size: 15px;
+  font-size: 12px;;
 }
 
 /* line 1384, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog.scss */
@@ -2421,7 +2430,7 @@ ul {
   background-color: transparent;
   color: #888888;
   padding: 5px 18px;
-  font-size: 14px;
+  font-size: 13px;
   display: block;
   font-weight: 400;
 }
@@ -2548,7 +2557,7 @@ ul {
 /*============ End Blog Single Styles  =============*/
 /* line 4, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_single_blog.scss */
 .single_blog_post .desc a {
-  font-size: 16px;
+  font-size: 14px;
   color: #232b2b !important;
 }
 
@@ -2581,7 +2590,7 @@ ul {
 
 /* line 28, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_single_blog.scss */
 .single_blog_post .single_blog .single_appartment_content h5 {
-  font-size: 15px;
+  font-size: 12px;;
   color: #8a8a8a;
   font-weight: 400;
 }
@@ -2619,9 +2628,9 @@ ul {
 /* line 12, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_menu.scss */
 .main_menu .main-menu-item ul li .nav-link {
   color: #000000;
-  font-size: 16px;
+  font-size: 14px;
   padding: 35px 11px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   text-transform: capitalize;
   line-height: 16px;
   font-weight: 400;
@@ -2684,7 +2693,7 @@ ul {
   border: 0;
   color: #ffffff;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 12px;;
   padding: 0;
 }
 
@@ -2774,7 +2783,7 @@ ul {
 
 /* line 135, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_menu.scss */
 .dropdown .dropdown-menu .dropdown-item {
-  font-size: 14px;
+  font-size: 13px;
   padding: 8px 20px !important;
   color: #fff !important;
   background-color: #F57C00;
@@ -3036,7 +3045,7 @@ ul {
 
 /* line 74, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_banner.scss */
 .banner_part .banner_text p {
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -3203,7 +3212,7 @@ ul {
 @media (max-width: 991px) {
   /* line 23, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_single_product.scss */
   .single_product_list .single_product_content h5 {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
@@ -3332,7 +3341,7 @@ ul {
 .product_image_area .owl-nav button.owl-prev, .product_image_area .owl-nav button.owl-next {
   width: 40px;
   height: 40px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 40px;
   border-radius: 50%;
   border: 1px solid #E4D3DF;
@@ -3565,14 +3574,14 @@ input:focus {
 @media (max-width: 991px) {
   /* line 44, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_trending_items.scss */
   .single_product_item p {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1200px) {
   /* line 44, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_trending_items.scss */
   .single_product_item p {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
@@ -3627,7 +3636,7 @@ input:focus {
 
 /* line 27, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_client_review.scss */
 .client_review h5 {
-  font-size: 16px;
+  font-size: 14px;
   margin-top: 25px;
   color: #fff;
   margin-bottom: 0;
@@ -3652,7 +3661,7 @@ input:focus {
   height: 50px;
   width: 50px;
   background-color: #E4D3DF;
-  font-size: 14px;
+  font-size: 13px;
   border-radius: 50%;
   line-height: 50px;
   color: #fff;
@@ -3662,7 +3671,7 @@ input:focus {
 .client_review .owl-nav button.owl-prev, .client_review .owl-nav button.owl-next {
   width: 40px;
   height: 40px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 40px;
   border-radius: 50%;
   border: 1px solid #6E6E6E;
@@ -3972,7 +3981,7 @@ input:focus {
   border: 0px solid transparent;
   background-color: #F57C00;
   color: #fff;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;
 }
@@ -4180,7 +4189,7 @@ input:focus {
 /* line 50, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .single-product .product-btm h4 {
   color: #4a4a4a;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   text-transform: uppercase;
   margin-bottom: 0px;
@@ -4196,7 +4205,7 @@ input:focus {
 
 /* line 65, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .single-product .product-btm span {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 20px;
   font-weight: 500;
   line-height: 16px;
@@ -4277,14 +4286,14 @@ input:focus {
 /* line 144, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .most_p_list .media .media-body h4 {
   margin-bottom: 8px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
   color: #2a2a2a;
 }
 
 /* line 151, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .most_p_list .media .media-body h3 {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   color: #6E6E6E;
   margin-bottom: 0px;
@@ -4331,7 +4340,7 @@ input:focus {
 
 /* line 197, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .widgets_inner p {
-  font-size: 14px;
+  font-size: 13px;
   text-transform: capitalize;
   color: #000;
   font-weight: 400;
@@ -4370,8 +4379,8 @@ input:focus {
 /* line 230, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .l_w_title h3 {
   margin-bottom: 20px;
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   color: #2a2a2a;
   font-weight: 500;
   line-height: 40px;
@@ -4445,7 +4454,7 @@ input:focus {
 
 /* line 290, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .p_filter_widgets .list li a {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
   color: #606060;
   position: relative;
@@ -4502,8 +4511,8 @@ input:focus {
 
 /* line 349, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .product_top_bar .left_dorp .sorting span {
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   color: #555555;
 }
 
@@ -4515,8 +4524,8 @@ input:focus {
 
 /* line 359, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .product_top_bar .left_dorp .sorting .list li {
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   color: #555555;
 }
 
@@ -4546,8 +4555,8 @@ input:focus {
 
 /* line 388, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .product_top_bar .left_dorp .show span {
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   color: #555555;
 }
 
@@ -4559,8 +4568,8 @@ input:focus {
 
 /* line 398, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .product_top_bar .left_dorp .show .list li {
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   color: #555555;
 }
 
@@ -4823,7 +4832,7 @@ input:focus {
 /* line 660, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .s_product_text h5 {
   font-weight: 700;
-  font-size: 15px;
+  font-size: 12px;;
   text-transform: capitalize;
   margin-bottom: 40px;
 }
@@ -4863,8 +4872,8 @@ input:focus {
 
 /* line 701, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .s_product_text .list li a {
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
   color: #555555;
 }
@@ -4920,7 +4929,7 @@ input:focus {
   line-height: 40px;
   text-align: center;
   padding: 0px 13px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* line 756, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
@@ -5084,7 +5093,7 @@ input:focus {
 .product_description_area .tab-content .total_rate .box_total h6 {
   color: #2a2a2a;
   margin-bottom: 0px;
-  font-size: 14px;
+  font-size: 13px;
   color: #6E6E6E;
   font-weight: normal;
 }
@@ -5098,14 +5107,14 @@ input:focus {
 .product_description_area .tab-content .total_rate .rating_list h3 {
   font-size: 18px;
   color: #2a2a2a;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 700;
   margin-bottom: 10px;
 }
 
 /* line 916, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .product_description_area .tab-content .total_rate .rating_list .list li a {
-  font-size: 14px;
+  font-size: 13px;
   color: #6E6E6E;
 }
 
@@ -5134,8 +5143,8 @@ input:focus {
 
 /* line 950, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .product_description_area .tab-content .table tbody tr td h5 {
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
   color: #6E6E6E;
   margin-bottom: 0px;
@@ -5181,9 +5190,9 @@ input:focus {
 /* line 995, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .review_item .media .media-body h4 {
   margin-bottom: 0px;
-  font-size: 14px;
+  font-size: 13px;
   color: #2a2a2a;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   margin-bottom: 8px;
 }
 
@@ -5206,8 +5215,8 @@ input:focus {
   display: inline-block;
   line-height: 32px;
   border-radius: 16px;
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   color: #2a2a2a;
   position: absolute;
   right: 0px;
@@ -5273,7 +5282,7 @@ input:focus {
 
 /* line 1078, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .review_box ::placeholder {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* line 1081, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
@@ -5299,9 +5308,9 @@ input:focus {
 /* line 1106, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .cart_inner .table thead tr th {
   border-top: 0px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #6E6E6E;
   border-bottom: 0px !important;
 }
@@ -5339,9 +5348,9 @@ input:focus {
 
 /* line 1146, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .cart_inner .table tbody tr td h5 {
-  font-size: 14px;
+  font-size: 13px;
   color: #2a2a2a;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   margin-bottom: 0px;
 }
 
@@ -5421,9 +5430,9 @@ input:focus {
   border-radius: 3px;
   border: 1px solid #eeeeee;
   height: 40px;
-  font-size: 14px;
+  font-size: 13px;
   color: #cccccc;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
   margin-right: -3px;
   outline: none;
@@ -5432,33 +5441,33 @@ input:focus {
 
 /* line 65, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_mixins.scss */
 .cart_inner .table tbody tr.bottom_button td .cupon_text input.placeholder {
-  font-size: 14px;
+  font-size: 13px;
   color: #cccccc;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
 }
 
 /* line 68, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_mixins.scss */
 .cart_inner .table tbody tr.bottom_button td .cupon_text input:-moz-placeholder {
-  font-size: 14px;
+  font-size: 13px;
   color: #cccccc;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
 }
 
 /* line 71, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_mixins.scss */
 .cart_inner .table tbody tr.bottom_button td .cupon_text input::-moz-placeholder {
-  font-size: 14px;
+  font-size: 13px;
   color: #cccccc;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
 }
 
 /* line 74, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_mixins.scss */
 .cart_inner .table tbody tr.bottom_button td .cupon_text input::-webkit-input-placeholder {
-  font-size: 14px;
+  font-size: 13px;
   color: #cccccc;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
 }
 
@@ -5506,7 +5515,7 @@ input:focus {
 /* line 1274, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .cart_inner .table tbody tr.shipping_area .shipping_box .list li a {
   padding-right: 30px;
-  font-size: 14px;
+  font-size: 13px;
   color: #6E6E6E;
   position: relative;
 }
@@ -5547,10 +5556,10 @@ input:focus {
 
 /* line 1318, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .cart_inner .table tbody tr.shipping_area .shipping_box h6 {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
   color: #2a2a2a;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -5579,7 +5588,7 @@ input:focus {
 
 /* line 1345, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .cart_inner .table tbody tr.shipping_area .shipping_box .shipping_select .list li {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
   color: #6E6E6E;
 }
@@ -5616,12 +5625,12 @@ input:focus {
 ============================================================================================ */
 /* line 1391, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .checkout_area p {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* line 1395, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .checkout_area .form-control {
-  font-size: 14px;
+  font-size: 13px;
   height: 40px;
 }
 
@@ -5657,9 +5666,9 @@ input:focus {
 
 /* line 1430, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .check_title h2 {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   background: #f4f4f4;
   line-height: 40px;
   padding-left: 30px;
@@ -5717,40 +5726,40 @@ input:focus {
   border: 1px solid #eeeeee;
   height: 40px;
   border-radius: 3px;
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   color: #6E6E6E;
   font-weight: normal;
 }
 
 /* line 65, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_mixins.scss */
 .returning_customer .contact_form .form-group input.placeholder {
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   color: #6E6E6E;
   font-weight: normal;
 }
 
 /* line 68, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_mixins.scss */
 .returning_customer .contact_form .form-group input:-moz-placeholder {
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   color: #6E6E6E;
   font-weight: normal;
 }
 
 /* line 71, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_mixins.scss */
 .returning_customer .contact_form .form-group input::-moz-placeholder {
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   color: #6E6E6E;
   font-weight: normal;
 }
 
 /* line 74, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_mixins.scss */
 .returning_customer .contact_form .form-group input::-webkit-input-placeholder {
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   color: #6E6E6E;
   font-weight: normal;
 }
@@ -5776,8 +5785,8 @@ input:focus {
 .returning_customer .contact_form .form-group .lost_pass {
   display: block;
   margin-top: 20px;
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   color: #6E6E6E;
   font-weight: normal;
 }
@@ -5867,7 +5876,7 @@ input:focus {
   padding: 0px 40px;
   color: #2a2a2a;
   text-transform: capitalize;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 500;
   border-radius: 50px;
 }
@@ -5943,8 +5952,8 @@ input:focus {
 
 /* line 1633, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .billing_details .contact_form .form-group .country_select .list li {
-  font-size: 14px;
-  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
 }
 
@@ -5980,7 +5989,7 @@ input:focus {
 
 /* line 1672, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .order_box .list li a {
-  font-size: 14px;
+  font-size: 13px;
   color: #6E6E6E;
   font-weight: normal;
   border-bottom: 1px solid #eeeeee;
@@ -6028,7 +6037,7 @@ input:focus {
 
 /* line 1728, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .order_box .payment_item h4 {
-  font-size: 14px;
+  font-size: 13px;
   text-transform: uppercase;
   color: #2a2a2a;
   font-weight: 500;
@@ -6151,41 +6160,41 @@ input:focus {
   outline: none;
   box-shadow: none;
   border-radius: 0px;
-  font-size: 14px;
+  font-size: 13px;
   color: #6E6E6E;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
 }
 
 /* line 65, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_mixins.scss */
 .tracking_box_area .tracking_box_inner .tracking_form .form-group input.placeholder {
-  font-size: 14px;
+  font-size: 13px;
   color: #6E6E6E;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
 }
 
 /* line 68, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_mixins.scss */
 .tracking_box_area .tracking_box_inner .tracking_form .form-group input:-moz-placeholder {
-  font-size: 14px;
+  font-size: 13px;
   color: #6E6E6E;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
 }
 
 /* line 71, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_mixins.scss */
 .tracking_box_area .tracking_box_inner .tracking_form .form-group input::-moz-placeholder {
-  font-size: 14px;
+  font-size: 13px;
   color: #6E6E6E;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
 }
 
 /* line 74, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_mixins.scss */
 .tracking_box_area .tracking_box_inner .tracking_form .form-group input::-webkit-input-placeholder {
-  font-size: 14px;
+  font-size: 13px;
   color: #6E6E6E;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
 }
 
@@ -6232,7 +6241,7 @@ input:focus {
   z-index: 9;
   cursor: pointer;
   -webkit-transition: all 0.25s linear;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 500;
   color: #2a2a2a;
   font-size: 13px;
@@ -6343,7 +6352,7 @@ input:focus {
 .login_part .login_part_text .btn_3 {
   border: 1px solid #fff;
   background-color: transparent;
-  font-size: 14px;
+  font-size: 13px;
   margin-top: 28px;
   color: #fff !important;
 }
@@ -6403,7 +6412,7 @@ input:focus {
 /* line 2016, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .login_part .creat_account label {
   color: #777777;
-  font-size: 14px;
+  font-size: 13px;
   margin-bottom: 0;
   margin-left: 10px;
 }
@@ -6604,10 +6613,10 @@ input:focus {
 
 /* line 15, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_new_arrival.scss */
 .arrival_tittle ul li, .arrival_filter_item ul li {
-  font-size: 16px;
+  font-size: 14px;
   color: #000;
   text-transform: capitalize;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   margin-left: 35px;
   display: inline-block;
   cursor: pointer;
@@ -6741,7 +6750,7 @@ input:focus {
 
 /* line 105, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_new_arrival.scss */
 .new_arrival .single_arrivel_item .hover_text p {
-  font-size: 16px;
+  font-size: 14px;
   color: #fff;
   letter-spacing: 2;
 }
@@ -7053,7 +7062,7 @@ input:focus {
 /* line 55, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_confirmation_part.scss */
 .confirmation_part .order_details_iner .table thead th {
   color: #222222;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 /* line 59, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_confirmation_part.scss */
@@ -7121,12 +7130,12 @@ h4 {
 
 /* line 110, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_elements.scss */
 h5 {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 /* line 114, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_elements.scss */
 h6 {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* line 118, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_elements.scss */
@@ -8591,7 +8600,7 @@ h6 {
   /* line 112, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_blog_part.scss */
   .blog_part .single-home-blog .card h5 {
     margin-bottom: 10px;
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
@@ -8683,9 +8692,9 @@ h6 {
 
 /* line 17, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_contact.scss */
 .contact-info .media-body h3 {
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 0;
-  font-size: 16px;
+  font-size: 14px;
   color: #2a2a2a;
 }
 
@@ -8710,7 +8719,7 @@ h6 {
 
 /* line 47, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_contact.scss */
 .form-contact label {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* line 50, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_contact.scss */
@@ -8993,13 +9002,13 @@ h6 {
 /**********************footer part css*******************/
 /* line 3, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_footer.scss */
 .footer_part .footer_iner {
-  padding: 120px 0;
+  padding-top: 120px;
 }
 
 @media (max-width: 991px) {
   /* line 3, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_footer.scss */
   .footer_part .footer_iner {
-    padding: 70px 0;
+    padding-top: 70px;
   }
 }
 
@@ -9047,7 +9056,7 @@ h6 {
 .footer_part .footer_iner .footer_menu_item a {
   display: block;
   color: #cccccc;
-  font-size: 16px;
+  font-size: 14px;
   padding: 5px 17px;
 }
 

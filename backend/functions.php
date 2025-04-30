@@ -74,7 +74,7 @@ function ifLoggedin($active_log){
     if($active_log=="1"){ header("location: dashboard.php"); 
     }}
 
-function generateRandomHardPassword($length = 10) {
+function generateRandomHardPassword($length = 6) {
 return substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_+=<>?'), 0, $length);
 }
 
@@ -210,7 +210,7 @@ $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F5
    }
 }
 
-function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachments = []) {
+function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
     global $siteimg, $adminlink, $siteurl;
 
     $email_from = $siteMail;
@@ -231,7 +231,7 @@ function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessa
     $email_body = "--$boundary\r\n";
     $email_body .= "Content-Type: text/html; charset=UTF-8\r\n";
     $email_body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-    $email_body .= "<div style='width:600px; padding:40px; background-color:#000080; color:#fff;'>
+    $email_body .= "<div style='width:600px; padding:40px; background-color:#000000; color:#fff;'>
                         <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
                         <p style='font-size:14px; color:#fff;'>
                             <span style='font-size:14px; color:#F57C00;'>Dear $vendorName,</span><br>
@@ -245,7 +245,7 @@ $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F5
 </div>\r\n";
 
     // Attach files
-    foreach ($attachments as $file) {
+    foreach ($attachment as $file) {
         if (file_exists($file)) {
             $filename = basename($file);
             $filedata = chunk_split(base64_encode(file_get_contents($file)));

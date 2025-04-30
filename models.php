@@ -87,7 +87,7 @@ table th {
                 ?>
                   <tr>
                   <td><strong><?php echo $i; ?></strong></td>
-                  <td>   <img src="<?php echo htmlspecialchars($image_path); ?>"  alt="<?php echo htmlspecialchars($image_path); ?>" class="img-fluid img-small rounded"></td>
+                  <td><img src="<?php echo htmlspecialchars($image_path); ?>"  alt="<?php echo htmlspecialchars($image_path); ?>" class="img-fluid img-small rounded"></td>
                   <td><?php echo $title; ?></td>
                   <td><?php echo $category; ?></td>
                   <td><?php echo $subcategory; ?></td>

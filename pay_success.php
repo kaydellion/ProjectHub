@@ -5,6 +5,7 @@ global $ref;
 $ref = $_GET['ref'];
 $date = date('Y-m-d H:i:s');
 $attachments = array();
+$attachment = array();
 
 // Get order details and order items
 $sql_order = "SELECT * FROM ".$siteprefix."orders WHERE order_id = '$ref' AND status = 'unpaid'";
@@ -56,6 +57,7 @@ if (mysqli_affected_rows($con) > 0) {
         // Add file to attachments array
         if (!empty($file_path) && file_exists($file_path)) {
             $attachments[] = $file_path;
+            $attachment[] = $siteurl.$documentPath.$file_path;
         }
  
 
@@ -104,9 +106,21 @@ if (mysqli_affected_rows($con) > 0) {
         if($sellertype=="user"){
         // Admin commission deduction
         $admin_commission = $price * ($escrowfee / 100);
-        $sql_insert_commission = "INSERT INTO ".$siteprefix."profits (amount, report_id, order_id, date) VALUES ('$admin_commission', '$report_id', '$order_id', '$date')";
+        $sql_insert_commission = "INSERT INTO ".$siteprefix."profits (amount, report_id, order_id,type, date) VALUES ('$admin_commission', '$report_id', '$order_id', 'Order Payment','$date')";
         mysqli_query($con, $sql_insert_commission);
         
+        // Notify admin
+        $message = "Admin Commission of $sitecurrency$admin_commission from Order ID: $order_id";
+        $link = "profits.php";
+        $msgtype = "profits";
+        insertadminAlert($con, $message, $link, $date, $msgtype, 0);
+        } 
+        else if($sellertype=="admin"||$sellertype=="sub-admin"){
+        // Admin commission deduction
+        $admin_commission = $price;
+        $sql_insert_commission = "INSERT INTO ".$siteprefix."profits (amount, report_id, order_id,type, date) VALUES ('$admin_commission', '$report_id', '$order_id', 'Order Payment','$date')";
+        mysqli_query($con, $sql_insert_commission);
+            
         // Notify admin
         $message = "Admin Commission of $sitecurrency$admin_commission from Order ID: $order_id";
         $link = "profits.php";
@@ -128,11 +142,11 @@ if (mysqli_affected_rows($con) > 0) {
                 insertAlert($con, $seller_id, "You have received $sitecurrency$seller_amount from Order ID: $order_id", $date, 0);
                 
 // Enhanced email content
-$emailSubject = "New Sale on Project Report Hub â€“ Letâ€™s Keep the Momentum Going!";
-$emailMessage = "<p>Great news! A new sale has just been made on ProjectReportHub.ng.</p>
+$emailSubject = "New Sale on Project Report Hub. Let's Keep the Momentum Going!";
+$emailMessage = "<p>Great news! A new sale has just been made on $siteurl.</p>
 <p><strong>Title of Resource:</strong> $resourceTitle</p>
-<p><strong>Price:</strong> $sitecurrency$price</p>
-<p><strong>Earning:</strong> $sitecurrency$seller_amount</p>
+<p><strong>Price:</strong> $sitecurrencycode$price</p>
+<p><strong>Earning:</strong> $sitecurrencycode$seller_amount</p>
 <p>This is a win for our community and a reminder that students and researchers are actively exploring and purchasing resources from our platform every day.</p>
 <p>If you havenâ€™t updated your listings recently, now is a great time to:</p>
 <ol>
@@ -141,7 +155,7 @@ $emailMessage = "<p>Great news! A new sale has just been made on ProjectReportHu
     <li>Add new documents that reflect trending industries</li>
 </ol>
 <p>The more visible and updated your resources are, the more sales opportunities you create.</p>
-<p>Letâ€™s keep the momentum going and continue providing high-value insights to Nigeria and the world!</p>";
+<p>Let's keep the momentum going and continue providing high-value insights to Nigeria and the world!</p>";
 
 // Send email to seller
 sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject);
@@ -151,7 +165,7 @@ sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $email
 }
 
 // Update order status to paid
-$sql_update_order = "UPDATE ".$siteprefix."orders SET status = 'paid' WHERE order_id = '$ref'";
+$sql_update_order = "UPDATE ".$siteprefix."orders SET status = 'paid',date='$currentdatetime' WHERE order_id = '$ref'";
 mysqli_query($con, $sql_update_order);
 
 // Send order confirmation email
@@ -195,7 +209,7 @@ $emailMessage = "
 <p>You can also access your purchased reports from your profile on our website.</p>
 <p>Feel free to visit our website for more information, updates, or to explore additional services.</p>";
 
-sendEmail($email, $username, $siteName, $siteMail,$emailMessage, $subject, $attachments);
+sendEmail2($email, $username, $siteName, $siteMail,$emailMessage, $subject, $attachment);
 ?>
 
 <div class="container mt-5 mb-5">
@@ -206,10 +220,10 @@ sendEmail($email, $username, $siteName, $siteMail,$emailMessage, $subject, $atta
         <p class="mb-0">Thank you for your order.</p>
     </div>
     <div class="card text-center">
-        <div class="card-header bg-success text-white">ðŸŽ‰ Thank You for Your Purchase!</div>
+        <div class="card-header bg-success text-white">Thank You for Your Purchase!</div>
         <div class="card-body">
             <h5 class="card-title">Order processed successfully.</h5>
-            <a href="my_orders.php" class="btn btn-primary mt-4"> ðŸ”™ Back to My Orders</a>
+            <a href="my_orders.php" class="btn btn-primary mt-4"> Back to My Orders</a>
         </div>
         <div class="card-footer text-muted">We appreciate your business! ðŸ’–</div>
     </div>
@@ -239,7 +253,7 @@ sendEmail($email, $username, $siteName, $siteMail,$emailMessage, $subject, $atta
                         $file_path = $row_item['title'];
                         echo "<tr>";
                         echo "<td>$report_title</td>";
-                        echo "<td><a href='https://www.projectreporthub.ng/uploads/$file_path' class='btn btn-success' download>Download</a></td>";
+                        echo "<td><a href='$siteurl$documentPath$file_path' class='btn btn-success' download>Download</a></td>";
                         echo "</tr>";
                     }
                 } else {

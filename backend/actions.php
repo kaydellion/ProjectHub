@@ -27,7 +27,7 @@ $withdrawal_row = mysqli_fetch_assoc($withdrawal_result);
 $total_withdrawal = $withdrawal_row['total_withdrawal'] ?? 0;
 
 // Fetch Cleared Transactions
-$cleared_query = "SELECT SUM(amount) AS total_cleared FROM ".$siteprefix."withdrawal WHERE status='paid'";
+$cleared_query = "SELECT SUM(amount) AS total_cleared FROM ".$siteprefix."withdrawal WHERE user='$user_id' AND status='paid'";
 $cleared_result = mysqli_query($con, $cleared_query);
 $cleared_row = mysqli_fetch_assoc($cleared_result);
 $total_cleared = $cleared_row['total_cleared'] ?? 0;
@@ -461,7 +461,7 @@ if (isset($_POST['register-affiliate'])) {
     // Generate unique affiliate ID
 
     // Validate email uniqueness
-    $checkEmail = mysqli_query($con, "SELECT * FROM " . $siteprefix . "users WHERE email='$email' AND type='$type'");
+    $checkEmail = mysqli_query($con, "SELECT * FROM " . $siteprefix . "users WHERE email='$email'");
     if (mysqli_num_rows($checkEmail) >= 1) {
         $statusAction = "Ooops!";
         $statusMessage = "This email has already been registered. Please try registering with another email.";

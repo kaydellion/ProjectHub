@@ -15,15 +15,17 @@ showErrorModal($statusAction,$statusMessage);
     $sql= "SELECT * FROM ".$siteprefix."users WHERE email= '$email'";
     $sql2 = mysqli_query($con, $sql);
     while ($row = mysqli_fetch_array($sql2)) {
-        $user_name = $row['name'];
+        $user_name = $row['display_name'];
+        $user_id = $row['s'];
         $user_email = $row['email'];}
         
 $randomPassword = generateRandomHardPassword();
-$emailMessage="<p>Your password has been reset successfully to $randomPassword.<br>Please login with it to change your password to a desired format.</p>";
+$emailMessage="<p>Your password has been reset successfully to $randomPassword <br>Please login with it to change your password to a desired format.</p>";
 $emailSubject="Password Reset";
 $statusAction="Successful";
 $statusMessage="Password reset successfully. Please check your email!";
-$submit = mysqli_query($con, "UPDATE " . $siteprefix . "users SET password ='$randomPassword' WHERE email = '$email'") or die('Could not connect: ' . mysqli_error($con));
+$randomPassword=hashPassword($randomPassword);
+$submit = mysqli_query($con, "UPDATE " . $siteprefix . "users SET password ='$randomPassword' WHERE s = '$user_id'") or die('Could not connect: ' . mysqli_error($con));
 sendEmail($user_email, $user_name, $siteName, $siteMail, $emailMessage, $emailSubject);
 showSuccessModal($statusAction,$statusMessage);
 }}
@@ -49,11 +51,11 @@ showSuccessModal($statusAction,$statusMessage);
                         <div class="login_part_form_iner">
                             <h4>Reset Password</h4>
                             <pp>Enter your email address below and we will send you a link to reset your password.</p>
-                            <form class="row contact_form" action="#" method="post" novalidate="novalidate">
-                                <div class="col-md-12 form-group p_star">
-                                <input type="email" class="form-control" id="name" name="name" value="" placeholder="Enter email below" required>
+                            <form class="row contact_form" method="post" >
+                                <div class="col-md-12 mb-3 mt-3">
+                                <input type="email" class="form-control" id="name" name="email" value="" placeholder="Enter email below" required>
                                 </div>
-                                    <button type="submit" value="submit" name="" class="btn_3">Send Password Reset Link</button>
+                                    <button type="submit" value="submit" name="forget" class="btn_3">Send Password Reset Link</button>
                                 </div>
                             </form>
                         </div>

@@ -46,7 +46,7 @@ $items_result = $stmt->get_result();
             <h5 class="card-title">Order ID: #<?php echo $order['order_id']; ?></h5>  
             <p><strong>Date:</strong> <?php echo formatDateTime($order['date']); ?></p>
             <p><strong>Status:</strong> 
-                <span class="badge bg-<?php echo ($order['status'] == 'Completed') ? 'success' : 'warning'; ?>">
+                <span class="badge bg-<?php echo ($order['status'] == 'Completed'|| $order['status'] == 'paid') ? 'success' : 'warning'; ?>">
                     <?php echo ucfirst($order['status']); ?>
                 </span>
             </p>

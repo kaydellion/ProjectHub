@@ -84,7 +84,7 @@ include "actions.php"; ?>
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../../img/<?php echo $siteimg; ?>" />
+    <link rel="icon" type="image/x-icon" href="<?php echo $siteurl;?>img/<?php echo $siteimg; ?>" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

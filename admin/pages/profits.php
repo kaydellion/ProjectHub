@@ -18,6 +18,7 @@ $result = $stmt->get_result();
                     <tr>
                         <th>S/N</th>
                         <th>Amount</th>
+                        <th>Type</th>
                         <th>Report ID</th>
                         <th>Order ID</th>
                         <th>Date</th>
@@ -28,6 +29,7 @@ $result = $stmt->get_result();
                         <tr>
                             <td><?php echo $row['s']; ?></td>
                             <td>₦<?php echo number_format($row['amount'], 2); ?></td>
+                            <td><?php echo $row['type']; ?></td>
                             <td><?php echo $row['report_id']; ?></td>
                             <td>#<?php echo $row['order_id']; ?></td>
                             <td><?php echo formatDateTime($row['date']); ?></td>

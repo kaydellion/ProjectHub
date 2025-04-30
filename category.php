@@ -1,4 +1,6 @@
-<?php include "header.php"; 
+<?php 
+include "seo.php";
+include "header.php"; 
 
 if (isset($_GET['slugs'])) {
     $raw_slug = $_GET['slugs'];
@@ -72,7 +74,7 @@ $total_pages = ceil($total_reports / $limit);
     <!-- CATEGORY NAME (on its own line) -->
     <div class="row mb-3">
         <div class="col-lg-12">
-            <h3><?php echo $category_name; ?></h3>
+            <h3 class="capitalize"><?php echo $category_name; ?></h3>
         </div>
     </div>
 

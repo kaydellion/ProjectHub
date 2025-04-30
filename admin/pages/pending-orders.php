@@ -14,11 +14,11 @@ $result = mysqli_query($con, $query);
 <div class="row mb-4">
     <!-- Pending Manual Orders Card -->
     <div class="col-md-3">
-        <div class="card text-white bg-primary mb-3">
+        <div class="card text-white bg-dark mb-3">
             <div class="card-body">
-                <h5 class="card-title">Pending Manual Orders</h5>
+                <h5 class="card-title text-white ">Pending Manual Orders</h5>
                 <p class="card-text">
-                    <span class="h4"><?php echo $pendingPaymentsCount; ?></span>
+                    <span class="h4 text-white"><?php echo $pendingPaymentsCount; ?></span>
                 </p>
             </div>
         </div>
@@ -26,11 +26,11 @@ $result = mysqli_query($con, $query);
 
     <!-- Cleared Manual Orders Card -->
     <div class="col-md-3">
-        <div class="card text-white bg-secondary mb-3">
+        <div class="card text-white bg-primary mb-3">
             <div class="card-body">
-                <h5 class="card-title">Cleared Manual Orders</h5>
+                <h5 class="card-title text-white ">Cleared Manual Orders</h5>
                 <p class="card-text">
-                    <span class="h4"><?php echo $clearedOrdersCount; ?></span>
+                    <span class="h4 text-white"><?php echo $clearedOrdersCount; ?></span>
                 </p>
             </div>
         </div>

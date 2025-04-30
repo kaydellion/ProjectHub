@@ -39,7 +39,7 @@
   --bs-black-rgb: 67, 89, 113;
   --bs-body-color-rgb: 105, 122, 141;
   --bs-body-bg-rgb: 245, 245, 249;
-  --bs-font-sans-serif: 'DM Sans', sans-serif;
+  --bs-font-sans-serif: 'Poppins', sans-serif;
   --bs-font-monospace: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-root-font-size: 16px;
@@ -127,6 +127,7 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
   margin-bottom: 1rem;
   font-weight: 500;
   line-height: 1.1;
+  letter-spacing: normal;
   color: #000000;
 }
 

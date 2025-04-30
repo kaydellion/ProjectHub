@@ -7,7 +7,7 @@
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="footer_logo">
                 <a href="https://projectreporthub.ng/index.php">
-                    <img class="logo" src="https://projectreporthub.ng/img/<?php echo $siteimg; ?>" alt="Logo" />
+                    <img class="logo" src="<?php echo $siteurl;?>img/<?php echo $siteimg; ?>" alt="Logo" />
                 </a>
             </div>
             <p class="mt-3 mb-3 text-light"><?php echo $sitedescription; ?></p>
@@ -58,7 +58,7 @@
                 while ($row = mysqli_fetch_array($sql2)) {
                     $title = $row['name'];
                     $id = $row['id'];
-                    echo '<a href="https://projectreporthub.ng/resource.php?resources=' . $id . '">' . $title . '</a>';
+                    echo '<a href="'.$siteurl.'resource.php?resources=' . $id . '">' . $title . '</a>';
                 }
                 ?>
             </div>
@@ -73,9 +73,9 @@
                         <div class="copyright_text">
                             <P>
 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <?php echo $sitename; ?></P>
-                            <div class="https://projectreporthub.ng/copyright_link">
-                                <a href="https://projectreporthub.ng/terms.php">Terms & Conditions</a>
-                                <a href="https://projectreporthub.ng/faq.php">FAQ</a>
+                            <div class="copyright_link">
+                                <a href="<?php echo $siteurl;?>terms.php">Terms & Conditions |</a>
+                                <a href="<?php echo $siteurl;?>faq.php"> FAQ</a>
                             </div>
                         </div>
                     </div>
@@ -92,26 +92,26 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- popper js -->
-    <script src="https://projectreporthub.ng/js/popper.min.js"></script>
+    <script src="<?php echo $siteurl;?>js/popper.min.js"></script>
     <!-- bootstrap js -->
-    <script src="https://projectreporthub.ng/js/bootstrap.min.js"></script>
+    <script src="<?php echo $siteurl;?>js/bootstrap.min.js"></script>
     <!-- magnific popup js -->
-    <script src="https://projectreporthub.ng/js/jquery.magnific-popup.js"></script>
+    <script src="<?php echo $siteurl;?>js/jquery.magnific-popup.js"></script>
     <!-- carousel js -->
-    <script src="https://projectreporthub.ng/js/owl.carousel.min.js"></script>
-    <script src="https://projectreporthub.ng/js/jquery.nice-select.min.js"></script>
+    <script src="<?php echo $siteurl;?>js/owl.carousel.min.js"></script>
+    <script src="<?php echo $siteurl;?>js/jquery.nice-select.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <!-- slick js -->
-    <script src="https://projectreporthub.ng/js/slick.min.js"></script>
-    <script src="https://projectreporthub.ng/js/jquery.counterup.min.js"></script>
-    <script src="https://projectreporthub.ng/js/contact.js"></script>
-    <script src="https://projectreporthub.ng/js/jquery.ajaxchimp.min.js"></script>
-    <script src="https://projectreporthub.ng/js/jquery.form.js"></script>
-    <script src="https://projectreporthub.ng/js/jquery.validate.min.js"></script>
+    <script src="<?php echo $siteurl;?>js/slick.min.js"></script>
+    <script src="<?php echo $siteurl;?>js/jquery.counterup.min.js"></script>
+    <script src="<?php echo $siteurl;?>js/contact.js"></script>
+    <script src="<?php echo $siteurl;?>js/jquery.ajaxchimp.min.js"></script>
+    <script src="<?php echo $siteurl;?>js/jquery.form.js"></script>
+    <script src="<?php echo $siteurl;?>js/jquery.validate.min.js"></script>
    <!--- <script src="js/mail-script.js"></script> 
    <script src="js/waypoints.min.js"></script> -->
     <!-- custom js -->
-    <script src="https://projectreporthub.ng/js/custom.js"></script>
+    <script src="<?php echo $siteurl;?>js/custom.js"></script>
     <script type="text/javascript">const paymentForm = document.getElementById('paymentForm');
 paymentForm.addEventListener("submit", payWithPaystack, false);
 function payWithPaystack(e) {

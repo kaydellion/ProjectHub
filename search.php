@@ -48,10 +48,18 @@ $report_count = mysqli_num_rows($result);
 
 
 // Get total number of reports
-$total_query = "SELECT COUNT(*) as total FROM ".$siteprefix."reports WHERE status = 'approved'";
+$total_query = "SELECT COUNT(DISTINCT r.id) as total
+FROM ".$siteprefix."reports r 
+LEFT JOIN ".$siteprefix."categories l ON r.category = l.id 
+LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
+LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id 
+LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id 
+WHERE r.status = 'approved' 
+AND (r.title LIKE '%$term%' OR r.tags LIKE '%$term%' OR l.category_name LIKE '%$term%' OR sc.category_name LIKE '%$term%' OR u.display_name LIKE '%$term%') 
+GROUP BY r.id";
 $total_result = mysqli_query($con, $total_query);
 $total_row = mysqli_fetch_assoc($total_result);
-$total_reports = $total_row['total'];
+$total_reports = $total_row['total'] ?? 0;
 $total_pages = ceil($total_reports / $limit);
 ?>
 
