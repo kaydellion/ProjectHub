@@ -16,7 +16,7 @@ showErrorModal($statusAction,$statusMessage);
     $sql2 = mysqli_query($con, $sql);
     while ($row = mysqli_fetch_array($sql2)) {
         $user_name = $row['display_name'];
-        $user_id = $row['id'];
+        $user_id = $row['s'];
         $user_email = $row['email'];}
         
 $randomPassword = generateRandomHardPassword();
