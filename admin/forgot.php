@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-reset-link'])) 
         $update_query = "UPDATE {$siteprefix}users SET reset_token = '$token', reset_token_expiry = '$expiry' WHERE email = '$email' ";
         if (mysqli_query($con, $update_query)) {
             // Prepare email content
-            $reset_link = $siteurl . "admin/reset-password.php?token=" . $token;
+            $reset_link = $adminurl . "reset-password.php?token=" . $token;
             $emailSubject = "Password Reset Request";
             $emailMessage = "
                 <p>Dear Admin,</p>
