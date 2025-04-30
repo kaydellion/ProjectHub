@@ -85,7 +85,7 @@ if (mysqli_affected_rows($con) > 0) {
                     $link = "wallet.php";
                     $msgtype = "wallet";
                     $status = 0;
-                    insertadminAlert($con, $message, $link, $date, $msgtype, $status);
+                    insertaffiliateAlert($con, $affiliate_user_id, $message, $link, $date, $msgtype, $status);
                 }
             }
         }

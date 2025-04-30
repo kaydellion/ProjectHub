@@ -1,19 +1,20 @@
 <?php
 
-/*
-$sql = "SELECT * FROM  ".$siteprefix."alerts WHERE status='0' ORDER BY s DESC LIMIT 5";
+
+$sql = "SELECT * FROM  ".$siteprefix."aff_alerts WHERE user='$user_id' AND  status='0' ORDER BY s DESC LIMIT 5";
 $sql2 = mysqli_query($con,$sql);
 $notification_count = mysqli_num_rows($sql2);
+
  
 if (isset($_GET['action']) && $_GET['action'] == 'read-message') {
-    $sql = "UPDATE dv_alerts SET status='1' WHERE status='0'";
+    $sql = "UPDATE pr_aff_alerts SET status='1' WHERE user='$user_id' AND status='0'";
     $sql2 = mysqli_query($con,$sql);
     $message="All notifications marked as read.";
     showToast($message);
     header("refresh:2; url=notifications.php");
 }
 
-*/
+
 
 
 // add to affiliate list

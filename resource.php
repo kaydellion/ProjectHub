@@ -41,6 +41,19 @@ if ($sort === 'price_high') {
     $order_by = "r.price ASC";
 }
 
+// Fetch child categories
+$child_query = "SELECT id FROM {$siteprefix}resource_types WHERE parent_id = '$resource_type_id'";
+$child_result = mysqli_query($con, $child_query);
+
+while ($row = mysqli_fetch_assoc($child_result)) {
+    $resource_type_ids[] = $row['id'];
+}
+$resource_conditions = [];
+foreach ($resource_type_ids as $id) {
+    $resource_conditions[] = "FIND_IN_SET('$id', r.resource_type)";
+}
+$resource_condition_sql = implode(" OR ", $resource_conditions);
+
 // ✅ Query (no subcategory anymore)
 $query = "
     SELECT r.*, 
@@ -55,7 +68,7 @@ $query = "
     LEFT JOIN {$siteprefix}categories l ON r.category = l.id 
     LEFT JOIN {$siteprefix}categories sc ON r.subcategory = sc.id 
     WHERE r.status = 'approved' 
-      AND FIND_IN_SET('$resource_type_id', r.resource_type) 
+      AND ($resource_condition_sql)
     GROUP BY r.id 
     ORDER BY $order_by 
     LIMIT $limit OFFSET $offset
@@ -64,14 +77,19 @@ $query = "
 $result = mysqli_query($con, $query);
 $report_count = mysqli_num_rows($result);
 
-// ✅ Count query
+/* ✅ Count query
 $total_query = "
     SELECT COUNT(*) as total 
     FROM {$siteprefix}reports r 
     WHERE r.status = 'approved' 
       AND FIND_IN_SET('$resource_type_id', r.resource_type)
+";*/
+$total_query = "
+    SELECT COUNT(*) as total 
+    FROM {$siteprefix}reports r 
+    WHERE r.status = 'approved' 
+      AND ($resource_condition_sql)
 ";
-
 $total_result = mysqli_query($con, $total_query);
 $total_row = mysqli_fetch_assoc($total_result);
 $total_reports = $total_row['total'];

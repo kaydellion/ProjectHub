@@ -125,7 +125,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white">Total Earnings</h5>
-            <p class="card-text text-white"><?php echo $sitecurrency . number_format($totalEarnings, 2); ?></p>
+            <p class="card-text text-white"><?php echo $sitecurrency . number_format($totalEarnedAmount, 2); ?></p>
         </div>
     </div>
 </div>

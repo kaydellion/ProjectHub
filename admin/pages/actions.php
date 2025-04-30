@@ -175,7 +175,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
                     // Prepare the email
                     $emailSubject = "New Resource Posted by $sellerName";
                     $emailMessage = "
-                        <p>Dear $followerName,</p>
                         <p>We are excited to inform you that $sellerName has just posted a new resource titled <strong>$title</strong>.</p>
                         <p>You can check it out here: <a href='$siteurl/merchant-store.php?seller_id=$user_id'>$sellerName</a></p>
                         <p>Thank you for following $sellerName!</p>";
@@ -215,7 +214,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
                     // Prepare the email
                     $emailSubject = "New Resource in $categoryName";
                     $emailMessage = "
-                        <p>Dear $followerName,</p>
                         <p>We are excited to inform you that a new resource titled <strong>$title</strong> has been added to the <strong>$categoryName</strong> category.</p>
                         <p>You can check it out here: <a href='$siteurl/category.php/$slugs'>$categoryName</a></p>
                         <p>Thank you for following the $categoryName category!</p>
@@ -409,7 +407,6 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
                 // Prepare the email
                 $emailSubject = "New Resource Posted by $sellerName";
                 $emailMessage = "
-                    <p>Dear $followerName,</p>
                     <p>We are excited to inform you that $sellerName has just posted a new resource titled <strong>$title</strong>.</p>
                     <p>You can check it out here: <a href='$siteurl.merchant-store.php?seller_id=$user_id'>$sellerName</a></p>
                     <p>Thank you for following $sellerName!</p>";
@@ -451,7 +448,6 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
         // Prepare the email
         $emailSubject = "New Resource in $categoryName";
         $emailMessage = "
-            <p>Dear $followerName,</p>
             <p>We are excited to inform you that a new resource titled <strong>$title</strong> has been added to the <strong>$categoryName</strong> category.</p>
             <p>You can check it out here: <a href='$siteurl/category.php/$slugs'>$categoryName</a></p>
             <p>Thank you for following the $categoryName category!</p>
@@ -819,7 +815,7 @@ if (!mysqli_query($con, $updates_query)) {
 
                 mysqli_query($con, "UPDATE {$siteprefix}users SET wallet = wallet + $affiliate_amount WHERE affiliate = '$affiliate_id'");
                 insertWallet($con, $affiliate_user_id, $affiliate_amount, 'credit', "Affiliate Earnings from Order ID: $order_id", $date);
-                insertadminAlert($con, "You have earned $sitecurrency$affiliate_amount from Order ID: $order_id", "wallet.php", $date, "wallet", 0);
+                insertadminAlert($con, $affiliate_user_id, "You have earned $sitecurrency$affiliate_amount from Order ID: $order_id", "wallet.php", $date, "wallet", 0);
             }
         }
 

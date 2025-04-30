@@ -117,10 +117,8 @@ if (isset($user_id) && isset($report_id)) {
     <?php if ($loyalty == 1): ?>
         <span class="badge text-light bg-danger ms-2">Loyalty Material</span>
         <?php endif; ?>
-
         <?php if ($loyalty_id < 1 && $price > 0 ): ?>
-       
-        <h6>Buy for Less – <a href="loyalty-program.php">Sign up</a> as a loyalty member today!</h6>
+        <h6>Buy for Less – <a href="<?php echo $siteurl;?>loyalty-program.php">Sign up</a> as a loyalty member today!</h6>
         <p>
         <?php
     // Fetch all loyalty plans
@@ -134,12 +132,11 @@ if (isset($user_id) && isset($report_id)) {
             $discounted_price = $price - ($price * ($discount / 100)); // Calculate discounted price
             ?>
            <span class="badge bg-primary me-2">
-    <a href="loyalty-program.php" class="text-white text-decoration-none">
+    <a href="<?php echo $siteurl;?>loyalty-program.php" class="text-white text-decoration-none">
         <?php echo "{$plan_name} - ₦ " . number_format($discounted_price, 2); ?>
     </a>
 </span>
-            <?php
-        }
+<?php }
     } 
     ?>
            

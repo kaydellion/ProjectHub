@@ -155,7 +155,7 @@ echo' <tr>
        <input type="text" name="bankname" class="form-control" value="<?php echo $bank_accname; ?>" placeholder="Enter bank account name"  required/><br>
        <input type="number" name="bankno" class="form-control" value="<?php echo $bank_number; ?>" placeholder="Enter bank account number"  required/></p>
        <?php } ?>
-       <p class="pt-3"><input type="number" name="amount" class="form-control"  max="<?php echo $userwallet; ?>" min="500" placeholder="Enter Amount to withdraw" required/>
+       <p class="pt-3"><input type="number" name="amount" class="form-control"  max="<?php echo $wallet; ?>" min="500" placeholder="Enter Amount to withdraw" required/>
        <span class="text-small text-primary">Minimum withdrawal is &#8358;500</span></p>
        
       </div>

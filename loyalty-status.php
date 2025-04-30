@@ -29,7 +29,7 @@ if ($downloadsResult) {
 }
 
 // Step 3: Calculate remaining downloads (never negative)
-$availableDownloads = max($totalDownloads - $downloadsDone, 0);
+$availableDownloads = max($downloadsDone - $totalDownloads, 0);
 ?>
 
 <div class="container mt-3">
