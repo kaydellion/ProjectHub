@@ -145,8 +145,8 @@ if (mysqli_affected_rows($con) > 0) {
 $emailSubject = "New Sale on Project Report Hub. Let's Keep the Momentum Going!";
 $emailMessage = "<p>Great news! A new sale has just been made on $siteurl.</p>
 <p><strong>Title of Resource:</strong> $resourceTitle</p>
-<p><strong>Price:</strong> $sitecurrencycode$price</p>
-<p><strong>Earning:</strong> $sitecurrencycode$seller_amount</p>
+<p><strong>Price:</strong> $sitecurrencyCode$price</p>
+<p><strong>Earning:</strong> $sitecurrencyCode$seller_amount</p>
 <p>This is a win for our community and a reminder that students and researchers are actively exploring and purchasing resources from our platform every day.</p>
 <p>If you havenâ€™t updated your listings recently, now is a great time to:</p>
 <ol>
