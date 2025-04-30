@@ -207,7 +207,7 @@ $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F5
 
    if (!@mail($email_to, $email_subject, $email_message, $header)) {
        echo '<center><font color="red">Mail cannot be submitted now due to server problems. Please try again.</font></center>';
-   }
+   }else {return true;}
 }
 
 function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
