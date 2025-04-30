@@ -25,7 +25,6 @@ table th {
 }
 
 </style>
-<div class="container-xxl py-5">
 <p><a href="add-report.php" class="btn-kayd m-3">Add New Report</a> </p>
               <!-- Hoverable Table rows -->
                 <h5 class="card-header"> Manage Resources </h5>
@@ -117,11 +116,6 @@ table th {
                 </div>
                 </div>
               <!--/ Hoverable Table rows -->
-
-            
-
-            </div>
-
 
 
 
