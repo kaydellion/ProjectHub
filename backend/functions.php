@@ -398,11 +398,11 @@ function getBadgeColor($status) {
         case 'Inactive':
                 return 'danger'; // Gray for pending contract
         case 'draft':
-        case 'suspended':
             return 'info'; // Info for pending payment
         case 'awaiting-response':
             return 'info'; // Info for pending payment
         case 'pending':
+        case 'suspended':
                 return 'warning'; // Info for pending payment
         case 'inprogress':
         case 'approved':
