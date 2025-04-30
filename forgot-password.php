@@ -4,15 +4,14 @@ if($active_log=="1"){ header("location:index.php");}
 if(isset($_POST['forget'])){
 $email=$_POST['email'];
 
-$check = "SELECT * FROM ".$siteprefix."users WHERE email= '$email'";
+$check = "SELECT * FROM ".$siteprefix."users WHERE email= '$email' AND type='user'";
 $query = mysqli_query($con, $check);
-
 if (mysqli_affected_rows($con) == 0) {
 $statusAction="Invalid User";
 $statusMessage="User not found!";
 showErrorModal($statusAction,$statusMessage);
 } else {
-    $sql= "SELECT * FROM ".$siteprefix."users WHERE email= '$email'";
+    $sql= "SELECT * FROM ".$siteprefix."users WHERE email= '$email' AND type='user'";
     $sql2 = mysqli_query($con, $sql);
     while ($row = mysqli_fetch_array($sql2)) {
         $user_name = $row['display_name'];

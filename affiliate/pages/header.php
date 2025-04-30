@@ -11,6 +11,7 @@ $check = "SELECT * FROM ".$siteprefix."users WHERE s = '" . $code . "'";
 $query = mysqli_query($con, $check);
 if (mysqli_affected_rows($con) == 0) {
     $active_log = 0; 
+    header("location: ../index.php");
 } else {
     $sql = "SELECT * FROM ".$siteprefix."users  WHERE s  = '".$code."'";
     $sql2 = mysqli_query($con, $sql);
