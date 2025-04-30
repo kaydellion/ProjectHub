@@ -1,6 +1,7 @@
 <?php
 
 // place order
+include "header.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     // Get the order ID and user ID from the form
     $order_id = $_POST['order_id'];
