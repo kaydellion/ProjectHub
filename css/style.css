@@ -20,6 +20,9 @@ text-transform: capitalize !important;
   color: #FFF !important;
 }
 
+.btn{
+  font-size: 13px !important;
+}
 /* Overlay container for category and subcategory */
 .category-overlay {
   position: absolute;
@@ -160,7 +163,7 @@ td{
 
 }
 .text-hero{
-  font-size: 18px;
+  font-size: 14px;
 
 }
 .crafted-text {
