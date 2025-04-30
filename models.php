@@ -23,9 +23,6 @@ table td {
 table th {
     vertical-align: middle;
 }
-.container-xxl{
-  min-height: 50vh !important;
-}
 </style>
 <div class="container-xxl">
 <p><a href="add-report.php" class="btn-kayd m-3">Add New Report</a> </p>
