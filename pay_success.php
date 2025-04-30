@@ -153,7 +153,7 @@ sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $email
 }
 
 // Update order status to paid
-$sql_update_order = "UPDATE ".$siteprefix."orders SET status = 'paid' WHERE order_id = '$ref'";
+$sql_update_order = "UPDATE ".$siteprefix."orders SET status = 'paid',date='$currentdatetime' WHERE order_id = '$ref'";
 mysqli_query($con, $sql_update_order);
 
 // Send order confirmation email

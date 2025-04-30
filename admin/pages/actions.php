@@ -741,7 +741,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'deleteplans') {
 }
 
 
-// Approve payment
+/* Approve payment
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
     $order_id = mysqli_real_escape_string($con, $_POST['order_id']);
     $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
@@ -842,7 +842,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
         showErrorModal('Oops', $message);
         header("refresh:2;");
     }
-}
+}*/
+
 //update dispute status
 if (isset($_POST['update-dispute'])){
     $dispute_id = $_POST['ticket_id'];

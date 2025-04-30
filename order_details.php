@@ -23,6 +23,18 @@ if ($order_result->num_rows == 0) {
 
 $order = $order_result->fetch_assoc();
 
+// Fetch ordered items
+$sql = "SELECT r.title, ri.picture, oi.price, oi.original_price, p.title as file_path
+        FROM ".$siteprefix."order_items oi 
+        JOIN ".$siteprefix."reports_files p ON oi.item_id = p.id 
+        LEFT JOIN ".$siteprefix."reports r  ON  oi.report_id = r.id 
+        LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id 
+        WHERE oi.order_id = ? GROUP BY p.id";
+$stmt = $con->prepare($sql);
+$stmt->bind_param("s", $order_id);
+$stmt->execute();
+$items_result = $stmt->get_result();
+
 ?>
 
 
@@ -34,7 +46,7 @@ $order = $order_result->fetch_assoc();
             <h5 class="card-title">Order ID: #<?php echo $order['order_id']; ?></h5>  
             <p><strong>Date:</strong> <?php echo formatDateTime($order['date']); ?></p>
             <p><strong>Status:</strong> 
-                <span class="badge bg-<?php echo ($order['status'] == 'Completed') ? 'success' : 'warning'; ?>">
+                <span class="badge bg-<?php echo ($order['status'] == 'Completed'|| $order['status'] == 'paid') ? 'success' : 'warning'; ?>">
                     <?php echo ucfirst($order['status']); ?>
                 </span>
             </p>
@@ -57,18 +69,7 @@ $order = $order_result->fetch_assoc();
                 </tr>
             </thead>
             <tbody>
-                <?php // Fetch ordered items
-$sql = "SELECT r.title, ri.picture, oi.price, oi.original_price, p.title as file_path
-        FROM ".$siteprefix."order_items oi 
-        JOIN ".$siteprefix."reports_files p ON oi.item_id = p.id 
-        LEFT JOIN ".$siteprefix."reports r  ON  oi.report_id = r.id 
-        LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id 
-        WHERE oi.order_id = ? GROUP BY p.id";
-$stmt = $con->prepare($sql);
-$stmt->bind_param("s", $order_id);
-$stmt->execute();
-$items_result = $stmt->get_result();
-while ($item = $items_result->fetch_assoc()) {
+                <?php while ($item = $items_result->fetch_assoc()) {
                     $title= $item['title'];
                 $slug = strtolower(str_replace(' ', '-', $title));
                 $file_path= $item['file_path'];
