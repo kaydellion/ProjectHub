@@ -118,7 +118,7 @@ if (isset($user_id) && isset($report_id)) {
         <span class="badge text-light bg-danger ms-2">Loyalty Material</span>
         <?php endif; ?>
         <?php if ($loyalty_id < 1 && $price > 0 ): ?>
-        <h6>Buy for Less – <a href="loyalty-program.php">Sign up</a> as a loyalty member today!</h6>
+        <h6>Buy for Less – <a href="<?php echo $siteurl;?>loyalty-program.php">Sign up</a> as a loyalty member today!</h6>
         <p>
         <?php
     // Fetch all loyalty plans
