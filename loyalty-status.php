@@ -18,7 +18,7 @@ if ($userResult) {
     }
 }
   
-// Step 2: Fetch total number of downloads already made
+// Step 2: Fetch total number of downloads bought 
 $downloadsDone = 0;
 $downloadsQuery = "SELECT SUM(downloads) AS total_downloads FROM {$siteprefix}loyalty_purchases WHERE user_id = '$user_id'";
 $downloadsResult = mysqli_query($con, $downloadsQuery);
@@ -47,7 +47,7 @@ $availableDownloads = max($totalDownloads - $downloadsDone, 0);
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
                     <h5 class="card-title text-white">Available Downloads</h5>
-                    <p class="card-text text-white"><?php echo $availableDownloads; ?></p>
+                    <p class="card-text text-white"><?php echo $totalDownloads; ?></p>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@ $availableDownloads = max($totalDownloads - $downloadsDone, 0);
             <div class="card text-white bg-secondary mb-3">
                 <div class="card-body">
                     <h5 class="card-title text-white">Downloads Already Done</h5>
-                    <p class="card-text text-white"><?php echo $downloadsDone; ?></p>
+                    <p class="card-text text-white"><?php echo $availableDownloads; ?></p>
                 </div>
             </div>
         </div>

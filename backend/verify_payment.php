@@ -40,7 +40,7 @@ if ($plan_result && mysqli_num_rows($plan_result) > 0) {
             VALUES ('$user_id', '$plan_id','$amount', '$start_date', '$end_date', '$reference','$downloads')";
     if (mysqli_query($con, $sql)) {
         // Update user subscription
-        $update_user = "UPDATE pr_users SET loyalty='$plan_id' WHERE s='$user_id'";
+        $update_user = "UPDATE pr_users SET loyalty='$plan_id',downloads='$downloads' WHERE s='$user_id'";
 
          // Admin commission deduction
          $admin_commission = $amount;
