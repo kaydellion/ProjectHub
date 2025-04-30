@@ -104,9 +104,9 @@ include "backend/actions.php";
     <div class="top-bar bg-kayd">
             <div class="container p-1">
             <div class="row justify-content-between">
-                <div class="col-md-6 col-8 d-flex align-items-center">
-                <ul class="top-bar-info d-flex flex-column flex-md-row text-white">
-                    <li class="m-1"><i class="fa fa-phone"></i> <?php echo $sitenumber;?></li>
+                <div class="col-md-6 col-8 d-flex flex-wrap align-items-center">
+                <ul class="top-bar-info d-flex flex-wrap flex-column flex-md-row text-white">
+                    <li class="m-1"><i class="fa fa-phone"></i><?php echo $sitenumber;?></li>
                     <li class="m-1"><i class="fa fa-envelope"></i><?php echo $sitemail; ?></li>
                 </ul>
                 </div>
