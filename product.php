@@ -118,7 +118,7 @@ if (isset($user_id) && isset($report_id)) {
         <span class="badge text-light bg-danger ms-2">Loyalty Material</span>
         <?php endif; ?>
 
-        <?php if ($loyalty_id > 1 && $price > 0 ): ?>
+        <?php if ($loyalty_id < 1 && $price > 0 ): ?>
        
         <h6>Buy for Less – <a href="loyalty-program.php">Sign up</a> as a loyalty member today!</h6>
         <p>
@@ -256,6 +256,45 @@ while ($row = mysqli_fetch_array($sql2)) {
         <button class="btn btn-danger" data-toggle="modal" data-target="#reportProductModal">
             <i class="fas fa-flag"></i> Report 
         </button>
+
+        
+
+<!-- Report Product Modal -->
+<div class="modal fade" id="reportProductModal" tabindex="-1" role="dialog" aria-labelledby="reportProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportProductModalLabel">Report <?php echo $title; ?></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="product_id" value="<?php echo $report_id; ?>">
+                    <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                    <div class="mb-3">
+                        <label for="reason" class="form-label">Reason for Reporting</label>
+                        <select class="form-select" name="reason" id="reason" required>
+                            <option value="Inappropriate Content">Inappropriate Content</option>
+                            <option value="Copyright Violation">Copyright Violation</option>
+                            <option value="Spam or Misleading">Spam or Misleading</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="customReasonContainer" style="display: none;">
+                        <label for="custom_reason" class="form-label">Custom Reason</label>
+                        <textarea class="form-control" name="custom_reason" id="custom_reason" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" name="submit_report" class="btn btn-danger">Submit Report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
     <?php else: ?>
         <button class="btn btn-secondary" disabled>
             <i class="fas fa-flag"></i> Report
@@ -765,43 +804,6 @@ if ($result) {
 
 
 
-
-<!-- Report Product Modal -->
-<div class="modal fade" id="reportProductModal" tabindex="-1" role="dialog" aria-labelledby="reportProductModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="reportProductModalLabel">Report <?php echo $title; ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form method="POST">
-                <div class="modal-body">
-                    <input type="hidden" name="product_id" value="<?php echo $report_id; ?>">
-                    <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-                    <div class="mb-3">
-                        <label for="reason" class="form-label">Reason for Reporting</label>
-                        <select class="form-select" name="reason" id="reason" required>
-                            <option value="Inappropriate Content">Inappropriate Content</option>
-                            <option value="Copyright Violation">Copyright Violation</option>
-                            <option value="Spam or Misleading">Spam or Misleading</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="mb-3" id="customReasonContainer" style="display: none;">
-                        <label for="custom_reason" class="form-label">Custom Reason</label>
-                        <textarea class="form-control" name="custom_reason" id="custom_reason" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" name="submit_report" class="btn btn-danger">Submit Report</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const reasonSelect = document.getElementById("reason");
