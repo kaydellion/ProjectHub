@@ -134,12 +134,11 @@ if (isset($user_id) && isset($report_id)) {
             $discounted_price = $price - ($price * ($discount / 100)); // Calculate discounted price
             ?>
            <span class="badge bg-primary me-2">
-    <a href="loyalty-program.php" class="text-white text-decoration-none">
+    <a href="<?php echo $siteurl;?>loyalty-program.php" class="text-white text-decoration-none">
         <?php echo "{$plan_name} - ₦ " . number_format($discounted_price, 2); ?>
     </a>
 </span>
-            <?php
-        }
+<?php }
     } 
     ?>
            
