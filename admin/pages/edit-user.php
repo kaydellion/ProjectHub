@@ -129,6 +129,8 @@ if ($sql2 && mysqli_num_rows($sql2) > 0) {
                     <select class="form-select p-3" name="status" id="status" required>
                         <option value="active" <?php if ($status === 'active') echo 'selected'; ?>>Active</option>
                         <option value="inactive" <?php if ($status === 'inactive') echo 'selected'; ?>>Inactive</option>
+                       <?php if ($status === 'suspended')?> <option value="" selected disabled>User is currently suspended</option>
+                       <?php ; ?>
                     </select>
                 </div> 
                 <div class="col-md-4 form-group mb-3">
