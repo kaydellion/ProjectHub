@@ -105,13 +105,13 @@ include "backend/actions.php";
             <div class="container p-1">
             <div class="row justify-content-between">
                 <div class="col-md-6 col-8 d-flex flex-wrap align-items-center">
-                <ul class="top-bar-info d-flex flex-wrap flex-column flex-md-row text-white">
-                    <li class="m-1"><i class="fa fa-phone"></i><?php echo $sitenumber;?></li>
-                    <li class="m-1"><i class="fa fa-envelope"></i><?php echo $sitemail; ?></li>
+                <ul class="top-bar-info d-flex flex-wrap flex-md-row text-white">
+                    <li class="m-1 text-white"><i class="fa fa-phone"></i><?php echo $sitenumber;?></li>
+                    <li class="m-1 text-white"><i class="fa fa-envelope"></i><?php echo $sitemail; ?></li>
                 </ul>
                 </div>
-                <div class="col-md-6 col-12 d-flex justify-content-lg-end align-items-center">
-                <ul class="top-bar-links d-flex">
+                <div class="col-md-6 col-12 d-flex flex-wrap justify-content-lg-end align-items-center">
+                <ul class="top-bar-links d-flex flex-wrap">
                 <li class="bg-secondary text-white p-2 me-2"><a class="text-white text-small" href="<?php echo $siteurl; ?>loyalty-program.php">Loyalty Program</a></li>
                 <li class="bg-secondary text-white p-2 me-2"><a class="text-white text-small" href="<?php echo $siteurl; ?>become_an_affliate.php">Affliate Program</a></li>
                 <li class="bg-secondary text-white p-2 me-2"><a class="text-white text-small" href="<?php echo $siteurl; ?>marketplace.php">Marketplace</a></li>
