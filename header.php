@@ -4,7 +4,7 @@
 //previous page
 $_SESSION['previous_page'] = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $previousPage=$_SESSION['previous_page'];
-$current_page = urlencode(basename($_SERVER['PHP_SELF']) . '?' . $_SERVER['QUERY_STRING']);
+$current_page = urlencode(pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) . '?' . $_SERVER['QUERY_STRING']);;
 
 $code = "";
 if (isset($_COOKIE['userID'])) {$code = $_COOKIE['userID'];}
