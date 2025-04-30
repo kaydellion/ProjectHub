@@ -93,11 +93,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset-password'])) {
 
               <form class="mb-3" action="" method="POST">
             <input type="hidden" name="token" value="<?php echo htmlspecialchars($_GET['token']); ?>">
-            <div>
-                <label for="password">New Password:</label>
-                <input type="password" name="password" id="password" required>
+            <div class="mb-3 form-password-toggle">
+
+            <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control"
+                      name="password"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="password"
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
             </div>
-            <div>
+           
+                <div class="mb-3>
                 <label for="confirm_password">Confirm Password:</label>
                 <input type="password" name="confirm_password" id="confirm_password" required>
             </div>
