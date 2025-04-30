@@ -63,7 +63,7 @@ $query = "SELECT ".$siteprefix."loyalty_purchases.*, ".$siteprefix."subscription
 $result = mysqli_query($con, $query);
 ?>
 
-<div class="container mt-5">
+<div class="container mt-5 mb-3">
     <div class="row">
         <div class="col-lg-12 text-center">
             <h1 class="text-primary">Loyalty Status</h1>
