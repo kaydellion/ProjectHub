@@ -17,7 +17,7 @@
                         displayMessage($message);
                     } else {
                     // Assuming database connection exists
-                    $sql = "SELECT oi.*, rf.title as file, r.title as report_title, oi.price, ri.picture 
+                    $sql = "SELECT oi.*,oi.s as fileid, rf.title as file, r.title as report_title, oi.price, ri.picture 
                         FROM ".$siteprefix."order_items oi
                         JOIN ".$siteprefix."reports r ON oi.report_id = r.id
                         LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
@@ -52,7 +52,7 @@
                         <div class="col-md-2 text-end">
                             <p class="fw-bold"><?php echo $sitecurrency; echo number_format($item['price'], 2); ?></p>
                             <button class="btn btn-sm btn-outline-danger delete-cart-item" 
-                                    data-item-id="<?php echo htmlspecialchars($item['s']); ?>">
+                                    data-item-id="<?php echo htmlspecialchars($item['fileid']); ?>">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </div>
