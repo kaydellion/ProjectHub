@@ -9,7 +9,7 @@
             $(this).DataTable({
                 "paging": true,
                 "searching": true,
-                "ordering": false, // ❌ disables all column sorting
+                "order": [],
                 "info": true,
                 "lengthMenu": [10, 25, 50, 100],
                 "autoWidth": false,
