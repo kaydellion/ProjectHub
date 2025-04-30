@@ -78,7 +78,7 @@ if ($sql2 && mysqli_num_rows($sql2) > 0) {
                                 <input type="text" class="form-control" name="mobile_number" placeholder="Phone Number" value="<?php echo htmlspecialchars($mobile_number); ?>" required>
                             </div>
                             <div class="col-md-6 form-group p_star mb-3">
-                                <input type="text" class="form-control" name="address" placeholder="Address" value="<?php echo htmlspecialchars($address); ?>" required>
+                                <input type="text" class="form-control" name="address" placeholder="Address" value="<?php echo htmlspecialchars($address); ?>">
                             </div>
                             <div class="col-md-6 form-group p_star mb-3">
                                 <input type="text" class="form-control" name="bank_name" placeholder="Bank Name" value="<?php echo htmlspecialchars($bank_name); ?>">
@@ -126,7 +126,7 @@ if ($sql2 && mysqli_num_rows($sql2) > 0) {
                     </div>
                 <div class="form-group col-md-4 mb-3">
                     <label for="status">Status</label>
-                    <select class="form-select p-3" name="status" id="status" required>
+                    <select class="form-select p-3" name="status" id="status" <?php if ($status !== 'suspended') echo 'required'; ?>>
                         <option value="active" <?php if ($status === 'active') echo 'selected'; ?>>Active</option>
                         <option value="inactive" <?php if ($status === 'inactive') echo 'selected'; ?>>Inactive</option>
                        <?php if ($status === 'suspended')?> <option value="" selected disabled>User is currently suspended</option>
