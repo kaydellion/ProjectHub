@@ -63,6 +63,7 @@ showSuccessModal($statusAction,$statusMessage);
                 </div>
             </div>
         </div>
+</div>
     </section>
     <!--================login_part end =================-->
 
