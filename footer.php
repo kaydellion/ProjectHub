@@ -74,7 +74,7 @@
                             <P>
 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <?php echo $sitename; ?></P>
                             <div class="copyright_link">
-                                <a href="<?php echo $siteurl;?>terms.php">Terms & Conditions | </a>
+                                <a href="<?php echo $siteurl;?>terms.php">Terms & Conditions |</a>
                                 <a href="<?php echo $siteurl;?>faq.php"> FAQ</a>
                             </div>
                         </div>
