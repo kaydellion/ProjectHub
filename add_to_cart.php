@@ -47,7 +47,7 @@ $debug['loyalty_check'] = [
 ];
 
 // Get price from reports table
-$sql = "SELECT price FROM pr_reports WHERE id = '$report_id'";
+$sql = "SELECT price,loyalty FROM pr_reports WHERE id = '$report_id'";
 $result = $con->query($sql);
 if (!$result || $result->num_rows == 0) {
     $debug['errors'][] = "Report not found.";
@@ -59,6 +59,7 @@ $row = $result->fetch_assoc();
 // Debugging: Log price query and result
 $debug['queries'][] = $sql;
 $debug['results']['price'] = $row['price'];
+$report_loyalty=$row['loyalty'];
 
 // Check if price is valid
 $price = floatval($row['price']);
@@ -74,7 +75,7 @@ $result_count = mysqli_query($con, $sql_count);
 $row_count = mysqli_fetch_assoc($result_count);
 
 // Apply loyalty discount if applicable
-if ($loyalty > 0) {
+if ($loyalty > 0 && $report_loyalty > 0) {
 //select loyalty discount
 $sql = "SELECT discount FROM pr_subscription_plans WHERE s = '$loyalty'";
 $result = $con->query($sql);
@@ -158,6 +159,8 @@ if ($discount == "") {
     //deduct from downloads if item has not been added
     if ($row_count['count'] < 1) { decreaseDownloads($con, $user_id);}
     }
+} else {
+$loyalty=0;
 }
 
 // Debugging: Log price after loyalty check
