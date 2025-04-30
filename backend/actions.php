@@ -461,7 +461,7 @@ if (isset($_POST['register-affiliate'])) {
     // Generate unique affiliate ID
 
     // Validate email uniqueness
-    $checkEmail = mysqli_query($con, "SELECT * FROM " . $siteprefix . "users WHERE email='$email' AND type='$type'");
+    $checkEmail = mysqli_query($con, "SELECT * FROM " . $siteprefix . "users WHERE email='$email'");
     if (mysqli_num_rows($checkEmail) >= 1) {
         $statusAction = "Ooops!";
         $statusMessage = "This email has already been registered. Please try registering with another email.";
