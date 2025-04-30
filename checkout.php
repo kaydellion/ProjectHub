@@ -1,5 +1,4 @@
 
-text/x-generic checkout.php ( PHP script, ASCII text )
 <?php include "header.php"; ?>
 
 
