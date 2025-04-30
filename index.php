@@ -9,7 +9,7 @@
                 <div class="banner_text">
                     <div class="banner_text_iner" style="max-width: 800px;">
                         <h6 class="text-orange">Project Report Hub – Empowering Research, Fueling Success!</h6>
-                        <p class="text-white text-hero" style="font-size: 1rem; line-height: 1.5;">
+                        <p class="text-white text-hero" style="line-height: 1;">
                             ProjectReportHub is Nigeria’s premier digital platform designed exclusively for university students — from undergraduates to postgraduate (Master's and PhD) scholars.
                             Whether you're working on coursework, exam prep, or advanced research, ProjectReportHub provides everything you need to excel, all in one place.
                             Join thousands of smart users who trust ProjectReportHub for academic success and professional growth.

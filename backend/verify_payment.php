@@ -41,6 +41,16 @@ if ($plan_result && mysqli_num_rows($plan_result) > 0) {
     if (mysqli_query($con, $sql)) {
         // Update user subscription
         $update_user = "UPDATE pr_users SET loyalty='$plan_id' WHERE s='$user_id'";
+
+         // Admin commission deduction
+         $admin_commission = $amount;
+         $sql_insert_commission = "INSERT INTO ".$siteprefix."profits (amount, report_id, order_id, type, date) VALUES ('$admin_commission', '$plan_id', '$plan_id','Subscription Payment','$date')";
+         mysqli_query($con, $sql_insert_commission);
+         $message = "Admin Commission of $sitecurrency$admin_commission from Subscription Plan";
+         $link = "profits.php";
+         $msgtype = "profits";
+         insertadminAlert($con, $message, $link, $date, $msgtype, 0);
+
         if (mysqli_query($con, $update_user)) {
             header("Location: ../loyalty-status.php");
             exit;

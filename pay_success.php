@@ -106,7 +106,7 @@ if (mysqli_affected_rows($con) > 0) {
         if($sellertype=="user"){
         // Admin commission deduction
         $admin_commission = $price * ($escrowfee / 100);
-        $sql_insert_commission = "INSERT INTO ".$siteprefix."profits (amount, report_id, order_id, date) VALUES ('$admin_commission', '$report_id', '$order_id', '$date')";
+        $sql_insert_commission = "INSERT INTO ".$siteprefix."profits (amount, report_id, order_id,type, date) VALUES ('$admin_commission', '$report_id', '$order_id', 'Order Payment','$date')";
         mysqli_query($con, $sql_insert_commission);
         
         // Notify admin
@@ -118,7 +118,7 @@ if (mysqli_affected_rows($con) > 0) {
         else if($sellertype=="admin"||$sellertype=="sub-admin"){
         // Admin commission deduction
         $admin_commission = $price;
-        $sql_insert_commission = "INSERT INTO ".$siteprefix."profits (amount, report_id, order_id, date) VALUES ('$admin_commission', '$report_id', '$order_id', '$date')";
+        $sql_insert_commission = "INSERT INTO ".$siteprefix."profits (amount, report_id, order_id,type, date) VALUES ('$admin_commission', '$report_id', '$order_id', 'Order Payment','$date')";
         mysqli_query($con, $sql_insert_commission);
             
         // Notify admin
