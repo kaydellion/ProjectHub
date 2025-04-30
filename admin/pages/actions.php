@@ -178,11 +178,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
                         <p>Dear $followerName,</p>
                         <p>We are excited to inform you that $sellerName has just posted a new resource titled <strong>$title</strong>.</p>
                         <p>You can check it out here: <a href='$siteurl/merchant-store.php?seller_id=$user_id'>$sellerName</a></p>
-                        <p>Thank you for following $sellerName!</p>
-                    ";
+                        <p>Thank you for following $sellerName!</p>";
     
                     // Send the email
-                    sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+                    sendEmail($followerEmail, $followerName, $siteName, $siteMail, $emailMessage, $emailSubject);
+                   
+                    // Notify user
+                   insertAlert($con, $followerId, "New resource titled $title has been posted by $sellerName", $currentdatetime, 0);
                 }
             }
     
@@ -220,7 +222,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
                     ";
     
                     // Send the email
-                    sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+                    sendEmail($followerEmail, $followerName, $siteName, $siteMail, $emailMessage, $emailSubject);
+
+                     // Notify user
+                   insertAlert($con, $followerId, "New resource titled $title  under category $categoryName  has been posted", $currentdatetime, 0);
                 }
             }
         }
@@ -331,7 +336,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['suspend_user'])) {
     $answer = $_POST['answer'];
     $user_id = $_POST['user'];
 
-    $siteline = "https://projectreporthub.ng/"; // Replace with your site URL
+    $siteline = $siteurl; // Replace with your site URL
 
     // Check the current status of the report in the database
     $currentStatusQuery = "SELECT status FROM ".$siteprefix."reports WHERE id = '$reportId'";
@@ -375,7 +380,7 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
         ";
 
         // Send the email
-        sendEmail($sellerEmail, $sellerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+        sendEmail($sellerEmail, $sellerName, $siteName, $siteMail, $emailMessage, $emailSubject);
     }
 }
         // Check if the user_id matches the seller_id in the followers table
@@ -407,12 +412,13 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
                     <p>Dear $followerName,</p>
                     <p>We are excited to inform you that $sellerName has just posted a new resource titled <strong>$title</strong>.</p>
                     <p>You can check it out here: <a href='$siteurl.merchant-store.php?seller_id=$user_id'>$sellerName</a></p>
-                    <p>Thank you for following $sellerName!</p>
-                    
-                ";
+                    <p>Thank you for following $sellerName!</p>";
 
                 // Send the email
-                sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+                sendEmail($followerEmail, $followerName, $sitenNme, $siteMail, $emailMessage, $emailSubject);
+
+                // Notify user
+                insertAlert($con, $followerId, "New resource titled $title has been posted by $sellerName", $currentdatetime, 0);
             }
         }
 
@@ -452,7 +458,10 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
         ";
 
         // Send the email
-        sendEmail($followerEmail, $followerName, $sitename, $sitemail, $emailMessage, $emailSubject);
+        sendEmail($followerEmail, $followerName, $siteName, $siteMail, $emailMessage, $emailSubject);
+        
+         // Notify user
+         insertAlert($con, $followerId, "New resource titled $title  under category $categoryName  has been posted", $currentdatetime, 0);
     }
 }
 
