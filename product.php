@@ -326,8 +326,7 @@ while ($row = mysqli_fetch_array($sql2)) {
         View Merchant Store
     </a>
 
-    <!-- Follow / Following Button -->
-    <?php checkActiveLog($active_log); // Ensure the user is logged in ?>
+
 
     <?php
     // Check if the user is already following the seller
