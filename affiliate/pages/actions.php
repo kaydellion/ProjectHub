@@ -17,10 +17,10 @@ if (isset($_GET['action']) && $_GET['action'] == 'read-message') {
 
 
 // add to affiliate list
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_affiliate_list'])) {
-    $user_id = $_POST['user_id']; 
+    $user_id = $_POST['user_id'];
     $affliate_id = $_POST['affliate_id'];
-    // Assuming user ID is stored in the session
     $product_id = mysqli_real_escape_string($con, $_POST['product_id']); // Sanitize product ID
 
     // Check if the product is already in the affiliate's list
@@ -32,26 +32,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_affiliate_list'
         $message = "This product is already in your affiliate list.";
         showToast($message);
         header("refresh:2; url=reports.php");
-        
+        exit;
     }
 
+    // Fetch the product title from the reports table
+    $product_query = "SELECT title FROM " . $siteprefix . "reports WHERE id = '$product_id'";
+    $product_result = mysqli_query($con, $product_query);
 
-  
-    // Generate affiliate link
-    $base_url = $siteurl;
-    $affiliate_link = urlencode($base_url . "?id=" . urlencode($product_id) . "&affliate=" . urlencode($affliate_id));
-     // Add product to affiliate's list
-    $insert_query = "INSERT INTO " . $siteprefix . "affiliate_products (user_id, product_id, affiliate_link,affiliate_id) 
-                     VALUES ('$user_id', '$product_id', '$affiliate_link','$affliate_id')";
-    if (mysqli_query($con, $insert_query)) {
-        $message = "Product added to your affiliate list successfully!";
-        showSuccessModal('Processed', $message);
-        header("refresh:1; url=reports.php");
-        
+    if ($product_result && mysqli_num_rows($product_result) > 0) {
+        $product_row = mysqli_fetch_assoc($product_result);
+        $title = $product_row['title'];
+
+        // Generate the slug
+        $slug = strtolower(str_replace(' ', '-', $title));
+
+        // Generate the affiliate link
+        $affiliate_link = $siteurl . "product/" . $slug . "?affliate=" . base64_encode($affliate_id);
+
+        // Add product to affiliate's list
+        $insert_query = "INSERT INTO " . $siteprefix . "affiliate_products (user_id, product_id, affiliate_link, affiliate_id) 
+                         VALUES ('$user_id', '$product_id', '$affiliate_link', '$affliate_id')";
+        if (mysqli_query($con, $insert_query)) {
+            $message = "Product added to your affiliate list successfully!";
+            showSuccessModal('Processed', $message);
+            header("refresh:1; url=reports.php");
+           
+        } else {
+            $message = "Failed to add product to your affiliate list: " . mysqli_error($con);
+            showErrorModal('Oops', $message);
+            exit;
+        }
     } else {
-        $message = "Failed to add product to your affiliate list: " . mysqli_error($con);
+        $message = "Failed to fetch product details.";
         showErrorModal('Oops', $message);
-       
+        exit;
     }
 }
 

@@ -46,10 +46,14 @@ $query = "
     SELECT r.*, 
            u.display_name, 
            u.profile_picture, 
-           ri.picture 
+           ri.picture, 
+           l.category_name AS category, 
+           sc.category_name AS subcategory
     FROM {$siteprefix}reports r 
     LEFT JOIN {$siteprefix}users u ON r.user = u.s 
     LEFT JOIN {$siteprefix}reports_images ri ON r.id = ri.report_id 
+    LEFT JOIN {$siteprefix}categories l ON r.category = l.id 
+    LEFT JOIN {$siteprefix}categories sc ON r.subcategory = sc.id 
     WHERE r.status = 'approved' 
       AND FIND_IN_SET('$resource_type_id', r.resource_type) 
     GROUP BY r.id 
@@ -109,6 +113,8 @@ $total_pages = ceil($total_reports / $limit);
                         $tags = $row['tags'];
                         $loyalty = $row['loyalty'];
                         $user = $row['display_name'];
+                        $category = $row['category'];
+                        $subcategory = $row['subcategory'];
                         $user_picture = $imagePath . $row['profile_picture'];
                         $created_date = $row['created_date'];
                         $updated_date = $row['updated_date'];

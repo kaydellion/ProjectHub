@@ -25,9 +25,11 @@ $result = $stmt->get_result();
                     </tr>
                 </thead>
                 <tbody> 
-                    <?php while ($row = $result->fetch_assoc()) { ?>
+                    <?php 
+                    $sn = 1; // Initialize the serial number counter
+                    while ($row = $result->fetch_assoc()) { ?>
                         <tr>
-                            <td><?php echo $row['s']; ?></td>
+                            <td><?php echo $sn++; ?></td> <!-- Increment the counter -->
                             <td>₦<?php echo number_format($row['amount'], 2); ?></td>
                             <td><?php echo $row['type']; ?></td>
                             <td><?php echo $row['report_id']; ?></td>

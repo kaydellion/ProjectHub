@@ -214,7 +214,7 @@ foreach ($resources[NULL] as $parent) {
                         <select id="pricing-type" name="pricing" class="form-control" onchange="togglePrice()" required>
                             <option value="free" <?php echo ($pricing == 'free') ? 'selected' : ''; ?>>Free</option>
                             <option value="paid" <?php echo ($pricing == 'paid') ? 'selected' : ''; ?>>Paid</option>
-                            <option value="donation" <?php echo ($pricing == 'donation') ? 'selected' : ''; ?>>Donation</option>
+                           
                         </select>
                     </div>
                     <div class="mb-3" id="price-field" style="display:<?php echo ($pricing == 'paid') ? 'block' : 'none'; ?>;">

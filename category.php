@@ -89,11 +89,11 @@ $total_pages = ceil($total_reports / $limit);
                     $isFollowingCategory = mysqli_num_rows($followCategoryResult) > 0;
                     ?>
                     <?php if ($isFollowingCategory): ?>
-                        <button type="submit" name="action" value="unfollow_category" class="btn btn-outline-danger btn-sm">
+                        <button type="submit" name="actioning" value="unfollow_category" class="btn btn-outline-danger btn-sm">
                             Unfollow Category
                         </button>
                     <?php else: ?>
-                        <button type="submit" name="action" value="follow_category" class="btn btn-outline-primary btn-sm">
+                        <button type="submit" name="actioning" value="follow_category" class="btn btn-outline-primary btn-sm">
                             Follow Category
                         </button>
                     <?php endif; ?>
