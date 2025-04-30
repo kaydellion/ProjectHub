@@ -440,7 +440,7 @@ $(document).ready(function(){
           return;
       }   
       $.ajax({
-          url: 'add_https://www.projectreporthub.ng/to_cart',
+          url: 'add_https://www.projectreporthub.ng/add_to_cart',
           type: 'POST',
           data: {
               reportId: report_id,
