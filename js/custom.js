@@ -440,7 +440,7 @@ $(document).ready(function(){
           return;
       }   
       $.ajax({
-          url: 'https://www.projectreporthub.ng/add_to_cart',
+          url: 'add_https://www.projectreporthub.ng/to_cart',
           type: 'POST',
           data: {
               reportId: report_id,
@@ -471,7 +471,7 @@ $('.delete-cart-item').click(function() {
   var itemId = $(this).data('item-id');
   if(confirm('Are you sure you want to remove this item?')) {
     $.ajax({
-      url: 'https://projectreporthub.ng/delete_cart_item',
+      url: 'https://www.projectreporthub.ng/delete_cart_item',
       type: 'POST',
       data: {item_id: itemId},
       success: function(response) {

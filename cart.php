@@ -31,13 +31,15 @@
                     $result = mysqli_stmt_get_result($stmt);
 
                     while ($item = mysqli_fetch_assoc($result)):
-                    $picture =$imagePath.$item['picture']; ?>
+                    $picture =$imagePath.$item['picture'];
+                    $title=$item['report_title'];
+                    $slug = strtolower(str_replace(' ', '-', $title)); ?>
                         <div class="row cart-item mb-3" id="cart-item-<?php echo htmlspecialchars($item['s']); ?>">
                         <div class="col-md-3">
                             <img src="<?php echo htmlspecialchars($picture); ?>"  alt="<?php echo htmlspecialchars($item['report_title']); ?>" class="img-fluid img-small rounded">
                         </div>
                         <div class="col-md-5">
-                            <a href="product.php?id=<?php echo $item['report_id']; ?>"><h5 class="card-title"><?php echo htmlspecialchars($item['report_title']); ?></h5></a>
+                            <a href="product?slug=<?php echo $slug; ?>"><h5 class="card-title"><?php echo htmlspecialchars($item['report_title']); ?></h5></a>
                             <p class="text-muted">Type: <?php echo htmlspecialchars(getFileExtension($item['file'])); ?></p>
                         </div>
                         <div class="col-md-2">
