@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="mb-3">
-                <button type="submit" name="submit-aff-link" class="form-control btn btn-primary d-grid w-100">Send Reset Link</button>
+                <button type="submit" name="submit-aff-link" class="btn btn-primary d-grid w-100">Send Reset Link</button>
                 </div>
               </form>
         

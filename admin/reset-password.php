@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset-password'])) {
             <div class="mb-3 form-password-toggle">
                 <label for="confirm_password">Confirm Password:</label>
                 <div class="input-group input-group-merge">
-                <input type="password" name="confirm_password" id="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                <input type="password" class="form-control" name="confirm_password" id="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                 aria-describedby="password" required>
             </div>
             </div>
