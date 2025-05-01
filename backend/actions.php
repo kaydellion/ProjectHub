@@ -402,6 +402,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['follow_category_submi
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['actionings']) && $_POST['actionings'] === 'unfollow') {
+    $target_user_id = $_POST['user_id'];
+
+    // Remove the following relationship
+    $unfollowQuery = "DELETE FROM {$siteprefix}followers WHERE user_id = $user_id AND seller_id = $target_user_id";
+    mysqli_query($con, $unfollowQuery);
+
+    echo "<script>alert('You have unfollowed the seller.');</script>";
+}
+
 //follow seller
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['follow_seller_submit'])) {
    

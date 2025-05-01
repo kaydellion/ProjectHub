@@ -16,6 +16,7 @@ if ($seller == 1) {
         $following[] = $row;
     }
 
+    // Handle unfollow action
 
 } else {
     // Redirect non-sellers to the dashboard
@@ -38,8 +39,8 @@ if ($seller == 1) {
             <tbody>
                 <?php foreach ($following as $followed): ?>
                     <tr>
-                        <td><?php echo $followed['first_name'] . ' ' . $followed['last_name']; ?></td>
-                        <td><?php echo $followed['email']; ?></td>
+                        <td><?php echo htmlspecialchars($followed['first_name'] . ' ' . $followed['last_name']); ?></td>
+                        <td><?php echo htmlspecialchars($followed['email']); ?></td>
                         <td>
                             <form method="POST" class="d-inline">
                                 <input type="hidden" name="user_id" value="<?php echo $followed['user_id']; ?>">
@@ -53,7 +54,7 @@ if ($seller == 1) {
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="followingDropdown">
                                         <li>
-                                            <button type="submit" name="actioning" value="unfollow" class="dropdown-item">
+                                            <button type="submit" name="actionings" value="unfollow" class="dropdown-item">
                                                 Unfollow
                                             </button>
                                         </li>
