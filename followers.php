@@ -1,6 +1,5 @@
 <?php
 include "header.php"; // Include the header
-include "../backend/connect.php"; // Include the database connection
 
 // Check if the user is logged in and is a seller
 if ($seller == 1) {

@@ -80,7 +80,7 @@ $followersResult = mysqli_query($con, $followersQuery);
 $totalFollowers = mysqli_fetch_assoc($followersResult)['total_followers'];
 
 // Fetch the number of users the seller is following
-$followingQuery = "SELECT COUNT(*) AS total_following FROM ".$siteprefix."followers WHERE user_id = $user_id";
+$followingQuery = "SELECT COUNT(*) AS total_following FROM ".$siteprefix."followers WHERE user_id = $user_id AND seller_id != ''";
 $followingResult = mysqli_query($con, $followingQuery);
 $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
 ?>
