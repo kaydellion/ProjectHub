@@ -2,7 +2,7 @@
 
 include "../backend/connect.php"; 
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-reset-link'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-aff-link'])) {
     $email = mysqli_real_escape_string($con, $_POST['username']); // Sanitize email input
 
     // Check if the email exists in the affiliate table
@@ -34,22 +34,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-reset-link'])) 
 
             // Send the email
             if (sendEmail($email, $display_name, $siteName, $siteMail, $emailMessage, $emailSubject)) {
+                $statusAction = "Success!";
                 $message = "A password reset link has been sent to your email.";
-                showSuccessModal('Processed', $message);
+                showSuccessModal($statusAction, $message);
                 header("refresh:2;");
             } else {
+                $statusAction = "Error!";
                 $message = "Failed to send the reset email. Please try again.";
-                showErrorModal('Oops', $message);
+                showErrorModal($statusAction, $message);
                 header("refresh:2;");
             }
         } else {
+            $statusAction = "Error!";
             $message = "Failed to generate reset link. Please try again.";
-            showErrorModal('Oops', $message);
+            showErrorModal( $statusAction, $message);
             header("refresh:2;");
         }
     } else {
+        $statusAction = "Error!";
         $message = "Email not found.";
-        showErrorModal('Oops', $message);
+        showErrorModal($statusAction, $message);
         header("refresh:2;");
     }
 }

@@ -31,22 +31,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-reset-link'])) 
 
             // Send the email
             if (sendEmail($email, "Admin", $siteName, $siteMail, $emailMessage, $emailSubject)) {
+                $statusAction = "Success!";
                 $message = "A password reset link has been sent to your email.";
-                showSuccessModal('Processed', $message);
+                showSuccessModal($statusAction, $message);
                 header("refresh:2;");
+
+
+               
             } else {
+                $statusAction = "Error!";
                 $message = "Failed to send the reset email. Please try again.";
-                showErrorModal('Oops', $message);
+                showErrorModal($statusAction, $message);
                 header("refresh:2;");
             }
         } else {
+            $statusAction = "Error!";
             $message = "Failed to generate reset link. Please try again.";
-            showErrorModal('Oops', $message);
+            showErrorModal( $statusAction, $message);
             header("refresh:2;");
         }
     } else {
+        $statusAction = "Error!";
         $message = "Email not found.";
-        showErrorModal('Oops', $message);
+        showErrorModal($statusAction, $message);
         header("refresh:2;");
     }
 }
