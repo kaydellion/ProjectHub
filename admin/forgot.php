@@ -4,10 +4,10 @@
 include "../backend/connect.php"; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-reset-link'])) {
-    $email = mysqli_real_escape_string($con, $_POST['username']); // Sanitize email input
+    $adminemail = mysqli_real_escape_string($con, $_POST['username']); // Sanitize email input
 
     // Check if the email exists in the admin table
-    $query = "SELECT * FROM {$siteprefix}users WHERE email = '$email' AND type='admin'";
+    $query = "SELECT * FROM {$siteprefix}users WHERE email = '$adminemail' AND type='admin'";
     $result = mysqli_query($con, $query);
 
     if (mysqli_num_rows($result) > 0) {
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-reset-link'])) 
         $expiry = date("Y-m-d H:i:s", strtotime("+1 hour")); // Token expires in 1 hour
 
         // Store the token and expiry in the database
-        $update_query = "UPDATE {$siteprefix}users SET reset_token = '$token', reset_token_expiry = '$expiry' WHERE email = '$email' ";
+        $update_query = "UPDATE {$siteprefix}users SET reset_token = '$token', reset_token_expiry = '$expiry' WHERE email = '$adminemail' ";
         if (mysqli_query($con, $update_query)) {
             // Prepare email content
             $reset_link = $adminurl . "reset-password.php?token=" . $token;
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-reset-link'])) 
             ";
 
             // Send the email
-            if (sendEmail($email, "Admin", $siteName, $siteMail, $emailMessage, $emailSubject)) {
+            if (sendEmail($adminemail, "Admin", $siteName, $siteMail, $emailMessage, $emailSubject)) {
                 $statusAction = "Success!";
                 $message = "A password reset link has been sent to your email.";
                 showSuccessModal($statusAction, $message);

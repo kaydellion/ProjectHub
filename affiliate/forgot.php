@@ -3,10 +3,10 @@
 include "../backend/connect.php"; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-aff-link'])) {
-    $email = mysqli_real_escape_string($con, $_POST['username']); // Sanitize email input
+    $affemail = mysqli_real_escape_string($con, $_POST['email']); // Sanitize email input
 
     // Check if the email exists in the affiliate table
-    $query = "SELECT * FROM {$siteprefix}users WHERE email = '$email' AND type='affiliate'";
+    $query = "SELECT * FROM {$siteprefix}users WHERE email = '$affemail' AND type='affiliate'";
     $result = mysqli_query($con, $query);
 
     if (mysqli_num_rows($result) > 0) {
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-aff-link'])) {
         $expiry = date("Y-m-d H:i:s", strtotime("+1 hour")); // Token expires in 1 hour
 
         // Store the token and expiry in the database
-        $update_query = "UPDATE {$siteprefix}users SET reset_token = '$token', reset_token_expiry = '$expiry' WHERE email = '$email'";
+        $update_query = "UPDATE {$siteprefix}users SET reset_token = '$token', reset_token_expiry = '$expiry' WHERE email = '$affemail'";
         if (mysqli_query($con, $update_query)) {
             // Prepare email content
             $reset_link = $affiliateurl . "reset-password.php?token=" . $token;
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-aff-link'])) {
             ";
 
             // Send the email
-            if (sendEmail($email, $display_name, $siteName, $siteMail, $emailMessage, $emailSubject)) {
+            if (sendEmail($affemail, $display_name, $siteName, $siteMail, $emailMessage, $emailSubject)) {
                 $statusAction = "Success!";
                 $message = "A password reset link has been sent to your email.";
                 showSuccessModal($statusAction, $message);

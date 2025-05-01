@@ -61,7 +61,7 @@
                     type="email"
                     class="form-control"
                     id="email"
-                    name="username"
+                    name="email"
                     placeholder="Enter your email"
                     autofocus
                   />
