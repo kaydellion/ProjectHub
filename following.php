@@ -28,7 +28,7 @@ if ($seller == 1) {
 <div class="container py-5">
     <h2 class="mb-4">Users You Are Following</h2>
     <?php if (!empty($following)): ?>
-        <div class="table-responsive text-nowrap">
+        <div class="text-nowrap">
         <table class="table table-hover">
             <thead>
                 <tr>
