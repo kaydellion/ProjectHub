@@ -412,6 +412,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['actionings']) && $_POS
     echo "<script>alert('You have unfollowed the seller.');</script>";
 }
 
+
+   // Handle follow/unfollow actions
+   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['actioni'])) {
+    $action = $_POST['actioni'];
+    $target_user_id = $_POST['user_id'];
+
+    if ($action === 'follow') {
+        // Add a new follower
+        $followQuery = "INSERT INTO {$siteprefix}followers (user_id, seller_id) VALUES ($user_id, $target_user_id)";
+        mysqli_query($con, $followQuery);
+
+        echo "<script>alert('You are now following the seller.');</script>";
+    } elseif ($action === 'unfollow') {
+        // Remove the follower
+        $unfollowQuery = "DELETE FROM {$siteprefix}followers WHERE user_id = $user_id AND seller_id = $target_user_id";
+        mysqli_query($con, $unfollowQuery);
+        echo "<script>alert('You have unfollowed the seller.');</script>";
+    }
+
+}
 //follow seller
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['follow_seller_submit'])) {
    

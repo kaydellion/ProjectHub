@@ -1,6 +1,6 @@
 <?php
 include "header.php"; // Include the header
-checkActiveLog($active_log);
+include "../backend/connect.php"; // Include the database connection
 
 // Check if the user is logged in and is a seller
 if ($seller == 1) {
@@ -15,10 +15,10 @@ if ($seller == 1) {
         $followers[] = $row;
     }
 
-
+ 
 } else {
     // Redirect non-sellers to the dashboard
-    header("Location: dashboard.php");
+    header("Location: index.php");
     exit;
 }
 ?>
@@ -26,7 +26,8 @@ if ($seller == 1) {
 <div class="container py-5">
     <h2 class="mb-4">Your Followers</h2>
     <?php if (!empty($followers)): ?>
-        <table class="table table-bordered">
+        <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -34,7 +35,7 @@ if ($seller == 1) {
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-border-bottom-0">
                 <?php foreach ($followers as $follower): ?>
                     <?php
                     // Check if the seller is already following this user
@@ -59,7 +60,7 @@ if ($seller == 1) {
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="followingDropdown">
                                             <li>
-                                                <button type="submit" name="actioning" value="unfollow" class="dropdown-item">
+                                                <button type="submit" name="actioni" value="unfollow" class="dropdown-item">
                                                     Unfollow
                                                 </button>
                                             </li>
@@ -67,7 +68,7 @@ if ($seller == 1) {
                                     </div>
                                 <?php else: ?>
                                     <!-- Follow Button -->
-                                    <button type="submit" name="actioning" value="follow" class="btn btn-outline-primary btn-sm">
+                                    <button type="submit" name="actioni" value="follow" class="btn btn-outline-primary btn-sm">
                                         Follow
                                     </button>
                                 <?php endif; ?>
@@ -77,6 +78,7 @@ if ($seller == 1) {
                 <?php endforeach; ?>
             </tbody>
         </table>
+          </div>
     <?php else: ?>
         <p>No followers found.</p>
     <?php endif; ?>

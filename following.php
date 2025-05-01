@@ -28,7 +28,8 @@ if ($seller == 1) {
 <div class="container py-5">
     <h2 class="mb-4">Users You Are Following</h2>
     <?php if (!empty($following)): ?>
-        <table class="table table-bordered">
+        <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -36,7 +37,7 @@ if ($seller == 1) {
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-border-bottom-0">
                 <?php foreach ($following as $followed): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($followed['first_name'] . ' ' . $followed['last_name']); ?></td>
@@ -66,6 +67,7 @@ if ($seller == 1) {
                 <?php endforeach; ?>
             </tbody>
         </table>
+                </div>
     <?php else: ?>
         <p>You are not following anyone.</p>
     <?php endif; ?>
