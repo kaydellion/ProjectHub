@@ -25,11 +25,12 @@ if ($seller == 1) {
 }
 ?>
 
-<div class="container py-5">
+<div class="container py-5 d-flex justify-content-center">
+<div class="col-lg-10">
     <h2 class="mb-4">Users You Are Following</h2>
     <?php if (!empty($following)): ?>
-        <div class="text-nowrap">
-        <table class="table table-hover">
+       
+        <table class="table table-striped table-bordered align-middle shadow-sm rounded text-justify">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -67,10 +68,10 @@ if ($seller == 1) {
                 <?php endforeach; ?>
             </tbody>
         </table>
-                </div>
+                
     <?php else: ?>
         <p>You are not following anyone.</p>
     <?php endif; ?>
 </div>
-
+</div>
 <?php include "footer.php"; // Include the footer ?>

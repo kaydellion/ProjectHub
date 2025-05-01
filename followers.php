@@ -22,12 +22,12 @@ if ($seller == 1) {
     exit;
 }
 ?>
-
-<div class="container py-5">
-    <h2 class="mb-4">Your Followers</h2>
+<div class="container py-5 d-flex justify-content-center">
+<div class="col-lg-10">
+        <h2 class="text-center mb-4">Your Followers</h2>
+ 
     <?php if (!empty($followers)): ?>
-        <div class="text-nowrap">
-        <table class="table table-hover">
+        <table class="table table-striped table-bordered align-middle shadow-sm rounded text-justify">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -78,10 +78,10 @@ if ($seller == 1) {
                 <?php endforeach; ?>
             </tbody>
         </table>
-          </div>
+        
     <?php else: ?>
         <p>No followers found.</p>
     <?php endif; ?>
 </div>
-
+</div>
 <?php include "footer.php"; // Include the footer ?>
