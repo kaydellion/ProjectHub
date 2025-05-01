@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset-aff-password']))
         header("refresh:2;");
     } else {
         // Check if the token is valid and not expired
-        $query = "SELECT * FROM {$siteprefix}users WHERE reset_token = '$token' AND reset_token_expiry > NOW() AND type='admin'";
+        $query = "SELECT * FROM {$siteprefix}users WHERE reset_token = '$token' AND reset_token_expiry > NOW() AND type='affiliate'";
         $result = mysqli_query($con, $query);
 
         if (mysqli_num_rows($result) > 0) {
