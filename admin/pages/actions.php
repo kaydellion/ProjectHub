@@ -849,8 +849,8 @@ if (!mysqli_query($con, $updates_query)) {
             $emailMessage = "
                 <p>Great news! A new sale has just been made on $siteurl.</p>
                 <p><strong>Title of Resource:</strong> $resourceTitle</p>
-                <p><strong>Price:</strong> $sitecurrencycode.$price</p>
-                <p><strong>Earning:</strong> $sitecurrencycode.$seller_amount</p>
+                <p><strong>Price:</strong> $sitecurrencyCode.$price</p>
+                <p><strong>Earning:</strong> $sitecurrencyCode.$seller_amount</p>
                 <p>If you haven’t updated your listings recently, now is a great time to refresh, promote, or add more resources.</p>";
             sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject);
         }
