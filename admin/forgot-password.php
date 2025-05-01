@@ -54,7 +54,7 @@
                  
 
 
-              <form class="mb-3" action="" method="POST">
+              <form class="mb-3"  method="POST">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input

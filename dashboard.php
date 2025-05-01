@@ -86,48 +86,58 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
 ?>
 <!-- Seller Statistics Section -->
 <div class="col-md-2">
+    <a href="models.php">
     <div class="card text-white bg-primary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white">Resources</h5>
             <p class="card-text text-white"><?php echo $totalResources; ?></p>
         </div>
     </div>
+</a>
 </div>
 
 <div class="col-md-2">
+    <a href="sales.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white">Orders</h5>
             <p class="card-text text-white"><?php echo $totalOrders; ?></p>
         </div>
     </div>
+</a>
 </div>
 
 <div class="col-md-2">
+    <a href="followers.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white">Followers</h5>
             <p class="card-text text-white"><?php echo $totalFollowers; ?></p>
         </div>
     </div>
+</a>
 </div>
 
 <div class="col-md-2">
+<a href="following.php">
     <div class="card text-white bg-primary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white">Following</h5>
             <p class="card-text text-white"><?php echo $totalFollowing; ?></p>
         </div>
     </div>
+    </a>
 </div>
 
 <div class="col-md-2">
+    <a href="sales.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white">Total Earnings</h5>
             <p class="card-text text-white"><?php echo $sitecurrency . number_format($totalEarnedAmount, 2); ?></p>
         </div>
     </div>
+</a>
 </div>
 <?php endif; ?>
 

@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset-password'])) {
               <!-- Logo -->
               <div class="app-brand justify-content-center">
                 <a href="index.html" class="app-brand-link gap-2">
-                  <span class="app-brand-text demo text-body fw-bolder">Administration</span>
+                  <span class="app-brand-text demo text-body fw-bolder">Affiliate Member</span>
                 </a>
               </div>
               <!-- /Logo -->
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset-password'])) {
                   </div>
             </div>
            
-            <div class="mb-3 form-password-toggle">
+                <div class="mb-3 form-password-toggle">
                 <label for="confirm_password">Confirm Password:</label>
                 <div class="input-group input-group-merge">
                 <input type="password" name="confirm_password" id="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
