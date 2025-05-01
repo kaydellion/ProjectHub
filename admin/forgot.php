@@ -22,11 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-reset-link'])) 
             $reset_link = $adminurl . "reset-password.php?token=" . $token;
             $emailSubject = "Password Reset Request";
             $emailMessage = "
-                <p>Dear Admin,</p>
+               
                 <p>We received a request to reset your password. Please click the link below to reset your password:</p>
                 <p><a href='$reset_link'>$reset_link</a></p>
                 <p>If you did not request this, please ignore this email.</p>
-                <p>Thank you,<br>Project Report Hub Team</p>
+                
             ";
 
             // Send the email

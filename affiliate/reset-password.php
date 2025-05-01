@@ -1,7 +1,7 @@
 <?php
 include "../backend/connect.php";
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset-password'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset-aff-password'])) {
     $token = mysqli_real_escape_string($con, $_POST['token']);
     $password = mysqli_real_escape_string($con, $_POST['password']);
     $confirm_password = mysqli_real_escape_string($con, $_POST['confirm_password']);
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset-password'])) {
                 aria-describedby="password" required>
             </div>
             </div>
-            <button type="submit" name="reset-password" class="btn btn-primary d-grid w-100">Reset Password</button>
+            <button type="submit" name="reset-aff-password" class="btn btn-primary d-grid w-100">Reset Password</button>
         </form>
      
         </div>
