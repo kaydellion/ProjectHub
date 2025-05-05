@@ -208,7 +208,7 @@ $emailMessage = "
 </table>
 <p>You can also access your purchased reports from your profile on our website.</p>
 <p>Feel free to visit our website for more information, updates, or to explore additional services.</p>";
-
+var_dump($attachment);
 sendEmail2($email, $username, $siteName, $siteMail, $emailMessage, $subject, $attachment);
 ?>
 
