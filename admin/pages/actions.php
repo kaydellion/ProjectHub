@@ -90,15 +90,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $message = "";
 
     // Handle image uploads
-    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
     if (empty($_FILES[$fileKey]['name'][0])) {
         // Use default images if no images are uploaded
         $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
         $randomImage = $defaultImages[array_rand($defaultImages)];
         $reportImages = [$randomImage];
-    }
+    }else{
 
     // Insert images into the database
+    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
     $uploadedFiles = [];
     foreach ($reportImages as $image) {
         $stmt = $con->prepare("INSERT INTO " . $siteprefix . "reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
             $message .= "Error inserting image: " . $stmt->error . "<br>";
         }
         $stmt->close();
-    }
+    }}
 
     // Handle file uploads for different document types
     $fileFields = [
