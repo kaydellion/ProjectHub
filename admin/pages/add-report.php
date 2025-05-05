@@ -28,6 +28,7 @@
                           <label class="form-label" for="basic-default-fullname">Title</label>
                           <input type="text" class="form-control" name="title" id="basic-default-fullname" placeholder="Learning loops" required>
                         </div>
+                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
 
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-message">Description</label>
