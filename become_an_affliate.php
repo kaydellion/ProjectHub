@@ -1,9 +1,9 @@
 <?php include "header.php"; ?>
 
 <section>
-<div class="container">
- <div class="row justify-content-center mt-5 mb-5">
-<div class="col-lg-12">
+<div class="row mt-5 mb-5 justify-content-center">
+<div class="col-lg-6 text-justify">
+<div class="col-lg-6">
     <h3>ProjectHub Affliate Program</h3>
     <p>Designed to empower affiliates with valuable resources and generous incentives, our program offers a unique opportunity to monetize digital assets.</p>
      
@@ -41,7 +41,7 @@
         </div>
 
     <p class="text-center mt-1 mb-5"><a href="affiliates.php"  target="_blank" class="btn-kayd w-100 mt-3">Sign up as an Affliate</a></p>
-</div></div></div>
+</div></div>
 </section>
 
 

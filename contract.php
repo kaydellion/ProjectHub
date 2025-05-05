@@ -33,7 +33,7 @@ if (isset($_POST['seller_submit'])){
 <head>
     <title>Contract Page</title>
 </head>
-<body width="80%">
+<body width="70%">
     <center><h1>KYNELI BUSINESS SUPPORT SERVICES</h1>
     <p>Project Report Hub NG ….. The One Stop Shop for Project Research Report Resources in Nigeria!</p>
     <p>61-65 Egbe- Isolo Road,<br>

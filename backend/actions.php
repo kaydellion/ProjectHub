@@ -191,7 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
         // Pick a random default image
         $randomImage = $defaultImages[array_rand($defaultImages)];
         $reportImages = [$randomImage];
-    }
+    }else{
     
     $uploadedFiles = [];
     foreach ($reportImages as $image) {
@@ -203,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
             $message.="Error: " . $stmt->error;
         }
         $stmt->close();
-    }
+    }}
 
  
     // Handle file uploads

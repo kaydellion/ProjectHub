@@ -1,9 +1,8 @@
 <?php include "header.php"; ?>
 
 
-<div class="container mt-5 mb-5">
-<div class="row">
-<div class="col">
+<div class="row mt-5 mb-5 justify-content-center">
+<div class="col-lg-6 text-justify">
   
 <h1>Cookie Policy</h1>
     <p>At Project Report Hub NG, we prioritize your privacy and strive to provide transparency regarding the use of cookies on our website.</p>
@@ -46,7 +45,6 @@
     <h4>Contact Us</h4>
     <p>Email: hello@projectreporthub.ng</p>
     <p>By using our website, you consent to our use of cookies in accordance with this Cookie Policy.</p>
-</div>
 </div>
 </div>
 

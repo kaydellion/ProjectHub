@@ -55,10 +55,10 @@ if (mysqli_affected_rows($con) > 0) {
         $file_path = $row_item['file_path']; // Fetch the file path
 
         // Add file to attachments array
-        if (!empty($file_path) && file_exists($file_path)) {
+       // if (!empty($file_path) && file_exists($file_path)) {
             $attachments[] = $file_path;
             $attachment[] = $siteurl.$documentPath.$file_path;
-        }
+       // }
  
 
         // Check if the item has an affiliate
@@ -207,8 +207,7 @@ $emailMessage = "
     </tbody>
 </table>
 <p>You can also access your purchased reports from your profile on our website.</p>
-<p>Feel free to visit our website for more information, updates, or to explore additional services.</p>";
-
+<p>Feel free to visit our website for more information, updates, or to explore additional services.</p>"; 
 sendEmail2($email, $username, $siteName, $siteMail, $emailMessage, $subject, $attachment);
 ?>
 
