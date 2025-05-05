@@ -19,6 +19,9 @@ text-transform: capitalize !important;
 .text-white {
   color: #FFF !important;
 }
+.text-justify{
+  text-align: justify !important;
+}
 .text-sm{
   font-size: 8px !important;
   font-weight: 400 !important;
