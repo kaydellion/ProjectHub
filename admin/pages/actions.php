@@ -479,7 +479,6 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
     }else{
     
     $uploadedFiles = [];
-    showErrorModal('Oops', $reportImages);
     foreach ($reportImages as $image) {
         $stmt = $con->prepare("INSERT INTO  ".$siteprefix."reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
         $stmt->bind_param("ss", $reportId, $image);
@@ -530,7 +529,7 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
     }
 
     showSuccessModal('Processed',$message);
-   // header("refresh:2; url=reports.php");
+    header("refresh:2; url=reports.php");
   }
 
 
