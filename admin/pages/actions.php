@@ -810,12 +810,12 @@ if (!mysqli_query($con, $updates_query)) {
 
         // Handle affiliate
         if ($affiliate_id != 0) {
-            $aff_result = mysqli_query($con, "SELECT * FROM {$siteprefix}users WHERE affiliate = '$affiliate_id'");
+            $aff_result = mysqli_query($con, "SELECT * FROM {$siteprefix}users WHERE affliate = '$affiliate_id'");
             while ($row_aff = mysqli_fetch_assoc($aff_result)) {
-                $affiliate_user_id = $row_aff['user_id'];
+                $affiliate_user_id = $row_aff['s'];
                 $affiliate_amount = $price * ($affiliate_percentage / 100);
 
-                mysqli_query($con, "UPDATE {$siteprefix}users SET wallet = wallet + $affiliate_amount WHERE affiliate = '$affiliate_id'");
+                mysqli_query($con, "UPDATE {$siteprefix}users SET wallet = wallet + $affiliate_amount WHERE affliate = '$affiliate_id'");
                 insertWallet($con, $affiliate_user_id, $affiliate_amount, 'credit', "Affiliate Earnings from Order ID: $order_id", $date);
                 insertadminAlert($con, $affiliate_user_id, "You have earned $sitecurrency$affiliate_amount from Order ID: $order_id", "wallet.php", $date, "wallet", 0);
             }
