@@ -17,6 +17,7 @@ generateLink('wallet.php', 'ti-wallet', 'Wallet', $current_page);
 // Only show "Add Report" if the user is a seller
 if (isset($seller) && $seller == 1) {
     generateLink('add-report.php', 'ti-plus', 'Add Report', $current_page);
+    generateLink('saved-models.php', 'ti-edit', 'Draft', $current_page);
 }
 generateLink('notifications.php', 'ti-bell', 'Notifications', $current_page);
 generateLink('settings.php', 'ti-settings', 'Settings', $current_page);

@@ -90,15 +90,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $message = "";
 
     // Handle image uploads
-    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
     if (empty($_FILES[$fileKey]['name'][0])) {
         // Use default images if no images are uploaded
         $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
         $randomImage = $defaultImages[array_rand($defaultImages)];
         $reportImages = [$randomImage];
-    }
+    }else{
 
     // Insert images into the database
+    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
     $uploadedFiles = [];
     foreach ($reportImages as $image) {
         $stmt = $con->prepare("INSERT INTO " . $siteprefix . "reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
             $message .= "Error inserting image: " . $stmt->error . "<br>";
         }
         $stmt->close();
-    }
+    }}
 
     // Handle file uploads for different document types
     $fileFields = [
@@ -227,6 +227,108 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
                 }
             }
         }
+    
+    } else {
+        $message .= "Error adding report: " . mysqli_error($con) . "<br>";
+    }
+
+    // Display success or error message
+    showSuccessModal('Processed', $message);
+    header("refresh:2; url=reports.php");
+}
+
+
+
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
+    $reportId = mysqli_real_escape_string($con, $_POST['id']);
+    $title = mysqli_real_escape_string($con, $_POST['title']);
+    $description = mysqli_real_escape_string($con, $_POST['description']);
+    $preview = mysqli_real_escape_string($con, $_POST['preview']);
+    $tableContent = mysqli_real_escape_string($con, $_POST['table_content']);
+    $category = mysqli_real_escape_string($con, $_POST['category']);
+    $subcategory = isset($_POST['subcategory']) ? mysqli_real_escape_string($con, $_POST['subcategory']) : null;
+    $pricing = mysqli_real_escape_string($con, $_POST['pricing']);
+    $price = !empty($_POST['price']) ? mysqli_real_escape_string($con, $_POST['price']) : '0';
+    $tags = mysqli_real_escape_string($con, $_POST['tags']);
+    $loyalty = isset($_POST['loyalty']) ? 1 : 0;
+    $documentTypes = isset($_POST['documentSelect']) ? $_POST['documentSelect'] : [];
+    $status = "draft";
+    $methodology = mysqli_real_escape_string($con, $_POST['methodology']);
+    $year_of_study = implode(',', $_POST['year_of_study']);
+    $resource_type = implode(',', $_POST['resource_type']);
+    $education_level = mysqli_real_escape_string($con, $_POST['education_level']);
+    $chapter = mysqli_real_escape_string($con, $_POST['chapter']);
+    $answer = mysqli_real_escape_string($con, $_POST['answer']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+
+    // Directories for uploads
+    $uploadDir = '../../uploads/';
+    $fileuploadDir = '../../documents/';
+    $fileKey = 'images';
+    $message = "";
+
+    // Handle image uploads
+    if (empty($_FILES[$fileKey]['name'][0])) {
+        // Use default images if no images are uploaded
+        $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
+        $randomImage = $defaultImages[array_rand($defaultImages)];
+        $reportImages = [$randomImage];
+    }else{
+
+    // Insert images into the database
+    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+    $uploadedFiles = [];
+    foreach ($reportImages as $image) {
+        $stmt = $con->prepare("INSERT INTO " . $siteprefix . "reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
+        $stmt->bind_param("ss", $reportId, $image);
+        if ($stmt->execute()) {
+            $uploadedFiles[] = $image;
+        } else {
+            $message .= "Error inserting image: " . $stmt->error . "<br>";
+        }
+        $stmt->close();
+    }}
+
+    // Handle file uploads for different document types
+    $fileFields = [
+        'file_word' => 'word',
+        'file_excel' => 'excel',
+        'file_pdf' => 'pdf',
+        'file_powerpoint' => 'powerpoint',
+        'file_text' => 'text'
+    ];
+
+    foreach ($fileFields as $fileField => $docType) {
+        if (isset($_FILES[$fileField]) && $_FILES[$fileField]['error'] == UPLOAD_ERR_OK) {
+            $filePath = handleFileUpload($fileField, $fileuploadDir);
+            $pagesField = 'pages_' . $docType;
+            $pages = isset($_POST[$pagesField]) ? (int)$_POST[$pagesField] : 0;
+
+            $stmt = $con->prepare("INSERT INTO " . $siteprefix . "reports_files (report_id, title, pages, updated_at) VALUES (?, ?, ?, current_timestamp())");
+            $stmt->bind_param("ssi", $reportId, $filePath, $pages);
+
+            if ($stmt->execute()) {
+                $message .= ucfirst($docType) . " file uploaded and record added successfully!<br>";
+            } else {
+                $message .= "Error uploading $docType file: " . $stmt->error . "<br>";
+            }
+
+            $stmt->close();
+        }
+    }
+
+    // Insert report data into the database
+    $sql = "INSERT INTO " . $siteprefix . "reports 
+            (s, id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) 
+            VALUES 
+            (NULL, '$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
+
+    if (mysqli_query($con, $sql)) {
+        $message .= "Report saved as draft!<br>";
+
+     
     
     } else {
         $message .= "Error adding report: " . mysqli_error($con) . "<br>";
@@ -810,12 +912,12 @@ if (!mysqli_query($con, $updates_query)) {
 
         // Handle affiliate
         if ($affiliate_id != 0) {
-            $aff_result = mysqli_query($con, "SELECT * FROM {$siteprefix}users WHERE affiliate = '$affiliate_id'");
+            $aff_result = mysqli_query($con, "SELECT * FROM {$siteprefix}users WHERE affliate = '$affiliate_id'");
             while ($row_aff = mysqli_fetch_assoc($aff_result)) {
-                $affiliate_user_id = $row_aff['user_id'];
+                $affiliate_user_id = $row_aff['s'];
                 $affiliate_amount = $price * ($affiliate_percentage / 100);
 
-                mysqli_query($con, "UPDATE {$siteprefix}users SET wallet = wallet + $affiliate_amount WHERE affiliate = '$affiliate_id'");
+                mysqli_query($con, "UPDATE {$siteprefix}users SET wallet = wallet + $affiliate_amount WHERE affliate = '$affiliate_id'");
                 insertWallet($con, $affiliate_user_id, $affiliate_amount, 'credit', "Affiliate Earnings from Order ID: $order_id", $date);
                 insertadminAlert($con, $affiliate_user_id, "You have earned $sitecurrency$affiliate_amount from Order ID: $order_id", "wallet.php", $date, "wallet", 0);
             }
@@ -868,12 +970,19 @@ if (!mysqli_query($con, $updates_query)) {
     // Send confirmation email to buyer
     $emailSubject = "Order Confirmation";
     $emailMessage = "
-        <p>Thank you for your order. Below are the resources you purchased:</p>
-        <table border='1' cellpadding='10' cellspacing='0' style='width: 100%; border-collapse: collapse;'>
-            <thead><tr><th>Report Title</th><th>Download Link</th></tr></thead>
+       <p>Thank you for your order. Below are the resources you purchased:</p>
+<table border='1' cellpadding='10' cellspacing='0' style='border-collapse: collapse; width: 100%;'>
+    <thead>
+        <tr>
+            <th style='color: #f8f9fa; text-align: left;'>Report Title</th>
+            <th style='color: #f8f9fa; text-align: left;'>Download Link</th>
+        </tr>
+    </thead>
+   
             <tbody>$tableRows</tbody>
-        </table>
-        <p>You can also access your purchased reports from your profile on our website.</p>";
+</table>
+<p>You can also access your purchased reports from your profile on our website.</p>
+<p>Feel free to visit our website for more information, updates, or to explore additional services.</p>";
 
     sendEmail2($email, $username, $siteName, $siteMail, $emailMessage, $emailSubject, $attachmentLinks);
 

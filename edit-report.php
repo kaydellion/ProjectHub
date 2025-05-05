@@ -78,17 +78,18 @@ $yearsOfStudy = [
                          $sql3 = "SELECT * FROM ".$siteprefix."reports_images WHERE report_id = '$report_id'";   
                          $sql4 = mysqli_query($con, $sql3);
                          if (!$sql4) {die("Query failed: " . mysqli_error($con)); }
+                         <?php
                          while ($image_row = mysqli_fetch_array($sql4)) {
-                               echo '<div class="image-preview">';
-                               echo '<img class="preview-image" src="$siteurl.$imagePath..$image_row['picture'] . '" alt="Report Image">';
-                               echo '<button type="button" class="delete-btn delete-image" data-image-id="' .$image_row['id'] . '">X</button>';
-                               echo '</div>';
-                           }
+                             echo '<div class="image-preview">';
+                             echo '<img class="preview-image" src="' . htmlspecialchars($siteurl . $imagePath . $image_row['picture']) . '" alt="Report Image">';
+                             echo '<button type="button" class="delete-btn delete-image" data-image-id="' . htmlspecialchars($image_row['id']) . '">X</button>';
+                             echo '</div>';
+                         }
                        
                         ?>
                         </div>
                         <label class="form-label" for="imageInput">Upload New Images</label>
-                        <input type="file" class="form-control" id="imageInput" name="images[]" multiple accept="image/*">
+                       <input type="file" class="form-control" id="imageInput" name="images[]" multiple accept="image/* ">
                         <div id="preview" class="preview-container"></div>
                     </div>
                     <div class="mb-3">

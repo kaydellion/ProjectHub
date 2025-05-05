@@ -4,8 +4,8 @@
 global $ref;
 $ref = $_GET['ref'];
 $date = date('Y-m-d H:i:s');
-$attachments = array();
-$attachment = array();
+$attachments = [];
+$attachment = [];
 
 // Get order details and order items
 $sql_order = "SELECT * FROM ".$siteprefix."orders WHERE order_id = '$ref' AND status = 'unpaid'";
@@ -64,15 +64,15 @@ if (mysqli_affected_rows($con) > 0) {
         // Check if the item has an affiliate
         if ($affiliate_id != 0) {
             // Get affiliate details
-            $sql_affiliate = "SELECT * FROM ".$siteprefix."users WHERE affiliate = '$affiliate_id'";
+            $sql_affiliate = "SELECT * FROM ".$siteprefix."users WHERE affliate = '$affiliate_id'";
             $sql_affiliate_result = mysqli_query($con, $sql_affiliate);
             if (mysqli_affected_rows($con) > 0) {
                 while ($row_affiliate = mysqli_fetch_array($sql_affiliate_result)) {
-                    $affiliate_user_id = $row_affiliate['user_id']; 
+                    $affiliate_user_id = $row_affiliate['s']; 
                     $affiliate_amount = $price * ($affiliate_percentage / 100);
                     
                     // Update affiliate wallet
-                    $sql_update_affiliate_wallet = "UPDATE ".$siteprefix."users SET wallet = wallet + $affiliate_amount WHERE affiliate = '$affiliate_id'";
+                    $sql_update_affiliate_wallet = "UPDATE ".$siteprefix."users SET wallet = wallet + $affiliate_amount WHERE affliate = '$affiliate_id'";
                     mysqli_query($con, $sql_update_affiliate_wallet);
                     
                     // Insert into affiliate transactions

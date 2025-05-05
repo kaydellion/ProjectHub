@@ -36,6 +36,10 @@ if ($sort === 'price_high') {
     $order_by = "r.price ASC";
 }
 
+
+
+
+
 // Fetch seller's products
 $query = "SELECT r.*, 
        ri.picture, 
@@ -60,7 +64,24 @@ $total_row = mysqli_fetch_assoc($total_result);
 $total_reports = $total_row['total'];
 $total_pages = ceil($total_reports / $limit);
 ?>
+<?php
 
+// Fetch the number of followers
+$followersQuery = "SELECT COUNT(*) AS total_followers FROM {$siteprefix}followers WHERE seller_id = '$seller_id'";
+$followersResult = mysqli_query($con, $followersQuery);
+$followersData = mysqli_fetch_assoc($followersResult);
+$totalFollowers = $followersData['total_followers'] ?? 0;
+
+// Fetch the number of followings
+$followingsQuery = "SELECT COUNT(*) AS total_followings FROM {$siteprefix}followers WHERE user_id = '$seller_id'";
+$followingsResult = mysqli_query($con, $followingsQuery);
+$followingsData = mysqli_fetch_assoc($followingsResult);
+$totalFollowings = $followingsData['total_followings'] ?? 0;
+
+
+
+
+?>
 <div class="container mt-5">
     <!-- Seller Information -->
   
@@ -72,7 +93,27 @@ $total_pages = ceil($total_reports / $limit);
                 <div>
                     <!-- Seller Name -->
                     <h3><?php echo $user; ?></h3>
+                    <!-- About Us -->
+                    <p class="mb-1 text-muted">
+                    About the Seller: 
+                    <span class="seller-bio-preview">
+                        <?php 
+                        $words = explode(' ', $seller_about);
+                        echo implode(' ', array_slice($words, 0, 4)); // Display first 4 words
+                        ?>
+                    </span>
+                    
+                    <span class="seller-bio-full" style="display: none;">
+                        <?php echo $seller_about; ?>
+                    </span>
+                    <?php if (str_word_count($seller_about) > 4) { ?>
+        <button class="btn btn-link btn-sm p-0 read-mores-btn" style="text-decoration: none;">Read More</button>
+    <?php } ?>
+                
+                </p>
                     <!-- Follow/Unfollow Button -->
+                    </div></div>
+					</div>
                      
     <?php
     // Check if the user is already following the seller
@@ -84,6 +125,7 @@ $total_pages = ceil($total_reports / $limit);
     $isFollowing = $followResult->num_rows > 0;
     ?>
   <!-- Follow and Sort Controls -->
+   <div class="col-lg-12">
   <div class="d-flex align-items-center">
                     <!-- Follow Seller -->
                     <form method="POST" class="d-inline me-3">
@@ -108,13 +150,14 @@ $total_pages = ceil($total_reports / $limit);
                             <button type="submit" name="action" value="follow" class="btn btn-outline-primary btn-sm">
                                 Follow Seller
                             </button>
+                            
                         <?php endif; ?>
                     </form>
-
+                   
                    
                     <!-- Sort Dropdown -->
                     <div class="d-flex align-items-center me-2">
-                        <label for="sort-select" class="me-2 mb-0">Sort By:</label>
+                        
                         <select id="sort-select" class="form-select form-select-sm" onchange="sortReports(this.value)" style="width: auto;">
                             <option value="relevance" <?php if ($sort === 'relevance') echo 'selected'; ?>>Relevance</option>
                             <option value="price_high" <?php if ($sort === 'price_high') echo 'selected'; ?>>Price - High To Low</option>
@@ -124,9 +167,22 @@ $total_pages = ceil($total_reports / $limit);
                     <div class="product-count me-2" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">
                         Found <?php echo $report_count; ?> product(s)
                         </div>
+                      <div class="d-flex align-items-center d-none d-md-flex">
+                <span class="me-3">Followers: <?php echo $totalFollowers; ?></span>
+                <span>Followings: <?php echo $totalFollowings; ?></span>
+                   </div>
+
+
+                        
+
                 </div>
-            </div>
-        </div>
+                <div class="col-lg-12 mt-2 d-block d-md-none">
+    <div class="d-flex align-items-center">
+        <span class="me-3">Followers: <?php echo $totalFollowers; ?></span>
+        <span>Followings: <?php echo $totalFollowings; ?></span>
+    </div>
+</div>
+   
     </div>
    
             
@@ -186,5 +242,28 @@ $total_pages = ceil($total_reports / $limit);
         window.location.search = urlParams.toString();
     }
 </script>
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    const readMoreButtons = document.querySelectorAll(".read-mores-btn");
 
+    readMoreButtons.forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent the default behavior (e.g., page reload)
+
+            const bioPreview = this.previousElementSibling.previousElementSibling; // The preview text
+            const bioFull = this.previousElementSibling; // The full text
+
+            if (bioFull.style.display === "none") {
+                bioFull.style.display = "inline";
+                bioPreview.style.display = "none";
+                this.textContent = "Read Less";
+            } else {
+                bioFull.style.display = "none";
+                bioPreview.style.display = "inline";
+                this.textContent = "Read More";
+            }
+        });
+    });
+});
+</script>
 <?php include "footer.php"; ?>

@@ -28,7 +28,6 @@
                           <label class="form-label" for="basic-default-fullname">Title</label>
                           <input type="text" class="form-control" name="title" id="basic-default-fullname" placeholder="Learning loops" required>
                         </div>
-                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
 
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-message">Description</label>
@@ -196,7 +195,8 @@ while ($row = $result->fetch_assoc()) {
                             <option value="approved">Approved</option>
                           </select>
                         </div>
-                      
+                        
+                        <button type="submit" name="savedcourse" value="savedcourse" class="btn btn-primary w-100">Save Report as Draft</button>
                         <button type="submit" name="addcourse" value="course" class="btn btn-primary w-100">Add Report</button>
                       </form>
                     </div>
