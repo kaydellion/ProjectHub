@@ -55,10 +55,10 @@ if (mysqli_affected_rows($con) > 0) {
         $file_path = $row_item['file_path']; // Fetch the file path
 
         // Add file to attachments array
-        if (!empty($file_path) && file_exists($file_path)) {
+       // if (!empty($file_path) && file_exists($file_path)) {
             $attachments[] = $file_path;
             $attachment[] = $siteurl.$documentPath.$file_path;
-        }
+       // }
  
 
         // Check if the item has an affiliate
