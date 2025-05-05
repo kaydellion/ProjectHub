@@ -1,8 +1,8 @@
 <?php include "header.php"; ?>
 
-<div class="container mt-5 mb-5 d-flex">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 text-justify">
+
+    <div class="row mt-5 mb-5 justify-content-center">
+        <div class="col-lg-7 text-justify">
             <h1>Terms of Use</h1>
             <h4>Acceptance of Terms</h4>
             <p>By accessing or using Project Report Hub NG, you acknowledge that you have read, understood, and agree to be bound by these Terms of Use and our Privacy Policy.</p>
@@ -35,6 +35,6 @@
             <p>Email: hello@projectreporthub.ng</p>
         </div>
     </div>
-</div>
+
 
 <?php include "footer.php"; ?>
