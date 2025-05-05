@@ -254,7 +254,7 @@ include "backend/actions.php";
                 </div>
             </div>
         </div>
-        <div class="search_input" id="search_input_box">
+        <div class="search_input mb-3" id="search_input_box" style="display: block !important;">
             <div class="container">
                 <form class="d-flex justify-content-between search-inner" action="<?php echo $siteurl; ?>search.php" method="get">
                     <input type="text" name="searchterm" class="form-control" id="search_input" placeholder="Search by title,category,keywords or tags or seller">
