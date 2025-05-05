@@ -68,7 +68,7 @@ if (mysqli_affected_rows($con) > 0) {
             $sql_affiliate_result = mysqli_query($con, $sql_affiliate);
             if (mysqli_affected_rows($con) > 0) {
                 while ($row_affiliate = mysqli_fetch_array($sql_affiliate_result)) {
-                    $affiliate_user_id = $row_affiliate['user_id']; 
+                    $affiliate_user_id = $row_affiliate['s']; 
                     $affiliate_amount = $price * ($affiliate_percentage / 100);
                     
                     // Update affiliate wallet
