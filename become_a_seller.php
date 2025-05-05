@@ -1,9 +1,8 @@
 <?php include "header.php"; ?>
 
 <section>
-<div class="container">
- <div class="row justify-content-center mt-5">
-<div class="col-lg-12">
+<div class="row mt-5 mb-5 justify-content-center">
+<div class="col-lg-6 text-justify">
     <h2>Become a Seller</h2>
     <p>Unlock the opportunity to share your expertise and earn by becoming a seller on projectreporthub.ng. Whether you're a student, researcher, or professional with completed project reports, research papers, or academic work, our platform provides an easy way to reach a broad audience in need of high-quality reports.</p>
     
@@ -31,7 +30,7 @@
     <p>Start selling today and join a growing community of project report creators who are making an impact. Whether you're an academic writer, industry expert, or experienced researcher, <a href="http://www.projectreporthub.ng">www.projectreporthub.ng</a> is the platform for you to share your work and earn from your expertise.</p>
     
     <p class="text-center mt-1 mb-5"><a href="signup.php" class="btn-kayd">Create Your Profile</a></p>
-</div></div></div>
+</div></div>
 </section>
 
 

@@ -1,9 +1,8 @@
 <?php include "header.php"; ?>
 
 
-<div class="container mt-5 mb-5">
-<div class="row">
-            <div class="col">
+<div class="row mt-5 mb-5 justify-content-center">
+<div class="col-lg-6 text-justify">
     <h1>Privacy Policy</h1>
     <p>At Project Report Hub NG, we are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner. This Privacy Policy outlines the types of information we collect, how we use it, and your rights regarding your information. By using our website, you consent to the practices described in this policy.</p>
     
@@ -55,7 +54,7 @@
     <p>By using Project Report Hub NG, you acknowledge that you have read and understood this Privacy Policy and agree to its terms. Thank you for trusting us with your personal information.</p>
 </div>
 </div>
-</div>
+
 
 
 <?php include "footer.php"; ?>
