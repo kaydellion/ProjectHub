@@ -89,7 +89,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     <a href="models.php">
     <div class="card text-white bg-primary mb-3">
         <div class="card-body">
-            <h5 class="card-title text-white">Resources</h5>
+            <h5 class="card-title text-white"><a href="models.php" style="text-decoration: none; color:#fff;">Resources</a></h5>
             <p class="card-text text-white"><?php echo $totalResources; ?></p>
         </div>
     </div>
@@ -100,7 +100,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     <a href="sales.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
-            <h5 class="card-title text-white">Orders</h5>
+            <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">Orders</a></h5>
             <p class="card-text text-white"><?php echo $totalOrders; ?></p>
         </div>
     </div>
@@ -111,7 +111,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     <a href="followers.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
-            <h5 class="card-title text-white">Followers</h5>
+            <h5 class="card-title text-white"><a href="followers.php" style="text-decoration: none; color:#fff;">Followers</a></h5>
             <p class="card-text text-white"><?php echo $totalFollowers; ?></p>
         </div>
     </div>
@@ -122,7 +122,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
 <a href="following.php">
     <div class="card text-white bg-primary mb-3">
         <div class="card-body">
-            <h5 class="card-title text-white">Following</h5>
+            <h5 class="card-title text-white"><a href="following.php" style="text-decoration: none; color:#fff;">Following</a></h5>
             <p class="card-text text-white"><?php echo $totalFollowing; ?></p>
         </div>
     </div>
@@ -133,7 +133,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     <a href="sales.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
-            <h5 class="card-title text-white">Total Earnings</h5>
+            <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">Total Earnings</a></h5>
             <p class="card-text text-white"><?php echo $sitecurrency . number_format($totalEarnedAmount, 2); ?></p>
         </div>
     </div>

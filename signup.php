@@ -9,7 +9,7 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="signup_part_text">
                         <div class="signup_part_text_iner">
-                            <h2>Welcome to ProjectHub!</h2>
+                            <h2>Welcome to Project Report Hub!</h2>
                             <p>Become a Publisher on ProjectReportHub by Monetizing Your Academic Works &
                             Reach Thousands of Students Nationwide </p>
                             <p  class="mb-3">A subsidiary of Kyneli Business Support Services, partners with students, researchers, and academic content creators to offer a rich collection of core study materials and business resources.</p>

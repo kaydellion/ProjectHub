@@ -69,13 +69,26 @@
         <div class="copyright_part">
             <div class="container">
                 <div class="row ">
+                    <div class="col-lg-12 mb-3">
+
+                    <div class="disclaimer_text text-light">
+    <p style="color: white; margin-bottom: 1rem;">
+        Disclaimer: The materials and project reports available on this website are provided solely for educational and reference purposes. They are intended to guide and support research and learning and should not be submitted as original work for academic credit or in fulfillment of any educational qualification.
+    </p>
+</div>
+            </div>
                     <div class="col-lg-12">
                         <div class="copyright_text">
+        
                             <P>
 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <?php echo $sitename; ?></P>
-                            <div class="copyright_link">
-                                <a href="<?php echo $siteurl;?>terms.php">Terms & Conditions |</a>
-                                <a href="<?php echo $siteurl;?>faq.php"> FAQ</a>
+                        <div class="footer_links">
+                                <a href="<?php echo $siteurl;?>affiliates.php">Affiliate Program</a> |
+                                <a href="<?php echo $siteurl;?>loyalty-program.php">Loyalty Program</a> |
+                                <a href="<?php echo $siteurl;?>marketplace.php">MarketPlace</a> |
+                                <a href="<?php echo $siteurl;?>tickets.php">Support Tickets</a> |
+                                <a href="<?php echo $siteurl;?>terms.php">Terms & Conditions</a> |
+                                <a href="<?php echo $siteurl;?>faq.php">FAQ</a>
                             </div>
                         </div>
                     </div>

@@ -48,7 +48,7 @@
               </div>
               <!-- /Logo -->
               <p class="mb-4 text-center"><?php include "login.php"; ?></p>
-              <h4 class="mb-2">Welcome to Projecthub! 👋</h4>
+              <h4 class="mb-2">Welcome to Project Report Hub! 👋</h4>
               <p class="mb-4">Please sign-in to your account and start the adventure</p>
                                 <?php
                   if (isset($_GET['message'])) {

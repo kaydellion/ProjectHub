@@ -130,7 +130,7 @@ if ($row) {
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="plan-image">Upload New Image</label>
-                            <input type="file" class="form-control" id="plan-image" name="image" accept="image/*">
+                            <input type="file" class="form-control" id="plan-image" name="planImage" accept="image/*">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="status">Status</label>

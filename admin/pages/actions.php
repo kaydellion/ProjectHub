@@ -141,9 +141,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
 
     // Insert report data into the database
     $sql = "INSERT INTO " . $siteprefix . "reports 
-            (s, id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) 
+            (id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) 
             VALUES 
-            (NULL, '$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
+            ('$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
 
     if (mysqli_query($con, $sql)) {
         $message .= "Report added successfully!<br>";
@@ -676,23 +676,25 @@ if (isset($_POST['updatePlan'])) {
     $duration = $_POST['planDuration'];
     $durationCount = $_POST['durationCount'];
     $status = $_POST['status'];
-    
+
     // Handle benefits checkboxes
     $benefits = isset($_POST['benefits']) ? implode(", ", $_POST['benefits']) : "";
 
     // Image Upload Settings
     $uploadDir = '../../uploads/';
-    $allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg', 'image.webp'];
+    $allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg', 'image/webp'];
     $fileKey = 'planImage';
-    $message = "";
     $uploadedImage = "";
+    $message = "";
 
     // Check if an image is uploaded
     if (!empty($_FILES[$fileKey]['name'])) {
         $fileType = mime_content_type($_FILES[$fileKey]['tmp_name']);
         if (in_array($fileType, $allowedImageTypes)) {
-            $fileName = uniqid() . '_' . $_FILES[$fileKey]['name'];
+            $fileName = uniqid() . '_' . basename($_FILES[$fileKey]['name']);
+            $fileName = preg_replace("/[^a-zA-Z0-9\._-]/", "", $fileName); // Sanitize file name
             $filePath = $uploadDir . $fileName;
+
             if (move_uploaded_file($_FILES[$fileKey]['tmp_name'], $filePath)) {
                 $uploadedImage = $fileName;
             } else {
@@ -706,7 +708,8 @@ if (isset($_POST['updatePlan'])) {
     // Prepare the update query
     $query = "UPDATE " . $siteprefix . "subscription_plans 
               SET name='$name', price='$price', description='$description', discount='$discount', 
-                  downloads='$downloads', duration='$duration',no_of_duration='$durationCount' ,status='$status', benefits='$benefits'";
+                  downloads='$downloads', duration='$duration', no_of_duration='$durationCount', 
+                  status='$status', benefits='$benefits'";
 
     // Only update the image if a new one was uploaded
     if (!empty($uploadedImage)) {
@@ -720,10 +723,9 @@ if (isset($_POST['updatePlan'])) {
         $message = "Plan updated successfully!";
         showSuccessModal('Processed', $message);
         header("refresh:1; url=edit-plan.php");
-      
     } else {
         $message = "Update failed: " . mysqli_error($con);
-        showToast($message);
+        showErrorModal('Oops', $message);
         header("refresh:2; url=edit-plan.php");
         exit;
     }
