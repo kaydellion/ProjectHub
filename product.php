@@ -168,7 +168,7 @@ if (isset($user_id) && isset($report_id)) {
         <div class="description-container">
             <!-- Hidden full description -->
             <div class="full-description" style="display: none;">
-             <?php echo $description; ?>
+             <?php echo $preview; ?>
             </div>
             <!-- Visible preview -->
             <div class="preview-description"></div>
@@ -403,12 +403,9 @@ while ($row = mysqli_fetch_array($sql2)) {
     </div>
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-  <?php if (!empty($preview)) { ?>
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Content Preview</button>
+      <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Description</button>
     </li>
-  <?php } ?>
-
   <?php if (!empty($table_content)) { ?>
     <li class="nav-item" role="presentation">
       <button class="nav-link <?php echo empty($preview) ? 'active' : ''; ?>" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Table of Contents</button>
@@ -430,11 +427,10 @@ while ($row = mysqli_fetch_array($sql2)) {
 
 <div class="tab-content" id="myTabContent">
 
-  <?php if (!empty($preview)) { ?>
+ 
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-      <?php echo $preview; ?>
+    <?php echo $description; ?>
     </div>
-  <?php } ?>
 
   <?php if (!empty($table_content)) { ?>
     <div class="tab-pane fade <?php echo empty($preview) ? 'show active' : ''; ?>" id="profile" role="tabpanel" aria-labelledby="profile-tab">
