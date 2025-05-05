@@ -141,9 +141,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
 
     // Insert report data into the database
     $sql = "INSERT INTO " . $siteprefix . "reports 
-            (id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) 
+            (s, id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) 
             VALUES 
-            ('$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
+            (NULL, '$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
 
     if (mysqli_query($con, $sql)) {
         $message .= "Report added successfully!<br>";
