@@ -4,8 +4,8 @@
 global $ref;
 $ref = $_GET['ref'];
 $date = date('Y-m-d H:i:s');
-$attachments = array();
-$attachment = array();
+$attachments = [];
+$attachment = [];
 
 // Get order details and order items
 $sql_order = "SELECT * FROM ".$siteprefix."orders WHERE order_id = '$ref' AND status = 'unpaid'";
