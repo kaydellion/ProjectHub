@@ -56,7 +56,7 @@ table th {
                   LEFT JOIN ".$siteprefix."categories l ON r.category = l.id 
                   LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
                    LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
-                  LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id WHERE user = '$user_id' AND status='draft' GROUP BY r.id";
+                  LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id WHERE user = '$user_id' AND r.status='draft' GROUP BY r.id";
                 $result = mysqli_query($con, $query);
                 if (!$result) {
                     die('Query Failed: ' . mysqli_error($con));
