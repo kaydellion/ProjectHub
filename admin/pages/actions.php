@@ -530,7 +530,7 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
     }
 
     showSuccessModal('Processed',$message);
-    header("refresh:2; url=reports.php");
+   // header("refresh:2; url=reports.php");
   }
 
 
