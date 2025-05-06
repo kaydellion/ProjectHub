@@ -154,9 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     header("refresh:2; url=models.php");
   }
 
-
-
-  if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['saveReport'])) {
+//saved as draft
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['saveReport'])) {
     $reportId = $_POST['id'];
     $title =  mysqli_real_escape_string($con,$_POST['title']);
     $description = mysqli_real_escape_string($con, $_POST['description']);
@@ -191,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
         // Pick a random default image
         $randomImage = $defaultImages[array_rand($defaultImages)];
         $reportImages = [$randomImage];
-    }else{
+    }
     
     $uploadedFiles = [];
     foreach ($reportImages as $image) {
@@ -203,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
             $message.="Error: " . $stmt->error;
         }
         $stmt->close();
-    }}
+    }
 
  
     // Handle file uploads
@@ -236,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     // Insert data into the database
     $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, preview, table_content,methodology,chapter,year_of_study,resource_type,education_level,answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) VALUES (NULL, '$reportId', '$title', '$description','$preview','$tableContent','$methodology','$chapter','$year_of_study','$resource_type','$education_level','$answer','$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
     if (mysqli_query($con, $sql)) {
-        $message .= "Saved As Draft!";
+        $message .= "Report saved as draft successfully!";
     } else {
         $message .= "Error: " . mysqli_error($con);
     }

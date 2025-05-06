@@ -6,6 +6,7 @@ $db_host = "localhost";
 
 
 
+
 $db_username = "root"; 
 $db_pass = ""; 
 $db_name = "project_hub";
@@ -13,14 +14,13 @@ $db_name = "project_hub";
 
 
 
-
 */
-
-
 
 $db_username = "projectr_project"; 
 $db_pass = "Y34GgwK(]h82Yg"; 
 $db_name = "projectr_project";
+
+
 
 
 

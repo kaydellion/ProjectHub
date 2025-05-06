@@ -154,6 +154,10 @@ $totalFollowings = $followingsData['total_followings'] ?? 0;
                         <?php endif; ?>
                     </form>
                    
+                    <div class="d-flex align-items-center d-none d-md-flex">
+                <span class="product-count me-2" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">Followers: <?php echo $totalFollowers; ?></span>
+                <span class="product-count me-2" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">Followings: <?php echo $totalFollowings; ?></span>
+                   </div>
                    
                     <!-- Sort Dropdown -->
                     <div class="d-flex align-items-center me-2">
@@ -167,10 +171,7 @@ $totalFollowings = $followingsData['total_followings'] ?? 0;
                     <div class="product-count me-2" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">
                         Found <?php echo $report_count; ?> product(s)
                         </div>
-                      <div class="d-flex align-items-center d-none d-md-flex">
-                <span class="me-3">Followers: <?php echo $totalFollowers; ?></span>
-                <span>Followings: <?php echo $totalFollowings; ?></span>
-                   </div>
+                      
 
 
                         
@@ -178,8 +179,8 @@ $totalFollowings = $followingsData['total_followings'] ?? 0;
                 </div>
                 <div class="col-lg-12 mt-2 d-block d-md-none">
     <div class="d-flex align-items-center">
-        <span class="me-3">Followers: <?php echo $totalFollowers; ?></span>
-        <span>Followings: <?php echo $totalFollowings; ?></span>
+        <span class="product-count me-2" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">Followers: <?php echo $totalFollowers; ?></span>
+        <span class="product-count me-2" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">Followings: <?php echo $totalFollowings; ?></span>
     </div>
 </div>
    

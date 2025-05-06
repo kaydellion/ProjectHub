@@ -14,7 +14,41 @@
                             Whether you're working on coursework, exam prep, or advanced research, ProjectReportHub provides everything you need to excel, all in one place.
                             Join thousands of smart users who trust ProjectReportHub for academic success and professional growth.
                             <br><br>
-                            | OND | HND | Bsc | PGD | Masters | Ph.D |
+                            <?php
+// Fetch education levels from the database
+$query = "SELECT id, name FROM {$siteprefix}education_levels";
+$result = mysqli_query($con, $query);
+
+
+if ($result && mysqli_num_rows($result) > 0) {
+    echo '<p class="text-white text-hero" style="line-height: 1;">| ';
+    while ($row = mysqli_fetch_assoc($result)) {
+        $title = $row['name'];
+        $id = $row['id'];
+
+        // Shorten the education level name
+        $shortenedTitle = $title;
+        if (stripos($title, 'National Certificate in Education') !== false || stripos($title, 'NCE') !== false) {
+            $shortenedTitle = 'NCE';
+        } elseif (stripos($title, 'Higher National Degree') !== false || stripos($title, 'HND') !== false) {
+            $shortenedTitle = 'HND';
+        } elseif (stripos($title, 'Ordinary National Degree') !== false || stripos($title, 'OND') !== false) {
+            $shortenedTitle = 'OND';
+        } elseif (stripos($title, 'Postgraduate Diploma') !== false || stripos($title, 'PGD') !== false) {
+            $shortenedTitle = 'PGD';
+        } elseif (stripos($title, 'Master') !== false) {
+            $shortenedTitle = 'Masters';
+        } elseif (stripos($title, 'Doctor') !== false || stripos($title, 'Ph.D') !== false) {
+            $shortenedTitle = 'Ph.D';
+        }
+
+        // Display the shortened title as a link
+        echo '<a href="education_levels.php?education_levels=' . $id . '" style="color:#F57C00; text-decoration: none; margin-right: 10px;">' . htmlspecialchars($shortenedTitle) . '</a> | ';
+    }
+    echo '</p>';
+} 
+   
+?>
                         </p>
                         <a href="marketplace.php" class="btn_1">Explore Now</a>
                         <!-- Trusted By Section -->

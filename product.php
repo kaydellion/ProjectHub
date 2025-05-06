@@ -286,6 +286,7 @@ while ($row = mysqli_fetch_array($sql2)) {
 
             <!-- Additional Info -->
           <!-- Seller Information -->
+
 <div class="mt-3">
     <div class="card p-3">
         <div class="d-flex align-items-center">
@@ -365,6 +366,7 @@ while ($row = mysqli_fetch_array($sql2)) {
         <?php endif; ?>
     </form>
     <?php endif; ?>
+                 
 </div>
 
 
@@ -387,10 +389,14 @@ while ($row = mysqli_fetch_array($sql2)) {
             </a>
         <?php } ?>
         <?php if (!empty($seller_linkedin)) { ?>
-            <a href="https://www.linkedin.com/in/<?php echo str_replace(' ', '-', $seller_linkedin); ?>" target="_blank" class="text-decoration-none">
+            <a href="https://www.linkedin.com/in/<?php echo str_replace(' ', '-', $seller_linkedin); ?>" target="_blank" class="text-decoration-none me-3">
                 <i class="fab fa-linkedin text-primary" style="font-size: 1.5rem;"></i>
             </a>
         <?php } ?>
+
+        <span class="product-count me-2" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">Followers:<?php echo $totalFollowers; ?></span>
+    <span class="product-count me-2" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">Followings: <?php echo $totalFollowings; ?></span>
+      
     </div>
 </div>
     </div>

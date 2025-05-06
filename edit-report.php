@@ -78,7 +78,7 @@ $yearsOfStudy = [
                          $sql3 = "SELECT * FROM ".$siteprefix."reports_images WHERE report_id = '$report_id'";   
                          $sql4 = mysqli_query($con, $sql3);
                          if (!$sql4) {die("Query failed: " . mysqli_error($con)); }
-                         <?php
+                      
                          while ($image_row = mysqli_fetch_array($sql4)) {
                              echo '<div class="image-preview">';
                              echo '<img class="preview-image" src="' . htmlspecialchars($siteurl . $imagePath . $image_row['picture']) . '" alt="Report Image">';
