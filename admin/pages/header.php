@@ -179,6 +179,11 @@ include "actions.php"; ?>
                   </a>
                 </li>
                 <li class="menu-item">
+                  <a href="categories.php" class="menu-link">
+                    <div data-i18n="Without menu">Manage Categories</div>
+                  </a>
+                </li>
+                <li class="menu-item">
                   <a href="reports.php" class="menu-link">
                     <div data-i18n="Without navbar">Manage Reports</div>
                   </a>

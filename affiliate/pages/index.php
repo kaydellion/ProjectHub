@@ -92,6 +92,7 @@
                                                     <th>Customer Name</th>
                                                     <th>Profile Picture</th>
                                                     <th>Price</th>
+                                                    <th>Earnings</th>
                                                     <th>Date</th>
                                                     <th>Loyalty ID</th>
                                                 </tr>
@@ -102,6 +103,7 @@
                         $transactions_query = "
                             SELECT 
                                 oi.order_id, 
+                                af.amount,
                                 CONCAT(u.first_name, ' ', u.last_name) AS customer_name,
                                 u.profile_picture,
                                 oi.price, 
@@ -113,6 +115,8 @@
                                 ".$siteprefix."orders o ON oi.order_id = o.order_id
                             JOIN 
                                 ".$siteprefix."users u ON o.user = u.s
+                            JOIN 
+                                ".$siteprefix."affliate_purchases af ON af.order_no = oi.s
                             WHERE 
                                 oi.report_id = '$report_id' AND oi.affiliate_id = '$affliate' AND o.status = 'paid'
                         ";
@@ -127,6 +131,7 @@
                             $customer_name = $transaction['customer_name'];
                             $profile_picture = $transaction['profile_picture'] ?? 'default-profile.jpg';
                             $price = $transaction['price'];
+                            $amount = $transaction['amount'];
                             $date = $transaction['created_at'];
                             $loyalty_id = $transaction['loyalty_id'];
 
@@ -138,6 +143,7 @@
                                     <img src='$siteurl$imagePath$profile_picture' alt='Profile Picture' style='width: 50px; height: 50px; object-fit: cover; border-radius: 50%;'>
                                 </td>
                                 <td>{$sitecurrency}".number_format($price, 2)."</td>
+                                <td>{$sitecurrency}".number_format($amount, 2)."</td>
                                 <td>".htmlspecialchars($date)."</td>
                                 <td>".htmlspecialchars($loyalty_id)."</td>
                             </tr>";

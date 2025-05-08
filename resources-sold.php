@@ -1,6 +1,5 @@
-<?php include "header.php"; ?>
+<?php include "header.php"; 
 
-<?php
 // Check if the user is a seller
 checkActiveLog($active_log);
 if ($seller != 1) {

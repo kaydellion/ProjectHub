@@ -43,7 +43,7 @@ if ($result && mysqli_num_rows($result) > 0) {
         }
 
         // Display the shortened title as a link
-        echo '<a href="education_levels.php?education_levels=' . $id . '" style="color:#F57C00; text-decoration: none; margin-right: 10px;">' . htmlspecialchars($shortenedTitle) . '</a> | ';
+        echo '<a class="text-white" href="education_levels.php?education_levels=' . $id . '" style="text-decoration: none; margin-right: 10px;">' . htmlspecialchars($shortenedTitle) . '</a> | ';
     }
     echo '</p>';
 } 

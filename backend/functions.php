@@ -1,4 +1,11 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
 
 function getCartCount($con, $siteprefix, $order_id) {
     $sql = "SELECT COUNT(*) as count FROM ".$siteprefix."order_items oi 
@@ -162,6 +169,13 @@ function insertWallet($con, $user_id, $amount, $type, $note, $date) {
     if ($submit) { echo "";} 
     else { die('Could not connect: ' . mysqli_error($con)); }}
 
+
+    function insertAffliatePurchase($con, $order, $amount, $user,$date) {
+        $query = "INSERT INTO pr_affliate_purchases (order_no, amount, affliate) VALUES ('$order', '$amount', '$user','$date')";
+        $submit = mysqli_query($con, $query);
+        if ($submit) { echo "";} 
+        else { die('Could not connect: ' . mysqli_error($con)); }}
+
 function getRandomMotivationalQuote() {
     $motivational_quotes = [
         "Success is not final, failure is not fatal: it is the courage to continue that counts.",
@@ -178,7 +192,7 @@ function getRandomMotivationalQuote() {
     return htmlspecialchars($motivational_quotes[array_rand($motivational_quotes)]);
 }
 
-function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject) {
+function sendEmailold($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject) {
     global $siteimg;
     global $adminlink;
     global $siteurl;
@@ -210,7 +224,7 @@ $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F5
    }else {return true;}
 }
 
-function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
+function sendEmail2old($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
     global $siteimg, $adminlink, $siteurl;
 
     $email_from = $siteMail;
@@ -266,6 +280,112 @@ $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F5
         return true; // Success
     } else {
         return false; // Failed
+    }
+}
+
+
+function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject) {
+    global $siteimg, $adminlink, $siteurl;
+
+    $mail = new PHPMailer(true);
+
+    try {
+        // SMTP config for Brevo
+        $mail->isSMTP();
+        $mail->Host = 'smtp-relay.brevo.com';
+        $mail->SMTPAuth = true;
+        $mail->Username   = 'ikedike2002@yahoo.com'; // Replace with your Brevo login email
+        $mail->Password   = 'H4kDR8YzCvP7FBGX';          // Replace with your Brevo SMTP key
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        // Email headers and content
+        $mail->setFrom($siteMail, $siteName);
+        $mail->addAddress($vendorEmail, $vendorName);
+        $mail->addReplyTo($siteMail, $siteName);
+        $mail->addCC($siteMail);
+
+        $mail->isHTML(true);
+        $mail->Subject = "$emailSubject - $siteName";
+
+        $mail->Body = "
+        <div style='width:600px; padding:40px; background-color:#000000; color:#fff;'>
+            <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
+            <p style='font-size:14px; color:#fff;'>
+                <span style='font-size:14px; color:#F57C00;'>Dear $vendorName,</span><br>
+                $emailMessage
+            </p>
+            <p>Best regards,<br>
+            The Project Report Hub Team<br>
+            $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>🌐 www.projectreporthub.ng</a></p>
+        </div>
+        ";
+
+        $mail->send();
+        return true;
+
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        return false;
+    }
+}
+
+
+function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
+    global $siteimg, $siteurl;
+
+    require 'vendor/autoload.php'; // Load PHPMailer classes
+
+    $mail = new PHPMailer(true);
+
+    try {
+        // Server settings (Brevo SMTP)
+        $mail->isSMTP();
+        $mail->Host       = 'smtp-relay.brevo.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'ikedike2002@yahoo.com'; // Replace with your Brevo login email
+        $mail->Password   = 'H4kDR8YzCvP7FBGX';          // Replace with your Brevo SMTP key
+        $mail->SMTPSecure = 'tls';
+        $mail->Port       = 587;
+
+        // Recipients
+        $mail->setFrom($siteMail, $siteName);
+        $mail->addAddress($vendorEmail, $vendorName);
+        $mail->addReplyTo($siteMail, $siteName);
+        $mail->addCC($siteMail);
+
+        // Attachments
+        foreach ($attachment as $file) {
+            if (file_exists($file)) {
+                $mail->addAttachment($file);
+            }
+        }
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = "$emailSubject - $siteName";
+
+        $mail->Body = "
+            <div style='width:600px; padding:40px; background-color:#000000; color:#fff;'>
+                <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
+                <p style='font-size:14px; color:#fff;'>
+                    <span style='font-size:14px; color:#F57C00;'>Dear $vendorName,</span><br>
+                    $emailMessage
+                </p>
+                <p>
+                    Best regards,<br>
+                    The Project Report Hub Team<br>
+                    $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>🌐 www.projectreporthub.ng</a>
+                </p>
+            </div>
+        ";
+
+        $mail->send();
+        return true;
+
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        return false;
     }
 }
 
@@ -452,6 +572,8 @@ function formatDateTime($dateTimeString) {
 
 function handleMultipleFileUpload($fileKey, $uploadDir) {
     $uploadedFiles = [];
+    $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
+    $randomImage = $defaultImages[array_rand($defaultImages)];
 
     if (isset($_FILES[$fileKey])) {
         $fileCount = count($_FILES[$fileKey]['name']);
@@ -468,7 +590,7 @@ function handleMultipleFileUpload($fileKey, $uploadDir) {
                     $uploadedFiles[] = "Failed to move the uploaded file.";
                 }
             } else {
-                $uploadedFiles[] = "No file uploaded or an error occurred.";
+                $uploadedFiles[] = $randomImage;//"No file uploaded or an error occurred.";
             }
         }
     }
@@ -654,6 +776,12 @@ function getUserRole() {
     return $_SESSION['user_role'] ?? 'guest';
 }
 
+function getUserSeller() {
+// Replace with your actual seller-checking logic
+$seller = $_SESSION['user_seller'] ?? null;
+}
+
+
 function getReadonlyAttribute() {
     $role = getUserRole();
     if ($role === 'admin') {
@@ -662,6 +790,25 @@ function getReadonlyAttribute() {
         return 'readonly';
     }
     return '';
+}
+
+//if user is a seller
+function userDisplay() {
+    $sellerexist = getUserSeller();
+    if ($sellerexist) {
+        return 'd-none'; // Hide the element
+    }else {
+        return ''; // Show the element
+    }  
+}
+
+function sellerDisplay() {
+    $sellerexist = getUserSeller();
+    if ($sellerexist) {
+        return ''; // Hide the element
+    }else {
+        return 'd-none'; // Show the element
+    }  
 }
 
 function getDisplayClass() {

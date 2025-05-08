@@ -57,6 +57,50 @@ if ($result) {
     echo "Error: " . mysqli_error($con);
 }
 
+// Get count of paid orders
+$sql = "SELECT COUNT(*) as count FROM ".$siteprefix."orders WHERE user = ? AND status = 'paid'";
+$stmt = $con->prepare($sql);
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$paid_orders_count = $row['count'];
+
+// Get count of pending manual payments
+$pendingOrResendQuery = "SELECT COUNT(*) as count FROM ".$siteprefix."manual_payments WHERE user_id = ?";
+$stmt = $con->prepare($pendingOrResendQuery);
+$stmt->bind_param("s", $user_id);
+$stmt->execute(); 
+$pendingOrResendResult = $stmt->get_result();
+$pendingOrResendRow = $pendingOrResendResult->fetch_assoc();
+$pending_payments_count = $pendingOrResendRow['count'];
+
+// Get count of reviews received
+$sql = "SELECT COUNT(*) as count 
+    FROM ".$siteprefix."reviews r
+    JOIN ".$siteprefix."reports p ON r.report_id = p.id
+    WHERE p.user = ?";
+$stmt = $con->prepare($sql);
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$reviews_count = $row['count'];
+
+// Get count of resources sold
+$sql = "SELECT COUNT(DISTINCT r.id) as count
+    FROM {$siteprefix}reports r
+    JOIN {$siteprefix}order_items oi ON r.id = oi.report_id
+    JOIN {$siteprefix}orders o ON oi.order_id = o.order_id
+    WHERE r.user = ? AND o.status = 'paid'";
+$stmt = $con->prepare($sql);
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$resources_sold_count = $row['count'];
+
+$total_resources_sold = $resources_sold_count;
 
 
 } else ($order_total = 0);
@@ -765,7 +809,7 @@ if (isset( $_POST['signin'])){
 
      else if (!checkPassword($password, $hashedPassword)) {
      $statusAction="Ooops!";
-     $statusMessage='Incorrect Password for this account! <a href="forgetpassword.php" style="color:red;">Forgot password? Recover here</a>';
+     $statusMessage='Incorrect Password for this account! <a href="forgot-password.php" style="color:red;">Forgot password? Recover here</a>';
      showErrorModal($statusAction, $statusMessage);  
     }
      

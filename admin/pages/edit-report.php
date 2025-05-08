@@ -127,7 +127,7 @@ $yearsOfStudy = [
                         <select class="form-select" name="category" aria-label="Default select example" required>
                             <option selected value="<?php echo $category_id; ?>"><?php echo $category; ?></option>
                             <?php
-                            $sql = "SELECT * FROM " . $siteprefix . "categories";
+                            $sql = "SELECT * FROM " . $siteprefix . "categories WHERE parent_id IS NULL";
                             $sql2 = mysqli_query($con, $sql);
                             while ($row = mysqli_fetch_array($sql2)) {
                                 echo '<option value="' . $row['id'] . '">' . $row['category_name'] . '</option>';
@@ -220,6 +220,8 @@ foreach ($resources[NULL] as $parent) {
                     </div>
                     <div class="mb-3" id="price-field" style="display:<?php echo ($pricing == 'paid') ? 'block' : 'none'; ?>;">
                         <label class="form-label" for="course-price">Price</label>
+                        <p class="text-muted">Note: Each document type attracts a portion of the total price. For example, if your product includes both a Word document and an Excel spreadsheet,
+                        and you intend to sell the bundle for ₦ 2,000, enter ₦ 1,000 as the price for each document type here.</p>
                         <input type="number" id="course-price" name="price" class="form-control" step="0.01" value="<?php echo $price; ?>" <?= getReadonlyAttribute() ?>>
                     </div>
 

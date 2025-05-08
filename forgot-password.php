@@ -19,7 +19,7 @@ showErrorModal($statusAction,$statusMessage);
         $user_email = $row['email'];}
         
 $randomPassword = generateRandomHardPassword();
-$emailMessage="<p>Your password has been reset successfully to $randomPassword <br>Please login with it to change your password to a desired format.</p>";
+$emailMessage="<p>Your password has been reset successfully to <span style='color:F57C00;'>$randomPassword</span> <br>Please login with it to change your password to a desired format.</p>";
 $emailSubject="Password Reset";
 $statusAction="Successful";
 $statusMessage="Password reset successfully. Please check your email!";

@@ -903,6 +903,7 @@ if (!mysqli_query($con, $updates_query)) {
         $file_path = $item['file_path'];
         $affiliate_id = $item['affiliate_id'];
         $price = $item['price'];
+        $item_row_id = $item['s'];
 
         // Prepare download attachment
         if (!empty($file_path) && file_exists($file_path)) {
@@ -918,6 +919,7 @@ if (!mysqli_query($con, $updates_query)) {
                 $affiliate_amount = $price * ($affiliate_percentage / 100);
 
                 mysqli_query($con, "UPDATE {$siteprefix}users SET wallet = wallet + $affiliate_amount WHERE affliate = '$affiliate_id'");
+                insertAffliatePurchase($con, $item_row_id, $affiliate_amount, $affiliate_id,$date);
                 insertWallet($con, $affiliate_user_id, $affiliate_amount, 'credit', "Affiliate Earnings from Order ID: $order_id", $date);
                 insertadminAlert($con, $affiliate_user_id, "You have earned $sitecurrency$affiliate_amount from Order ID: $order_id", "wallet.php", $date, "wallet", 0);
             }
@@ -1448,6 +1450,28 @@ if (isset($_POST['sendmessage'])) {
         }
     }
 }
+
+
+if (isset($_POST['update-category'])) {
+    $ids = $_POST['ids'];
+    $names = $_POST['category_names'];
+
+    foreach ($ids as $index => $id) {
+        $name = mysqli_real_escape_string($con, $names[$index]);
+        $id = intval($id);
+        $query = "UPDATE " . $siteprefix . "categories SET category_name = '$name' WHERE id = $id";
+        mysqli_query($con, $query);
+        if (mysqli_error($con)) {
+            $statusAction = "Error!";
+            $statusMessage = "Failed to update category with $name: " . mysqli_error($con);
+            showErrorModal2($statusAction, $statusMessage);
+            exit;
+        }
+    }
+    $message = "Categories updated successfully!";
+    showToast($message);
+    header("refresh:2; url=categories.php");
+} 
 
 ?>
 

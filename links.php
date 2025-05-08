@@ -20,6 +20,7 @@ if (isset($seller) && $seller == 1) {
     generateLink('saved-models.php', 'ti-edit', 'Draft', $current_page);
 }
 generateLink('notifications.php', 'ti-bell', 'Notifications', $current_page);
+generateLink('create_ticket.php', 'ti-book', 'Create New Ticket', $current_page);
 generateLink('settings.php', 'ti-settings', 'Settings', $current_page);
 generateLink('logout.php', 'ti-share', 'Logout', $current_page);
 ?>

@@ -156,6 +156,8 @@ while ($row = $result->fetch_assoc()) {
 
                         <div class="mb-3" id="price-field" style="display:none;">
                           <label class="form-label" for="course-price">Price</label>
+                          <p class="text-muted">Note: Each document type attracts a portion of the total price. For example, if your product includes both a Word document and an Excel spreadsheet,
+                        and you intend to sell the bundle for ₦ 2,000, enter ₦ 1,000 as the price for each document type here.</p>
                           <input type="number" id="course-price" name="price" class="form-control" step="0.01">
                         </div>
 
