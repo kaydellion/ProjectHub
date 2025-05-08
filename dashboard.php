@@ -184,6 +184,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     </div>
 </a>
 </div>
+ 
 
 <div class="col-md-2 <?php userDisplay(); ?>">
     <a href="manual_orders.php">
