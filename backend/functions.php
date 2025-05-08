@@ -82,7 +82,7 @@ function ifLoggedin($active_log){
     if($active_log=="1"){ header("location: dashboard.php"); 
     }}
 
-function generateRandomHardPassword($length = 6) {
+function generateRandomHardPassword($length = 8) {
 return substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_+=<>?'), 0, $length);
 }
 
