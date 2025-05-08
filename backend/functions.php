@@ -350,7 +350,7 @@ function sendEmailoldd($vendorEmail, $vendorName, $siteName, $siteMail, $emailMe
 
 
 function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject) {
-    global $siteimg, $adminlink, $siteurl;
+    global $siteimg, $adminlink, $siteurl, $brevokey;
 
     $htmlBody = "
         <div style='width:600px; padding:40px; background-color:#000000; color:#fff;'>
@@ -365,7 +365,7 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
         </div>
     ";
 
-    $apiKey = 'sssdsss'; // Replace with your actual API key
+    $apiKey = $brevokey; // Replace with your actual API key
 
     $data = [
         'sender' => [
