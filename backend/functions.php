@@ -287,7 +287,7 @@ $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F5
 
 
 
-function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject) {
+function sendEmailoldd($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject) {
     global $siteimg, $adminlink, $siteurl;
 
     $htmlBody = "
@@ -345,6 +345,71 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
             echo "SMTP failed: {$mail->ErrorInfo}. Mail() also failed.";
             return false;
         }
+    }
+}
+
+
+function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject) {
+    global $siteimg, $adminlink, $siteurl;
+
+    $htmlBody = "
+        <div style='width:600px; padding:40px; background-color:#000000; color:#fff;'>
+            <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
+            <p style='font-size:14px; color:#fff;'>
+                <span style='font-size:14px; color:#F57C00;'>Dear $vendorName,</span><br>
+                $emailMessage
+            </p>
+            <p>Best regards,<br>
+            The Project Report Hub Team<br>
+            $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>🌐 www.projectreporthub.ng</a></p>
+        </div>
+    ";
+
+    $apiKey = 'pk41yM'; // Replace with your actual API key
+
+    $data = [
+        'sender' => [
+            'name' => $siteName,
+            'email' => $siteMail
+        ],
+        'to' => [
+            [
+                'email' => $vendorEmail,
+                'name' => $vendorName
+            ]
+        ],
+        'subject' => "$emailSubject - $siteName",
+        'htmlContent' => $htmlBody
+    ];
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, 'https://api.brevo.com/v3/smtp/email');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'api-key: ' . $apiKey,
+        'Content-Type: application/json',
+        'Accept: application/json'
+    ]);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+        curl_close($ch);
+        return false;
+    }
+
+    curl_close($ch);
+
+    if ($httpCode === 201) {
+        return true;
+    } else {
+        echo 'Brevo API Error: ' . $response;
+        return false;
     }
 }
 
