@@ -2,9 +2,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
+include 'PHPMailer/src/Exception.php';
+include 'PHPMailer/src/PHPMailer.php';
+include 'PHPMailer/src/SMTP.php';
 
 
 
