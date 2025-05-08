@@ -142,7 +142,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
 <?php endif; ?>
 
 <div class="col-md-2 <?php sellerDisplay(); ?>">
-    <a href="sales.php">
+    <a href="resources-sold.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">Resource Sold</a></h5>
@@ -153,7 +153,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
 </div>
 
 <div class="col-md-2 <?php sellerDisplay(); ?>">
-    <a href="sales.php">
+    <a href="reviews.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">My Reviews</a></h5>
@@ -164,7 +164,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
 </div>
 
 <div class="col-md-2">
-    <a href="sales.php">
+    <a href="wallet.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">Wallet</a></h5>
@@ -175,7 +175,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
 </div>
 
 <div class="col-md-2 <?php userDisplay(); ?>">
-    <a href="sales.php">
+    <a href="my_orders.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">My Purchases</a></h5>
@@ -186,7 +186,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
 </div>
 
 <div class="col-md-2 <?php userDisplay(); ?>">
-    <a href="sales.php">
+    <a href="manual_orders.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">Manual Purchases</a></h5>

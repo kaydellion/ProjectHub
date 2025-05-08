@@ -414,7 +414,7 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
 }
 
 
-function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
+function sendEmail2oldd($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
     global $siteimg, $siteurl;
 
     require 'vendor/autoload.php'; // Load PHPMailer classes
@@ -468,6 +468,83 @@ function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessa
 
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        return false;
+    }
+}
+
+function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
+    global $siteimg, $siteurl, $brevokey;
+
+    $apiKey = $brevokey; // Replace with your actual Brevo API key
+
+    $htmlBody = "
+        <div style='width:600px; padding:40px; background-color:#000000; color:#fff;'>
+            <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
+            <p style='font-size:14px; color:#fff;'>
+                <span style='font-size:14px; color:#F57C00;'>Dear $vendorName,</span><br>
+                $emailMessage
+            </p>
+            <p>Best regards,<br>
+            The Project Report Hub Team<br>
+            $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>🌐 www.projectreporthub.ng</a></p>
+        </div>
+    ";
+
+    // Prepare attachments
+    $attachmentPayload = [];
+    foreach ($attachment as $filePath) {
+        if (file_exists($filePath)) {
+            $attachmentPayload[] = [
+                'content' => base64_encode(file_get_contents($filePath)),
+                'name' => basename($filePath)
+            ];
+        }
+    }
+
+    // Prepare the API request payload
+    $data = [
+        'sender' => [
+            'name' => $siteName,
+            'email' => $siteMail
+        ],
+        'to' => [
+            ['email' => $vendorEmail, 'name' => $vendorName]
+        ],
+        'subject' => "$emailSubject - $siteName",
+        'htmlContent' => $htmlBody
+    ];
+
+    if (!empty($attachmentPayload)) {
+        $data['attachment'] = $attachmentPayload;
+    }
+
+    // Send via CURL
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, 'https://api.brevo.com/v3/smtp/email');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+        'content-type: application/json'
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_POST, true);
+
+    $response = curl_exec($ch);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+        return false;
+    }
+
+    curl_close($ch);
+
+    if ($httpcode == 201) {
+        return true;
+    } else {
+        echo "Brevo API Error: $response";
         return false;
     }
 }

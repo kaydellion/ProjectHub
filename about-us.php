@@ -4,7 +4,7 @@
 <div class="container mt-5 mb-5">
 <div class="row">
 <div class="col-md-12">
-<img src="img/banner_img.png" class="img-fluid" alt="Project Report Hub NG">
+<img src="img/project-report-hub.jpg" class="img-fluid" alt="Project Report Hub NG">
 </div>
 <div class="col-md-12 mb-3">
                 <h3 class="mt-3 text-primary">Welcome to projectreporthub.ng</h3>
