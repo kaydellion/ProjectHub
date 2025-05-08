@@ -2,9 +2,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-include 'PHPMailer/src/Exception.php';
-include 'PHPMailer/src/PHPMailer.php';
-include 'PHPMailer/src/SMTP.php';
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
 
 
 
@@ -312,8 +312,8 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
         $mail->SMTPAuth = true;
         $mail->Username = 'ikedike2002@yahoo.com'; // Brevo login email
         $mail->Password = 'H4kDR8YzCvP7FBGX';      // Brevo SMTP key
-        $mail->SMTPSecure = 'tls';
-        $mail->Port = 587;
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port = 465;
 
         // Uncomment to debug SMTP connection:
          $mail->SMTPDebug = 2;
