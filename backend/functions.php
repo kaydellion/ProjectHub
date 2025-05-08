@@ -316,7 +316,7 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
         $mail->Port = 587;
 
         // Uncomment to debug SMTP connection:
-         $mail->SMTPDebug = 2;
+         $mail->SMTPDebug = 3;
         $mail->Debugoutput = 'html';
 
         $mail->setFrom($siteMail, $siteName);
