@@ -312,8 +312,8 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
         $mail->SMTPAuth = true;
         $mail->Username = 'ikedike2002@yahoo.com'; // Brevo login email
         $mail->Password = 'H4kDR8YzCvP7FBGX';      // Brevo SMTP key
-        $mail->SMTPSecure = 'ssl';
-        $mail->Port = 465;
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
 
         // Uncomment to debug SMTP connection:
          $mail->SMTPDebug = 2;
