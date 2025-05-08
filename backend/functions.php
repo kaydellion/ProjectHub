@@ -365,7 +365,7 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
         </div>
     ";
 
-    $apiKey = 'pk41yM'; // Replace with your actual API key
+    $apiKey = 'sssdsss'; // Replace with your actual API key
 
     $data = [
         'sender' => [
