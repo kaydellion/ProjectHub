@@ -7,6 +7,7 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
 
+
 function getCartCount($con, $siteprefix, $order_id) {
     $sql = "SELECT COUNT(*) as count FROM ".$siteprefix."order_items oi 
     LEFT JOIN ".$siteprefix."orders o ON oi.order_id = o.order_id 
@@ -284,31 +285,12 @@ $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F5
 }
 
 
+
+
 function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject) {
     global $siteimg, $adminlink, $siteurl;
 
-    $mail = new PHPMailer(true);
-
-    try {
-        // SMTP config for Brevo
-        $mail->isSMTP();
-        $mail->Host = 'smtp-relay.brevo.com';
-        $mail->SMTPAuth = true;
-        $mail->Username   = 'ikedike2002@yahoo.com'; // Replace with your Brevo login email
-        $mail->Password   = 'H4kDR8YzCvP7FBGX';          // Replace with your Brevo SMTP key
-        $mail->SMTPSecure = 'tls';
-        $mail->Port = 587;
-
-        // Email headers and content
-        $mail->setFrom($siteMail, $siteName);
-        $mail->addAddress($vendorEmail, $vendorName);
-        $mail->addReplyTo($siteMail, $siteName);
-        $mail->addCC($siteMail);
-
-        $mail->isHTML(true);
-        $mail->Subject = "$emailSubject - $siteName";
-
-        $mail->Body = "
+    $htmlBody = "
         <div style='width:600px; padding:40px; background-color:#000000; color:#fff;'>
             <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
             <p style='font-size:14px; color:#fff;'>
@@ -319,14 +301,50 @@ function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessag
             The Project Report Hub Team<br>
             $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>🌐 www.projectreporthub.ng</a></p>
         </div>
-        ";
+    ";
+
+    $mail = new PHPMailer(true);
+
+    try {
+        // SMTP config for Brevo
+        $mail->isSMTP();
+        $mail->Host = 'smtp-relay.brevo.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'ikedike2002@yahoo.com'; // Brevo login email
+        $mail->Password = 'H4kDR8YzCvP7FBGX';      // Brevo SMTP key
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        // Uncomment to debug SMTP connection:
+        // $mail->SMTPDebug = 2;
+        // $mail->Debugoutput = 'html';
+
+        $mail->setFrom($siteMail, $siteName);
+        $mail->addAddress($vendorEmail, $vendorName);
+        $mail->addReplyTo($siteMail, $siteName);
+        $mail->addCC($siteMail);
+
+        $mail->isHTML(true);
+        $mail->Subject = "$emailSubject - $siteName";
+        $mail->Body    = $htmlBody;
 
         $mail->send();
         return true;
 
     } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-        return false;
+        // SMTP failed — fallback to mail()
+        $headers  = "From: $siteName <$siteMail>\r\n";
+        $headers .= "Reply-To: $siteMail\r\n";
+        $headers .= "CC: $siteMail\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-type: text/html; charset=UTF-8\r\n";
+
+        if (mail($vendorEmail, "$emailSubject - $siteName", $htmlBody, $headers)) {
+            return true;
+        } else {
+            echo "SMTP failed: {$mail->ErrorInfo}. Mail() also failed.";
+            return false;
+        }
     }
 }
 
