@@ -145,7 +145,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     <a href="resources-sold.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
-            <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">Resource Sold</a></h5>
+            <h5 class="card-title text-white"><a href="resources-sold.php" style="text-decoration: none; color:#fff;">Resource Sold</a></h5>
             <p class="card-text text-white"><?php echo $total_resources_sold;?></p>
         </div>
     </div>
@@ -156,7 +156,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     <a href="reviews.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
-            <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">My Reviews</a></h5>
+            <h5 class="card-title text-white"><a href="reviews.php" style="text-decoration: none; color:#fff;">My Reviews</a></h5>
             <p class="card-text text-white"><?php echo $reviews_count; ?></p>
         </div>
     </div>
@@ -167,7 +167,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     <a href="wallet.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
-            <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">Wallet</a></h5>
+            <h5 class="card-title text-white"><a href="wallet.php" style="text-decoration: none; color:#fff;">Wallet</a></h5>
             <p class="card-text text-white"><?php echo $sitecurrency . number_format($wallet, 2); ?></p>
         </div>
     </div>
@@ -178,7 +178,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     <a href="my_orders.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
-            <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">My Purchases</a></h5>
+            <h5 class="card-title text-white"><a href="my_orders.php" style="text-decoration: none; color:#fff;">My Purchases</a></h5>
             <p class="card-text text-white"><?php echo $paid_orders_count; ?></p>
         </div>
     </div>
@@ -190,7 +190,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     <a href="manual_orders.php">
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
-            <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">Manual Purchases</a></h5>
+            <h5 class="card-title text-white"><a href="manual_orders.php" style="text-decoration: none; color:#fff;">Manual Purchases</a></h5>
             <p class="card-text text-white"><?php echo $pending_payments_count ; ?></p>
         </div>
     </div>
