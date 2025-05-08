@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $education_level = mysqli_real_escape_string($con, $_POST['education_level']);
     $chapter = mysqli_real_escape_string($con, $_POST['chapter']);
     $answer = mysqli_real_escape_string($con, $_POST['answer']);
-    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user']);
 
     // Directories for uploads
     $uploadDir = '../../uploads/';
@@ -99,6 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
 
     // Insert images into the database
     $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+    }
+
     $uploadedFiles = [];
     foreach ($reportImages as $image) {
         $stmt = $con->prepare("INSERT INTO " . $siteprefix . "reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
@@ -109,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
             $message .= "Error inserting image: " . $stmt->error . "<br>";
         }
         $stmt->close();
-    }}
+    }
 
     // Handle file uploads for different document types
     $fileFields = [
@@ -261,7 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
     $education_level = mysqli_real_escape_string($con, $_POST['education_level']);
     $chapter = mysqli_real_escape_string($con, $_POST['chapter']);
     $answer = mysqli_real_escape_string($con, $_POST['answer']);
-    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user']);
 
     // Directories for uploads
     $uploadDir = '../../uploads/';
@@ -279,6 +281,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
 
     // Insert images into the database
     $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+    }
+
     $uploadedFiles = [];
     foreach ($reportImages as $image) {
         $stmt = $con->prepare("INSERT INTO " . $siteprefix . "reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
@@ -289,7 +293,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
             $message .= "Error inserting image: " . $stmt->error . "<br>";
         }
         $stmt->close();
-    }}
+    }
 
     // Handle file uploads for different document types
     $fileFields = [
@@ -571,7 +575,7 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
     global $fileName;
     $message="";
 
-    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+    
     if (empty($_FILES[$fileKey]['name'][0])) {
        // Array of default images
         //$defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
@@ -579,8 +583,10 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
         //$randomImage = $defaultImages[array_rand($defaultImages)];
         //$reportImages = [$randomImage];
     }else{
-    
-    $uploadedFiles = [];
+    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+     }
+
+     $uploadedFiles = [];
     foreach ($reportImages as $image) {
         $stmt = $con->prepare("INSERT INTO  ".$siteprefix."reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
         $stmt->bind_param("ss", $reportId, $image);
@@ -590,7 +596,7 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
             $message.="Error: " . $stmt->error;
         }
         $stmt->close();
-    }}
+    }
 
     // Handle file uploads
     $fileFields = [

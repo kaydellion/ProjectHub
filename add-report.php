@@ -48,6 +48,7 @@
                           <label class="form-label" for="basic-default-message">Methodology</label>
                           <textarea id="basic-default-message" name="methodology" class="form-control editor" placeholder="Write required information or details here...."></textarea>
                         </div>
+                        <input type="hidden" name="user" value="<?php echo $user_id; ?>">
 
                         <h6>Field Of Study: Select the industry or field where this template/model is most applicable</h6>
                         <div class="mb-3">

@@ -91,7 +91,7 @@
                                                     <th>Order ID</th>
                                                     <th>Customer Name</th>
                                                     <th>Profile Picture</th>
-                                                    <th>Price</th>
+                                                    <th>Report Price</th>
                                                     <th>Earnings</th>
                                                     <th>Date</th>
                                                     <th>Loyalty ID</th>

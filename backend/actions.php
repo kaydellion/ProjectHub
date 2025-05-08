@@ -137,13 +137,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $message="";
     $status="pending";
 
-    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+    
     if (empty($_FILES[$fileKey]['name'][0])) {
         // Array of default images
         $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
         // Pick a random default image
         $randomImage = $defaultImages[array_rand($defaultImages)];
         $reportImages = [$randomImage];
+    }else{
+    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
     }
     
     $uploadedFiles = [];
@@ -227,14 +229,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['saveReport'])) {
     $message="";
     $status="draft";
 
-    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
     if (empty($_FILES[$fileKey]['name'][0])) {
         // Array of default images
         $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
         // Pick a random default image
         $randomImage = $defaultImages[array_rand($defaultImages)];
         $reportImages = [$randomImage];
-    }
+    }else{$reportImages = handleMultipleFileUpload($fileKey, $uploadDir);}
     
     $uploadedFiles = [];
     foreach ($reportImages as $image) {
@@ -312,20 +313,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['saveReport'])) {
 
 
     // Upload images
-    $uploadDir = '../../uploads/';
-    $fileuploadDir = '../../documents/';
+    $uploadDir = '../uploads/';
+    $fileuploadDir = '../documents/';
     $fileKey='images';
     global $fileName;
     $message="";
 
-    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+   
     if (empty($_FILES[$fileKey]['name'][0])) {
        // Array of default images
         //$defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
         // Pick a random default image
         //$randomImage = $defaultImages[array_rand($defaultImages)];
         //$reportImages = [$randomImage];
-    }else{
+    }else{  $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);}
     
     $uploadedFiles = [];
     foreach ($reportImages as $image) {
@@ -337,7 +338,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['saveReport'])) {
             $message.="Error: " . $stmt->error;
         }
         $stmt->close();
-    }}
+    }
 
     // Handle file uploads
     $fileFields = [
