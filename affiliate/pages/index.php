@@ -12,7 +12,8 @@
                         <th>Product Image</th>
                         <th>Product Name</th>
                         <th>Number of Sales</th>
-                        <th>Total Money Made</th>
+                        <th>Report Price</th>
+                        <th>Earnings</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -23,11 +24,14 @@
                             oi.report_id AS product_id, 
                             COUNT(oi.s) AS sales_count, 
                             SUM(oi.price) AS total_revenue,
+                            SUM(af.amount) AS amount,
                             MAX(o.date) AS recent_date
                         FROM 
                             ".$siteprefix."order_items oi
                         JOIN 
                             ".$siteprefix."orders o ON oi.order_id = o.order_id
+                         JOIN 
+                            ".$siteprefix."affliate_purchases af ON af.order_no = oi.s
                         WHERE 
                             oi.affiliate_id = '$affliate' AND o.status = 'paid'
                         GROUP BY 
@@ -49,6 +53,7 @@
                         $report_id = $row['product_id'];
                         $sales_count = $row['sales_count'];
                         $total_revenue = $row['total_revenue'];
+                        $amount = $transaction['amount'];
 
                         // Get the product name from the reports table
                         $product_query = "SELECT title FROM ".$siteprefix."reports WHERE id = '$report_id'";
@@ -70,6 +75,7 @@
                         <td><?php echo htmlspecialchars($product_name); ?></td>
                         <td><?php echo $sales_count; ?></td>
                         <td><?php echo $sitecurrency . number_format($total_revenue, 2); ?></td>
+                        <td><?php echo $sitecurrency . number_format($amount, 2); ?></td>
                         <td>
                             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#transactionsModal_<?php echo $report_id; ?>">View Transactions</button>
                         </td>
@@ -121,7 +127,6 @@
                                 oi.report_id = '$report_id' AND oi.affiliate_id = '$affliate' AND o.status = 'paid'
                         ";
                         $transactions_result = mysqli_query($con, $transactions_query);
-
                         if (!$transactions_result) {
                             die('Query Failed: ' . mysqli_error($con));
                         }
