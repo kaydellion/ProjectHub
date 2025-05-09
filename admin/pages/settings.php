@@ -51,7 +51,7 @@
                     </div>
                     <div class="mb-3">
                       <label class="form-label">Affliate Percentage</label>
-                      <input type="number" name="affiliate_percentage" class="form-control" value="<?php echo $affliate_percentage; ?>">
+                      <input type="number" name="affiliate_percentage" class="form-control" value="<?php echo $affiliate_percentage; ?>">
                     </div>
                     
                     <div class="mb-3">
