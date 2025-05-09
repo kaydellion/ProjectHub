@@ -279,7 +279,7 @@ while ($row = mysqli_fetch_array($sql2)) {
                             <option value="approved" <?php echo ($status == 'approved') ? 'selected' : ''; ?>>Approved</option>
                           </select>
                         </div>
-                    <button type="submit" name="update-report" value="course" class="btn btn-primary w-100">Update Report</button>
+                    <button type="submit" name="update-report" value="course" class="btn btn-primary">Update Report</button>
                 </form>
             </div>
         </div>
