@@ -83,6 +83,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $answer = mysqli_real_escape_string($con, $_POST['answer']);
     $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
 
+  // Generate a unique alt_title
+  $alt_title = $title; // Start with the original title
+  $counter = 1;
+
+  while (true) {
+      // Check if the alt_title already exists in the database
+      $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE alt_title = ?";
+      $stmt = $con->prepare($query);
+      $stmt->bind_param("s", $alt_title);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      $row = $result->fetch_assoc();
+
+      if ($row['count'] == 0) {
+          // If the alt_title does not exist, break the loop
+          break;
+      }
+
+      // If it exists, append a counter to the original title
+      $alt_title = $title . '-' . $counter;
+      $counter++;
+  }
+
     // Directories for uploads
     $uploadDir = '../../uploads/';
     $fileuploadDir = '../../documents/';
@@ -142,13 +165,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     }
 
     // Insert report data into the database
-    $sql = "INSERT INTO " . $siteprefix . "reports 
+       $sql = "INSERT INTO " . $siteprefix . "reports 
             (s, id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status,alt_title) 
             VALUES 
             (NULL, '$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status','$alt_title')";
 
     if (mysqli_query($con, $sql)) {
         $message .= "Report added successfully!<br>";
+
 
 
         if ($status === 'approved') {
@@ -266,6 +290,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
     $answer = mysqli_real_escape_string($con, $_POST['answer']);
     $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
 
+      // Generate a unique alt_title
+      $alt_title = $title; // Start with the original title
+      $counter = 1;
+  
+      while (true) {
+          // Check if the alt_title already exists in the database
+          $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE alt_title = ?";
+          $stmt = $con->prepare($query);
+          $stmt->bind_param("s", $alt_title);
+          $stmt->execute();
+          $result = $stmt->get_result();
+          $row = $result->fetch_assoc();
+  
+          if ($row['count'] == 0) {
+              // If the alt_title does not exist, break the loop
+              break;
+          }
+  
+          // If it exists, append a counter to the original title
+          $alt_title = $title . '-' . $counter;
+          $counter++;
+      }
+
     // Directories for uploads
     $uploadDir = '../../uploads/';
     $fileuploadDir = '../../documents/';
@@ -325,6 +372,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
     }
 
     // Insert report data into the database
+    // Insert report data into the database
     $sql = "INSERT INTO " . $siteprefix . "reports 
             (s, id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status, alt_title) 
             VALUES 
@@ -332,6 +380,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
 
     if (mysqli_query($con, $sql)) {
         $message .= "Report saved as draft!<br>";
+
 
      
     
