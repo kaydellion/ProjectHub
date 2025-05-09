@@ -263,7 +263,7 @@ while ($row = mysqli_fetch_array($sql2)) {
                         <label class="form-label" for="course-tags">Tags & Keywords</label>
                         <input type="text" id="course-tags" name="tags" class="form-control" value="<?php echo $tags; ?>" required>
                     </div>
-                    <button type="submit" name="update-report" value="course" class="btn btn-primary w-100">Update Report</button>
+                    <button type="submit" name="update-report" value="course" class="btn btn-primary">Update Report</button>
                 </form>
                 </div>
                   </div>

@@ -182,8 +182,8 @@ while ($row = $result->fetch_assoc()) {
                           <input type="text" id="course-tags" name="tags" class="form-control" placeholder="Separate tags with commas" required>
                         </div>
 
-                        <button type="submit" name="addcourse" value="course" class="btn btn-primary w-100">Add Report</button>
-                        <button type="submit" name="saveReport" value="save" class="btn btn-secondary w-100 mb-2">Save As Draft</button>
+                        <button type="submit" name="addcourse" value="course" class="btn btn-primary">Add Report</button>
+                        <button type="submit" name="saveReport" value="save" class="btn btn-secondary">Save As Draft</button>
 
                       
                         
