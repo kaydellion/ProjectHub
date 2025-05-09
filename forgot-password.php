@@ -42,6 +42,7 @@ showSuccessModal($statusAction,$statusMessage);
                         <div class="login_part_text_iner">
                             <h2>Forgot your password?</h2>
                             <p>Enter your email address below and we will send you a link to reset your password.</p>
+                            <p> <a href="sigin.php" class="btn_3">SIGN IN</a></p>
                         </div>
                     </div>
                 </div>

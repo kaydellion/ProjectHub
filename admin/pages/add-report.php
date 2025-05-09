@@ -18,6 +18,7 @@
                       <input type="file" class="form-control" id="imageInput" name="images[]" multiple accept="image/*">
                       <div id="preview" class="preview-container"></div>
                       </div>
+                      <input type="hidden" name="user" value="<?php echo $user_id; ?>">
               
                       <div class="mb-3">
                           <label class="form-label" for="course-id">Report ID</label>
@@ -150,7 +151,6 @@ while ($row = $result->fetch_assoc()) {
                           <select id="pricing-type" name="pricing" class="form-control" onchange="togglePrice()" required>
                             <option value="free">Free</option>
                             <option value="paid">Paid</option>
-                           
                           </select>
                         </div>
 
@@ -198,7 +198,7 @@ while ($row = $result->fetch_assoc()) {
                           </select>
                         </div>
                         
-                        <button type="submit" name="savedcourse" value="savedcourse" class="btn btn-primary w-100">Save Report as Draft</button>
+                        <button type="submit" name="savedcourse" value="savedcourse" class="btn btn-primary w-100">Save Report as Draft</button><br>
                         <button type="submit" name="addcourse" value="course" class="btn btn-primary w-100">Add Report</button>
                       </form>
                     </div>
