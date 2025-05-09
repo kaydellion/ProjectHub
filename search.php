@@ -108,7 +108,7 @@ $total_pages = ceil($total_reports / $limit);
                         $selected_education_level = $row['education_level'] ?? '';
                         $selected_resource_type = $row['resource_type'] ?? '';
                         $selected_resource_type_array = explode(',', $selected_resource_type);
-                        $slug =$alt_title
+                        $slug =$alt_title;
                         include "product-card.php";
                     }
                 } else {
