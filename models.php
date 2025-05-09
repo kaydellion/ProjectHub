@@ -24,7 +24,7 @@ table th {
     vertical-align: middle;
 }
 </style>
-<div class="container-xxl">
+<div class="container-xxl mt-5">
 <p><a href="add-report.php" class="btn-kayd m-3">Add New Report</a> </p>
               <!-- Hoverable Table rows -->
                 <h5 class="card-header"> Manage Resources </h5>

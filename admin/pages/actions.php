@@ -81,9 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $education_level = mysqli_real_escape_string($con, $_POST['education_level']);
     $chapter = mysqli_real_escape_string($con, $_POST['chapter']);
     $answer = mysqli_real_escape_string($con, $_POST['answer']);
-    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+    $user_id = $_POST['user'] ?? null;
+    
 
-   // Clean the title to generate a clean URL slug
+
 // Replace spaces with hyphens and convert to lowercase
 $baseSlug = strtolower(str_replace(' ', '-', $title));
 
@@ -170,9 +171,9 @@ while (true) {
 
     // Insert report data into the database
        $sql = "INSERT INTO " . $siteprefix . "reports 
-            (s, id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status,alt_title) 
+            (id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status,alt_title) 
             VALUES 
-            (NULL, '$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status','$alt_title')";
+            ('$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status','$alt_title')";
 
     if (mysqli_query($con, $sql)) {
         $message .= "Report added successfully!<br>";
@@ -292,7 +293,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
     $education_level = mysqli_real_escape_string($con, $_POST['education_level']);
     $chapter = mysqli_real_escape_string($con, $_POST['chapter']);
     $answer = mysqli_real_escape_string($con, $_POST['answer']);
-    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user']);
 
 
   // Clean the title to generate a clean URL slug

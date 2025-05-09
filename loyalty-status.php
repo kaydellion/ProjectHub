@@ -32,7 +32,7 @@ if ($downloadsResult) {
 $availableDownloads = max($downloadsDone - $totalDownloads, 0);
 ?>
 
-<div class="container mt-3">
+<div class="container mt-5">
     <div class="row">
         <div class="col-12 text-right">
             <a href="dashboard.php" class="btn btn-primary">Go to Dashboard</a>
