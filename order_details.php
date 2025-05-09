@@ -24,7 +24,7 @@ if ($order_result->num_rows == 0) {
 $order = $order_result->fetch_assoc();
 
 // Fetch ordered items
-$sql = "SELECT r.title, ri.picture, oi.price, oi.original_price, p.title as file_path
+$sql = "SELECT r.title, r.alt_title, ri.picture, oi.price, oi.original_price, p.title as file_path
         FROM ".$siteprefix."order_items oi 
         JOIN ".$siteprefix."reports_files p ON oi.item_id = p.id 
         LEFT JOIN ".$siteprefix."reports r  ON  oi.report_id = r.id 
@@ -71,9 +71,10 @@ $items_result = $stmt->get_result();
             <tbody>
                 <?php while ($item = $items_result->fetch_assoc()) {
                     $title= $item['title'];
-                $slug = strtolower(str_replace(' ', '-', $title));
+                    $alt_title= $item['alt_title'];
+                $slug = strtolower(str_replace(' ', '-', $alt_title));
                 $file_path= $item['file_path'];
-                $documen
+                
                 
                 
                 ?>

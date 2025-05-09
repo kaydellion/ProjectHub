@@ -37,15 +37,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_affiliate_list'
     }
 
     // Fetch the product title from the reports table
-    $product_query = "SELECT title FROM " . $siteprefix . "reports WHERE id = '$product_id'";
+    $product_query = "SELECT title, alt_title FROM " . $siteprefix . "reports WHERE id = '$product_id'";
     $product_result = mysqli_query($con, $product_query);
 
     if ($product_result && mysqli_num_rows($product_result) > 0) {
         $product_row = mysqli_fetch_assoc($product_result);
         $title = $product_row['title'];
+        $alt_title = $product_row['alt_title'];
 
         // Generate the slug
-        $slug = strtolower(str_replace(' ', '-', $title));
+        $slug = strtolower(str_replace(' ', '-', $alt_title));
 
         // Generate the affiliate link
         $affiliate_link = $siteurl . "product/" . $slug . "?affliate=" . base64_encode($affliate_id);

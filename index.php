@@ -142,7 +142,7 @@ results with ease — all in one place.</p>
                         <?php
                         // Query to fetch all last purchased reports
                         $latestSalesQuery = "
-                            SELECT DISTINCT r.id AS report_id, r.title, r.description, r.price, ri.picture, u.display_name, u.profile_picture 
+                            SELECT DISTINCT r.id AS report_id, r.title,r.alt_title, r.description, r.price, ri.picture, u.display_name, u.profile_picture 
                             FROM ".$siteprefix."orders o
                             JOIN ".$siteprefix."order_items oi ON o.order_id = oi.order_id
                             JOIN ".$siteprefix."reports r ON r.id = oi.report_id
@@ -158,12 +158,14 @@ results with ease — all in one place.</p>
                             while ($row = mysqli_fetch_assoc($latestSalesResult)) {
                                 $report_id = $row['report_id'];
                                 $title = $row['title'];
+                                $alt_title = $row['alt_title'];
                                 $description = $row['description'];
                                 $price = $row['price'];
                                 $image_path = $imagePath . $row['picture'];
                                 $user = $row['display_name'];
                                 $user_picture = $imagePath . $row['profile_picture'];
-                                $slug = strtolower(str_replace(' ', '-', $title));
+                                $slug = strtolower(str_replace(' ', '-', $row['alt_title']));
+
 
                                 // Include the swiper card for each report
                                 include "swiper-card.php";
@@ -265,6 +267,7 @@ if ($result) {
 while ($row = mysqli_fetch_assoc($result)) {
         $report_id = $row['id'];
         $title = $row['title'];
+        $alt_title = $row['alt_title'];
         $description = $row['description'];
         $category = $row['category'];
         $subcategory = $row['subcategory'];
@@ -278,7 +281,8 @@ while ($row = mysqli_fetch_assoc($result)) {
         $updated_date = $row['updated_date'];
         $status = $row['status'];
         $image_path = $imagePath.$row['picture'];
-        $slug = strtolower(str_replace(' ', '-', $title));
+        $slug = strtolower(str_replace(' ', '-', $alt_title));
+
         include "product-card.php";
 }
 ?>

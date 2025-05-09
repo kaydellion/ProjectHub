@@ -8,7 +8,7 @@ if (isset($_GET['slug'])) {
 
     // Get report ID by matching title (case-insensitive)
     $slug_sql = "SELECT id FROM " . $siteprefix . "reports 
-                 WHERE LOWER(title) = LOWER('$title') AND status = 'approved' LIMIT 1";
+                 WHERE LOWER(alt_title) = LOWER('$title') AND status = 'approved' LIMIT 1";
 
     $slug_result = mysqli_query($con, $slug_sql);
 

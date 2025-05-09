@@ -90,6 +90,7 @@ $total_pages = ceil($total_reports / $limit);
                     while ($row = mysqli_fetch_assoc($result)) {
                         $report_id = $row['id'];
                         $title = $row['title'];
+                        $alt_title = $row['alt_title'];
                         $description = $row['description'];
                         $category = $row['category'];
                         $subcategory = $row['subcategory'];
@@ -107,7 +108,7 @@ $total_pages = ceil($total_reports / $limit);
                         $selected_education_level = $row['education_level'] ?? '';
                         $selected_resource_type = $row['resource_type'] ?? '';
                         $selected_resource_type_array = explode(',', $selected_resource_type);
-                        $slug = strtolower(str_replace(' ', '-', $title));
+                        $slug = strtolower(str_replace(' ', '-', $alt_title));
                         include "product-card.php";
                     }
                 } else {

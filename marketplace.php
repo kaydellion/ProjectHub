@@ -89,6 +89,7 @@ $total_pages = ceil($total_reports / $limit);
                     while ($row = mysqli_fetch_assoc($result)) {
                         $report_id = $row['id'];
                         $title = $row['title'];
+                        $alt_title = $row['alt_title'];
                         $description = $row['description'];
                         $category = $row['category'];
                         $subcategory = $row['subcategory'];
@@ -106,7 +107,7 @@ $total_pages = ceil($total_reports / $limit);
                         $year_of_study = $row['year_of_study'] ?? '';
                         $image_path = $imagePath.$row['picture'];
 
-                        $slug = strtolower(str_replace(' ', '-', $title));
+                        $slug = strtolower(str_replace(' ', '-', $alt_title));
 
                         include "product-card.php";
                     }

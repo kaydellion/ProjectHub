@@ -560,6 +560,7 @@ if (mysqli_num_rows($sql2) > 0) {
 while ($row = mysqli_fetch_array($sql2)) {
     $report_id = $row['id'];
     $title = $row['title'];
+    $alt_title = $row['alt_title'];
     $description = $row['description'];
     $category = $row['category'];
     $subcategory = $row['subcategory'];
@@ -577,7 +578,7 @@ while ($row = mysqli_fetch_array($sql2)) {
     $selected_resource_type = $row['resource_type'] ?? '';
     $year_of_study = $row['year_of_study'] ?? '';
 
-    $slug = strtolower(str_replace(' ', '-', $title));
+    $slug = strtolower(str_replace(' ', '-', $alt_title));
     include "product-card.php";
 }} else {
 echo '<div class="alert alert-warning" role="alert">
@@ -622,6 +623,7 @@ if (mysqli_num_rows($seller_resources_result) > 0) {
     while ($row = mysqli_fetch_assoc($seller_resources_result)) {
         $report_id = $row['id'];
         $title = $row['title'];
+        $alt_title = $row['alt_title'];
         $description = $row['description'];
         $category = $row['category'];
         $subcategory = $row['subcategory'];
@@ -639,7 +641,7 @@ if (mysqli_num_rows($seller_resources_result) > 0) {
         $selected_resource_type = $row['resource_type'] ?? '';
         $year_of_study = $row['year_of_study'] ?? '';
         
-        $slug = strtolower(str_replace(' ', '-', $title));
+        $slug = strtolower(str_replace(' ', '-', $alt_title));
         include "swiper-card.php";
     }?>
 </div>
@@ -697,6 +699,7 @@ if (mysqli_num_rows($also_viewed_result) > 0) {
     while ($row = mysqli_fetch_assoc($also_viewed_result)) {
         $report_id = $row['id'];
         $title = $row['title'];
+        $alt_title= $row['alt_title'];
         $description = $row['description'];
         $category = $row['category'];
         $subcategory = $row['subcategory'];
@@ -714,7 +717,7 @@ if (mysqli_num_rows($also_viewed_result) > 0) {
         $selected_resource_type = $row['resource_type'] ?? '';
         $year_of_study = $row['year_of_study'] ?? '';
         
-        $slug = strtolower(str_replace(' ', '-', $title));
+        $slug = strtolower(str_replace(' ', '-', $alt_title));
         include "swiper-card.php";
     }?>
 </div>
