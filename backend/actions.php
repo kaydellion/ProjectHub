@@ -786,7 +786,7 @@ if (isset( $_POST['signin'])){
     $code= $_POST['name'];
     $password = $_POST['password'];
           
-    $sql = "SELECT * from ".$siteprefix."users where email='$code' OR display_name='$code'";
+    $sql = "SELECT * from ".$siteprefix."users where type='user' AND (email='$code' OR display_name='$code')";
     $sql2 = mysqli_query($con,$sql);
     if (mysqli_affected_rows($con) == 0){
     $statusAction="Try Again!";

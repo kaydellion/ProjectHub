@@ -8,7 +8,7 @@ if (isset($_POST['login'])){
     $code= $_POST['username'];
     $password = $_POST['password'];
           
-    $sql = "SELECT * from ".$siteprefix."users where email='$code' ";
+    $sql = "SELECT * from ".$siteprefix."users where email='$code' AND type='affiliate'";
     $sql2 = mysqli_query($con,$sql);
     if (mysqli_affected_rows($con) == 0){
     echo'Invalid Email address!'; 
