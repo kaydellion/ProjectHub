@@ -83,28 +83,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $answer = mysqli_real_escape_string($con, $_POST['answer']);
     $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
 
-  // Generate a unique alt_title
-  $alt_title = $title; // Start with the original title
-  $counter = 1;
+   // Clean the title to generate a clean URL slug
+$baseSlug = strtolower(preg_replace('/[^a-z0-9]+/i', '-', $title));
+$baseSlug = trim($baseSlug, '-');
 
-  while (true) {
-      // Check if the alt_title already exists in the database
-      $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE alt_title = ?";
-      $stmt = $con->prepare($query);
-      $stmt->bind_param("s", $alt_title);
-      $stmt->execute();
-      $result = $stmt->get_result();
-      $row = $result->fetch_assoc();
+// Start with the cleaned slug
+$alt_title = $baseSlug;
+$counter = 1;
 
-      if ($row['count'] == 0) {
-          // If the alt_title does not exist, break the loop
-          break;
-      }
+// Ensure the alt_title is unique
+while (true) {
+    $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE alt_title = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("s", $alt_title);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
 
-      // If it exists, append a counter to the original title
-      $alt_title = $title . '-' . $counter;
-      $counter++;
-  }
+    if ($row['count'] == 0) {
+        break; // alt_title is unique
+    }
+
+    // Append counter to baseSlug
+    $alt_title = $baseSlug . '-' . $counter;
+    $counter++;
+}
+
 
     // Directories for uploads
     $uploadDir = '../../uploads/';
@@ -290,28 +294,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
     $answer = mysqli_real_escape_string($con, $_POST['answer']);
     $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
 
-      // Generate a unique alt_title
-      $alt_title = $title; // Start with the original title
-      $counter = 1;
-  
-      while (true) {
-          // Check if the alt_title already exists in the database
-          $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE alt_title = ?";
-          $stmt = $con->prepare($query);
-          $stmt->bind_param("s", $alt_title);
-          $stmt->execute();
-          $result = $stmt->get_result();
-          $row = $result->fetch_assoc();
-  
-          if ($row['count'] == 0) {
-              // If the alt_title does not exist, break the loop
-              break;
-          }
-  
-          // If it exists, append a counter to the original title
-          $alt_title = $title . '-' . $counter;
-          $counter++;
-      }
+
+  // Clean the title to generate a clean URL slug
+$baseSlug = strtolower(preg_replace('/[^a-z0-9]+/i', '-', $title));
+$baseSlug = trim($baseSlug, '-');
+
+// Start with the cleaned slug
+$alt_title = $baseSlug;
+$counter = 1;
+
+// Ensure the alt_title is unique
+while (true) {
+    $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE alt_title = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("s", $alt_title);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row['count'] == 0) {
+        break; // alt_title is unique
+    }
+
+    // Append counter to baseSlug
+    $alt_title = $baseSlug . '-' . $counter;
+    $counter++;
+}
+
 
     // Directories for uploads
     $uploadDir = '../../uploads/';

@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_affiliate_list'
         $alt_title = $product_row['alt_title'];
 
         // Generate the slug
-        $slug = strtolower(str_replace(' ', '-', $alt_title));
+        $slug =$alt_title;
 
         // Generate the affiliate link
         $affiliate_link = $siteurl . "product/" . $slug . "?affliate=" . base64_encode($affliate_id);

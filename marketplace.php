@@ -107,7 +107,7 @@ $total_pages = ceil($total_reports / $limit);
                         $year_of_study = $row['year_of_study'] ?? '';
                         $image_path = $imagePath.$row['picture'];
 
-                        $slug = strtolower(str_replace(' ', '-', $alt_title));
+                        $slug = $alt_title;
 
                         include "product-card.php";
                     }

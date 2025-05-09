@@ -3,8 +3,8 @@
 if (isset($_GET['slug'])) {
     // Convert slug back to title-style for DB lookup
     $raw_slug = $_GET['slug'];
-    $title_like = str_replace('-', ' ', $raw_slug);
-    $title = mysqli_real_escape_string($con, $title_like);
+
+    $title = mysqli_real_escape_string($con, $raw_slug); // Updated to use $raw_slug
 
     // Get report ID by matching title (case-insensitive)
     $slug_sql = "SELECT id FROM " . $siteprefix . "reports 

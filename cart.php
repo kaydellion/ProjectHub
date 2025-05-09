@@ -34,7 +34,7 @@
                     $picture =$imagePath.$item['picture'];
                     $title=$item['report_title'];
                     $alt_title=$item['alt_title'];
-                    $slug = strtolower(str_replace(' ', '-', $title)); ?>
+                    $slug = $alt_title; ?>
                         <div class="row cart-item mb-3" id="cart-item-<?php echo htmlspecialchars($item['s']); ?>">
                         <div class="col-md-3">
                             <img src="<?php echo htmlspecialchars($picture); ?>"  alt="<?php echo htmlspecialchars($item['report_title']); ?>" class="img-fluid img-small rounded">

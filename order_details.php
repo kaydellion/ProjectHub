@@ -72,7 +72,7 @@ $items_result = $stmt->get_result();
                 <?php while ($item = $items_result->fetch_assoc()) {
                     $title= $item['title'];
                     $alt_title= $item['alt_title'];
-                $slug = strtolower(str_replace(' ', '-', $alt_title));
+                    $slug = $alt_title;
                 $file_path= $item['file_path'];
                 
                 

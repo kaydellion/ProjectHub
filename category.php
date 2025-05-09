@@ -167,7 +167,7 @@ $total_pages = ceil($total_reports / $limit);
                         $selected_education_level = $row['education_level'] ?? '';
                         $selected_resource_type = $row['resource_type'] ?? '';
                         $year_of_study = $row['year_of_study'] ?? '';
-                        $slug = strtolower(str_replace(' ', '-', $alt_title));
+                        $slug = $alt_title;
                         include "product-card.php";
                     }
                 } else {
@@ -249,7 +249,7 @@ if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
         $selected_resource_type = $row['resource_type'] ?? '';
         $year_of_study = $row['year_of_study'] ?? '';
 
-        $slug = strtolower(str_replace(' ', '-', $alt_title));
+        $slug = $alt_title;
 
         include "swiper-card.php";
     } ?>

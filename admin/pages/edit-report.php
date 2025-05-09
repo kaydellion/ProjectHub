@@ -39,7 +39,7 @@ if ($row) {
     $status = $row['status'];
     $methodology = $row['methodology'];
     $answer = $row['answer'] ?? '';
-    $slug = strtolower(str_replace(' ', '-', $alt_title));
+    $slug =$alt_title;
 
 $selected_education_level = $row['education_level'] ?? '';
 $selected_resource_type = explode(',', $row['resource_type'] ?? ''); // assuming stored as comma-separated
@@ -47,7 +47,7 @@ $selected_years = explode(',', $row['year_of_study'] ?? ''); // assuming stored 
 $chapter_count = $row['chapter'] ?? '';
 } else {
     debug('Report not found.');
-} 
+}
 
 $yearsOfStudy = [
     "Post UTME",
