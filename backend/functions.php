@@ -172,7 +172,7 @@ function insertWallet($con, $user_id, $amount, $type, $note, $date) {
 
 
     function insertAffliatePurchase($con, $order, $amount, $user,$date) {
-        $query = "INSERT INTO pr_affliate_purchases (order_no, amount, affliate) VALUES ('$order', '$amount', '$user','$date')";
+        $query = "INSERT INTO pr_affliate_purchases (order_no, amount, affliate,date) VALUES ('$order', '$amount', '$user','$date')";
         $submit = mysqli_query($con, $query);
         if ($submit) { echo "";} 
         else { die('Could not connect: ' . mysqli_error($con)); }}
