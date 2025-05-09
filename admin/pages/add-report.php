@@ -198,8 +198,8 @@ while ($row = $result->fetch_assoc()) {
                           </select>
                         </div>
                         
-                        <button type="submit" name="savedcourse" value="savedcourse" class="btn btn-primary w-100">Save Report as Draft</button><br>
-                        <button type="submit" name="addcourse" value="course" class="btn btn-primary w-100">Add Report</button>
+                        <p><button type="submit" name="savedcourse" value="savedcourse" class="btn btn-secondary w-100">Save as Draft</button></p>
+                        <p><button type="submit" name="addcourse" value="course" class="btn btn-primary w-100">Add Report</button></p>
                       </form>
                     </div>
                   </div>
