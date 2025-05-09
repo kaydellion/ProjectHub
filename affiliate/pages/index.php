@@ -53,7 +53,7 @@
                         $report_id = $row['product_id'];
                         $sales_count = $row['sales_count'];
                         $total_revenue = $row['total_revenue'];
-                        $amount = $transaction['amount'];
+                        $amount = $row['amount'];
 
                         // Get the product name from the reports table
                         $product_query = "SELECT title FROM ".$siteprefix."reports WHERE id = '$report_id'";
