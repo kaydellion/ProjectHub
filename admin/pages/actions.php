@@ -84,8 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
 
    // Clean the title to generate a clean URL slug
-$baseSlug = strtolower(preg_replace('/[^a-z0-9]+/i', '-', $title));
-$baseSlug = trim($baseSlug, '-');
+// Replace spaces with hyphens and convert to lowercase
+$baseSlug = strtolower(str_replace(' ', '-', $title));
 
 // Start with the cleaned slug
 $alt_title = $baseSlug;
@@ -104,7 +104,7 @@ while (true) {
         break; // alt_title is unique
     }
 
-    // Append counter to baseSlug
+    // Append counter to baseSlug if not unique
     $alt_title = $baseSlug . '-' . $counter;
     $counter++;
 }
@@ -296,8 +296,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
 
 
   // Clean the title to generate a clean URL slug
-$baseSlug = strtolower(preg_replace('/[^a-z0-9]+/i', '-', $title));
-$baseSlug = trim($baseSlug, '-');
+// Replace spaces with hyphens and convert to lowercase
+$baseSlug = strtolower(str_replace(' ', '-', $title));
 
 // Start with the cleaned slug
 $alt_title = $baseSlug;
@@ -316,11 +316,10 @@ while (true) {
         break; // alt_title is unique
     }
 
-    // Append counter to baseSlug
+    // Append counter to baseSlug if not unique
     $alt_title = $baseSlug . '-' . $counter;
     $counter++;
 }
-
 
     // Directories for uploads
     $uploadDir = '../../uploads/';

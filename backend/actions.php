@@ -130,9 +130,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $answer = $_POST['answer'];
 
 
-     // Clean the title to generate a clean URL slug
-$baseSlug = strtolower(preg_replace('/[^a-z0-9]+/i', '-', $title));
-$baseSlug = trim($baseSlug, '-');
+// Replace spaces with hyphens and convert to lowercase
+$baseSlug = strtolower(str_replace(' ', '-', $title));
 
 // Start with the cleaned slug
 $alt_title = $baseSlug;
@@ -151,11 +150,10 @@ while (true) {
         break; // alt_title is unique
     }
 
-    // Append counter to baseSlug
+    // Append counter to baseSlug if not unique
     $alt_title = $baseSlug . '-' . $counter;
     $counter++;
 }
-
   
     // Upload images
     $uploadDir = 'uploads/';
@@ -248,10 +246,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['saveReport'])) {
     $education_level = $_POST['education_level'];
     $chapter = $_POST['chapter'];
     $answer = $_POST['answer'];
-
-// Clean the title to generate a clean URL slug
-$baseSlug = strtolower(preg_replace('/[^a-z0-9]+/i', '-', $title));
-$baseSlug = trim($baseSlug, '-');
+// Replace spaces with hyphens and convert to lowercase
+$baseSlug = strtolower(str_replace(' ', '-', $title));
 
 // Start with the cleaned slug
 $alt_title = $baseSlug;
@@ -270,7 +266,7 @@ while (true) {
         break; // alt_title is unique
     }
 
-    // Append counter to baseSlug
+    // Append counter to baseSlug if not unique
     $alt_title = $baseSlug . '-' . $counter;
     $counter++;
 }
