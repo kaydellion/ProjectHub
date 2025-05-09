@@ -81,32 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $education_level = mysqli_real_escape_string($con, $_POST['education_level']);
     $chapter = mysqli_real_escape_string($con, $_POST['chapter']);
     $answer = mysqli_real_escape_string($con, $_POST['answer']);
-    $user_id = mysqli_real_escape_string($con, $_POST['user']);
-
-
-      // Generate a unique alt_title
-      $alt_title = $title; // Start with the original title
-      $counter = 1;
-  
-      while (true) {
-          // Check if the alt_title already exists in the database
-          $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE alt_title = ?";
-          $stmt = $con->prepare($query);
-          $stmt->bind_param("s", $alt_title);
-          $stmt->execute();
-          $result = $stmt->get_result();
-          $row = $result->fetch_assoc();
-  
-          if ($row['count'] == 0) {
-              // If the alt_title does not exist, break the loop
-              break;
-          }
-  
-          // If it exists, append a counter to the original title
-          $alt_title = $title . '-' . $counter;
-          $counter++;
-      }
-
+    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
 
     // Directories for uploads
     $uploadDir = '../../uploads/';
@@ -289,32 +264,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
     $education_level = mysqli_real_escape_string($con, $_POST['education_level']);
     $chapter = mysqli_real_escape_string($con, $_POST['chapter']);
     $answer = mysqli_real_escape_string($con, $_POST['answer']);
-    $user_id = mysqli_real_escape_string($con, $_POST['user']);
-
-
-      // Generate a unique alt_title
-      $alt_title = $title; // Start with the original title
-      $counter = 1;
-  
-      while (true) {
-          // Check if the alt_title already exists in the database
-          $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE alt_title = ?";
-          $stmt = $con->prepare($query);
-          $stmt->bind_param("s", $alt_title);
-          $stmt->execute();
-          $result = $stmt->get_result();
-          $row = $result->fetch_assoc();
-  
-          if ($row['count'] == 0) {
-              // If the alt_title does not exist, break the loop
-              break;
-          }
-  
-          // If it exists, append a counter to the original title
-          $alt_title = $title . '-' . $counter;
-          $counter++;
-      }
-
+    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
 
     // Directories for uploads
     $uploadDir = '../../uploads/';

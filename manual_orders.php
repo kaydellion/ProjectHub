@@ -1,6 +1,5 @@
 <?php include "header.php";
-?>
-<?php
+
 // Fetch the number of pending or payment resend manual orders
 $pendingOrResendQuery = "SELECT COUNT(*) AS pending_or_resend_count 
                          FROM ".$siteprefix."manual_payments 

@@ -99,16 +99,8 @@ table th {
                   <td><?php echo $updated_date; ?></td>
                   <td><span class="badge bg-<?php echo getBadgeColor($status); ?> me-1"><?php echo $status; ?></span></td>
                   <td>
-                    <div class="dropdown">
-                    <button type="button" class="btn btn-primary text-small dropdown-toggle hide-arrow" data-bs-toggle="dropdown"  data-bs-display="dynamic">
-                    <i class="bx bx-dots-vertical-rounded"></i>Manage
-                    </button>
-                    <div class="dropdown-menu">
-                    <a class="dropdown-item" href="edit-report.php?report=<?php echo $report_id; ?>"><i class="bx bx-edit-alt me-1"></i> Edit Report</a>
-                    <a class="dropdown-item delete" href="delete.php?action=delete&table=reports&item=<?php echo $report_row; ?>&page=<?php echo $current_page; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
-                    </div>
-                    </div>
-                  </td>
+                   <a href="edit-report.php?report=<?php echo $report_id; ?>" class="btn btn-sm btn-warning me-1"><i class="bx bx-edit-alt me-1"></i> Edit Report</a>
+                  <a href="delete.php?action=delete&table=reports&item=<?php echo $report_row; ?>&page=<?php echo $current_page; ?>" class="btn btn-sm btn-danger delete"><i class="bx bx-trash me-1"></i> Delete </a></td>
                   </tr>
                   <?php $i++; }} ?>
                   </tbody>

@@ -73,6 +73,7 @@ $items_result = $stmt->get_result();
                     $title= $item['title'];
                 $slug = strtolower(str_replace(' ', '-', $title));
                 $file_path= $item['file_path'];
+                $documen
                 
                 
                 ?>
@@ -83,7 +84,7 @@ $items_result = $stmt->get_result();
                         <td>₦<?php echo number_format($item['price'], 2); ?></td>
                         <td>1</td>
                         <td><a href="https://projectreporthub.ng/product/<?php echo $slug; ?>">  Give Review </a></td>
-                        <td><a href='https://www.projectreporthub.ng/uploads/<?php echo $file_path;?>' class='btn btn-success' download>Download</a>
+                        <td><a href='<?php echo $siteurl.$documentPath.$file_path;?>' class='btn btn-success' download>Download</a>
                     </tr>
                 <?php } ?>
             </tbody>

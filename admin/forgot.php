@@ -25,9 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-reset-link'])) 
                
                 <p>We received a request to reset your password. Please click the link below to reset your password:</p>
                 <p><a href='$reset_link'>$reset_link</a></p>
-                <p>If you did not request this, please ignore this email.</p>
-                
-            ";
+                <p>If you did not request this, please ignore this email.</p>";
 
             // Send the email
             if (sendEmail($adminemail, "Admin", $siteName, $siteMail, $emailMessage, $emailSubject)) {

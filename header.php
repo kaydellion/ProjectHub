@@ -50,6 +50,8 @@ if (mysqli_affected_rows($con) == 0) {
         $kin_relationship = $row['kin_relationship'];
            
         $_SESSION['user_role'] = $user_type;
+        $_SESSION['user_id'] = $id;
+        $_SESSION['user_seller']=$seller;
 
         $active_log = 1;
         $user_id=$id;
@@ -75,6 +77,16 @@ include "backend/actions.php";
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><?= isset($page_title) ? htmlspecialchars($page_title) : $sitename ?></title>
+    <meta name="description" content="<?= isset($sitedescription) ? htmlspecialchars($sitedescription) : $sitename ?>">
+    <meta name="keywords" content="<?= isset($sitekeywords) ? htmlspecialchars($sitekeywords) : $sitename ?>">
+    <meta name="author" content="<?= isset($sitename) ? htmlspecialchars($sitename) : $sitename ?>">
+    <meta property="og:title" content="<?= isset($page_title) ? htmlspecialchars($page_title) : $sitename ?>" />
+    <meta property="og:description" content="<?= isset($sitedescription) ? htmlspecialchars($sitedescription) : $sitename ?>" />
+    <meta property="og:image" content="<?= isset($siteurl) ? htmlspecialchars($siteurl) : $sitename ?>img/<?= isset($siteimg) ? htmlspecialchars($siteimg) : $sitename ?>" />
+    <meta property="og:url" content="<?= isset($siteurl) ? htmlspecialchars($siteurl) : $sitename ?>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="<?= isset($sitename) ? htmlspecialchars($sitename) : $sitename ?>" />
+    <meta property="og:locale" content="en_US" />
     <link rel="icon" href="<?php echo $siteurl; ?>img/<?php echo $siteimg; ?>">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?php echo $siteurl; ?>css/bootstrap.min.css">

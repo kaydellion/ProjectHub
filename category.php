@@ -124,8 +124,8 @@ $total_pages = ceil($total_reports / $limit);
         </div>
 
         <div class="col-md-6 d-flex align-items-center">
-            <label for="sort-select" class="me-2 mb-0">Sort By:</label>
             <select id="sort-select" class="form-select" onchange="sortReports(this.value)">
+                <option value="" <?php if ($sort === '') echo 'selected'; ?> disabled>- Sort By -</option>
                 <option value="relevance" <?php if ($sort === 'relevance') echo 'selected'; ?>>Relevance</option>
                 <option value="price_high" <?php if ($sort === 'price_high') echo 'selected'; ?>>Price - High To Low</option>
                 <option value="price_low" <?php if ($sort === 'price_low') echo 'selected'; ?>>Price - Low To High</option>

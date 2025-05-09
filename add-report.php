@@ -48,6 +48,7 @@
                           <label class="form-label" for="basic-default-message">Methodology</label>
                           <textarea id="basic-default-message" name="methodology" class="form-control editor" placeholder="Write required information or details here...."></textarea>
                         </div>
+                        <input type="hidden" name="user" value="<?php echo $user_id; ?>">
 
                         <h6>Field Of Study: Select the industry or field where this template/model is most applicable</h6>
                         <div class="mb-3">
@@ -156,6 +157,8 @@ while ($row = $result->fetch_assoc()) {
 
                         <div class="mb-3" id="price-field" style="display:none;">
                           <label class="form-label" for="course-price">Price</label>
+                          <p class="text-muted">Note: Each document type attracts a portion of the total price. For example, if your product includes both a Word document and an Excel spreadsheet,
+                          and you intend to sell the bundle for ₦ 2,000, enter ₦ 1,000 as the price for each document type here.</p>
                           <input type="number" id="course-price" name="price" class="form-control" step="0.01">
                         </div>
 
@@ -179,8 +182,8 @@ while ($row = $result->fetch_assoc()) {
                           <input type="text" id="course-tags" name="tags" class="form-control" placeholder="Separate tags with commas" required>
                         </div>
 
-                        <button type="submit" name="addcourse" value="course" class="btn btn-primary w-100">Add Report</button>
-                        <button type="submit" name="saveReport" value="save" class="btn btn-secondary w-100 mb-2">Save As Draft</button>
+                        <button type="submit" name="addcourse" value="course" class="btn btn-primary">Add Report</button>
+                        <button type="submit" name="saveReport" value="save" class="btn btn-secondary">Save As Draft</button>
 
                       
                         

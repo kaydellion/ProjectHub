@@ -3,7 +3,6 @@
 <section>
 <div class="row mt-5 mb-5 justify-content-center">
 <div class="col-lg-6 text-justify">
-<div class="col-lg-6">
     <h3>ProjectHub Affliate Program</h3>
     <p>Designed to empower affiliates with valuable resources and generous incentives, our program offers a unique opportunity to monetize digital assets.</p>
      

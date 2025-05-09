@@ -1,4 +1,12 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+
 
 function getCartCount($con, $siteprefix, $order_id) {
     $sql = "SELECT COUNT(*) as count FROM ".$siteprefix."order_items oi 
@@ -74,7 +82,7 @@ function ifLoggedin($active_log){
     if($active_log=="1"){ header("location: dashboard.php"); 
     }}
 
-function generateRandomHardPassword($length = 6) {
+function generateRandomHardPassword($length = 8) {
 return substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_+=<>?'), 0, $length);
 }
 
@@ -162,6 +170,13 @@ function insertWallet($con, $user_id, $amount, $type, $note, $date) {
     if ($submit) { echo "";} 
     else { die('Could not connect: ' . mysqli_error($con)); }}
 
+
+    function insertAffliatePurchase($con, $order, $amount, $user,$date) {
+        $query = "INSERT INTO pr_affliate_purchases (order_no, amount, affliate,date) VALUES ('$order', '$amount', '$user','$date')";
+        $submit = mysqli_query($con, $query);
+        if ($submit) { echo "";} 
+        else { die('Could not connect: ' . mysqli_error($con)); }}
+
 function getRandomMotivationalQuote() {
     $motivational_quotes = [
         "Success is not final, failure is not fatal: it is the courage to continue that counts.",
@@ -178,7 +193,7 @@ function getRandomMotivationalQuote() {
     return htmlspecialchars($motivational_quotes[array_rand($motivational_quotes)]);
 }
 
-function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject) {
+function sendEmailold($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject) {
     global $siteimg;
     global $adminlink;
     global $siteurl;
@@ -210,7 +225,7 @@ $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F5
    }else {return true;}
 }
 
-function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
+function sendEmail2old($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
     global $siteimg, $adminlink, $siteurl;
 
     $email_from = $siteMail;
@@ -266,6 +281,271 @@ $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F5
         return true; // Success
     } else {
         return false; // Failed
+    }
+}
+
+
+
+
+function sendEmailoldd($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject) {
+    global $siteimg, $adminlink, $siteurl;
+
+    $htmlBody = "
+        <div style='width:600px; padding:40px; background-color:#000000; color:#fff;'>
+            <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
+            <p style='font-size:14px; color:#fff;'>
+                <span style='font-size:14px; color:#F57C00;'>Dear $vendorName,</span><br>
+                $emailMessage
+            </p>
+            <p>Best regards,<br>
+            The Project Report Hub Team<br>
+            $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>🌐 www.projectreporthub.ng</a></p>
+        </div>
+    ";
+
+    $mail = new PHPMailer(true);
+
+    try {
+        // SMTP config for Brevo
+        $mail->isSMTP();
+        $mail->Host = 'smtp-relay.brevo.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'ikedike2002@yahoo.com'; // Brevo login email
+        $mail->Password = 'H4kDR8YzCvP7FBGX';      // Brevo SMTP key
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        // Uncomment to debug SMTP connection:
+         $mail->SMTPDebug = 3;
+        $mail->Debugoutput = 'html';
+
+        $mail->setFrom($siteMail, $siteName);
+        $mail->addAddress($vendorEmail, $vendorName);
+        $mail->addReplyTo($siteMail, $siteName);
+        $mail->addCC($siteMail);
+
+        $mail->isHTML(true);
+        $mail->Subject = "$emailSubject - $siteName";
+        $mail->Body    = $htmlBody;
+
+        $mail->send();
+        return true;
+
+    } catch (Exception $e) {
+        // SMTP failed — fallback to mail()
+        $headers  = "From: $siteName <$siteMail>\r\n";
+        $headers .= "Reply-To: $siteMail\r\n";
+        $headers .= "CC: $siteMail\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-type: text/html; charset=UTF-8\r\n";
+
+        if (mail($vendorEmail, "$emailSubject - $siteName", $htmlBody, $headers)) {
+            return true;
+        } else {
+            echo "SMTP failed: {$mail->ErrorInfo}. Mail() also failed.";
+            return false;
+        }
+    }
+}
+
+
+function sendEmail($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject) {
+    global $siteimg, $adminlink, $siteurl, $brevokey;
+
+    $htmlBody = "
+        <div style='width:600px; padding:40px; background-color:#000000; color:#fff;'>
+            <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
+            <p style='font-size:14px; color:#fff;'>
+                <span style='font-size:14px; color:#F57C00;'>Dear $vendorName,</span><br>
+                $emailMessage
+            </p>
+            <p>Best regards,<br>
+            The Project Report Hub Team<br>
+            $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>🌐 www.projectreporthub.ng</a></p>
+        </div>
+    ";
+
+    $apiKey = $brevokey;  // Replace with your actual API key
+
+    $data = [
+        'sender' => [
+            'name' => $siteName,
+            'email' => $siteMail
+        ],
+        'to' => [
+            [
+                'email' => $vendorEmail,
+                'name' => $vendorName
+            ]
+        ],
+        'subject' => "$emailSubject - $siteName",
+        'htmlContent' => $htmlBody
+    ];
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, 'https://api.brevo.com/v3/smtp/email');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'api-key: ' . $apiKey,
+        'Content-Type: application/json',
+        'Accept: application/json'
+    ]);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+        curl_close($ch);
+        return false;
+    }
+
+    curl_close($ch);
+
+    if ($httpCode === 201) {
+        return true;
+    } else {
+        echo 'Brevo API Error: ' . $response;
+        return false;
+    }
+}
+
+
+function sendEmail2oldd($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
+    global $siteimg, $siteurl;
+
+    require 'vendor/autoload.php'; // Load PHPMailer classes
+
+    $mail = new PHPMailer(true);
+
+    try {
+        // Server settings (Brevo SMTP)
+        $mail->isSMTP();
+        $mail->Host       = 'smtp-relay.brevo.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'ikedike2002@yahoo.com'; // Replace with your Brevo login email
+        $mail->Password   = 'H4kDR8YzCvP7FBGX';          // Replace with your Brevo SMTP key
+        $mail->SMTPSecure = 'tls';
+        $mail->Port       = 587;
+
+        // Recipients
+        $mail->setFrom($siteMail, $siteName);
+        $mail->addAddress($vendorEmail, $vendorName);
+        $mail->addReplyTo($siteMail, $siteName);
+        $mail->addCC($siteMail);
+
+        // Attachments
+        foreach ($attachment as $file) {
+            if (file_exists($file)) {
+                $mail->addAttachment($file);
+            }
+        }
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = "$emailSubject - $siteName";
+
+        $mail->Body = "
+            <div style='width:600px; padding:40px; background-color:#000000; color:#fff;'>
+                <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
+                <p style='font-size:14px; color:#fff;'>
+                    <span style='font-size:14px; color:#F57C00;'>Dear $vendorName,</span><br>
+                    $emailMessage
+                </p>
+                <p>
+                    Best regards,<br>
+                    The Project Report Hub Team<br>
+                    $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>🌐 www.projectreporthub.ng</a>
+                </p>
+            </div>
+        ";
+
+        $mail->send();
+        return true;
+
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        return false;
+    }
+}
+
+function sendEmail2($vendorEmail, $vendorName, $siteName, $siteMail, $emailMessage, $emailSubject, $attachment = []) {
+    global $siteimg, $siteurl, $brevokey;
+
+    $apiKey = $brevokey; // Replace with your actual Brevo API key
+
+    $htmlBody = "
+        <div style='width:600px; padding:40px; background-color:#000000; color:#fff;'>
+            <p><img src='$siteurl/img/$siteimg' style='width:10%; height:auto;' /></p>
+            <p style='font-size:14px; color:#fff;'>
+                <span style='font-size:14px; color:#F57C00;'>Dear $vendorName,</span><br>
+                $emailMessage
+            </p>
+            <p>Best regards,<br>
+            The Project Report Hub Team<br>
+            $siteMail | <a href='$siteurl' style='font-size:14px; font-weight:600; color:#F57C00;'>🌐 www.projectreporthub.ng</a></p>
+        </div>
+    ";
+
+    // Prepare attachments
+    $attachmentPayload = [];
+    foreach ($attachment as $filePath) {
+        if (file_exists($filePath)) {
+            $attachmentPayload[] = [
+                'content' => base64_encode(file_get_contents($filePath)),
+                'name' => basename($filePath)
+            ];
+        }
+    }
+
+    // Prepare the API request payload
+    $data = [
+        'sender' => [
+            'name' => $siteName,
+            'email' => $siteMail
+        ],
+        'to' => [
+            ['email' => $vendorEmail, 'name' => $vendorName]
+        ],
+        'subject' => "$emailSubject - $siteName",
+        'htmlContent' => $htmlBody
+    ];
+
+    if (!empty($attachmentPayload)) {
+        $data['attachment'] = $attachmentPayload;
+    }
+
+    // Send via CURL
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, 'https://api.brevo.com/v3/smtp/email');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+        'content-type: application/json'
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_POST, true);
+
+    $response = curl_exec($ch);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+        return false;
+    }
+
+    curl_close($ch);
+
+    if ($httpcode == 201) {
+        return true;
+    } else {
+        echo "Brevo API Error: $response";
+        return false;
     }
 }
 
@@ -452,6 +732,8 @@ function formatDateTime($dateTimeString) {
 
 function handleMultipleFileUpload($fileKey, $uploadDir) {
     $uploadedFiles = [];
+    $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
+    $randomImage = $defaultImages[array_rand($defaultImages)];
 
     if (isset($_FILES[$fileKey])) {
         $fileCount = count($_FILES[$fileKey]['name']);
@@ -468,7 +750,7 @@ function handleMultipleFileUpload($fileKey, $uploadDir) {
                     $uploadedFiles[] = "Failed to move the uploaded file.";
                 }
             } else {
-                $uploadedFiles[] = "No file uploaded or an error occurred.";
+                $uploadedFiles[] = $randomImage;//"No file uploaded or an error occurred.";
             }
         }
     }
@@ -654,6 +936,12 @@ function getUserRole() {
     return $_SESSION['user_role'] ?? 'guest';
 }
 
+function getUserSeller() {
+// Replace with your actual seller-checking logic
+$seller = $_SESSION['user_seller'] ?? null;
+}
+
+
 function getReadonlyAttribute() {
     $role = getUserRole();
     if ($role === 'admin') {
@@ -662,6 +950,25 @@ function getReadonlyAttribute() {
         return 'readonly';
     }
     return '';
+}
+
+//if user is a seller
+function userDisplay() {
+    $sellerexist = getUserSeller();
+    if ($sellerexist) {
+        return 'd-none'; // Hide the element
+    }else {
+        return ''; // Show the element
+    }  
+}
+
+function sellerDisplay() {
+    $sellerexist = getUserSeller();
+    if ($sellerexist) {
+        return ''; // Hide the element
+    }else {
+        return 'd-none'; // Show the element
+    }  
 }
 
 function getDisplayClass() {

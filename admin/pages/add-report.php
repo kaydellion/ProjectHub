@@ -18,6 +18,7 @@
                       <input type="file" class="form-control" id="imageInput" name="images[]" multiple accept="image/*">
                       <div id="preview" class="preview-container"></div>
                       </div>
+                      <input type="hidden" name="user" value="<?php echo $user_id; ?>">
               
                       <div class="mb-3">
                           <label class="form-label" for="course-id">Report ID</label>
@@ -150,12 +151,13 @@ while ($row = $result->fetch_assoc()) {
                           <select id="pricing-type" name="pricing" class="form-control" onchange="togglePrice()" required>
                             <option value="free">Free</option>
                             <option value="paid">Paid</option>
-                           
                           </select>
                         </div>
 
                         <div class="mb-3" id="price-field" style="display:none;">
                           <label class="form-label" for="course-price">Price</label>
+                          <p class="text-muted">Note: Each document type attracts a portion of the total price. For example, if your product includes both a Word document and an Excel spreadsheet,
+                        and you intend to sell the bundle for ₦ 2,000, enter ₦ 1,000 as the price for each document type here.</p>
                           <input type="number" id="course-price" name="price" class="form-control" step="0.01">
                         </div>
 
@@ -196,8 +198,8 @@ while ($row = $result->fetch_assoc()) {
                           </select>
                         </div>
                         
-                        <button type="submit" name="savedcourse" value="savedcourse" class="btn btn-primary w-100">Save Report as Draft</button>
-                        <button type="submit" name="addcourse" value="course" class="btn btn-primary w-100">Add Report</button>
+                        <p><button type="submit" name="savedcourse" value="savedcourse" class="btn btn-secondary">Save as Draft</button>
+                      <button type="submit" name="addcourse" value="course" class="btn btn-primary">Add Report</button></p>
                       </form>
                     </div>
                   </div>

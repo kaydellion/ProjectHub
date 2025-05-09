@@ -1,4 +1,4 @@
-<?php include "header.php"; include "product_details.php";  include "sellers-info.php"; 
+<?php include "seo.php"; include "header.php"; include "product_details.php";  include "sellers-info.php"; 
 
 //get and decode affliate_id if it exists
 $affliate_id = isset($_GET['affliate']) ? base64_decode($_GET['affliate']) : 0;
@@ -142,6 +142,8 @@ if (isset($user_id) && isset($report_id)) {
            
         </p>
     <?php endif; ?>
+    <p class="text-muted">Note: Prices vary depending on the document type and format selected. 
+    Each product document is carefully tailored to meet specific business and industry requirements</p>
 </div>
         
             
@@ -189,7 +191,7 @@ if (isset($user_id) && isset($report_id)) {
             <td><strong>Resource Type</strong></td>
             <td><?php echo $resource_type; ?></td>
         </tr>
-        <?php if ($answer != "") { ?>
+        <?php if ($resource_type=="Past Questions & Answer Solutions" && $answer != "") { ?>
         <tr>
             <td><strong>Answer Key</strong></td>
             <td><?php echo $answer; ?></td>
