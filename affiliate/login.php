@@ -1,4 +1,3 @@
-
 <?php
 
 include "../backend/connect.php"; 
@@ -34,7 +33,6 @@ if (isset($_POST['login'])){
     $date=date('Y-m-d H:i:s');
     $insert = mysqli_query($con,"UPDATE ".$siteprefix."users SET last_login='$date' where s='$id'") or die ('Could not connect: ' .mysqli_error($con)); 
                   
-    session_start(); 
     $_SESSION['id']=$id;
     setcookie("userID", $id, time() + (10 * 365 * 24 * 60 * 60));
     $message = "Logged In Successfully";
