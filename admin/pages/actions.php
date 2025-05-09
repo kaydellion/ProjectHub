@@ -81,7 +81,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $education_level = mysqli_real_escape_string($con, $_POST['education_level']);
     $chapter = mysqli_real_escape_string($con, $_POST['chapter']);
     $answer = mysqli_real_escape_string($con, $_POST['answer']);
-    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user']);
+
+
+      // Generate a unique alt_title
+      $alt_title = $title; // Start with the original title
+      $counter = 1;
+  
+      while (true) {
+          // Check if the alt_title already exists in the database
+          $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE alt_title = ?";
+          $stmt = $con->prepare($query);
+          $stmt->bind_param("s", $alt_title);
+          $stmt->execute();
+          $result = $stmt->get_result();
+          $row = $result->fetch_assoc();
+  
+          if ($row['count'] == 0) {
+              // If the alt_title does not exist, break the loop
+              break;
+          }
+  
+          // If it exists, append a counter to the original title
+          $alt_title = $title . '-' . $counter;
+          $counter++;
+      }
+
 
     // Directories for uploads
     $uploadDir = '../../uploads/';
@@ -99,6 +124,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
 
     // Insert images into the database
     $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+    }
+
     $uploadedFiles = [];
     foreach ($reportImages as $image) {
         $stmt = $con->prepare("INSERT INTO " . $siteprefix . "reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
@@ -109,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
             $message .= "Error inserting image: " . $stmt->error . "<br>";
         }
         $stmt->close();
-    }}
+    }
 
     // Handle file uploads for different document types
     $fileFields = [
@@ -141,12 +168,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
 
     // Insert report data into the database
     $sql = "INSERT INTO " . $siteprefix . "reports 
-            (s, id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) 
+            (s, id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status,alt_title) 
             VALUES 
-            (NULL, '$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
+            (NULL, '$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status','$alt_title')";
 
     if (mysqli_query($con, $sql)) {
         $message .= "Report added successfully!<br>";
+
 
         if ($status === 'approved') {
             // Notify followers of the seller
@@ -261,7 +289,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
     $education_level = mysqli_real_escape_string($con, $_POST['education_level']);
     $chapter = mysqli_real_escape_string($con, $_POST['chapter']);
     $answer = mysqli_real_escape_string($con, $_POST['answer']);
-    $user_id = mysqli_real_escape_string($con, $_POST['user_id']);
+    $user_id = mysqli_real_escape_string($con, $_POST['user']);
+
+
+      // Generate a unique alt_title
+      $alt_title = $title; // Start with the original title
+      $counter = 1;
+  
+      while (true) {
+          // Check if the alt_title already exists in the database
+          $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE alt_title = ?";
+          $stmt = $con->prepare($query);
+          $stmt->bind_param("s", $alt_title);
+          $stmt->execute();
+          $result = $stmt->get_result();
+          $row = $result->fetch_assoc();
+  
+          if ($row['count'] == 0) {
+              // If the alt_title does not exist, break the loop
+              break;
+          }
+  
+          // If it exists, append a counter to the original title
+          $alt_title = $title . '-' . $counter;
+          $counter++;
+      }
+
 
     // Directories for uploads
     $uploadDir = '../../uploads/';
@@ -279,6 +332,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
 
     // Insert images into the database
     $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+    }
+
     $uploadedFiles = [];
     foreach ($reportImages as $image) {
         $stmt = $con->prepare("INSERT INTO " . $siteprefix . "reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
@@ -289,7 +344,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
             $message .= "Error inserting image: " . $stmt->error . "<br>";
         }
         $stmt->close();
-    }}
+    }
 
     // Handle file uploads for different document types
     $fileFields = [
@@ -321,9 +376,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
 
     // Insert report data into the database
     $sql = "INSERT INTO " . $siteprefix . "reports 
-            (s, id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) 
+            (s, id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status, alt_title) 
             VALUES 
-            (NULL, '$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
+            (NULL, '$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status','$alt_title')";
 
     if (mysqli_query($con, $sql)) {
         $message .= "Report saved as draft!<br>";
@@ -571,7 +626,7 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
     global $fileName;
     $message="";
 
-    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+    
     if (empty($_FILES[$fileKey]['name'][0])) {
        // Array of default images
         //$defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
@@ -579,8 +634,10 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
         //$randomImage = $defaultImages[array_rand($defaultImages)];
         //$reportImages = [$randomImage];
     }else{
-    
-    $uploadedFiles = [];
+    $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
+     }
+
+     $uploadedFiles = [];
     foreach ($reportImages as $image) {
         $stmt = $con->prepare("INSERT INTO  ".$siteprefix."reports_images (report_id, picture, updated_at) VALUES (?, ?, current_timestamp())");
         $stmt->bind_param("ss", $reportId, $image);
@@ -590,7 +647,7 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
             $message.="Error: " . $stmt->error;
         }
         $stmt->close();
-    }}
+    }
 
     // Handle file uploads
     $fileFields = [
@@ -903,6 +960,7 @@ if (!mysqli_query($con, $updates_query)) {
         $file_path = $item['file_path'];
         $affiliate_id = $item['affiliate_id'];
         $price = $item['price'];
+        $item_row_id = $item['s'];
 
         // Prepare download attachment
         if (!empty($file_path) && file_exists($file_path)) {
@@ -918,6 +976,7 @@ if (!mysqli_query($con, $updates_query)) {
                 $affiliate_amount = $price * ($affiliate_percentage / 100);
 
                 mysqli_query($con, "UPDATE {$siteprefix}users SET wallet = wallet + $affiliate_amount WHERE affliate = '$affiliate_id'");
+                insertAffliatePurchase($con, $item_row_id, $affiliate_amount, $affiliate_id,$date);
                 insertWallet($con, $affiliate_user_id, $affiliate_amount, 'credit', "Affiliate Earnings from Order ID: $order_id", $date);
                 insertadminAlert($con, $affiliate_user_id, "You have earned $sitecurrency$affiliate_amount from Order ID: $order_id", "wallet.php", $date, "wallet", 0);
             }
@@ -1448,6 +1507,28 @@ if (isset($_POST['sendmessage'])) {
         }
     }
 }
+
+
+if (isset($_POST['update-category'])) {
+    $ids = $_POST['ids'];
+    $names = $_POST['category_names'];
+
+    foreach ($ids as $index => $id) {
+        $name = mysqli_real_escape_string($con, $names[$index]);
+        $id = intval($id);
+        $query = "UPDATE " . $siteprefix . "categories SET category_name = '$name' WHERE id = $id";
+        mysqli_query($con, $query);
+        if (mysqli_error($con)) {
+            $statusAction = "Error!";
+            $statusMessage = "Failed to update category with $name: " . mysqli_error($con);
+            showErrorModal2($statusAction, $statusMessage);
+            exit;
+        }
+    }
+    $message = "Categories updated successfully!";
+    showToast($message);
+    header("refresh:2; url=categories.php");
+} 
 
 ?>
 
