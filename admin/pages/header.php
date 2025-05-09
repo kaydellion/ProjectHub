@@ -188,7 +188,10 @@ include "actions.php"; ?>
                     <div data-i18n="Without navbar">Manage Reports</div>
                   </a>
                 </li>
-
+                <li class="menu-item">
+                  <a href="drafts.php" class="menu-link">
+                    <div data-i18n="Without navbar">Drafts</div>
+                  </a>
                 <li class="menu-item">
                   <a href="admin-report.php" class="menu-link">
                     <div data-i18n="Without navbar">Admin Reports</div>
