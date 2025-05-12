@@ -2,7 +2,7 @@
 
 // place order
 include "header.php";
-if ($isset($_POST['place_order'])) {
+if (isset($_POST['place_order'])) {
     // Get the order ID and user ID from the form
     $order_id = $_POST['order_id'];
     $user_id = $_POST['user_id'];
