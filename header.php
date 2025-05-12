@@ -2,7 +2,7 @@
 
 
 //previous page
-$_SESSION['previous_page'] = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$_SESSION['previous_page'] = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $previousPage=$_SESSION['previous_page'];
 $current_page = urlencode(pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) . '?' . $_SERVER['QUERY_STRING']);;
 
