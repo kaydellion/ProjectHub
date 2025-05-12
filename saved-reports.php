@@ -65,6 +65,7 @@ $total_pages = ceil($total_reports / $limit);
                 if ($result) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         $report_id = $row['id'];
+                        $alt_title = $row['alt_title'];
                         $title = $row['title'];
                         $description = $row['description'];
                         $category = $row['category'];
@@ -82,7 +83,7 @@ $total_pages = ceil($total_reports / $limit);
                         $selected_education_level = $row['education_level'] ?? '';
                         $selected_resource_type = $row['resource_type'] ?? '';
                         $year_of_study = $row['year_of_study'] ?? '';
-                        $slug = strtolower(str_replace(' ', '-', $title));
+                        $slug =$alt_title;
                         include "product-card.php";
                     }
                 } else {

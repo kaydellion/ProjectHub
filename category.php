@@ -150,6 +150,7 @@ $total_pages = ceil($total_reports / $limit);
                     while ($row = mysqli_fetch_assoc($result)) {
                         $report_id = $row['id'];
                         $title = $row['title'];
+                        $alt_title = $row['alt_title'];
                         $description = $row['description'];
                         $category = $row['category'];
                         $subcategory = $row['subcategory'];
@@ -166,7 +167,7 @@ $total_pages = ceil($total_reports / $limit);
                         $selected_education_level = $row['education_level'] ?? '';
                         $selected_resource_type = $row['resource_type'] ?? '';
                         $year_of_study = $row['year_of_study'] ?? '';
-                        $slug = strtolower(str_replace(' ', '-', $title));
+                        $slug = $alt_title;
                         include "product-card.php";
                     }
                 } else {
@@ -230,6 +231,7 @@ if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
     while ($row = mysqli_fetch_assoc($latestSalesResult)) {
         $report_id = $row['id'];
         $title = $row['title'];
+        $alt_title = $row['alt_title'];
         $description = $row['description'];
         $category = $row['category'];
         $subcategory = $row['subcategory'];
@@ -247,7 +249,7 @@ if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
         $selected_resource_type = $row['resource_type'] ?? '';
         $year_of_study = $row['year_of_study'] ?? '';
 
-        $slug = strtolower(str_replace(' ', '-', $title));
+        $slug = $alt_title;
 
         include "swiper-card.php";
     } ?>

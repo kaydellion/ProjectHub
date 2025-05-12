@@ -128,6 +128,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
     $education_level = $_POST['education_level'];
     $chapter = $_POST['chapter'];
     $answer = $_POST['answer'];
+
+
+// Replace spaces with hyphens and convert to lowercase
+$baseSlug = strtolower(str_replace(' ', '-', $title));
+
+// Start with the cleaned slug
+$alt_title = $baseSlug;
+$counter = 1;
+
+// Ensure the alt_title is unique
+while (true) {
+    $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE alt_title = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("s", $alt_title);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row['count'] == 0) {
+        break; // alt_title is unique
+    }
+
+    // Append counter to baseSlug if not unique
+    $alt_title = $baseSlug . '-' . $counter;
+    $counter++;
+}
   
     // Upload images
     $uploadDir = 'uploads/';
@@ -189,7 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
         }
     }
     // Insert data into the database
-    $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, preview, table_content,methodology,chapter,year_of_study,resource_type,education_level,answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) VALUES (NULL, '$reportId', '$title', '$description','$preview','$tableContent','$methodology','$chapter','$year_of_study','$resource_type','$education_level','$answer','$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
+    $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, preview, table_content, methodology, chapter, year_of_study, resource_type, education_level, answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status, alt_title) VALUES (NULL, '$reportId', '$title', '$description', '$preview', '$tableContent', '$methodology', '$chapter', '$year_of_study', '$resource_type', '$education_level', '$answer', '$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status','$alt_title')";
     if (mysqli_query($con, $sql)) {
         $message .= "Report added successfully!";
     } else {
@@ -220,6 +246,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['saveReport'])) {
     $education_level = $_POST['education_level'];
     $chapter = $_POST['chapter'];
     $answer = $_POST['answer'];
+// Replace spaces with hyphens and convert to lowercase
+$baseSlug = strtolower(str_replace(' ', '-', $title));
+
+// Start with the cleaned slug
+$alt_title = $baseSlug;
+$counter = 1;
+
+// Ensure the alt_title is unique
+while (true) {
+    $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "reports WHERE alt_title = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("s", $alt_title);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row['count'] == 0) {
+        break; // alt_title is unique
+    }
+
+    // Append counter to baseSlug if not unique
+    $alt_title = $baseSlug . '-' . $counter;
+    $counter++;
+}
+
   
     // Upload images
     $uploadDir = 'uploads/';
@@ -277,11 +328,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['saveReport'])) {
             $stmt->close();
         }
     }
-    // Insert data into the database
-    $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, preview, table_content,methodology,chapter,year_of_study,resource_type,education_level,answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status) VALUES (NULL, '$reportId', '$title', '$description','$preview','$tableContent','$methodology','$chapter','$year_of_study','$resource_type','$education_level','$answer','$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status')";
-    if (mysqli_query($con, $sql)) {
-        $message .= "Report saved as draft successfully!";
-    } else {
+   
+      // Insert data into the database
+      $sql = "INSERT INTO ".$siteprefix."reports (s, id, title, description, preview, table_content,methodology,chapter,year_of_study,resource_type,education_level,answer, category, subcategory, pricing, price, tags, loyalty, user, created_date, updated_date, status, alt_title) VALUES (NULL, '$reportId', '$title', '$description','$preview','$tableContent','$methodology','$chapter','$year_of_study','$resource_type','$education_level','$answer','$category', '$subcategory', '$pricing', '$price', '$tags', '$loyalty', '$user_id', current_timestamp(), current_timestamp(), '$status','$alt_title')";
+      if (mysqli_query($con, $sql)) {
+          $message .= "Report saved as draft successfully!";
+      }  else {
         $message .= "Error: " . mysqli_error($con);
     }
 

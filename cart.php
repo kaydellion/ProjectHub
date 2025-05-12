@@ -17,7 +17,7 @@
                         displayMessage($message);
                     } else {
                     // Assuming database connection exists
-                    $sql = "SELECT oi.*, rf.title as file, r.title as report_title, oi.price, ri.picture 
+                    $sql = "SELECT oi.*, rf.title as file, r.title as report_title, r.alt_title, oi.price, ri.picture 
                         FROM ".$siteprefix."order_items oi
                         JOIN ".$siteprefix."reports r ON oi.report_id = r.id
                         LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
@@ -33,7 +33,8 @@
                     while ($item = mysqli_fetch_assoc($result)):
                     $picture =$imagePath.$item['picture'];
                     $title=$item['report_title'];
-                    $slug = strtolower(str_replace(' ', '-', $title)); ?>
+                    $alt_title=$item['alt_title'];
+                    $slug = $alt_title; ?>
                         <div class="row cart-item mb-3" id="cart-item-<?php echo htmlspecialchars($item['s']); ?>">
                         <div class="col-md-3">
                             <img src="<?php echo htmlspecialchars($picture); ?>"  alt="<?php echo htmlspecialchars($item['report_title']); ?>" class="img-fluid img-small rounded">

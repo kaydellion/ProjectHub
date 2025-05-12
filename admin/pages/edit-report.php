@@ -20,6 +20,7 @@ $row = mysqli_fetch_assoc($result);
 if ($row) {
     $report_id = $row['id'];
     $title = $row['title'];
+    $alt_title = $row['alt_title'];
     $description = $row['description'];
     $preview = $row['preview'];
     $table_content = $row['table_content'];
@@ -38,7 +39,7 @@ if ($row) {
     $status = $row['status'];
     $methodology = $row['methodology'];
     $answer = $row['answer'] ?? '';
-    $slug = strtolower(str_replace(' ', '-', $title));
+    $slug =$alt_title;
 
 $selected_education_level = $row['education_level'] ?? '';
 $selected_resource_type = explode(',', $row['resource_type'] ?? ''); // assuming stored as comma-separated
