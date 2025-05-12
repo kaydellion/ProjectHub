@@ -19,7 +19,7 @@ function getCartCount($con, $siteprefix, $order_id) {
 
 function checkActiveLog($active_log) {
     if ($active_log == "0") {
-        header("Location: http://www.projectreporthub.ng/signin.php");
+        header("Location: https://www.projectreporthub.ng/signin.php");
         exit(); // Make sure to exit after the redirect
     }
 }
