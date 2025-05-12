@@ -5,7 +5,6 @@ include "header.php";
 if (isset($_POST['place_order'])) {
     // Get the order ID and user ID from the form
     $order_id = $_POST['order_id'];
-    $user_id = $_POST['user_id'];
 
     // Mark the order as paid
     //$sql_update_order = "UPDATE ".$siteprefix."orders SET status = 'paid' WHERE order_id = '$order_id'";
