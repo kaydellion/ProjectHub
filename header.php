@@ -10,7 +10,6 @@ $code = "";
 if (isset($_COOKIE['userID'])) {
 $code = $_COOKIE['userID'];
 echo $code;
-} else {
 $check = "SELECT * FROM ".$siteprefix."users WHERE s = '" . $code . "'";
 $query = mysqli_query($con, $check);
 if (mysqli_affected_rows($con) == 0) {
