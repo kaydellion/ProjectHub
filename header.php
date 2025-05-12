@@ -7,9 +7,7 @@ $previousPage=$_SESSION['previous_page'];
 $current_page = urlencode(pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) . '?' . $_SERVER['QUERY_STRING']);;
 
 $code = "";
-if (isset($_COOKIE['userID'])) {
-$code = $_COOKIE['userID'];
-echo $code;
+if (isset($_COOKIE['userID'])) {$code = $_COOKIE['userID'];}
 $check = "SELECT * FROM ".$siteprefix."users WHERE s = '" . $code . "'";
 $query = mysqli_query($con, $check);
 if (mysqli_affected_rows($con) == 0) {
@@ -62,14 +60,7 @@ if (mysqli_affected_rows($con) == 0) {
         $user_lastseen=formatDateTime($last_login);
 
 
-}}}
-else {
-    $active_log = 0;
-    $user_id = "";
-    $username = "";
-    $user_reg_date = "";
-    $user_lastseen = "";
-}
+}}
 
 
 //if($active_log==0){header("location: signup.php");}
