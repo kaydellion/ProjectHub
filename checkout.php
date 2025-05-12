@@ -66,7 +66,7 @@
       <?php endwhile; mysqli_stmt_close($stmt); ?>
     </ul>
 
-    <ul class="list list_2">
+    <ul class="list list_2 mt-3">
       <li>
         <a href="#">Subtotal
           <span><?php echo $sitecurrency; echo $order_total; ?></span>
