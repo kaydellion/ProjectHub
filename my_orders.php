@@ -19,7 +19,7 @@ $total_pages = ceil($total_orders / $limit); // Total number of pages
 $sql = "
     SELECT order_id, date, total_amount, status 
     FROM " . $siteprefix . "orders 
-    WHERE user = ? AND status = 'paid'
+    WHERE user  = ? AND status = 'paid'
     ORDER BY date DESC
     LIMIT ? OFFSET ?";
 $stmt = $con->prepare($sql);
