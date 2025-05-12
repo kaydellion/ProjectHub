@@ -107,7 +107,7 @@
       <form method="post" action="free_order_handler.php">
         <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-        <button type="submit" name="place_order" class="btn_1 w-100 text-center">Place Order</button>
+        <button type="submit" value="proceed" name="place_order" class="btn_1 w-100 text-center">Place Order</button>
       </form>
     <?php } else { 
         displayMessage('<a href="marketplace.php">Shop More</a>'); 

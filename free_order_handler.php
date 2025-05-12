@@ -2,7 +2,7 @@
 
 // place order
 include "header.php";
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
+if ($isset($_POST['place_order'])) {
     // Get the order ID and user ID from the form
     $order_id = $_POST['order_id'];
     $user_id = $_POST['user_id'];
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
 
     // Redirect to the success page
     header("Location: https://projectreporthub.ng/pay_success.php?ref=$order_id");
-    exit;
+    //exit;
 }
 
 ?>
