@@ -13,7 +13,6 @@ $sql_order_result = mysqli_query($con, $sql_order);
 if (mysqli_affected_rows($con) > 0) {
     while ($row_order = mysqli_fetch_array($sql_order_result)) {
         $order_id = $row_order['order_id']; 
-        $user_id = $row_order['user']; 
         $status = $row_order['status']; 
         $total_amount = $row_order['total_amount']; 
         $date = $row_order['date']; 
