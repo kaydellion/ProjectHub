@@ -67,6 +67,19 @@ if (mysqli_affected_rows($con) == 0) {
 //$adminlink=$siteurl.'/admin';
 include "backend/start_order.php";
 include "backend/actions.php"; 
+
+//exclude pages tht require user to be logged in
+$current_page = basename($_SERVER['PHP_SELF']);
+$excluded_pages = array('cart.php', 'pay_success.php', 'pay_failed.php', 'checkout.php', 'free_order_handler.php',
+'dashboard.php','loyalty-status','saved-reports.php','my_orders.php','manual_orders.php', 'wallet.php',
+'notifications.php','tickets.php','models.php','sales.php','reviews.php','my_orders.php','order_details.php','settings.php','tickets.php',
+'resources-sold.php','resource.php','edit-report.php','change-password.php','create_ticket.php','add-report.php','delete.php','saved-models.php',
+'withdrawhistory.php');
+if (in_array($current_page, $excluded_pages)) {
+    checkActiveLog($active_log); 
+} else {
+    //ifLoggedin($active_log);
+}
 ?>
 
 <!doctype html>
