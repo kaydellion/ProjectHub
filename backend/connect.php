@@ -25,6 +25,7 @@ $db_name = "projectr_project";
 
 
 $con = mysqli_connect ("$db_host","$db_username","$db_pass","$db_name");
+$mysqli->query("SET time_zone = '+01:00'"); // Africa/Lagos
 $siteprefix="pr_";
 date_default_timezone_set('Africa/Lagos');
 $currentdate=date("Y-m-d");
