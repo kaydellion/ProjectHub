@@ -101,7 +101,7 @@
         Proceed with Manual Payment
       </button>
       </form>
-    <?php } elseif ($order_total == 0 && $is_free_order && $item_count > 0) { ?>
+    <?php } elseif ($order_total == 0 && $item_count > 0) { ?>
       <!-- Place order for free product -->
     </form>
       <form method="post" action="free_order_handler.php">
