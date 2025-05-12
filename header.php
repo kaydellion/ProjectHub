@@ -70,11 +70,11 @@ include "backend/actions.php";
 
 //exclude pages tht require user to be logged in
 $current_page = basename($_SERVER['PHP_SELF']);
-$excluded_pages = array('cart.php', 'pay_success.php', 'pay_failed.php', 'checkout.php', 'free_order_handler.php',
-'dashboard.php','loyalty-status','saved-reports.php','my_orders.php','manual_orders.php', 'wallet.php',
-'notifications.php','tickets.php','models.php','sales.php','reviews.php','my_orders.php','order_details.php','settings.php','tickets.php',
-'resources-sold.php','resource.php','edit-report.php','change-password.php','create_ticket.php','add-report.php','delete.php','saved-models.php',
-'withdrawhistory.php');
+$excluded_pages = array('cart', 'pay_success', 'pay_failed', 'checkout', 'free_order_handler',
+'dashboard','loyalty-status','saved-reports','my_orders','manual_orders', 'wallet',
+'notifications','tickets','models','sales','reviews','my_orders','order_details','settings','tickets',
+'resources-sold','resource','edit-report','change-password','create_ticket','add-report','delete','saved-models',
+'withdrawhistory');
 if (in_array($current_page, $excluded_pages)) {
     checkActiveLog($active_log); 
 } else {
