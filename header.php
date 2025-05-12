@@ -7,7 +7,10 @@ $previousPage=$_SESSION['previous_page'];
 $current_page = urlencode(pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) . '?' . $_SERVER['QUERY_STRING']);;
 
 $code = "";
-if (isset($_COOKIE['userID'])) {$code = $_COOKIE['userID'];
+if (isset($_COOKIE['userID'])) {
+$code = $_COOKIE['userID'];
+echo $code;
+} else {
 $check = "SELECT * FROM ".$siteprefix."users WHERE s = '" . $code . "'";
 $query = mysqli_query($con, $check);
 if (mysqli_affected_rows($con) == 0) {
