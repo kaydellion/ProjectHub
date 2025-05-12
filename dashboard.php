@@ -1,4 +1,6 @@
-<?php include "header.php"; ?>
+<?php 
+checkActiveLog($active_log);
+include "header.php"; ?>
 
 
 <section>
