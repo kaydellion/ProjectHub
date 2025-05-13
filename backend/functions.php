@@ -27,8 +27,15 @@ function displayMessage($message) {
     echo "<div class='alert alert-warning'>$message</div>";
 }
 
-function formatNumber($number,$no) {
-    return number_format($number, $no);
+function formatNumber($number, $no) {
+    if (!is_numeric($number) || !is_numeric($no)) {
+        return "0.00";
+    }
+    try {
+        return number_format((float)$number, (int)$no);
+    } catch (Exception $e) {
+        return "0.00";
+    }
 }
 
 function convertHtmlEntities($input) {

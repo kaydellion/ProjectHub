@@ -91,7 +91,7 @@ if ($result && $result->num_rows > 0) {
                         <tr>
                             <td>#<?php echo $row['order_id']; ?></td>
                             <td><?php echo formatDateTime($row['date']); ?></td>
-                            <td><?php echo $sitecurrency;echo formatNumber($row['amount'], 2); ?></td>
+                            <td><?php echo $sitecurrency; echo formatNumber($row['amount'], 2); ?></td>
                             <td><?php echo $row['title']; ?> </td>
                             <td><?php echo getFileExtension($row['file_type']); ?></td>
                         </tr>
