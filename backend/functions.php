@@ -27,7 +27,7 @@ function displayMessage($message) {
     echo "<div class='alert alert-warning'>$message</div>";
 }
 
-function formatNumber($number, $no) {
+function formatNumber($number, $no = 2) {
     if (!is_numeric($number) || !is_numeric($no)) {
         return "0.00";
     }
