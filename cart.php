@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="col-md-2 text-end">
-                            <p class="fw-bold"><?php echo $sitecurrency; echo number_format($item['price'], 2); ?></p>
+                            <p class="fw-bold"><?php echo $sitecurrency; echo formatNumber($item['price'], 2); ?></p>
                             <button class="btn btn-sm btn-outline-danger delete-cart-item" 
                                     data-item-id="<?php echo htmlspecialchars($item['s']); ?>">
                                 <i class="fa fa-trash"></i>

@@ -1107,7 +1107,7 @@ if (isset($_POST['submit_manual_payment'])) {
                         <p>A new manual payment has been submitted:</p>
                         <p><strong>Order ID:</strong> $order_id</p>
                         <p><strong>User:</strong> $user_name ($user_email)</p>
-                        <p><strong>Amount:</strong> $sitecurrencyCode" . number_format($amount, 2) . "</p>
+                        <p><strong>Amount:</strong> $sitecurrencyCode" . formatNumber($amount, 2) . "</p>
                         <p><strong>Date:</strong> $date</p>
                         <p>Please log in to the admin panel to verify the payment.</p>
                     ";

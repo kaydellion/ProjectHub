@@ -32,7 +32,7 @@ $result = mysqli_query($con, $query);
                             <td><?php echo $sn++; ?></td> <!-- Increment S/N -->
                             <td><?php echo $row['order_id']; ?></td>
                             <td><?php echo $row['display_name'] . " (" . $row['email'] . ")"; ?></td>
-                            <td><?php echo $sitecurrency . number_format($row['amount'], 2); ?></td>
+                            <td><?php echo $sitecurrency . formatNumber($row['amount'], 2); ?></td>
                             <td><?php echo date('Y-m-d H:i:s', strtotime($row['date_created'])); ?></td>
                             <td>
                                 <a href="<?php echo $siteurl.$imagePath.$row['proof']; ?>" target="_blank" class="btn btn-info btn-sm">View Proof</a>
@@ -62,7 +62,7 @@ $result = mysqli_query($con, $query);
                                     <div class="modal-body">
                                         <p><strong>Order ID:</strong> <?php echo $row['order_id']; ?></p>
                                         <p><strong>User:</strong> <?php echo $row['display_name'] . " (" . $row['email'] . ")"; ?></p>
-                                        <p><strong>Amount:</strong> <?php echo $sitecurrency . number_format($row['amount'], 2); ?></p>
+                                        <p><strong>Amount:</strong> <?php echo $sitecurrency . formatNumber($row['amount'], 2); ?></p>
                                         <p><strong>Date Submitted:</strong> <?php echo date('Y-m-d H:i:s', strtotime($row['date_created'])); ?></p>
                                         <p><strong>Proof of Payment:</strong> <a href="<?php echo $siteurl.$imagePath.$row['proof']; ?>" target="_blank">View Proof</a></p>
                                     </div>

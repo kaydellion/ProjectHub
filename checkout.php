@@ -60,7 +60,7 @@
       <li>
         <a href="#"><?php echo htmlspecialchars($item['report_title']); ?>
           <span class="middle">(<?php echo htmlspecialchars(getFileExtension($item['file'])); ?>)</span>
-          <span class="last"><?php echo $sitecurrency; echo number_format($item['price'], 2); ?></span>
+          <span class="last"><?php echo $sitecurrency; echo formatNumber($item['price'], 2); ?></span>
         </a>
       </li>
       <?php endwhile; mysqli_stmt_close($stmt); ?>
@@ -139,7 +139,7 @@
                         <li><strong>Account Name:</strong> <?php echo $siteaccname; ?></li>
                         <li><strong>Account Number:</strong> <?php echo $siteaccno; ?></li>
                     </ul>
-                    <p><strong>Total Amount:</strong> <?php echo $sitecurrency . number_format($order_total, 2); ?></p>
+                    <p><strong>Total Amount:</strong> <?php echo $sitecurrency . formatNumber($order_total, 2); ?></p>
                     <p>After making the payment, upload the proof of payment below:</p>
                     <div class="form-group">
                         <label for="proof_of_payment">Upload Proof of Payment</label>

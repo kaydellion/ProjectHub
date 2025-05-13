@@ -27,8 +27,8 @@ function displayMessage($message) {
     echo "<div class='alert alert-warning'>$message</div>";
 }
 
-function formatNumber($number) {
-    return number_format($number);
+function formatNumber($number,$no) {
+    return number_format($number, $no);
 }
 
 function convertHtmlEntities($input) {

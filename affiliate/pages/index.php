@@ -74,8 +74,8 @@
                         </td>
                         <td><?php echo htmlspecialchars($product_name); ?></td>
                         <td><?php echo $sales_count; ?></td>
-                        <td><?php echo $sitecurrency . number_format($total_revenue, 2); ?></td>
-                        <td><?php echo $sitecurrency . number_format($amount, 2); ?></td>
+                        <td><?php echo $sitecurrency . formatNumber($total_revenue, 2); ?></td>
+                        <td><?php echo $sitecurrency . formatNumber($amount, 2); ?></td>
                         <td>
                             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#transactionsModal_<?php echo $report_id; ?>">View Transactions</button>
                         </td>
@@ -147,8 +147,8 @@
                                 <td>
                                     <img src='$siteurl$imagePath$profile_picture' alt='Profile Picture' style='width: 50px; height: 50px; object-fit: cover; border-radius: 50%;'>
                                 </td>
-                                <td>{$sitecurrency}".number_format($price, 2)."</td>
-                                <td>{$sitecurrency}".number_format($amount, 2)."</td>
+                                <td>{$sitecurrency}".formatNumber($price, 2)."</td>
+                                <td>{$sitecurrency}".formatNumber($amount, 2)."</td>
                                 <td>".htmlspecialchars($date)."</td>
                                 <td>".htmlspecialchars($loyalty_id)."</td>
                             </tr>";

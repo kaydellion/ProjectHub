@@ -50,7 +50,7 @@ $items_result = $stmt->get_result();
                     <?php echo ucfirst($order['status']); ?>
                 </span>
             </p>
-            <p><strong>Total Amount:</strong> ₦<?php echo number_format($order['total_amount'], 2); ?></p>
+            <p><strong>Total Amount:</strong> ₦<?php echo formatNumber($order['total_amount'], 2); ?></p>
         </div>
     </div>
 
@@ -71,8 +71,8 @@ $items_result = $stmt->get_result();
                     <tr>
                         <td><?php echo $item['title']; ?></td>
                         <td><img src="../../<?php echo $imagePath.'/'; echo $item['picture']; ?>" alt="Product Image" style="width:50px; height:auto;"></td>
-                        <td>₦<?php echo number_format($item['original_price'], 2); ?></td>
-                        <td>₦<?php echo number_format($item['price'], 2); ?></td>
+                        <td>₦<?php echo formatNumber($item['original_price'], 2); ?></td>
+                        <td>₦<?php echo formatNumber($item['price'], 2); ?></td>
                         <td>1</td>
                     </tr>
                 <?php } ?>

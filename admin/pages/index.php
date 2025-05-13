@@ -45,7 +45,7 @@
                     <div class="card-body">
                         <h5 class="card-title text-white">Total Profit</h5>
                         <p class="card-text counter" 
-                           data-target="<?php echo number_format($totalProfit, 2, '.', ''); ?>" 
+                           data-target="<?php echo formatNumber($totalProfit, 2, '.', ''); ?>" 
                            data-currency="<?php echo $sitecurrency; ?>">0</p>
                     </div>
                 </div>
@@ -152,7 +152,7 @@ $latestSalesResult = mysqli_query($con, $latestSalesQuery);
                             <td><?php echo htmlspecialchars($row['order_id']); ?></td>
                             <td><?php echo htmlspecialchars($row['display_name']); ?></td>
                             <td><?php echo htmlspecialchars($row['title']); ?></td>
-                            <td>₦<?php echo number_format($row['total_amount'], 2); ?></td>
+                            <td>₦<?php echo formatNumber($row['total_amount'], 2); ?></td>
                             <td><?php echo $row['created_at']; ?></td>
                         </tr>
                     <?php endwhile; ?>

@@ -22,7 +22,7 @@ $sql = "SELECT w.*,u1.display_name,u1.email,u1.mobile_number FROM " . $siteprefi
 $result = mysqli_query($con, $sql);
 if (mysqli_num_rows($result) > 0) {
 while ($insertedRecord = mysqli_fetch_array($result)) {
-        $amount = formatNumber($insertedRecord['amount']);
+        $amount = formatNumber($insertedRecord['amount'],2);
         $status = $insertedRecord['status'];
         $bank = $insertedRecord['bank'];
         $therow = $insertedRecord['s'];

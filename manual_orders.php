@@ -79,7 +79,7 @@ $result = $stmt->get_result();
                         <tr>
                             <td>#<?php echo $row['order_id']; ?></td>
                             <td><?php echo formatDateTime($row['date']); ?></td>
-                            <td>₦<?php echo number_format($row['total_amount'], 2); ?></td>
+                            <td>₦<?php echo formatNumber($row['total_amount'], 2); ?></td>
                             <td>
                                 <span class="badge bg-<?php echo ($row['status'] == 'approved') ? 'success' : (($row['status'] == 'pending') ? 'danger' : 'warning'); ?>">
                                     <?php echo ucfirst($row['status']); ?>
@@ -142,7 +142,7 @@ $result = $stmt->get_result();
                                         <div class="modal-body">
                                             <p><strong>Order ID:</strong> #<?php echo $row['order_id']; ?></p>
                                             <p><strong>Date:</strong> <?php echo formatDateTime($row['date']); ?></p>
-                                            <p><strong>Total Amount:</strong> ₦<?php echo number_format($row['total_amount'], 2); ?></p>
+                                            <p><strong>Total Amount:</strong> ₦<?php echo formatNumber($row['total_amount'], 2); ?></p>
                                             <p><strong>Status:</strong> <?php echo ucfirst($row['status']); ?></p>
                                             <?php if ($row['status'] == 'payment resend' && !empty($row['rejection_reason'])) { ?>
                                                 <p><strong>Rejection Reason:</strong> <?php echo htmlspecialchars($row['rejection_reason']); ?></p>
