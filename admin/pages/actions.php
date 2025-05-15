@@ -1681,7 +1681,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addSubCategory'])) {
                 $statusMessage = "Sub-category \"$subCategoryName\" added successfully.";
                 showSuccessModal2($statusAction, $statusMessage);
                 header("refresh:2; url=add-subcategory.php");
-                exit;
+               
             } else {
                 $statusAction = "Error!";
                 $statusMessage = "Failed to add sub-category: " . mysqli_error($con);
