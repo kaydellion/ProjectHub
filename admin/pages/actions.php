@@ -914,7 +914,112 @@ if (isset($_GET['action']) && $_GET['action'] == 'deleteplans') {
     header("refresh:1; url=$page");
 }
 
+//edit subategory
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editSubCategory'])) {
+    $parentId = $_POST['parentId'];
+    $subCategoryName = trim($_POST['subCategoryName']);
+    $subcategory_id = $_POST['subcategory_id'];
 
+
+    if ($subCategoryName !== '') {
+        $escapedName = mysqli_real_escape_string($con, $subCategoryName);
+
+        // Check if a category with the same name already exists under the same parent (optional but good practice)
+        $checkQuery = "SELECT id FROM {$siteprefix}categories 
+                       WHERE category_name = '$escapedName' 
+                       AND " . ($parentId === 'NULL' ? "parent_id IS NULL" : "parent_id = $parentId") . " 
+                       AND id != $subcategory_id";
+
+        $checkResult = mysqli_query($con, $checkQuery);
+        if ($checkResult) {
+            if (mysqli_num_rows($checkResult) > 0) {
+                $statusAction = "Duplicate!";
+                $statusMessage = "A sub-category with the same name already exists under the selected parent category.";
+                showErrorModal2($statusAction, $statusMessage);
+            } else {
+                // Update sub-category
+                $updateQuery = "UPDATE {$siteprefix}categories 
+                                SET category_name = '$escapedName', 
+                                    parent_id = " . ($parentId === 'NULL' ? "NULL" : $parentId) . " 
+                                WHERE id = $subcategory_id";
+
+                if (mysqli_query($con, $updateQuery)) {
+                    $statusAction = "Success!";
+                    $statusMessage = "Sub-category \"$subCategoryName\" updated successfully.";
+                    showSuccessModal2($statusAction, $statusMessage);
+                    header("refresh:2;");
+                   
+                } else {
+                    $statusAction = "Error!";
+                    $statusMessage = "Failed to update sub-category: " . mysqli_error($con);
+                    showErrorModal2($statusAction, $statusMessage);
+                }
+            }
+        } else {
+            $statusAction = "Query Failed!";
+            $statusMessage = "Could not check for duplicates: " . mysqli_error($con);
+            showErrorModal2($statusAction, $statusMessage);
+        }
+    } 
+}
+
+//edit category
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editCategory'])) {
+    $category_id = $_POST['category_id'];
+    $category_name = trim($_POST['category_name']);
+
+    if ($category_id > 0 && $category_name !== '') {
+        $category_name_safe = mysqli_real_escape_string($con, $category_name);
+        $update = "UPDATE {$siteprefix}categories 
+                   SET category_name = '$category_name_safe' 
+                   WHERE id = $category_id AND parent_id IS NULL";
+
+        if (mysqli_query($con, $update)) {
+            $statusAction = "Success!";
+            $statusMessage = "Category \"$category_name\" updated successfully.";
+            showSuccessModal2($statusAction, $statusMessage);
+            header("refresh:2; url=manage-category.php");
+        } else {
+            $statusAction = "Error!";
+            $statusMessage = "Failed to update category: " . mysqli_error($con);
+            showErrorModal2($statusAction, $statusMessage);
+        }
+    } else {
+        $statusAction = "Warning!";
+        $statusMessage = "Please provide a valid category name.";
+        showErrorModal2($statusAction, $statusMessage);
+    }
+}
+//delete-category
+if (isset($_GET['action']) && $_GET['action'] == 'deletecategory') {
+    $table = $_GET['table'];
+    $item = $_GET['item'];
+    $page = $_GET['page'];
+    
+    if (deletecategoryRecord($table, $item)) {
+        $message="Category deleted successfully.";
+    } else {
+         $message="Failed to delete the category.";
+    }
+
+    showToast($message);
+    header("refresh:1; url=$page");
+}
+//sub category
+if (isset($_GET['action']) && $_GET['action'] == 'deletesubcategory') {
+    $table = $_GET['table'];
+    $item = $_GET['item'];
+    $page = $_GET['page'];
+    
+    if (deletecategoryRecord($table, $item)) {
+        $message="Subcategory deleted successfully.";
+    } else {
+         $message="Failed to delete the Subcategory.";
+    }
+
+    showToast($message);
+    header("refresh:1; url=$page");
+}
 // Approve payment
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
     $order_id = mysqli_real_escape_string($con, $_POST['order_id']);
@@ -1513,6 +1618,80 @@ if (isset($_POST['sendmessage'])) {
             $message = "Failed to send message to $name ($email)";
             showErrorModal2($statusAction, $message);
         }
+    }
+}
+
+
+//ADD CATEGORY
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addCategory'])) {
+    // Sanitize inputs
+    $categoryName = mysqli_real_escape_string($con, $_POST['categoryName']);
+    $parentId = isset($_POST['parentId']) ? intval($_POST['parentId']) : 'NULL'; // Default to NULL if not provided
+
+    // Check if the category already exists
+    $checkQuery = "SELECT COUNT(*) AS count FROM {$siteprefix}categories WHERE parent_id <=> $parentId AND category_name = '$categoryName'";
+    $checkResult = mysqli_query($con, $checkQuery);
+    $row = mysqli_fetch_assoc($checkResult);
+
+    if ($row['count'] > 0) {
+        // Category already exists
+        $statusAction = "Duplicate Category!";
+        $statusMessage = "Category \"$categoryName\" already exists under the selected parent.";
+        showErrorModal2($statusAction, $statusMessage);
+    } else {
+        // Insert the category into the database
+        $insertQuery = "INSERT INTO {$siteprefix}categories (parent_id, category_name) VALUES ($parentId, '$categoryName')";
+        if (mysqli_query($con, $insertQuery)) {
+            $statusAction = "Success!";
+            $statusMessage = "Category \"$categoryName\" created successfully!";
+            showSuccessModal2($statusAction, $statusMessage);
+            header("refresh:2; url=add-category.php");
+        } else {
+            $statusAction = "Error!";
+            $statusMessage = "Failed to create category: " . mysqli_error($con);
+            showErrorModal2($statusAction, $statusMessage);
+        }
+    }
+}
+
+//ADD SUBCATEGORY
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addSubCategory'])) {
+    // Sanitize and validate inputs
+    $parentId = intval($_POST['parentId']); // ensure numeric value
+    $subCategoryName = mysqli_real_escape_string($con, trim($_POST['subCategoryName'])); // clean input
+
+    // Check for duplicate sub-category under the same parent
+    $checkQuery = "SELECT COUNT(*) AS count FROM {$siteprefix}categories WHERE parent_id = $parentId AND category_name = '$subCategoryName'";
+    $checkResult = mysqli_query($con, $checkQuery);
+
+    if ($checkResult) {
+        $row = mysqli_fetch_assoc($checkResult);
+
+        if ($row['count'] > 0) {
+            $statusAction = "Duplicate Sub-Category!";
+            $statusMessage = "Sub-category \"$subCategoryName\" already exists under the selected category.";
+            showErrorModal2($statusAction, $statusMessage);
+        } else {
+         
+            $insertQuery = "INSERT INTO {$siteprefix}categories (parent_id, category_name) VALUES ($parentId, '$subCategoryName')";
+            if (mysqli_query($con, $insertQuery)) {
+                $statusAction = "Success!";
+                $statusMessage = "Sub-category \"$subCategoryName\" added successfully.";
+                showSuccessModal2($statusAction, $statusMessage);
+                header("refresh:2; url=add-subcategory.php");
+                exit;
+            } else {
+                $statusAction = "Error!";
+                $statusMessage = "Failed to add sub-category: " . mysqli_error($con);
+                showErrorModal2($statusAction, $statusMessage);
+            }
+        }
+    } else {
+        $statusAction = "Query Failed!";
+        $statusMessage = "Could not check for duplicates: " . mysqli_error($con);
+        showErrorModal2($statusAction, $statusMessage);
     }
 }
 

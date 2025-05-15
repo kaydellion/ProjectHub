@@ -19,7 +19,7 @@ function getCartCount($con, $siteprefix, $order_id) {
 
 function checkActiveLog($active_log) {
     if ($active_log == "0") {
-        header("Location: http://www.projectreporthub.ng/signin.php");
+        header("Location: https://www.projectreporthub.ng/signin.php");
         exit(); // Make sure to exit after the redirect
     }
 }
@@ -27,8 +27,15 @@ function displayMessage($message) {
     echo "<div class='alert alert-warning'>$message</div>";
 }
 
-function formatNumber($number) {
-    return number_format($number);
+function formatNumber($number, $no = 2) {
+    if (!is_numeric($number) || !is_numeric($no)) {
+        return "0.00";
+    }
+    try {
+        return number_format((float)$number, (int)$no);
+    } catch (Exception $e) {
+        return "0.00";
+    }
 }
 
 function convertHtmlEntities($input) {
@@ -784,6 +791,17 @@ function deleteRecord($table, $item) {
     global $siteprefix;
 
     $sql = "DELETE FROM " . $siteprefix . $table . " WHERE s = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("i", $item);
+
+     return $stmt->execute();
+}
+
+function deletecategoryRecord($table, $item) {
+    global $con;
+    global $siteprefix;
+
+    $sql = "DELETE FROM " . $siteprefix . $table . " WHERE id = ?";
     $stmt = $con->prepare($sql);
     $stmt->bind_param("i", $item);
 
