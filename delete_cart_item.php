@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'])) {
     echo json_encode([
       'success' => true,
       'cartCount' => $cartCount,
-      'total' => number_format($total, 2)
+      'total' => formatNumber($total, 2)
     ]);
   } else {
     echo json_encode([

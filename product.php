@@ -113,7 +113,7 @@ if (isset($user_id) && isset($report_id)) {
         <div class="col-md-6">
             <h1 class="h2 mb-3 capitalize"><?php echo $title; ?></h1>
             <div class="mb-3">
-    <span class="h4 me-2"><?php echo $sitecurrency; echo number_format($price, 2); ?></span><br>
+    <span class="h4 me-2"><?php echo $sitecurrency; echo formatNumber($price, 2); ?></span><br>
     <?php if ($loyalty == 1): ?>
         <span class="badge text-light bg-danger ms-2">Loyalty Material</span>
         <?php endif; ?>
@@ -133,7 +133,7 @@ if (isset($user_id) && isset($report_id)) {
             ?>
            <span class="badge bg-primary me-2">
     <a href="<?php echo $siteurl;?>loyalty-program.php" class="text-white text-decoration-none">
-        <?php echo "{$plan_name} - ₦ " . number_format($discounted_price, 2); ?>
+        <?php echo "{$plan_name} - ₦ " . formatNumber($discounted_price, 2); ?>
     </a>
 </span>
 <?php }

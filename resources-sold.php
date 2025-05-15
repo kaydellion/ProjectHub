@@ -50,10 +50,10 @@ $result = $stmt->get_result();
                     <?php while ($row = $result->fetch_assoc()) { ?>
                         <tr>
                             <td><?php echo htmlspecialchars($row['resource_title']); ?></td>
-                            <td><?php echo $sitecurrency . number_format($row['unit_price'], 2); ?></td>
+                            <td><?php echo $sitecurrency . formatNumber($row['unit_price'], 2); ?></td>
                             <td><?php echo formatDateTime($row['date_sold']); ?></td>
                             <td><?php echo $row['total_sold']; ?></td>
-                            <td><?php echo $sitecurrency . number_format($row['total_revenue'], 2); ?></td>
+                            <td><?php echo $sitecurrency . formatNumber($row['total_revenue'], 2); ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>

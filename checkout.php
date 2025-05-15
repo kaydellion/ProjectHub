@@ -60,13 +60,13 @@
       <li>
         <a href="#"><?php echo htmlspecialchars($item['report_title']); ?>
           <span class="middle">(<?php echo htmlspecialchars(getFileExtension($item['file'])); ?>)</span>
-          <span class="last"><?php echo $sitecurrency; echo number_format($item['price'], 2); ?></span>
+          <span class="last"><?php echo $sitecurrency; echo formatNumber($item['price'], 2); ?></span>
         </a>
       </li>
       <?php endwhile; mysqli_stmt_close($stmt); ?>
     </ul>
 
-    <ul class="list list_2">
+    <ul class="list list_2 mt-3">
       <li>
         <a href="#">Subtotal
           <span><?php echo $sitecurrency; echo $order_total; ?></span>
@@ -101,13 +101,13 @@
         Proceed with Manual Payment
       </button>
       </form>
-    <?php } elseif ($order_total == 0 && $is_free_order && $item_count > 0) { ?>
+    <?php } elseif ($order_total == 0 && $item_count > 0) { ?>
       <!-- Place order for free product -->
     </form>
-      <form method="post" action="free_order_handler.php">
+      <form method="post" >
         <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-        <button type="submit" name="place_order" class="btn_1 w-100 text-center">Place Order</button>
+        <button type="submit" value="proceed" name="place_order" class="btn_1 w-100 text-center">Place Order</button>
       </form>
     <?php } else { 
         displayMessage('<a href="marketplace.php">Shop More</a>'); 
@@ -139,7 +139,7 @@
                         <li><strong>Account Name:</strong> <?php echo $siteaccname; ?></li>
                         <li><strong>Account Number:</strong> <?php echo $siteaccno; ?></li>
                     </ul>
-                    <p><strong>Total Amount:</strong> <?php echo $sitecurrency . number_format($order_total, 2); ?></p>
+                    <p><strong>Total Amount:</strong> <?php echo $sitecurrency . formatNumber($order_total, 2); ?></p>
                     <p>After making the payment, upload the proof of payment below:</p>
                     <div class="form-group">
                         <label for="proof_of_payment">Upload Proof of Payment</label>

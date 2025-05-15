@@ -4,7 +4,7 @@
             <img src="<?= "https://projectreporthub.ng/".$image_path ?>" alt="<?= $name ?>" class="plan-card-img">
             <h5 class="plan-card-title"><?= $name ?></h5>
             <p class="plan-card-text p-3"><?= $description ?></p>
-            <h4 class="plan-card-price">₦<?= number_format($price) ?></h4>
+            <h4 class="plan-card-price">₦<?= formatNumber($price) ?></h4>
               <!-- Display formatted duration -->
               <small class="text-muted">
                 Duration: 

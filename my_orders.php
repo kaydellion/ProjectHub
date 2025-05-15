@@ -19,7 +19,7 @@ $total_pages = ceil($total_orders / $limit); // Total number of pages
 $sql = "
     SELECT order_id, date, total_amount, status 
     FROM " . $siteprefix . "orders 
-    WHERE user = ? AND status = 'paid'
+    WHERE user  = ? AND status = 'paid'
     ORDER BY date DESC
     LIMIT ? OFFSET ?";
 $stmt = $con->prepare($sql);
@@ -50,7 +50,7 @@ $result = $stmt->get_result();
                             <tr>
                                 <td>#<?php echo $row['order_id']; ?></td>
                                 <td><?php echo formatDateTime($row['date']); ?></td>
-                                <td>₦<?php echo number_format($row['total_amount'], 2); ?></td>
+                                <td>₦<?php echo formatNumber($row['total_amount'], 2); ?></td>
                                 <td>
                                     <span class="badge bg-<?php echo ($row['status'] == 'paid') ? 'success' : 'warning'; ?>">
                                         <?php echo ucfirst($row['status']); ?>

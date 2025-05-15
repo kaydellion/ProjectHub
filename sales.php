@@ -53,7 +53,7 @@ if ($result && $result->num_rows > 0) {
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
                     <h5 class="card-title text-white">Total Amount Earned</h5>
-                    <p class="card-text text-white"><?php echo $sitecurrency . number_format($total_amount, 2); ?></p>
+                    <p class="card-text text-white"><?php echo $sitecurrency . formatNumber($total_amount, 2); ?></p>
                 </div>
             </div>
         </div>
@@ -91,7 +91,7 @@ if ($result && $result->num_rows > 0) {
                         <tr>
                             <td>#<?php echo $row['order_id']; ?></td>
                             <td><?php echo formatDateTime($row['date']); ?></td>
-                            <td><?php echo $sitecurrency;echo number_format($row['amount'], 2); ?></td>
+                            <td><?php echo $sitecurrency; echo formatNumber($row['amount'], 2); ?></td>
                             <td><?php echo $row['title']; ?> </td>
                             <td><?php echo getFileExtension($row['file_type']); ?></td>
                         </tr>

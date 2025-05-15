@@ -3,6 +3,12 @@
 $total_amount = $total_withdrawal = $total_cleared = $totalDisputeAmount= $totalEarnedAmount = 0;
 $total_resources_sold = 0;
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
+    $order_id = $_POST['order_id'];
+    header("Location: $siteurl/pay_success.php?ref=$order_id");
+    exit;
+}
+
 //get total order amount
 if($active_log==1){
     $sql = "SELECT SUM(price) as total FROM pr_order_items WHERE order_id = ?";
@@ -1101,7 +1107,7 @@ if (isset($_POST['submit_manual_payment'])) {
                         <p>A new manual payment has been submitted:</p>
                         <p><strong>Order ID:</strong> $order_id</p>
                         <p><strong>User:</strong> $user_name ($user_email)</p>
-                        <p><strong>Amount:</strong> $sitecurrencyCode" . number_format($amount, 2) . "</p>
+                        <p><strong>Amount:</strong> $sitecurrencyCode" . formatNumber($amount, 2) . "</p>
                         <p><strong>Date:</strong> $date</p>
                         <p>Please log in to the admin panel to verify the payment.</p>
                     ";

@@ -1,4 +1,7 @@
-<?php include "header.php"; ?>
+<?php 
+include "header.php";
+checkActiveLog($active_log);
+ ?>
 
 
 <section>
@@ -134,7 +137,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white"><a href="sales.php" style="text-decoration: none; color:#fff;">Total Earnings</a></h5>
-            <p class="card-text text-white"><?php echo $sitecurrency . number_format($totalEarnedAmount, 2); ?></p>
+            <p class="card-text text-white"><?php echo $sitecurrency . formatNumber($totalEarnedAmount, 2); ?></p>
         </div>
     </div>
 </a>
@@ -168,7 +171,7 @@ $totalFollowing = mysqli_fetch_assoc($followingResult)['total_following'];
     <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
             <h5 class="card-title text-white"><a href="wallet.php" style="text-decoration: none; color:#fff;">Wallet</a></h5>
-            <p class="card-text text-white"><?php echo $sitecurrency . number_format($wallet, 2); ?></p>
+            <p class="card-text text-white"><?php echo $sitecurrency . formatNumber($wallet, 2); ?></p>
         </div>
     </div>
 </a>

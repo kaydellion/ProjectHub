@@ -31,7 +31,7 @@ redirectToDashboardIfSubAdmin();
                         <tr>
                             <td>#<?php echo $row['order_id']; ?></td>
                             <td><?php echo formatDateTime($row['date']); ?></td>
-                            <td>₦<?php echo number_format($row['total_amount'], 2); ?></td>
+                            <td>₦<?php echo formatNumber($row['total_amount'], 2); ?></td>
                             <td>
                                 <span class="badge bg-<?php echo ($row['status'] == 'paid') ? 'success' : 'warning'; ?>">
                                     <?php echo ucfirst($row['status']); ?>

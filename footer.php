@@ -6,7 +6,7 @@
         <!-- Footer Logo and Description -->
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="footer_logo">
-                <a href="https://projectreporthub.ng/index.php">
+                <a href="<?php echo $siteurl; ?>/index.php">
                     <img class="logo" src="<?php echo $siteurl;?>img/<?php echo $siteimg; ?>" alt="Logo" />
                 </a>
             </div>
@@ -23,12 +23,12 @@
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="footer_menu_item">
                 <h4>Company</h4>
-                <a href="https://projectreporthub.ng/index.php">Home</a>
-                <a href="https://projectreporthub.ng/about-us.php">About Us</a>
-                <a href="https://projectreporthub.ng/privacy_policy.php">Privacy Policy</a>
-                <a href="https://projectreporthub.ng/cookies.php">Cookie Policy</a>
-                <a href="https://projectreporthub.ng/terms.php">Terms & Conditions</a>
-                <a href="https://projectreporthub.ng/disclaimer.php">Disclaimer and Phishing Claims</a>
+                <a href="<?php echo $siteurl; ?>index.php">Home</a>
+                <a href="<?php echo $siteurl; ?>about-us.php">About Us</a>
+                <a href="<?php echo $siteurl; ?>privacy_policy.php">Privacy Policy</a>
+                <a href="<?php echo $siteurl; ?>cookies.php">Cookie Policy</a>
+                <a href="<?php echo $siteurl; ?>terms.php">Terms & Conditions</a>
+                <a href="<?php echo $siteurl; ?>disclaimer.php">Disclaimer and Phishing Claims</a>
             </div>
         </div>
 
@@ -42,7 +42,7 @@
                 while ($row = mysqli_fetch_array($sql2)) {
                     $category_name = $row['category_name'];
                     $slugs = strtolower(str_replace(' ', '-', $category_name));
-                    echo '<a href="https://projectreporthub.ng/category/' . $slugs . '">' . $category_name . '</a>';
+                    echo '<a href="'.$siteurl.'category/' . $slugs . '">' . $category_name . '</a>';
                 }
                 ?>
             </div>

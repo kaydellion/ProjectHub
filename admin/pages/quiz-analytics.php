@@ -35,7 +35,7 @@ $result = $con->query($query);
             <tr>
                 <td><?php echo htmlspecialchars($row['name']); ?></td>
                 <td><?php echo $row['total_submissions']; ?></td>
-                <td><?php echo number_format($row['avg_score'], 2); ?>%</td>
+                <td><?php echo formatNumber($row['avg_score'], 2); ?>%</td>
                 <td><?php echo $row['highest_score']; ?></td>
                 <td><?php echo $row['unique_quizzes']; ?></td>
             </tr>

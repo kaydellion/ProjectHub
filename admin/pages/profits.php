@@ -30,7 +30,7 @@ $result = $stmt->get_result();
                     while ($row = $result->fetch_assoc()) { ?>
                         <tr>
                             <td><?php echo $sn++; ?></td> <!-- Increment the counter -->
-                            <td>₦<?php echo number_format($row['amount'], 2); ?></td>
+                            <td>₦<?php echo formatNumber($row['amount'], 2); ?></td>
                             <td><?php echo $row['type']; ?></td>
                             <td><?php echo $row['report_id']; ?></td>
                             <td>#<?php echo $row['order_id']; ?></td>

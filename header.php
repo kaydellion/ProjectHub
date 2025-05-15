@@ -2,7 +2,7 @@
 
 
 //previous page
-$_SESSION['previous_page'] = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$_SESSION['previous_page'] = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $previousPage=$_SESSION['previous_page'];
 $current_page = urlencode(pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) . '?' . $_SERVER['QUERY_STRING']);;
 
@@ -67,6 +67,19 @@ if (mysqli_affected_rows($con) == 0) {
 //$adminlink=$siteurl.'/admin';
 include "backend/start_order.php";
 include "backend/actions.php"; 
+
+//exclude pages tht require user to be logged in
+$current_page = basename($_SERVER['PHP_SELF']);
+$excluded_pages = array('cart', 'pay_success', 'pay_failed', 'checkout', 'free_order_handler',
+'dashboard','loyalty-status','saved-reports','my_orders','manual_orders', 'wallet',
+'notifications','tickets','models','sales','reviews','my_orders','order_details','settings','tickets',
+'resources-sold','resource','edit-report','change-password','create_ticket','add-report','delete','saved-models',
+'withdrawhistory');
+if (in_array($current_page, $excluded_pages)) {
+    checkActiveLog($active_log); 
+} else {
+    //ifLoggedin($active_log);
+}
 ?>
 
 <!doctype html>
