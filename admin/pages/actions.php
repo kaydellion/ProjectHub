@@ -1019,12 +1019,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editSubCategory'])) {
                 $statusMessage = "Sub-category \"$subCategoryName\" updated successfully.";
                 showSuccessModal2($statusAction, $statusMessage);
                 header("refresh:2;");
-                exit;
+             
             } else {
                 $statusAction = "Error!";
                 $statusMessage = "Failed to update sub-category: " . $updateStmt->error;
                 showErrorModal2($statusAction, $statusMessage);
-                exit;
+              
             }
 
         } else {
