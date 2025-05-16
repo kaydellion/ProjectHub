@@ -37,7 +37,10 @@
                   </button>
                   <div class="dropdown-menu">
                     <a class="dropdown-item" href="edit-category.php?id=<?php echo $category_id; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                    <a class="dropdown-item delete" href="delete.php?action=deletecategory&table=categories&item=<?php echo $category_id; ?>&page=<?php echo $current_page; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
+                    <a href="javascript:void(0);" class="dropdown-item" onclick="confirmCategoryDelete('categories', <?php echo $category_id; ?>, '<?php echo $current_page; ?>')">
+                    <i class="bx bx-trash me-1"></i> Delete
+                    </a>
+
                   </div>
                 </div>
               </td>
@@ -50,5 +53,12 @@
   </div>
 
 </div>
+<script>
+  function confirmCategoryDelete(table, item, page) {
+    if (confirm("Are you sure you want to delete this category?\n\n⚠️ All subcategories under it will also be deleted!")) {
+      window.location.href = `delete.php?action=deletecategory&table=${table}&item=${item}&page=${page}`;
+    }
+  }
+</script>
 
 <?php include "footer.php"; ?>

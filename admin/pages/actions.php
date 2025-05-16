@@ -995,16 +995,28 @@ if (isset($_GET['action']) && $_GET['action'] == 'deletecategory') {
     $table = $_GET['table'];
     $item = $_GET['item'];
     $page = $_GET['page'];
-    
-    if (deletecategoryRecord($table, $item)) {
-        $message="Category deleted successfully.";
+
+    // Delete subcategories first
+    $sqlSub = "DELETE FROM {$siteprefix}{$table} WHERE parent_id = ?";
+    $stmtSub = $con->prepare($sqlSub);
+    $stmtSub->bind_param("i", $item);
+    $stmtSub->execute();
+
+    // Delete main category
+    $sqlMain = "DELETE FROM {$siteprefix}{$table} WHERE id = ?";
+    $stmtMain = $con->prepare($sqlMain);
+    $stmtMain->bind_param("i", $item);
+
+    if ($stmtMain->execute()) {
+        $message = "Category and all its subcategories deleted successfully.";
     } else {
-         $message="Failed to delete the category.";
+        $message = "Failed to delete the category: " . $stmtMain->error;
     }
 
     showToast($message);
     header("refresh:1; url=$page");
 }
+
 //sub category
 if (isset($_GET['action']) && $_GET['action'] == 'deletesubcategory') {
     $table = $_GET['table'];

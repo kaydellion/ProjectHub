@@ -1,4 +1,3 @@
-
 <?php include "header.php"; ?>
 
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -26,6 +25,7 @@
         FROM {$siteprefix}categories sc
         INNER JOIN {$siteprefix}categories pc ON sc.parent_id = pc.id
         WHERE sc.parent_id IS NOT NULL
+        GROUP BY sc.id, sc.category_name, pc.category_name
         ORDER BY pc.category_name ASC, sc.category_name ASC
     ";
     
