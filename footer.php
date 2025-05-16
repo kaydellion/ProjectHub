@@ -41,7 +41,8 @@
                 $sql2 = mysqli_query($con, $sql);
                 while ($row = mysqli_fetch_array($sql2)) {
                     $category_name = $row['category_name'];
-                    $slugs = strtolower(str_replace(' ', '-', $category_name));
+                    $alt_names = $row['slug'];
+                    $slugs = $alt_names;
                     echo '<a href="'.$siteurl.'category/' . $slugs . '">' . $category_name . '</a>';
                 }
                 ?>

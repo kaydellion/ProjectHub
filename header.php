@@ -179,7 +179,8 @@ if (in_array($current_page, $excluded_pages)) {
                                                 $count = 0;
                                                 while ($row = mysqli_fetch_array($sql2)) {
                                                 $category_name = $row['category_name'];
-                                                $slugs = strtolower(str_replace(' ', '-', $category_name));
+                                                $alt_names = $row['slug'];
+                                                $slugs = $alt_names;
                                                     if ($count % 2 == 0 && $count != 0) {
                                                         echo '</div><div class="row">';
                                                     }

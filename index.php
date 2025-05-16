@@ -324,7 +324,8 @@ curated to meet your academic and research needs.
                     while ($row = mysqli_fetch_assoc($result)) {
                         $category_id = $row['id'];
                         $category_name = $row['category_name'];
-                        $slugs = strtolower(str_replace(' ', '-', $category_name));
+                        $alt_names = $row['slug'];
+                        $slugs = $alt_names;
                         
                         ?>
                         <div class="col-md-3 mb-3">
