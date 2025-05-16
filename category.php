@@ -9,7 +9,7 @@ if (isset($_GET['slugs'])) {
 
 
     // Prepare SQL: match using LOWER to handle case insensitivity
-    $sql = "SELECT * FROM " . $siteprefix . "categories WHERE LOWER(category_name) = '$category_name'";
+    $sql = "SELECT * FROM " . $siteprefix . "categories WHERE slug = '$category_names'";
     $sql2 = mysqli_query($con, $sql);
 
     if (!$sql2) {
