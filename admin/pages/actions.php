@@ -86,7 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
 
 
 // Replace spaces with hyphens and convert to lowercase
-$baseSlug = strtolower(str_replace(' ', '-', $title));
+$baseSlug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $title), '-'));
+
 
 // Start with the cleaned slug
 $alt_title = $baseSlug;
@@ -299,7 +300,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
 
   // Clean the title to generate a clean URL slug
 // Replace spaces with hyphens and convert to lowercase
-$baseSlug = strtolower(str_replace(' ', '-', $title));
+$baseSlug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $title), '-'));
+
 
 // Start with the cleaned slug
 $alt_title = $baseSlug;
