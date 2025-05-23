@@ -75,7 +75,7 @@
                         <i class="bx bx-dots-vertical-rounded"></i>Manage</button>
                             <div class="dropdown-menu">
                             <a class="dropdown-item" href="edit-user.php?user=<?php echo $userid; ?>"><i class="bx bx-edit-alt me-1"></i> Edit </a>
-                            <a class="dropdown-item delete" href="delete.php?action=delete&table=users&item=<?php echo $userid; ?>&page=<?php echo $current_page; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
+                            <a class="dropdown-item delete <?= getDisplayClass() ?>" href="delete.php?action=delete&table=users&item=<?php echo $userid; ?>&page=<?php echo $current_page; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
                            <?php if($status=="suspended"){}else {?> <a class="dropdown-item suspend" href="#" data-user-id="<?php echo $userid; ?>" data-user-name="<?php echo $display_name; ?>" data-bs-toggle="modal" data-bs-target="#suspendModal"><i class="bx bx-block me-1"></i> Suspend</a>
                          <?php } ?>
                           </div>

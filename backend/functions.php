@@ -997,7 +997,7 @@ function getDisplayClass() {
 function redirectToDashboardIfSubAdmin() {
     // Assuming roles are strings like 'admin', 'subadmin', 'editor', etc.
     $userRole=getUserRole();
-    if ($userRole === 'sub-admin') {
+    if ($userRole != 'admin') {
         header("Location: /dashboard.php");
         exit();
     }
