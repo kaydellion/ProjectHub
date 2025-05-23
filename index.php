@@ -140,25 +140,38 @@ results with ease — all in one place.</p>
             <div class="row mt-3">
                 <div class="swiper mySwiper">
                     <div class="swiper-wrapper">
-                        <?php
-                        // Query to fetch all last purchased reports
-                        $latestSalesQuery = "
-                            SELECT DISTINCT r.id AS report_id, r.title,r.alt_title, r.description, r.price, ri.picture, u.display_name, u.profile_picture 
-                            FROM ".$siteprefix."orders o
-                            JOIN ".$siteprefix."order_items oi ON o.order_id = oi.order_id
-                            JOIN ".$siteprefix."reports r ON r.id = oi.report_id
-                            LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
-                            LEFT JOIN ".$siteprefix."users u ON r.user = u.s
-                            WHERE o.status = 'paid' AND r.status = 'approved'
-                            GROUP BY r.id
-                            ORDER BY o.date DESC
-                        ";
+                       <?php
+                    $latestSalesQuery = "
+                        SELECT DISTINCT 
+                            r.id AS report_id, 
+                            r.title,
+                            r.alt_title, 
+                            r.description, 
+                            r.price, 
+                            ri.picture, 
+                            u.display_name, 
+                            u.profile_picture,
+                            l.category_name AS category,
+                            sc.category_name AS subcategory
+                        FROM ".$siteprefix."orders o
+                        JOIN ".$siteprefix."order_items oi ON o.order_id = oi.order_id
+                        JOIN ".$siteprefix."reports r ON r.id = oi.report_id
+                        LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id
+                        LEFT JOIN ".$siteprefix."users u ON r.user = u.s
+                        LEFT JOIN ".$siteprefix."categories l ON r.category = l.id
+                        LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id
+                        WHERE o.status = 'paid' AND r.status = 'approved'
+                        GROUP BY r.id
+                        ORDER BY o.date DESC
+                    ";
                         $latestSalesResult = mysqli_query($con, $latestSalesQuery);
 
                         if ($latestSalesResult && mysqli_num_rows($latestSalesResult) > 0) {
                             while ($row = mysqli_fetch_assoc($latestSalesResult)) {
                                 $report_id = $row['report_id'];
                                 $title = $row['title'];
+                                $category = $row['category'];
+                                $subcategory = $row['subcategory'];
                                 $alt_title = $row['alt_title'];
                                 $description = $row['description'];
                                 $price = $row['price'];
@@ -283,6 +296,8 @@ while ($row = mysqli_fetch_assoc($result)) {
         $status = $row['status'];
         $image_path = $imagePath.$row['picture'];
         $slug = $alt_title;
+         $selected_resource_type = $row['resource_type'] ?? '';
+        $year_of_study = $row['year_of_study'] ?? '';
 
         include "product-card.php";
 }

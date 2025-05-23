@@ -50,7 +50,7 @@ showSuccessModal($statusAction,$statusMessage);
                     <div class="login_part_form">
                         <div class="login_part_form_iner">
                             <h4>Reset Password</h4>
-                            <pp>Enter your email address below and we will send you a link to reset your password.</p>
+                            <p>Enter your email address below and we will send you a link to reset your password.</p>
                             <form class="row contact_form" method="post" >
                                 <div class="col-md-12 mb-3 mt-3">
                                 <input type="email" class="form-control" id="name" name="email" value="" placeholder="Enter email below" required>
