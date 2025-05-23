@@ -1529,7 +1529,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile_admin']
     $biography = mysqli_real_escape_string($con, $_POST['biography']);
     $gender = mysqli_real_escape_string($con, $_POST['gender']);
     $seller = isset($_POST['seller']) ? 1 : 0;
-    $status = $_POST['status'];
+    $status = $_POST['status'] ?? 'active'; // Default to 'active' if not set
+    $type = $_POST['type'] ?? 'user'; // Default to 'user' if not set
 
     // Update query
     $update_query = "
@@ -1555,7 +1556,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile_admin']
             biography = '$biography',
             seller  ='$seller',
             status ='$status',
-            gender = '$gender'
+            gender = '$gender',
+            type = '$type'
         WHERE s = '$user_id'
     ";
 
