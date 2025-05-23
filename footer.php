@@ -69,16 +69,14 @@
         <div class="copyright_part">
             <div class="container">
                 <div class="row ">
-                    <div class="col-lg-12 mb-3">
+                <div class="col-lg-12 mb-3">
 
-                    <div class="disclaimer_text text-light">
+    <div class="disclaimer_text text-light">
     <p style="color: white; margin-bottom: 1rem;">
-        Disclaimer: The materials and project reports available on this website are provided solely for educational and reference purposes. They are intended to guide and support research and learning and should not be submitted as original work for academic credit or in fulfillment of any educational qualification.
-    </p>
-</div>
-            </div>
-                    <div class="col-lg-12">
-                        <div class="copyright_text">
+    Disclaimer: The materials and project reports available on this website are provided solely for educational and reference purposes. They are intended to guide and support research and learning and should not be submitted as original work for academic credit or in fulfillment of any educational qualification.
+    </p></div>
+            </div><div class="col-lg-12">
+            <div class="copyright_text">
         
                             <P>
 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <?php echo $sitename; ?></P>
@@ -125,7 +123,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
    <script src="js/waypoints.min.js"></script> -->
     <!-- custom js -->
     <script src="<?php echo $siteurl;?>js/custom.js"></script>
-    <script type="text/javascript">const paymentForm = document.getElementById('paymentForm');
+<script type="text/javascript">const paymentForm = document.getElementById('paymentForm');
 paymentForm.addEventListener("submit", payWithPaystack, false);
 function payWithPaystack(e) {
   e.preventDefault();
