@@ -167,33 +167,35 @@ if (in_array($current_page, $excluded_pages)) {
                                 <li class="nav-item"><a class="nav-link" href="<?php echo $siteurl; ?>index.php">Home</a></li>
                                 <li class="nav-item"><a class="nav-link" href="<?php echo $siteurl; ?>about-us.php">About</a></li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                     Marketplace
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <div class="row">
-                                            <?php
-                                                $sql = "SELECT * FROM " . $siteprefix . "categories WHERE parent_id IS NULL";
-                                                $sql2 = mysqli_query($con, $sql);
-                                                $count = 0;
-                                                while ($row = mysqli_fetch_array($sql2)) {
-                                                $category_name = $row['category_name'];
-                                                $slugs = strtolower(str_replace(' ', '-', $category_name));
-                                                    if ($count % 2 == 0 && $count != 0) {
-                                                        echo '</div><div class="row">';
-                                                    }
-                                                   echo '<div class="col-12"><a class="dropdown-item" href="'.$siteurl.'category/' . $slugs . '">' . $row['category_name'] . '</a></div>';
-                                                    $count++;
-                                                }
-                                            ?>
-                                            
-                                            
-                                
-                                            <div class="col-12"><a class="dropdown-item" href="<?php echo $siteurl; ?>marketplace.php">View Marketplace</a></div>
-                                        </div>
-                                    </div>
-                                </li>
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1"
+        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Marketplace
+    </a>
+    <div class="dropdown-menu p-3" aria-labelledby="navbarDropdown_1" style="min-width:500px;">
+        <div class="row">
+            <?php
+                $sql = "SELECT * FROM " . $siteprefix . "categories WHERE parent_id IS NULL";
+                $sql2 = mysqli_query($con, $sql);
+                $count = 0;
+                while ($row = mysqli_fetch_array($sql2)) {
+                    $category_name = $row['category_name'];
+                    $alt_names = $row['slug'];
+                    $slugs = $alt_names;
+
+                    echo '<div class="col-md-6 col-6 mb-1">';
+                    echo '<a class="dropdown-item" style="white-space: normal;" href="' . $siteurl . 'category/' . $slugs . '">' . $category_name . '</a>';
+                    echo '</div>';
+                    $count++;
+                }
+            ?>
+            <div class="col-12 mt-2">
+                <a class="dropdown-item font-weight-bold" style="white-space: normal;" href="<?php echo $siteurl; ?>marketplace.php">View Marketplace</a>
+            </div>
+        </div>
+    </div>
+</li>
+
+
                                 <?php if($active_log==1){ ?>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="<?php echo $siteurl; ?>blog.php" id="navbarDropdown_1"

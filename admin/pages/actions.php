@@ -86,7 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcourse'])) {
 
 
 // Replace spaces with hyphens and convert to lowercase
-$baseSlug = strtolower(str_replace(' ', '-', $title));
+$baseSlug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $title), '-'));
+
 
 // Start with the cleaned slug
 $alt_title = $baseSlug;
@@ -225,11 +226,12 @@ while (true) {
     
             if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
                 // Fetch category name for the email
-                $categoryQuery = "SELECT category_name FROM " . $siteprefix . "categories WHERE id = '$category'";
+                $categoryQuery = "SELECT category_name, slug FROM " . $siteprefix . "categories WHERE id = '$category'";
                 $categoryResult = mysqli_query($con, $categoryQuery);
                 $categoryRow = mysqli_fetch_assoc($categoryResult);
                 $categoryName = $categoryRow['category_name'];
-                $slugs = strtolower(str_replace(' ', '-', $categoryName));
+                $alt_names = $categoryRow['slug'];
+                $slugs = $alt_names;
     
                 // Notify all users following the category
                 while ($follower = mysqli_fetch_assoc($categoryFollowersResult)) {
@@ -298,7 +300,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['savedcourse'])) {
 
   // Clean the title to generate a clean URL slug
 // Replace spaces with hyphens and convert to lowercase
-$baseSlug = strtolower(str_replace(' ', '-', $title));
+$baseSlug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $title), '-'));
+
 
 // Start with the cleaned slug
 $alt_title = $baseSlug;
@@ -592,11 +595,12 @@ $categoryFollowersResult = mysqli_query($con, $categoryFollowersQuery);
 
 if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
     // Fetch category name for the email
-    $categoryQuery = "SELECT category_name FROM " . $siteprefix . "categories WHERE id = '$category'";
+    $categoryQuery = "SELECT category_name, slug FROM " . $siteprefix . "categories WHERE id = '$category'";
     $categoryResult = mysqli_query($con, $categoryQuery);
     $categoryRow = mysqli_fetch_assoc($categoryResult);
     $categoryName = $categoryRow['category_name'];
-    $slugs = strtolower(str_replace(' ', '-', $category));
+    $alt_names = $categoryRow['slug'];
+    $slugs = $alt_names;
 
     // Notify all users following the category
     while ($follower = mysqli_fetch_assoc($categoryFollowersResult)) {
@@ -914,7 +918,252 @@ if (isset($_GET['action']) && $_GET['action'] == 'deleteplans') {
     header("refresh:1; url=$page");
 }
 
+//edit subategory
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editSubCategory'])) {
+    $parentId = $_POST['parentId'];
+    $subCategoryName = trim($_POST['subCategoryName']);
+    $subcategory_id = intval($_POST['subcategory_id']);
 
+    if ($subCategoryName !== '') {
+        $escapedName = mysqli_real_escape_string($con, $subCategoryName);
+
+        // Get the existing sub-category info (name and slug)
+        $query = "SELECT category_name, slug FROM {$siteprefix}categories WHERE id = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("i", $subcategory_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            $oldSubName = $row['category_name'];
+            $oldSlug = $row['slug'];
+
+            // Check if a category with the same name already exists under the same parent except current subcategory
+            $checkQuery = "SELECT id FROM {$siteprefix}categories 
+                           WHERE category_name = ? 
+                           AND " . ($parentId === 'NULL' ? "parent_id IS NULL" : "parent_id = ?") . " 
+                           AND id != ?";
+            
+            if ($parentId === 'NULL') {
+                $checkStmt = $con->prepare($checkQuery);
+                $checkStmt->bind_param("si", $escapedName, $subcategory_id);
+            } else {
+                $parentIdInt = intval($parentId);
+                $checkStmt = $con->prepare($checkQuery);
+                $checkStmt->bind_param("sii", $escapedName, $parentIdInt, $subcategory_id);
+            }
+            $checkStmt->execute();
+            $checkResult = $checkStmt->get_result();
+
+            if ($checkResult->num_rows > 0) {
+                $statusAction = "Duplicate!";
+                $statusMessage = "A sub-category with the same name already exists under the selected parent category.";
+                showErrorModal2($statusAction, $statusMessage);
+                exit; // stop execution here
+            }
+
+            // If name changed, generate new slug
+            if ($subCategoryName !== $oldSubName) {
+                $baseSlug = strtolower(trim(preg_replace('/[^A-Za-z0-9]+/', '-', $subCategoryName), '-'));
+                $altSlug = $baseSlug;
+                $counter = 1;
+
+                // Check slug uniqueness excluding current record
+                while (true) {
+                    $slugCheckQuery = "SELECT COUNT(*) AS count FROM {$siteprefix}categories WHERE slug = ? AND id != ?";
+                    $slugCheckStmt = $con->prepare($slugCheckQuery);
+                    $slugCheckStmt->bind_param("si", $altSlug, $subcategory_id);
+                    $slugCheckStmt->execute();
+                    $slugCheckResult = $slugCheckStmt->get_result();
+                    $countRow = $slugCheckResult->fetch_assoc();
+
+                    if ($countRow['count'] == 0) {
+                        break; // unique slug found
+                    }
+
+                    $altSlug = $baseSlug . '-' . $counter;
+                    $counter++;
+                }
+
+                // Update name, parent_id, and slug
+                $updateQuery = "UPDATE {$siteprefix}categories 
+                                SET category_name = ?, 
+                                    parent_id = " . ($parentId === 'NULL' ? "NULL" : "?") . ", 
+                                    slug = ? 
+                                WHERE id = ?";
+                if ($parentId === 'NULL') {
+                    $updateStmt = $con->prepare($updateQuery);
+                    $updateStmt->bind_param("ssi", $escapedName, $altSlug, $subcategory_id);
+                } else {
+                    $updateStmt = $con->prepare($updateQuery);
+                    $parentIdInt = intval($parentId);
+                    $updateStmt->bind_param("sisi", $escapedName, $parentIdInt, $altSlug, $subcategory_id);
+                }
+
+            } else {
+                // Name not changed, only update name and parent_id (slug remains the same)
+                $updateQuery = "UPDATE {$siteprefix}categories 
+                                SET category_name = ?, 
+                                    parent_id = " . ($parentId === 'NULL' ? "NULL" : "?") . " 
+                                WHERE id = ?";
+                if ($parentId === 'NULL') {
+                    $updateStmt = $con->prepare($updateQuery);
+                    $updateStmt->bind_param("si", $escapedName, $subcategory_id);
+                } else {
+                    $updateStmt = $con->prepare($updateQuery);
+                    $parentIdInt = intval($parentId);
+                    $updateStmt->bind_param("sii", $escapedName, $parentIdInt, $subcategory_id);
+                }
+            }
+
+            if ($updateStmt->execute()) {
+                $statusAction = "Success!";
+                $statusMessage = "Sub-category \"$subCategoryName\" updated successfully.";
+                showSuccessModal2($statusAction, $statusMessage);
+                header("refresh:2;");
+             
+            } else {
+                $statusAction = "Error!";
+                $statusMessage = "Failed to update sub-category: " . $updateStmt->error;
+                showErrorModal2($statusAction, $statusMessage);
+              
+            }
+
+        } else {
+            $statusAction = "Error!";
+            $statusMessage = "Sub-category not found.";
+            showErrorModal2($statusAction, $statusMessage);
+            exit;
+        }
+    } else {
+        $statusAction = "Warning!";
+        $statusMessage = "Please provide a valid sub-category name.";
+        showErrorModal2($statusAction, $statusMessage);
+        exit;
+    }
+}
+
+
+//edit category
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editCategory'])) {
+    $category_id = intval($_POST['category_id']);
+    $new_category_name = trim($_POST['category_name']);
+
+    if ($category_id > 0 && $new_category_name !== '') {
+        // First get the existing category info (name and slug)
+        $query = "SELECT category_name, slug FROM {$siteprefix}categories WHERE id = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("i", $category_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            $old_category_name = $row['category_name'];
+            $old_slug = $row['slug'];
+
+            // If category name changed, regenerate slug
+            if ($new_category_name !== $old_category_name) {
+                // Sanitize new category name
+                $category_name_safe = mysqli_real_escape_string($con, $new_category_name);
+
+                // Generate base slug
+                $baseSlug = strtolower(trim(preg_replace('/[^A-Za-z0-9]+/', '-', $new_category_name), '-'));
+
+                // Ensure unique slug (exclude current id)
+                $alt_slug = $baseSlug;
+                $counter = 1;
+                while (true) {
+                    $checkQuery = "SELECT COUNT(*) AS count FROM {$siteprefix}categories WHERE slug = ? AND id != ?";
+                    $checkStmt = $con->prepare($checkQuery);
+                    $checkStmt->bind_param("si", $alt_slug, $category_id);
+                    $checkStmt->execute();
+                    $checkResult = $checkStmt->get_result();
+                    $countRow = $checkResult->fetch_assoc();
+
+                    if ($countRow['count'] == 0) {
+                        break; // unique slug found
+                    }
+
+                    $alt_slug = $baseSlug . '-' . $counter;
+                    $counter++;
+                }
+
+                // Update both category_name and slug
+                $updateQuery = "UPDATE {$siteprefix}categories SET category_name = ?, slug = ? WHERE id = ?";
+                $updateStmt = $con->prepare($updateQuery);
+                $updateStmt->bind_param("ssi", $category_name_safe, $alt_slug, $category_id);
+
+                if ($updateStmt->execute()) {
+                    $statusAction = "Success!";
+                    $statusMessage = "Category \"$new_category_name\" and slug updated successfully.";
+                    showSuccessModal2($statusAction, $statusMessage);
+                    header("refresh:2; url=manage-category.php");
+                } else {
+                    $statusAction = "Error!";
+                    $statusMessage = "Failed to update category: " . $updateStmt->error;
+                    showErrorModal2($statusAction, $statusMessage);
+                }
+            } else {
+                // If category name NOT changed, do nothing or just show success without updating slug
+                $statusAction = "No Change!";
+                $statusMessage = "Category name unchanged, slug remains the same.";
+                showSuccessModal2($statusAction, $statusMessage);
+                header("refresh:2; url=manage-category.php");
+            }
+        } else {
+            $statusAction = "Error!";
+            $statusMessage = "Category not found.";
+            showErrorModal2($statusAction, $statusMessage);
+        }
+    } else {
+        $statusAction = "Warning!";
+        $statusMessage = "Please provide a valid category name.";
+        showErrorModal2($statusAction, $statusMessage);
+    }
+}
+
+//delete-category
+if (isset($_GET['action']) && $_GET['action'] == 'deletecategory') {
+    $table = $_GET['table'];
+    $item = $_GET['item'];
+    $page = $_GET['page'];
+
+    // Delete subcategories first
+    $sqlSub = "DELETE FROM {$siteprefix}{$table} WHERE parent_id = ?";
+    $stmtSub = $con->prepare($sqlSub);
+    $stmtSub->bind_param("i", $item);
+    $stmtSub->execute();
+
+    // Delete main category
+    $sqlMain = "DELETE FROM {$siteprefix}{$table} WHERE id = ?";
+    $stmtMain = $con->prepare($sqlMain);
+    $stmtMain->bind_param("i", $item);
+
+    if ($stmtMain->execute()) {
+        $message = "Category and all its subcategories deleted successfully.";
+    } else {
+        $message = "Failed to delete the category: " . $stmtMain->error;
+    }
+
+    showToast($message);
+    header("refresh:1; url=$page");
+}
+
+//sub category
+if (isset($_GET['action']) && $_GET['action'] == 'deletesubcategory') {
+    $table = $_GET['table'];
+    $item = $_GET['item'];
+    $page = $_GET['page'];
+    
+    if (deletecategoryRecord($table, $item)) {
+        $message="Subcategory deleted successfully.";
+    } else {
+         $message="Failed to delete the Subcategory.";
+    }
+
+    showToast($message);
+    header("refresh:1; url=$page");
+}
 // Approve payment
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_payment'])) {
     $order_id = mysqli_real_escape_string($con, $_POST['order_id']);
@@ -1515,6 +1764,125 @@ if (isset($_POST['sendmessage'])) {
             $message = "Failed to send message to $name ($email)";
             showErrorModal2($statusAction, $message);
         }
+    }
+}
+
+
+//ADD CATEGORY
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addCategory'])) {
+    // Sanitize inputs
+    $categoryName = mysqli_real_escape_string($con, $_POST['categoryName']);
+    $parentId = isset($_POST['parentId']) ? intval($_POST['parentId']) : 'NULL'; // Default to NULL if not provided
+
+    // Generate base slug
+    $baseSlug = strtolower(trim(preg_replace('/[^A-Za-z0-9]+/', '-', $categoryName), '-'));
+
+    // Make slug unique
+    $alt_title = $baseSlug;
+    $counter = 1;
+    while (true) {
+        $query = "SELECT COUNT(*) AS count FROM " . $siteprefix . "categories WHERE slug = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("s", $alt_title);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        if ($row['count'] == 0) {
+            break; // slug is unique
+        }
+
+        // Append counter to slug if not unique
+        $alt_title = $baseSlug . '-' . $counter;
+        $counter++;
+    }
+
+    // Check if category name already exists under same parent
+    $checkQuery = "SELECT COUNT(*) AS count FROM {$siteprefix}categories WHERE parent_id <=> $parentId AND category_name = '$categoryName'";
+    $checkResult = mysqli_query($con, $checkQuery);
+    $row = mysqli_fetch_assoc($checkResult);
+
+    if ($row['count'] > 0) {
+        // Category already exists
+        $statusAction = "Duplicate Category!";
+        $statusMessage = "Category \"$categoryName\" already exists under the selected parent.";
+        showErrorModal2($statusAction, $statusMessage);
+    } else {
+        // Insert category with unique slug
+        $insertQuery = "INSERT INTO {$siteprefix}categories (parent_id, category_name, slug) VALUES ($parentId, '$categoryName', '$alt_title')";
+        if (mysqli_query($con, $insertQuery)) {
+            $statusAction = "Success!";
+            $statusMessage = "Category \"$categoryName\" created successfully!";
+            showSuccessModal2($statusAction, $statusMessage);
+            header("refresh:2; url=add-category.php");
+        } else {
+            $statusAction = "Error!";
+            $statusMessage = "Failed to create category: " . mysqli_error($con);
+            showErrorModal2($statusAction, $statusMessage);
+        }
+    }
+}
+
+
+//ADD SUBCATEGORY
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addSubCategory'])) {
+    // Sanitize and validate inputs
+    $parentId = intval($_POST['parentId']); // ensure numeric value
+    $subCategoryName = mysqli_real_escape_string($con, trim($_POST['subCategoryName'])); // clean input
+
+    // Generate base slug from sub-category name
+    $baseSlug = strtolower(trim(preg_replace('/[^A-Za-z0-9]+/', '-', $subCategoryName), '-'));
+
+    // Ensure slug is unique
+    $alt_title = $baseSlug;
+    $counter = 1;
+    while (true) {
+        $query = "SELECT COUNT(*) AS count FROM {$siteprefix}categories WHERE slug = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("s", $alt_title);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        if ($row['count'] == 0) {
+            break; // slug is unique
+        }
+
+        $alt_title = $baseSlug . '-' . $counter;
+        $counter++;
+    }
+
+    // Check for duplicate sub-category under the same parent (based on name)
+    $checkQuery = "SELECT COUNT(*) AS count FROM {$siteprefix}categories WHERE parent_id = $parentId AND category_name = '$subCategoryName'";
+    $checkResult = mysqli_query($con, $checkQuery);
+
+    if ($checkResult) {
+        $row = mysqli_fetch_assoc($checkResult);
+
+        if ($row['count'] > 0) {
+            $statusAction = "Duplicate Sub-Category!";
+            $statusMessage = "Sub-category \"$subCategoryName\" already exists under the selected category.";
+            showErrorModal2($statusAction, $statusMessage);
+        } else {
+            // Insert sub-category with unique slug
+            $insertQuery = "INSERT INTO {$siteprefix}categories (parent_id, category_name, slug) VALUES ($parentId, '$subCategoryName', '$alt_title')";
+            if (mysqli_query($con, $insertQuery)) {
+                $statusAction = "Success!";
+                $statusMessage = "Sub-category \"$subCategoryName\" added successfully.";
+                showSuccessModal2($statusAction, $statusMessage);
+                header("refresh:2; url=add-subcategory.php");
+            } else {
+                $statusAction = "Error!";
+                $statusMessage = "Failed to add sub-category: " . mysqli_error($con);
+                showErrorModal2($statusAction, $statusMessage);
+            }
+        }
+    } else {
+        $statusAction = "Query Failed!";
+        $statusMessage = "Could not check for duplicates: " . mysqli_error($con);
+        showErrorModal2($statusAction, $statusMessage);
     }
 }
 

@@ -4,11 +4,12 @@ include "header.php";
 
 if (isset($_GET['slugs'])) {
     $raw_slug = $_GET['slugs'];
-    $title_like = str_replace('-', ' ', $raw_slug);
-    $category_name = mysqli_real_escape_string($con, strtolower($title_like)); // convert to lowercase for match
+  
+    $category_names = $raw_slug; // convert to lowercase for ma
+
 
     // Prepare SQL: match using LOWER to handle case insensitivity
-    $sql = "SELECT * FROM " . $siteprefix . "categories WHERE LOWER(category_name) = '$category_name'";
+    $sql = "SELECT * FROM " . $siteprefix . "categories WHERE slug = '$category_names'";
     $sql2 = mysqli_query($con, $sql);
 
     if (!$sql2) {
@@ -18,6 +19,7 @@ if (isset($_GET['slugs'])) {
     $count = 0;
     while ($row = mysqli_fetch_array($sql2)) {
         $id = $row['id'];
+        $category_name = $row['category_name'];
         // You can use other fields here too if needed
     }
 } else {

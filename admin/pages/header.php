@@ -179,8 +179,23 @@ include "actions.php"; ?>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="categories.php" class="menu-link">
-                    <div data-i18n="Without menu">Manage Categories</div>
+                  <a href="add-category.php" class="menu-link">
+                    <div data-i18n="Without menu">Add Category</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="manage-category.php" class="menu-link">
+                    <div data-i18n="Without menu">Manage Category</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="add-subcategory.php" class="menu-link">
+                    <div data-i18n="Without menu">Add Subcategory</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="manage-subcategory.php" class="menu-link">
+                    <div data-i18n="Without menu">Manage Subcategory</div>
                   </a>
                 </li>
                 <li class="menu-item">

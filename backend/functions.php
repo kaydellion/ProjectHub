@@ -797,6 +797,17 @@ function deleteRecord($table, $item) {
      return $stmt->execute();
 }
 
+function deletecategoryRecord($table, $item) {
+    global $con;
+    global $siteprefix;
+
+    $sql = "DELETE FROM " . $siteprefix . $table . " WHERE id = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("i", $item);
+
+     return $stmt->execute();
+}
+
 function formatDuration($total_duration) {
     $hours = floor($total_duration / 60);
     $minutes = $total_duration % 60;
