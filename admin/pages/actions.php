@@ -641,10 +641,10 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
     
     if (empty($_FILES[$fileKey]['name'][0])) {
        // Array of default images
-        //$defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
+       $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
         // Pick a random default image
-        //$randomImage = $defaultImages[array_rand($defaultImages)];
-        //$reportImages = [$randomImage];
+       $randomImage = $defaultImages[array_rand($defaultImages)];
+        $reportImages = [$randomImage];
     }else{
     $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
      }
