@@ -75,7 +75,15 @@ $query = "SELECT r.*, u.display_name, l.category_name AS category, sc.category_n
                     </button>
                     <div class="dropdown-menu">
                     <a class="dropdown-item" href="edit-report.php?report=<?php echo $report_id; ?>"><i class="bx bx-edit-alt me-1"></i> Edit Report</a>
-                    <a class="dropdown-item delete" href="deleting.php?action=delete&table=reports&item=<?php echo $report_row; ?>&page=<?php echo $current_page; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
+                    <form method="POST" action="delete.php" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this report?');">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="table" value="reports">
+                        <input type="hidden" name="item" value="<?php echo $report_row; ?>">
+                        <input type="hidden" name="page" value="<?php echo $current_page; ?>">
+                        <button type="submit" class="dropdown-item delete" >
+                            <i class="bx bx-trash me-1"></i> Delete
+                        </button>
+                    </form>
                     </div>
                     </div>
                   </td>
