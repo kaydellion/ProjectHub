@@ -15,7 +15,7 @@
         </div>
 
         <!-- Total Sales Card -->
-        <div class="col-md-3">
+        <div class="col-md-3 <?= getDisplayClass() ?>">
             <a href="transactions.php">
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-body">
@@ -39,7 +39,7 @@
         </div>
 
         <!-- Total Profit Card -->
-        <div class="col-md-3">
+        <div class="col-md-3 <?= getDisplayClass() ?>">
             <a href="profits.php">
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-body">
@@ -53,7 +53,7 @@
         </div>
 
         <!-- Pending Reports Card -->
-<div class="col-md-3">
+<div class="col-md-3 ">
     <a href="pending-reports.php">
         <div class="card text-white bg-dark mb-3">
             <div class="card-body">
@@ -65,7 +65,7 @@
 </div>
 
 <!-- Pending Payments Card -->
-<div class="col-md-3">
+<div class="col-md-3 <?= getDisplayClass() ?>">
     <a href="pending-orders.php">
         <div class="card text-white bg-primary mb-3">
             <div class="card-body">
@@ -77,7 +77,7 @@
 </div>
 
 <!-- Pending Withdrawals Card -->
-<div class="col-md-3">
+<div class="col-md-3 <?= getDisplayClass() ?>">
     <a href="pending-withdrawals.php">
         <div class="card text-white bg-primary mb-3">
             <div class="card-body">
