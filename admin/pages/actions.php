@@ -705,7 +705,21 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
   }
 
 
+//delete-record
+  if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+    $table = $_GET['table'];
+    $item = $_GET['item'];
+    $page = $_GET['page'];
+    
+    if (deleteRecord($table, $item)) {
+        $message="Record deleted successfully.";
+    } else {
+         $message="Failed to delete the record.";
+    }
 
+    showToast($message);
+    header("refresh:1;");
+}
 // add plan
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addPlan'])) {
     // Sanitize inputs
