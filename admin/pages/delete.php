@@ -1,15 +1,15 @@
 <?php
 
-
-include "../../backend/connect.php";  
+include "../../backend/connect.php";
 
 
 if (
-    isset($_POST['action']) && $_POST['action'] === 'delete' &&
-    isset($_POST['table']) && !empty($_POST['table']) &&
-    isset($_POST['item']) && is_numeric($_POST['item'])
+    isset($_POST['action'], $_POST['table'], $_POST['item']) &&
+    $_POST['action'] === 'delete' &&
+    !empty($_POST['table']) &&
+    is_numeric($_POST['item'])
 ) {
-    $table =  $_POST['table'];
+    $table = $_POST['table']; // Removed preg_replace
     $item = intval($_POST['item']);
     $page = isset($_POST['page']) ? $_POST['page'] : 'reports.php';
 
@@ -28,6 +28,6 @@ if (
     header("refresh:1; url=reports.php");
     exit;
 }
-
-
 ?>
+
+
