@@ -705,27 +705,6 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
   }
 
 
-//delete-record
-// delete-record
-if (isset($_GET['action']) && $_GET['action'] == 'delete') {
-    $table = $_GET['table'];
-    $item = $_GET['item'];
-
-    // ✅ Ensure safe redirect page
-    $page = isset($_GET['page']) && !empty($_GET['page']) ? basename($_GET['page']) : 'index.php';
-
-    if (deleteRecord($table, $item)) {
-        $message = "Record deleted successfully.";
-    } else {
-        $message = "Failed to delete the record.";
-    }
-
-    showToast($message);
-
-    // ✅ Make sure no output is sent before this line
-    header("refresh:1; url=$page");
-    exit; // 🔒 Always stop execution after redirect
-}
 
 // add plan
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addPlan'])) {

@@ -7,13 +7,13 @@ $db_host = "localhost";
 
 
 
-
 $db_username = "root"; 
 $db_pass = ""; 
 $db_name = "project_hub";
 
-*/
 
+
+*/
 
 
 
@@ -48,7 +48,7 @@ $sitenumber = $row["site_number"];
 $sitename = $row["site_name"]; 
 $siteimg= $row["site_logo"];
 $siteurl= $row["site_url"];
-//$brevokey=$row["brevo_key"];
+$brevokey=$row["brevo_key"];
 $escrowfee= $row["commision_fee"];
 $affiliate_percentage= $row["affliate_percentage"];
 $sitedescription= $row["site_description"];
