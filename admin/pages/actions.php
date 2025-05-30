@@ -706,7 +706,6 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
 
 
 //delete-record
-//delete-record
 if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     $table = $_GET['table'];
     $item = $_GET['item'];
