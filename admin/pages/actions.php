@@ -641,10 +641,11 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
     
     if (empty($_FILES[$fileKey]['name'][0])) {
        // Array of default images
-        //$defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
+     //  $defaultImages = ['default1.jpg', 'default2.jpg', 'default3.jpg', 'default4.jpg', 'default5.jpg'];
         // Pick a random default image
-        //$randomImage = $defaultImages[array_rand($defaultImages)];
-        //$reportImages = [$randomImage];
+     //  $randomImage = $defaultImages[array_rand($defaultImages)];
+     //   $reportImages = [$randomImage];
+        $reportImages = [];
     }else{
     $reportImages = handleMultipleFileUpload($fileKey, $uploadDir);
      }
@@ -705,6 +706,20 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
 
 
 //delete-record
+/*
+ if (isset($_POST["image_id"]) && $_POST['action'] == 'deletereports') {
+    $item = mysqli_real_escape_string($con, $_POST["image_id"]);
+    $table = "reports";
+    if (deleteRecord($table, $item)) {
+        $message = "Record deleted successfully.";
+    } else {
+        $message = "Failed to delete the record.";
+    }
+
+    showToast($message);
+    header("refresh:1;");
+}
+*/
   if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     $table = $_GET['table'];
     $item = $_GET['item'];
@@ -717,8 +732,9 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
     }
 
     showToast($message);
-    header("refresh:1; url=$page");
+    header("refresh:1;");
 }
+
 // add plan
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addPlan'])) {
     // Sanitize inputs
