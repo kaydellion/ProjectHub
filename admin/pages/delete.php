@@ -1,7 +1,7 @@
 <?php
 
-include "../../backend/connect.php";
 
+include "../../backend/connect.php";
 
 if (
     isset($_POST['action'], $_POST['table'], $_POST['item']) &&
@@ -9,11 +9,18 @@ if (
     !empty($_POST['table']) &&
     is_numeric($_POST['item'])
 ) {
-    $table = $_POST['table']; // Removed preg_replace
+    $table = $_POST['table'];
     $item = intval($_POST['item']);
     $page = isset($_POST['page']) ? $_POST['page'] : 'reports.php';
 
-    if (deleteRecord($table, $item)) {
+    // Build the full table name with prefix
+    $fullTable = $siteprefix . $table;
+
+    // Direct SQL delete
+    $sql = "DELETE FROM $fullTable WHERE s = $item";
+    $result = mysqli_query($con, $sql);
+
+    if ($result) {
         $message = "Record deleted successfully.";
     } else {
         $message = "Failed to delete the record.";
@@ -32,5 +39,3 @@ if (
     exit;
 }
 ?>
-
-
