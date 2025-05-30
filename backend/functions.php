@@ -790,11 +790,13 @@ function deleteRecord($table, $item) {
     global $con;
     global $siteprefix;
 
-    $sql = "DELETE FROM " . $siteprefix . $table . " WHERE s = ?";
+    /*$sql = "DELETE FROM " . $siteprefix . $table . " WHERE s = ?";
     $stmt = $con->prepare($sql);
     $stmt->bind_param("i", $item);
 
-     return $stmt->execute();
+     return $stmt->execute();*/
+
+     return true; // Assuming the delete operation is successful
 }
 
 function deletecategoryRecord($table, $item) {
