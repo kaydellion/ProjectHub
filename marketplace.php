@@ -78,9 +78,9 @@ $total_pages = ceil($total_reports / $limit);
             </div>
 </div>
             <div class="col-lg-3">
-            <div class="product-count" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">
-                Found <?php echo $report_count; ?> report(s)
-            </div>
+           <div class="product-count" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">
+    Found <?php echo $total_reports; ?> report(s)
+</div>
         </div>
 </div>
             <div class="row mb-3">
