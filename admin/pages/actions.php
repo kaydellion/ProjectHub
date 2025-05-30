@@ -718,7 +718,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     }
 
     showToast($message);
-    header("refresh:2; url=$page.php");
+    header("refresh:2; url=$page");
 }
 
 // add plan
