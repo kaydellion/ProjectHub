@@ -3,8 +3,7 @@
 error_reporting(E_ALL); ini_set('display_errors', 1); ini_set('log_errors', 1);
 $_SESSION['previous_page'] = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $previousPage=$_SESSION['previous_page'];
-$current_page = pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME);
-
+$current_page = basename(__FILE__, '.php');
  
 $code = "";
 if (isset($_COOKIE['userID'])) {$code = $_COOKIE['userID'];}
