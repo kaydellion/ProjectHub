@@ -790,13 +790,11 @@ function deleteRecord($table, $item) {
     global $con;
     global $siteprefix;
 
-    /*$sql = "DELETE FROM " . $siteprefix . $table . " WHERE s = ?";
+    $sql = "DELETE FROM " . $siteprefix . $table . " WHERE s = ?";
     $stmt = $con->prepare($sql);
     $stmt->bind_param("i", $item);
 
-     return $stmt->execute();*/
-
-     return true; // Assuming the delete operation is successful
+     return $stmt->execute();
 }
 
 function deletecategoryRecord($table, $item) {
@@ -999,7 +997,7 @@ function getDisplayClass() {
 function redirectToDashboardIfSubAdmin() {
     // Assuming roles are strings like 'admin', 'subadmin', 'editor', etc.
     $userRole=getUserRole();
-    if ($userRole === 'sub-admin') {
+    if ($userRole != 'admin') {
         header("Location: /dashboard.php");
         exit();
     }
