@@ -723,7 +723,7 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
   if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     $table = $_GET['table'];
     $item = $_GET['item'];
-      $page = str_replace('.php', '', $_GET['page']); // sanitize in case it's passed with .php
+    $page = $_GET['page'];
     
     if (deleteRecord($table, $item)) {
         $message="Record deleted successfully.";
