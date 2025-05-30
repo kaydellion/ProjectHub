@@ -5,7 +5,7 @@ include "../../backend/connect.php";
 
 if (
     isset($_POST['action'], $_POST['table'], $_POST['item']) &&
-    $_POST['action'] === 'delete' &&
+    $_POST['action'] === 'deletereports' &&
     !empty($_POST['table']) &&
     is_numeric($_POST['item'])
 ) {
