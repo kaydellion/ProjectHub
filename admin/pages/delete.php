@@ -23,9 +23,12 @@ if (
     header("refresh:1; url=$page");
     exit;
 } else {
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
     $message = "Invalid delete request.";
     showToast($message);
-    header("refresh:1; url=reports.php");
+    header("refresh:3; url=reports.php");
     exit;
 }
 ?>
