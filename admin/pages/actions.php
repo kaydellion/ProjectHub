@@ -706,21 +706,8 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
 
 
 //delete-record
-/*
- if (isset($_POST["image_id"]) && $_POST['action'] == 'deletereports') {
-    $item = mysqli_real_escape_string($con, $_POST["image_id"]);
-    $table = "reports";
-    if (deleteRecord($table, $item)) {
-        $message = "Record deleted successfully.";
-    } else {
-        $message = "Failed to delete the record.";
-    }
-
-    showToast($message);
-    header("refresh:1;");
-}
-*/
-  if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+//delete-record
+if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     $table = $_GET['table'];
     $item = $_GET['item'];
     $page = $_GET['page'];
@@ -732,7 +719,7 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
     }
 
     showToast($message);
-    header("refresh:1;");
+    header("refresh:2; url=$page");
 }
 
 // add plan

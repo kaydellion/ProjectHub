@@ -955,7 +955,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     $page = $_GET['page'];
     
     if (deleteRecord($table, $item)) {
-        $message="Record deleted successfully. $page will be refreshed in 2 seconds.";
+        $message="Record deleted successfully.";
     } else {
          $message="Failed to delete the record.";
     }
