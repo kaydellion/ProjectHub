@@ -1,41 +1,4 @@
-<?php
+<?php include "header.php"; ?>
 
 
-include "../../backend/connect.php";
-
-if (
-    isset($_POST['action'], $_POST['table'], $_POST['item']) &&
-    $_POST['action'] === 'deletereports' &&
-    !empty($_POST['table']) &&
-    is_numeric($_POST['item'])
-) {
-    $table = $_POST['table'];
-    $item = intval($_POST['item']);
-    $page = isset($_POST['page']) ? $_POST['page'] : 'reports.php';
-
-    // Build the full table name with prefix
-    $fullTable = $siteprefix . $table;
-
-    // Direct SQL delete
-    $sql = "DELETE FROM $fullTable WHERE s = $item";
-    $result = mysqli_query($con, $sql);
-
-    if ($result) {
-        $message = "Record deleted successfully.";
-    } else {
-        $message = "Failed to delete the record.";
-    }
-
-    showToast($message);
-    header("refresh:1; url=$page");
-    exit;
-} else {
-    echo "<pre>";
-    print_r($_POST);
-    echo "</pre>";
-    $message = "Invalid delete request.";
-    showToast($message);
-    header("refresh:3; url=reports.php");
-    exit;
-}
-?>
+ <?php include "footer.php"; ?>
