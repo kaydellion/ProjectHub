@@ -75,10 +75,7 @@ $query = "SELECT r.*, u.display_name, l.category_name AS category, sc.category_n
                     </button>
                     <div class="dropdown-menu">
                     <a class="dropdown-item" href="edit-report.php?report=<?php echo $report_id; ?>"><i class="bx bx-edit-alt me-1"></i> Edit Report</a>
-                  <a class="dropdown-item delete" 
-   href="delete.php?action=delete&table=reports&item=<?php echo $report_row; ?>&page=<?php echo $current_page; ?>">
-   <i class="bx bx-trash me-1"></i> Delete
-</a>
+                    <a class="dropdown-item delete" href="delete.php?action=delete&table=reports&item=<?php echo $report_row; ?>&page=<?php echo $current_page; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
                     </div>
                     </div>
                   </td>

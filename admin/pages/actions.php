@@ -704,8 +704,9 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
     header("refresh:2; url=reports.php");
   }
 
-/*
+
 //delete-record
+/*
  if (isset($_POST["image_id"]) && $_POST['action'] == 'deletereports') {
     $item = mysqli_real_escape_string($con, $_POST["image_id"]);
     $table = "reports";
@@ -718,7 +719,6 @@ if ($categoryFollowersResult && mysqli_num_rows($categoryFollowersResult) > 0) {
     showToast($message);
     header("refresh:1;");
 }
-
 */
   if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     $table = $_GET['table'];
