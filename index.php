@@ -275,7 +275,7 @@ $query = "SELECT r.*, u.display_name, u.profile_picture, l.category_name AS cate
     LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
     LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id 
     LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id 
-    WHERE r.status = 'approved' GROUP BY r.id ORDER BY r.id DESC LIMIT 4";
+    WHERE r.status = 'approved' GROUP BY r.id ORDER BY r.s DESC LIMIT 4";
 $result = mysqli_query($con, $query);
 if ($result) {
 while ($row = mysqli_fetch_assoc($result)) {
