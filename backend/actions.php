@@ -1282,12 +1282,13 @@ if (isset($_POST['submit_report'])) {
     $date = date('Y-m-d H:i:s');
 
     // Fetch the product title
-    $product_query = "SELECT title FROM " . $siteprefix . "reports WHERE id = '$product_id'";
+    $product_query = "SELECT title,alt_title FROM " . $siteprefix . "reports WHERE id = '$product_id'";
     $product_result = mysqli_query($con, $product_query);
 
     if ($product_result && mysqli_num_rows($product_result) > 0) {
         $product = mysqli_fetch_assoc($product_result);
         $product_title = $product['title'];
+        $product_alt_title = $product['alt_title'];
     } else {
         $statusAction = "Error!";
         $statusMessage = "Product not found.";
@@ -1334,15 +1335,15 @@ if (isset($_POST['submit_report'])) {
         $statusAction = "Success!";
         $statusMessage = "Your report for <strong>$product_title</strong> has been submitted successfully.";
         showSuccessModal($statusAction, $statusMessage);
-        header("refresh:2; url=product.php?id=$product_id");
+        header("refresh:2; url=product.php/$alt_title");
       
     } else {
         // Error message
         $statusAction = "Error!";
         $statusMessage = "An error occurred while submitting your report. Please try again.";
         showErrorModal($statusAction, $statusMessage);
-        header("refresh:2; url=product.php?id=$product_id");
-       
+        header("refresh:2; url=product.php/$alt_title");
+
     }
 }
 
