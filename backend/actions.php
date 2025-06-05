@@ -1293,7 +1293,7 @@ if (isset($_POST['submit_report'])) {
         $statusAction = "Error!";
         $statusMessage = "Product not found.";
         showErrorModal($statusAction, $statusMessage);
-        header("refresh:2; url=product.php?id=$product_id");
+        header("refresh:2; url=product.php/$product_alt_title");
         exit();
     }
 
