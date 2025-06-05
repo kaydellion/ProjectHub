@@ -44,7 +44,7 @@ $subcategory_filter = isset($_GET['subcategory']) ? $_GET['subcategory'] : '';
 $subcategory_condition = '';
 
 if (!empty($subcategory_filter) && $subcategory_filter !== 'all') {
-    $subcategory_condition = "AND sc.category_name = '".mysqli_real_escape_string($con, $subcategory_filter)."'";
+    $subcategory_condition = "AND sc.slug = '".mysqli_real_escape_string($con, $subcategory_filter)."'";
 }
 
 $query = "SELECT r.*, u.display_name, u.profile_picture, l.category_name AS category, sc.category_name AS subcategory, ri.picture 
@@ -112,15 +112,15 @@ $total_pages = ceil($total_reports / $limit);
                 <option value="">Filter by Subcategory</option>
                 <option value="all" <?php if (!isset($_GET['subcategory']) || $_GET['subcategory'] === 'all') echo 'selected'; ?>>Show All</option>
                 <?php
-                $subcat_query = "SELECT DISTINCT category_name AS subcategory 
-                                 FROM ".$siteprefix."categories 
-                                 WHERE parent_id = $id";
-                $subcat_result = mysqli_query($con, $subcat_query);
-                while ($subcat_row = mysqli_fetch_assoc($subcat_result)) {
-                    $subcategoryValue = removeAllWhitespace($subcat_row['subcategory']);
-                    $selected = (isset($_GET['subcategory']) && $_GET['subcategory'] === $subcategoryValue) ? 'selected' : '';
-                    echo '<option value="'.$subcategoryValue.'" '.$selected.'>'.$subcat_row['subcategory'].'</option>';
-                }
+             $subcat_query = "SELECT DISTINCT slug, category_name AS subcategory 
+                 FROM {$siteprefix}categories 
+                 WHERE parent_id = $id";
+            $subcat_result = mysqli_query($con, $subcat_query);
+            while ($subcat_row = mysqli_fetch_assoc($subcat_result)) {
+                $subcategorySlug = $subcat_row['slug'];
+                $selected = (isset($_GET['subcategory']) && $_GET['subcategory'] === $subcategorySlug) ? 'selected' : '';
+                echo '<option value="'.htmlspecialchars($subcategorySlug).'" '.$selected.'>'.htmlspecialchars($subcat_row['subcategory']).'</option>';
+            }
                 ?>
             </select>
         </div>
