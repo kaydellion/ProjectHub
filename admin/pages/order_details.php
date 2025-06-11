@@ -8,6 +8,7 @@ if (!isset($_GET['order_id'])) {
 }
 
 $order_id = $_GET['order_id'];
+$user_id = $_GET['user_id'];
 
 // Fetch order details
 $sql = "SELECT * FROM ".$siteprefix."orders WHERE order_id = ? AND user = ?";

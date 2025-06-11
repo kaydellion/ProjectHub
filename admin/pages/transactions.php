@@ -38,7 +38,7 @@ redirectToDashboardIfSubAdmin();
                                 </span>
                             </td>
                             <td>
-                                <a href="order_details.php?order_id=<?php echo $row['order_id']; ?>" class="text-small btn btn-kayd btn-sm">
+                                  <a href="order_details.php?order_id=<?php echo $row['order_id']; ?>&user_id=<?php echo $row['user']; ?>" class="text-small btn btn-kayd btn-sm">
                                     View Details
                                 </a>
                             </td>
