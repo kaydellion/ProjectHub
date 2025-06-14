@@ -127,6 +127,7 @@ $totalFollowings = $followingsData['total_followings'] ?? 0;
   <!-- Follow and Sort Controls -->
    <div class="col-lg-12">
   <div class="d-flex align-items-center">
+     <?php if ($active_log == 1): ?>
                     <!-- Follow Seller -->
                     <form method="POST" class="d-inline me-3">
                         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
@@ -153,7 +154,7 @@ $totalFollowings = $followingsData['total_followings'] ?? 0;
                             
                         <?php endif; ?>
                     </form>
-                   
+                   <?php endif; ?>
                     <div class="d-flex align-items-center d-none d-md-flex">
                 <span class="product-count me-2" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">Followers: <?php echo $totalFollowers; ?></span>
                 <span class="product-count me-2" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">Followings: <?php echo $totalFollowings; ?></span>
