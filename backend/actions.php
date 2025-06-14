@@ -606,21 +606,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['actionings']) && $_POS
 }
 
 
-   // Handle follow/unfollow actions
+// Handle follow/unfollow actions
    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
-    $target_user_id = $_POST['user_id'];
+    $target_user_id = $_POST['seller_id'];
+      $user_id = $_POST['user_id']; // Replace with your session variable for user ID
 
     if ($action === 'follow') {
         // Add a new follower
-        $followQuery = "INSERT INTO {$siteprefix}followers (user_id, seller_id) VALUES ($user_id, $target_user_id)";
-        mysqli_query($con, $followQuery);
+        $followQuery = "INSERT INTO ".$siteprefix."followers (user_id, seller_id, followed_at, category_id, subcategory_id) VALUES (?, ?, NOW(), '', '')";
+        $stmt = $con->prepare($followQuery);
+        $stmt->bind_param("ii", $user_id, $target_user_id);
+        $stmt->execute();
 
         echo "<script>alert('You are now following the seller.');</script>";
     } elseif ($action === 'unfollow') {
         // Remove the follower
-        $unfollowQuery = "DELETE FROM {$siteprefix}followers WHERE user_id = $user_id AND seller_id = $target_user_id";
-        mysqli_query($con, $unfollowQuery);
+        $unfollowQuery = "DELETE FROM {$siteprefix}followers WHERE user_id = ? AND seller_id = ?";
+        $stmt = $con->prepare($unfollowQuery);
+        $stmt->bind_param("ii", $user_id, $target_user_id);
+        $stmt->execute();
         echo "<script>alert('You have unfollowed the seller.');</script>";
     }
 
