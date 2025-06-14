@@ -607,8 +607,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['actionings']) && $_POS
 
 
    // Handle follow/unfollow actions
-   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['actioni'])) {
-    $action = $_POST['actioni'];
+   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
+    $action = $_POST['action'];
     $target_user_id = $_POST['user_id'];
 
     if ($action === 'follow') {
