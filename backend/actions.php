@@ -612,6 +612,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['actionings']) && $_POS
     $target_user_id = $_POST['seller_id'];
       $user_id = $_POST['user_id']; // Replace with your session variable for user ID
 
+    if (empty($user_id) || empty($target_user_id)) {
+        echo "<script>alert('Invalid request.');</script>";
+        exit();
+    }
+
     if ($action === 'follow') {
         // Add a new follower
         $followQuery = "INSERT INTO ".$siteprefix."followers (user_id, seller_id, followed_at, category_id, subcategory_id) VALUES (?, ?, NOW(), '', '')";
