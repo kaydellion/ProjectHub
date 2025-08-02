@@ -49,7 +49,7 @@
     <h4>7. Contact Us</h4>
     <p>If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:</p>
     <p><strong>Email:</strong> hello@projectreporthub.ng</p>
-    <p><strong>Address:</strong> 61-65 Egbe- Isolo Road, Iyana Ejigbo Shopping Arcade, Block A, Suite 19, Iyana Ejigbo Bus Stop, Ejigbo, Lagos State, Nigeria.</p>
+    <!--<p><strong>Address:</strong> 61-65 Egbe- Isolo Road, Iyana Ejigbo Shopping Arcade, Block A, Suite 19, Iyana Ejigbo Bus Stop, Ejigbo, Lagos State, Nigeria.</p>---->
     
     <p>By using Project Report Hub NG, you acknowledge that you have read and understood this Privacy Policy and agree to its terms. Thank you for trusting us with your personal information.</p>
 </div>
