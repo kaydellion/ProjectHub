@@ -532,8 +532,8 @@ if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
         $emailMessage = "
           
             <p>We hope this message finds you well.</p>
-            <p>We're excited to let you know that your product, <strong>“$title”</strong>, has been successfully reviewed and is now live on the Project Report Hub marketplace!</p>
-            <p>Access your document here: <a href='$siteurl/merchant-store.php?seller_id=$seller_id'>$title</a></p>
+            <p>We're excited to let you know that your product,<strong>\"$title\"</strong> has been successfully reviewed and is now live on the Project Report Hub marketplace!</p>
+            <p>Access your document here: <a href='{$siteline}merchant-store.php?seller_id=$seller_id' target='_blank'>$title</a></p>
             <p>To help you generate visibility and boost your initial sales, we highly recommend promoting your document on the following platforms:</p>
             <ul>
                 <li><strong>LinkedIn:</strong> Publish a LinkedIn Pulse article (rather than a simple post) introducing your document. Be sure to tag friends and colleagues in the comments to maximize engagement and reach.</li>
