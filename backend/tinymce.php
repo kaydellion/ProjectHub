@@ -3,7 +3,7 @@
 
 
 <!-- Place the first <script> tag in your HTML's <head> -->
-<script src="https://cdn.tiny.cloud/1/roklacl9yumv7b559nuyz23j49bjjvemnwk5a4er079qd7cg/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/<?php echo $tinymce; ?>/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
   tinymce.init({
     selector: '.editor',

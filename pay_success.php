@@ -19,9 +19,6 @@ if (mysqli_affected_rows($con) > 0) {
         $date = $row_order['date']; 
     }
 
-
-
-
 // Fetch buyer's details
 $sql_buyer = "SELECT email, display_name FROM ".$siteprefix."users WHERE s = '$user_id'";
 $result_buyer = mysqli_query($con, $sql_buyer);
