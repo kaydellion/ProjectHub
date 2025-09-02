@@ -59,9 +59,10 @@ $sitedescription= $row["site_description"];
 $siteaccno= $row["account_number"];
 $siteaccname= $row["account_name"];
 $site_bank= $row["site_bank"];
+$tinymce = $row["tinymce"];
 $sitekeywords= $row["site_keywords"];
 $google_map= $row["google_map"];} 
-$tinymce = $row["tinymce"];
+
 $adminlink='admin'.$siteurl;
 
 $siteName=$sitename;
