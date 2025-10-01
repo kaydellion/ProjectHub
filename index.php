@@ -87,7 +87,7 @@ results with ease — all in one place.</p>
         LEFT JOIN ".$siteprefix."users u ON r.user = u.s 
         LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id 
         LEFT JOIN ".$siteprefix."reports_images ri ON r.id = ri.report_id 
-        WHERE r.status = 'approved' GROUP BY r.id";
+        WHERE r.status = 'approved' GROUP BY r.id LIMIT 8";
     $result = mysqli_query($con, $query);
     if (!$result) {
             die('Query Failed: ' . mysqli_error($con));
@@ -162,7 +162,7 @@ results with ease — all in one place.</p>
                         LEFT JOIN ".$siteprefix."categories sc ON r.subcategory = sc.id
                         WHERE o.status = 'paid' AND r.status = 'approved'
                         GROUP BY r.id
-                        ORDER BY o.date DESC
+                        ORDER BY o.date DESC LIMIT 6
                     ";
                         $latestSalesResult = mysqli_query($con, $latestSalesQuery);
 
